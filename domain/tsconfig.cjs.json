@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+
+  // tsconfig to generate CJS build output
+  "compilerOptions": {
+    "outDir": "./dist-cjs",
+    "tsBuildInfoFile": "./.tsbuildinfo-cjs",
+
+    /* ================================================================================= */
+
+    "module": "commonjs",
+    "target": "ES2022"
+  }
+}

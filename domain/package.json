@@ -1,0 +1,40 @@
+{
+  "name": "domain-model",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Domain Model in a standalone package to be shared across monorepo",
+  "main": "./dist-cjs/index.js",
+  "module": "./dist-esm/index.js",
+  "type": "module",
+  "scripts": {
+    "esm:prebuild": "npx rimraf dist-esm .tsbuildinfo-esm",
+    "esm:build": "npx tsc --project tsconfig.esm.json",
+    "esm:serve": "npx tsc --project tsconfig.esm.json --watch",
+    "cjs:create-packagejson": "node ./.build-cjs-create-packagejson.js",
+    "cjs:prebuild": "npx rimraf dist-cjs .tsbuildinfo-cjs",
+    "cjs:build": "npm run cjs:create-packagejson && npx tsc --project tsconfig.cjs.json",
+    "cjs:serve": "npm run cjs:create-packagejson && npx tsc --project tsconfig.cjs.json --watch",
+    "prebuild": "npm run esm:prebuild && npm run cjs:prebuild",
+    "build": "npm run esm:build && npm run cjs:build",
+    "serve": "npx concurrently \"npm run esm:serve\" \"npm run cjs:serve\"",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+  },
+  "scripts-comments": {
+    "esm:prebuild": "Delete all esm build artifacts before new build",
+    "esm:build": "Build esm output",
+    "esm:serve": "Watch for file change and build esm output",
+    "cjs:create-packagejson": "Create package.json in dist-cjs to specify module type to be CJS",
+    "cjs:prebuild": "Delete all cjs build artifacts before new build",
+    "cjs:build": "Build cjs output",
+    "cjs:serve": "Watch for file change and build cjs output",
+    "": "====== Above scripts should not be ran directly, instead of scripts below ======",
+    "prebuild": "Delete all build artifacts before new build",
+    "build": "Build for all module types",
+    "serve": "Watch for file change and build for all module types"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "rimraf": "^4.4.0",
+    "typescript": "^4.9.5"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "portal",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "npx vite --port 8080",
+    "serve:localnetwork": "npx vite --port 8080 --host",
+    "lint": "npx eslint ./src/ --ext .vue,.js,.ts,.cjs,.mjs --fix --ignore-path .gitignore",
+    "preview": "npx vite preview --port 8080",
+    "typecheck": "npx vue-tsc --noEmit",
+    "build": "npx vite build",
+    "build:delete": "npx rimraf ./dist",
+    "build:full": "npm run typecheck && npm run build:delete && npm run build",
+    "deploy-firebase-hosting": "npx firebase deploy --only hosting:FIREBASE_PROJECT_ID",
+    "deploy": "npm run build:full && npm run deploy-firebase-hosting"
+  },
+  "dependencies": {
+    "domain-model": "file:../domain",
+    "firebase": "^9.21.0",
+    "fuse.js": "^6.6.2",
+    "pinia": "^2.0.35",
+    "pinia-plugin-persistedstate": "^3.1.0",
+    "simpler-fetch": "^9.0.0",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@types/node": "^18.11.10",
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "@vitejs/plugin-vue": "^4.2.1",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "@vue/eslint-config-typescript": "^11.0.3",
+    "@vue/tsconfig": "^0.3.2",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.40.0",
+    "eslint-plugin-vue": "^9.11.1",
+    "postcss": "^8.4.23",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.2.8",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.5",
+    "vite-plugin-pwa": "^0.14.7",
+    "vue-tsc": "^1.6.4"
+  }
+}

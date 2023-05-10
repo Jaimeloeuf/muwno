@@ -1,0 +1,6 @@
+# TS incremental build cache files
+.tsbuildinfo*
+
+# Ignore the build outputs
+# NOTE that the build output is needed for both app and server subrepo to build properly
+dist*/

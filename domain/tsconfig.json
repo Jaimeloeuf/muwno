@@ -1,0 +1,50 @@
+{
+  // Excluding all non-source files. These should be configured with their own tsconfig.
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
+  "include": ["src/**/*"],
+
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+
+    // Generate declaration and sourceMap for the other subrepos to use.
+    "declaration": true,
+    "sourceMap": true,
+
+    // Keep comments so that they can be seen in intellisense when importing from build output.
+    "removeComments": false,
+
+    // Enable build caching to have faster builds
+    "incremental": true,
+
+    // TS adheres to the ES6 modules spec, but since most libraries using CommonJS don't
+    // conform as strictly as TypeScript’s implementation, there can be mismatch issues.
+    // `esModuleInterop: true` basically fixes any mismatch problems by changing TS output
+    // behavior and providing shims to ensure compatibility in emitted JS.
+    "esModuleInterop": true,
+
+    // Synthetic Default Imports allow modules that dont specify a default import to be
+    // imported as if they have a default import. That is `import X from "X"` will be
+    // treated as `import * as X from "X"` for modules without default import.
+    "allowSyntheticDefaultImports": true,
+
+    /* Typechecking rules */
+    "strict": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "importsNotUsedAsValues": "error"
+  }
+}

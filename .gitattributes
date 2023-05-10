@@ -1,0 +1,6 @@
+# Reply on git to auto detect all text files and automatically normalize them (convert CRLF to LF)
+* text=auto eol=lf
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
