@@ -1,0 +1,42 @@
+{
+  // Using reference to specify a seperate tsconfig for the vite config file
+  // https://www.typescriptlang.org/docs/handbook/project-references.html
+  "references": [{ "path": "./tsconfig.vite-config.json" }],
+
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+
+  // Need to specify the .vue as it is not a default file type
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+
+  "compilerOptions": {
+    // @todo Remove someday
+    // @vue/tsconfig sets moduleResolution to use bundler,
+    // however that is not compatible with all the libraries right now,
+    // so this is temporarily overwritten to be `node` for now.
+    // https://github.com/element-plus/element-plus/issues/11818#issuecomment-1537029335
+    // https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#moduleresolution-bundler
+    "moduleResolution": "node",
+
+    "lib": [
+      // Need to respecify these libraries even though they are already defined in the base tsconfig "@vue/tsconfig/tsconfig.web.json"
+      // because when setting the `lib` property, the values are not deepmerged with the base tsconfig,
+      // instead, these values override the original config properties, which is why libs like DOM needs to be respecified.
+      "DOM",
+      "DOM.Iterable",
+
+      // Should target at least ES2017 to support `Object.values`
+      "ES2017"
+    ],
+
+    "alwaysStrict": true,                             /* Ensure 'use strict' is always emitted. */
+    "noUnusedLocals": true,                           /* Enable error reporting when a local variables aren't read. */
+    "noUnusedParameters": true,                       /* Raise an error when a function parameter isn't read */
+    "noImplicitReturns": true,                        /* Enable error reporting for codepaths that do not explicitly return in a function. */
+    "noFallthroughCasesInSwitch": true,               /* Enable error reporting for fallthrough cases in switch statements. */
+    "noUncheckedIndexedAccess": true,                 /* Include 'undefined' in index signature results */
+    "noImplicitOverride": true,                       /* Ensure overriding members in derived classes are marked with an override modifier. */
+    "allowUnusedLabels": false,                       /* Disable error reporting for unused labels. */
+    "exactOptionalPropertyTypes": true,               /* Applies stricter rules around how it handles properties on type or interfaces which have a ? prefix */
+    "verbatimModuleSyntax": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.json",
+  "include": ["vite.config.*"],
+  "compilerOptions": {
+    // @todo Remove someday
+    // @vue/tsconfig sets moduleResolution to use bundler,
+    // however that is not compatible with all the libraries right now,
+    // so this is temporarily overwritten to be `node` for now.
+    // https://github.com/element-plus/element-plus/issues/11818#issuecomment-1537029335
+    // https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#moduleresolution-bundler
+    "moduleResolution": "node",
+
+    // Composite true is fine, but it will make "declaration" true also
+    "composite": true,
+
+    // Only make the `node` type definition package included in the global scope.
+    "types": ["node"]
+  }
+}
