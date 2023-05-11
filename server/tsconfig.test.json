@@ -1,0 +1,16 @@
+/*
+  This tsconfig should only be used for the NestJS/Jest tests,
+  which are **.spec.ts files and test files found in /test
+*/
+
+{
+  "extends": "./tsconfig.json",
+
+  // Override base tsconfig.json's include property to include all test files.
+  "include": ["test", "**/*spec.ts"],
+
+  "compilerOptions": {
+    // Override base tsconfig to make sure no JS is emitted to only do type checking
+    "noEmit": true
+  }
+}

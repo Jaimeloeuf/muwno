@@ -1,0 +1,84 @@
+/*
+  This is the base tsconfig.
+  This tsconfig is used for the default type checking and compilation of the Nest server.
+  All other tsconfigs extends this and make their own changes for their own use.
+*/
+
+{
+  // Excluding all non-source files. These should be configured with their own tsconfig.
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
+  "include": ["src/**/*", "prisma/seeds/*"],
+
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+
+    // Skip declaration and sourceMap generations as these are not needed in a standalone TS project like this
+    "declaration": false,
+    "sourceMap": false,
+    "removeComments": true,
+
+    // Enable build caching to have faster builds, and keep buildinfo file out of dist/
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
+
+    // es2022 to target node18 runtime.
+    // node18 runtime can be safely targetted since the package.json requires it to even run,
+    // and the .Dockerfile used for building the image also uses node18 as the runtime.
+    "target": "es2022",
+
+    // This config sets the module system for the program.
+    //
+    // `node16`/`nodenext` modes integrate with Node’s native ECMAScript Module support.
+    // So that transpiled code can properly load and use ESM libraries.
+    //
+    // The main difference between ES6 and ES2020 modules is that ES2020 modules support
+    // dynamic imports using `await import("...")` and the `import.meta` syntax.
+    //
+    // If this is not specified, it will default to ES6 if target is above ES6 and above.
+    // This will affect the `moduleResolution` config too.
+    "module": "NodeNext",
+
+    // By default, this will be `nodenext` to match the `module` config.
+    // Only the `nodenext` module resolution strategy will support importing ESM libraries.
+    "moduleResolution": "nodenext",
+
+    // TS adheres to the ES6 modules spec, but since most libraries using CommonJS don't
+    // conform as strictly as TypeScript’s implementation, there can be mismatch issues.
+    // `esModuleInterop: true` basically fixes any mismatch problems by changing TS output
+    // behavior and providing shims to ensure compatibility in emitted JS.
+    "esModuleInterop": true,
+
+    // Synthetic Default Imports allow modules that dont specify a default import to be
+    // imported as if they have a default import. That is `import X from "X"` will be
+    // treated as `import * as X from "X"` for modules without default import.
+    "allowSyntheticDefaultImports": true,
+
+    // Allow direct import of .json files
+    // Used to import the serviceAccountKey json file directly
+    "resolveJsonModule": true,
+
+    // Decorator config set by NestJS during project setup.
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    /* Typechecking rules */
+    "strict": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "importsNotUsedAsValues": "error"
+  }
+}

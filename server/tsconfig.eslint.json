@@ -1,0 +1,23 @@
+/*
+  This tsconfig should only be used for eslint.
+  Reference: https://github.com/typescript-eslint/typescript-eslint/blob/main/tsconfig.eslint.json
+*/
+
+{
+  "extends": "./tsconfig.json",
+
+  "exclude": ["node_modules", "dist", "./.eslintrc.cjs"],
+  "include": [
+    "jest.config.cjs",
+
+    // Include all files that eslint would be linting
+    "src/**/*",
+    "prisma/seeds/*",
+    "**/*spec.ts"
+  ],
+
+  "compilerOptions": {
+    // Make sure there is no JS emitted since this is only used for type checking
+    "noEmit": true
+  }
+}

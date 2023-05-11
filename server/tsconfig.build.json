@@ -1,0 +1,37 @@
+/*
+  This tsconfig should only be used for building the NestJS server for production.
+*/
+
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
+
+  // Override default tsconfig values.
+  "compilerOptions": {
+    // Disable incremental build caching to ignore .tsbuildinfo to generate completely new ./dist folder
+    // because there is a `prebuild` npm script that deletes the entire /dist/ folder, and if incremental
+    // is true, it will not generate any new files since it does not know that the /dist/ folder is deleted,
+    // which will result in nothing happening as if the build failed.
+    // Ref: https://stackoverflow.com/questions/61687679/nest-js-build-does-does-not-generate-the-dist-folder
+    "incremental": false,
+
+    // `tsBuildInfoFile` is set in the base tsconfig.json file, and since `incremental` is now set to false,
+    // this value must also be "removed" in order for it to work. The value for this must be reset to either
+    // undefined or null.
+    //
+    // 1. `undefined` in json might not always work, since it is not a supported value, therefore null is used.
+    // 2. There might be warnings or errors shown in editors about using null, since the expected value for
+    //    this is a string. That can be ignored since this is an edge case that some tsconfig analysis tool
+    //    dont support. This is safe as it is supported by TS itself. This is also why .hintrc is defined in
+    //    monorepo root to turn off the error check.
+    //
+    // References:
+    // https://github.com/microsoft/TypeScript/issues/14184
+    // https://github.com/microsoft/TypeScript/issues/17357
+    // https://github.com/microsoft/TypeScript/pull/18058
+    "tsBuildInfoFile": null,
+
+    // This just ensures that JS is actually emitted and tsc is not just purely type checking it.
+    "noEmit": false
+  }
+}

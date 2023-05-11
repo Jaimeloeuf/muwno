@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+//
+// This schema is for PostgreSQL therefore certain conventions are followed:
+// 1. Snake case is used for table names with all lower cap letters as it is case insensitive.
+// 2. All names should be singular form for consistency.
+// 3. All datetime values should use ISODateTimeString if possible, see /docs/Prisma DateTime.md
+//
+// For table fields, the order should be
+// 1. PK
+// 2. FKs
+// 3. Common fields like `createdAt`
+// 4. Others
+// 5. Relations
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
