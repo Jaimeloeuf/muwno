@@ -82,23 +82,3 @@ function clearError() {
     </Suspense>
   </RouterView>
 </template>
-
-<style>
-#main-wrapper {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  max-width: 50rem;
-}
-
-/* Shared class for all views. */
-.center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: left;
-  height: 100vh;
-}
-</style>
