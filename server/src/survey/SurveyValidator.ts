@@ -32,6 +32,16 @@ export const SurveySchemaParserV1 = z
       .optional(),
 
     /**
+     * Time when Survey is created at in ISO DateTime string.
+     * Use `new Date().toISOString()`
+     */
+    createdAt: z.string().datetime({
+      precision: 3,
+      message:
+        'createdAt must be ISO DateTime with 3 digit sub-second precision',
+    }),
+
+    /**
      * The Survey creator's UserID
      */
     createdBy: z
@@ -74,16 +84,16 @@ export const SurveySchemaParserV1 = z
           z.object({
             type: z.literal('short-text'),
             ques: z.string().nonempty({ message: 'Question cannot be empty' }),
-            optional: z.boolean().default(false).optional(),
-            charLimit: z.number().positive().default(100).optional(),
+            optional: z.boolean(),
+            charLimit: z.number().positive().max(300),
           }),
 
           // For longer text answers, will be rendered by UI to be a text box
           z.object({
             type: z.literal('long-text'),
             ques: z.string().nonempty({ message: 'Question cannot be empty' }),
-            optional: z.boolean().default(false).optional(),
-            charLimit: z.number().positive().default(1000).optional(),
+            optional: z.boolean(),
+            charLimit: z.number().positive().max(3000),
           }),
 
           // Option question type is like a radio button where you can only select 1 out of N number of options
@@ -91,7 +101,7 @@ export const SurveySchemaParserV1 = z
           z.object({
             type: z.literal('option'),
             ques: z.string().nonempty({ message: 'Question cannot be empty' }),
-            optional: z.boolean().default(false).optional(),
+            optional: z.boolean(),
             options: z
               .array(z.string())
               .min(1, { message: 'Must have at least 1 option' }),
@@ -101,11 +111,9 @@ export const SurveySchemaParserV1 = z
           z.object({
             type: z.literal('checkbox'),
             ques: z.string().nonempty({ message: 'Question cannot be empty' }),
-            default: z
-              .boolean({
-                invalid_type_error: 'Use boolean for checkbox default',
-              })
-              .default(false),
+            default: z.boolean({
+              invalid_type_error: 'Use boolean for checkbox default',
+            }),
           }),
         ]),
       )
