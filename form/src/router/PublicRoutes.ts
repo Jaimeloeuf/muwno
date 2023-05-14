@@ -1,11 +1,12 @@
 export const HomeRoute = <const>{
-  path: "/",
   name: "home",
+  path: "/",
   component: () => import("../views/core/Home.vue"),
 };
 
 export const FormRoute = <const>{
-  path: "/form",
   name: "form",
+  path: "/form/:formID",
+  props: true,
   component: () => import("../views/Form/Form.vue"),
 };

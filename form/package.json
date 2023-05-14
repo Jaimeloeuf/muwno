@@ -15,6 +15,7 @@
     "deploy": "npm run build:full && npm run deploy-firebase-hosting"
   },
   "dependencies": {
+    "@formkit/vue": "^0.17.2",
     "domain-model": "file:../domain",
     "fuse.js": "^6.6.2",
     "pinia": "^2.0.35",
