@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 
 import vue from "@vitejs/plugin-vue";
-import { VitePWA } from "vite-plugin-pwa";
 import basicSSL from "@vitejs/plugin-basic-ssl";
 
 import childProcess from "child_process";
@@ -19,15 +18,6 @@ const gitValues = {
 export default defineConfig(({ mode }) => ({
   plugins: [
     vue(),
-
-    // Plugin to enable PWA usage
-    VitePWA({
-      // Allow PWA to be tested in development mode
-      devOptions: { enabled: true },
-
-      registerType: "autoUpdate",
-      manifest: { name: "PMF" },
-    }),
 
     // Enable https by default as ios requires https connections to give camera access
     // https://vitejs.dev/config/server-options.html#server-https
