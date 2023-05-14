@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { LongTextType } from "../../../../server/src/survey/SurveyValidator";
 
-defineProps<{ ques: LongTextType }>();
+defineProps<{ ques: LongTextType; name: string }>();
 </script>
 
 <template>
   <FormKit
     type="textarea"
-    :name="ques.ques"
+    :name="name"
     :label="ques.ques"
     :help="`Max ${ques.charLimit} characters`"
     placeholder=""

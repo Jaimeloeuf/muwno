@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { OptionType } from "../../../../server/src/survey/SurveyValidator";
 
-const props = defineProps<{ ques: OptionType }>();
+const props = defineProps<{ ques: OptionType; name: string }>();
 const options = props.ques.options.map((option, index) => ({
   label: option,
   value: index,
@@ -9,9 +9,9 @@ const options = props.ques.options.map((option, index) => ({
 </script>
 
 <template>
-  <!-- v-model="value" -->
   <FormKit
     type="radio"
+    :name="name"
     :label="ques.ques"
     :options="options"
     outer-class="mb-6"
