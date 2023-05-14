@@ -1,4 +1,5 @@
 import z from 'zod';
+import type { Survey } from './SurveyValidator';
 
 /**
  * @todo add custom specific error messages for all the parsers like `title`
@@ -27,6 +28,16 @@ export const SurveyResponseParserV1 = z
     surveyID: z
       .string()
       .nonempty({ message: 'Survey ID cannot be empty string' }),
+
+    /**
+     * Time of when user responded in ISO DateTime string.
+     * Use `new Date().toISOString()`
+     */
+    createdAt: z.string().datetime({
+      precision: 3,
+      message:
+        'createdAt must be ISO DateTime with 3 digit sub-second precision',
+    }),
 
     /**
      * The Survey Responder's id
@@ -65,7 +76,12 @@ export type SurveyResponse = z.infer<typeof SurveyResponseParserV1>;
 /**
  * Validate Survey Response before saving it into data source
  */
-export function validateResponse(surveyResponse: SurveyResponse) {
+export function validateResponse(
+  surveyResponse: SurveyResponse,
+  surveyID: Survey['id'],
+) {
+  surveyID;
+
   // If there are multiple versions of response types, switch to use specific parser based on version key
   // This only validates if it is a proper Response, it does not validate for the specific survey schema
   const validationResult = SurveyResponseParserV1.safeParse(surveyResponse);
