@@ -1,0 +1,3 @@
+# survey/
+- 1 parser to validate if a QuesSchema satisfies the specified Schema
+- Although we can use the same parser to validate the actual response itself with the same validator, it will be generic and not specific... aka cannot validate each of the ques type specifically for diff ques types... therefore it is better to "generate" a new parser for every single Form Schema on the fly to validate an actual response
