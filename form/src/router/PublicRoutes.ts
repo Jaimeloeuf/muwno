@@ -10,3 +10,9 @@ export const FormRoute = <const>{
   props: true,
   component: () => import("../views/Form/Form.vue"),
 };
+
+export const SubmittedRoute = <const>{
+  name: "submitted",
+  path: "/submitted",
+  component: () => import("../views/Form/Submitted.vue"),
+};

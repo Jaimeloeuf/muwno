@@ -1,3 +1,4 @@
+import { router, SubmittedRoute } from "../../router";
 import type { SurveyResponse } from "../../../../server/src/survey/ResponseValidator";
 
 /**
@@ -8,7 +9,7 @@ export async function useForm(formID: string) {
   const { survey: form } = await import("./SampleSurvey");
 
   async function submitForm(data: Record<string, any>) {
-    const answerArray= new Array(form.ques.length);
+    const answerArray = new Array(form.ques.length);
 
     for (const [quesID, ans] of Object.entries(data)) {
       // Add test (either regex or smth safer) to ensure `_q` prefix is found
@@ -29,6 +30,8 @@ export async function useForm(formID: string) {
     };
 
     console.log(response);
+
+    router.push({ name: SubmittedRoute.name });
   }
 
   return { form, submitForm };
