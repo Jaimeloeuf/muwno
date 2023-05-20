@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import { survey } from "./SampleSurvey";
+import { useForm } from "./useForm";
 
 import LongText from "./LongText.vue";
 import Option from "./Option.vue";
 
 const props = defineProps<{ formID: string }>();
-console.log(props.formID);
+
+const { form, submitForm } = await useForm(props.formID);
 </script>
 
 <template>
   <div class="m-6 grid max-w-md">
-    <FormKit type="form" :actions="false">
+    <FormKit type="form" :actions="false" @submit="submitForm">
       <h1
         class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
       >
-        {{ survey.title }}
+        {{ form.title }}
       </h1>
 
       <!-- Loop through questions and render each question based on its type -->
       <!-- Generate a unique name for each question with its question index to read the answers later -->
-      <div v-for="(ques, i) in survey.ques" :key="i">
+      <div v-for="(ques, i) in form.ques" :key="i">
         <!-- @todo -->
         <!-- UI should render the optional/not optional thing -->
         <!-- For text questions, if NOT OPTIONAL, must make sure that an empty string is converted to undefined for checking -->
