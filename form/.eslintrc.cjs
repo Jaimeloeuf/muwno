@@ -44,7 +44,8 @@ module.exports = {
     // This rule prevents the use of camelCase HTML attributes when used for passing props in a parent component.
     // This is disabled because by using this rule, there is a mismatch between the prop
     // name defined in the child component and the prop name used in the parent component.
-    "vue/attribute-hyphenation": ["error", "never"],
+    // @todo Temporarily disabled to support the `${sectionName}-class` way of using tailwind CSS with FormKit.
+    // "vue/attribute-hyphenation": ["error", "never"],
 
     // Disable
     // https://vuejs.org/style-guide/rules-strongly-recommended.html#base-component-names
