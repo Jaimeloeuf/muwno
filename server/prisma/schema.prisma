@@ -21,3 +21,15 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model form {
+  // Using autoincrement as ID needs to be ordered for the queries to work
+  id     Int  @id @default(autoincrement())
+  schema Json
+}
+
+model feedback {
+  // Using autoincrement as ID needs to be ordered for the queries to work
+  id       Int  @id @default(autoincrement())
+  response Json
+}
