@@ -41,7 +41,8 @@ const { form, submitForm } = await useForm(props.formID);
     </FormKit>
 
     <p class="mt-6 text-center text-xs text-gray-500">
-      &copy;2023 StarterKit. All rights reserved.
+      &copy;2023 - {{ new Date().getFullYear() }} StarterKit. All rights
+      reserved.
     </p>
   </div>
 </template>
