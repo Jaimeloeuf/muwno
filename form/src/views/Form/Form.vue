@@ -10,7 +10,7 @@ const { form, submitForm } = await useForm(props.formID);
 </script>
 
 <template>
-  <div class="m-6 grid max-w-md">
+  <div class="m-6">
     <FormKit type="form" :actions="false" @submit="submitForm">
       <h1
         class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"

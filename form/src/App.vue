@@ -37,7 +37,7 @@ function clearError() {
 <template>
   <GlobalErrorView
     v-if="globalError"
-    :globalError="globalError"
+    :global-error="globalError"
     @acknowledged="clearError"
   />
 
@@ -73,7 +73,7 @@ function clearError() {
         https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
         https://caniuse.com/css-display-contents
       -->
-      <div id="main-wrapper">
+      <div class="mx-auto max-w-screen-sm">
         <component :is="Component" />
       </div>
 

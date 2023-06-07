@@ -14,7 +14,7 @@ defineProps<{ ques: LongTextType; name: string }>();
     :rows="3"
     outer-class="mb-5"
     label-class="block mb-1 font-bold text-sm"
-    inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
+    inner-class="border border-gray-300 rounded-lg mb-1 overflow-hidden"
     input-class="w-full px-3 border-none text-base text-gray-700 placeholder-gray-400"
     help-class="text-xs text-gray-500"
   />
