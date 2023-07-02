@@ -15,7 +15,7 @@ const gitValues = {
 
 // https://vitejs.dev/config/
 // https://vitejs.dev/config/#conditional-config
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [
     vue(),
 
@@ -25,11 +25,6 @@ export default defineConfig(({ mode }) => ({
     basicSSL(),
   ],
 
-  // When deploying to Github pages, the base URL will be your repo's name,
-  // Thus the production base URL must be changed here for it to work when deployed.
-  // Ref: https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site#next-steps
-  // base: mode === "github-pages" ? "/your-github-repo-name/" : "/",
-
   // Replace these strings with the appropriate values during build time
   // Update `.eslintrc.cjs` and `env.d.ts` whenever new values are added to get typing and lint support
   define: {
@@ -38,4 +33,4 @@ export default defineConfig(({ mode }) => ({
     "__vite_inject.commitHash": JSON.stringify(gitValues.commitHash),
     "__vite_inject.gitBranch": JSON.stringify(gitValues.gitBranch),
   },
-}));
+});
