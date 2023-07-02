@@ -16,3 +16,16 @@ export const SubmittedRoute = <const>{
   path: "/submitted",
   component: () => import("../views/Form/Submitted.vue"),
 };
+
+export const FeedbackRoute = <const>{
+  name: "feedback",
+  path: "/feedback/:formID",
+  props: true,
+  component: () => import("../views/Feedback/Feedback.vue"),
+};
+
+export const FeedbackSubmittedRoute = <const>{
+  name: "feedback-submitted",
+  path: "/feedback-submitted",
+  component: () => import("../views/Feedback/Submitted.vue"),
+};
