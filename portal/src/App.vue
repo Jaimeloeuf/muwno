@@ -73,7 +73,7 @@ function clearError() {
         https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
         https://caniuse.com/css-display-contents
       -->
-      <div id="main-wrapper">
+      <div class="m-6">
         <component :is="Component" />
       </div>
 
