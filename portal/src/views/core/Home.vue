@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SideDrawer from "../components/SideDrawer.vue";
 import Chart from "./Chart.vue";
+import MIT from "./MIT.vue";
 import SprintNumberCard from "./KeyInfoCard/SprintNumberCard.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 </script>
@@ -14,6 +15,7 @@ import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 
     <!-- Row of key info cards -->
     <div class="m-12 flex flex-row justify-end space-x-6">
+      <MIT />
       <SprintNumberCard />
       <PMFScoreCard />
     </div>
