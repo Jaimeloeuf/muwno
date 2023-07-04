@@ -4,7 +4,7 @@ const score = 42;
 </script>
 
 <template>
-  <div class="inline-block w-fit rounded-lg bg-slate-50 p-4 shadow">
+  <div class="inline-block w-full rounded-lg bg-slate-50 p-4 shadow">
     <p class="text-sm font-medium">Current score</p>
 
     <div class="text-right">
