@@ -96,6 +96,18 @@ const chartOptions = {
 </script>
 
 <template>
-  <!-- Tmp hack used to surpress the type error caused by the plugin options -->
-  <Line class="m-12" :options="chartOptions" :data="(chartData as any)" />
+  <div>
+    <div class="flex flex-row items-center justify-between">
+      <p class="text-3xl font-extralight">PMF Performance</p>
+
+      <button
+        class="mr-10 rounded-lg bg-slate-200 p-1 px-3 text-sm font-semibold text-gray-700"
+      >
+        auto refresh (daily)
+      </button>
+    </div>
+
+    <!-- @todo Tmp any cast used to surpress the type error caused by the plugin options -->
+    <Line :options="chartOptions" :data="(chartData as any)" />
+  </div>
 </template>
