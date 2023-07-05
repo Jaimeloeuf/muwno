@@ -4,6 +4,7 @@ import Chart from "./Chart.vue";
 import ProductCard from "./KeyInfoCard/ProductCard.vue";
 import SprintNumberCard from "./KeyInfoCard/SprintNumberCard.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
+import SamplingDetailsCard from "./KeyInfoCard/SamplingDetailsCard.vue";
 import MIT from "./MIT.vue";
 </script>
 
@@ -21,6 +22,7 @@ import MIT from "./MIT.vue";
         <ProductCard />
         <SprintNumberCard />
         <PMFScoreCard />
+        <SamplingDetailsCard />
         <MIT />
       </div>
     </div>
