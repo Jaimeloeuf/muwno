@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const score = 42;
-// const score = 39;
+defineProps<{ score: number }>();
 </script>
 
 <template>

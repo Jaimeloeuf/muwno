@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
+import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 
 const orgStore = useOrg();
 </script>
@@ -23,6 +24,10 @@ const orgStore = useOrg();
           class="m-6 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
         >
           <p class="text-4xl">{{ product.name }}</p>
+
+          <div class="text-right">
+            <PMFScoreCard class="max-w-min bg-white" :score="product.score" />
+          </div>
         </router-link>
 
         <!-- Create product card button -->

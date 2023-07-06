@@ -21,7 +21,7 @@ import MIT from "./MIT.vue";
       <div class="mx-4 flex flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <ProductCard />
         <SprintNumberCard />
-        <PMFScoreCard />
+        <PMFScoreCard :score="42" />
         <SamplingDetailsCard />
         <MIT />
       </div>
