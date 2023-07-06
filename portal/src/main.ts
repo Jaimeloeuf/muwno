@@ -9,7 +9,7 @@ import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { router } from "./router";
 import App from "./App.vue";
-// import { initStoresOnAppStartIfLoggedIn } from "./store";
+import { initStoresOnAppStartIfLoggedIn } from "./store";
 
 // App variable to store reference to the vue App object
 // let app: ComponentPublicInstance;
@@ -43,3 +43,6 @@ createApp(App)
   .use(router)
   .use(createPinia().use(piniaPluginPersistedstate))
   .mount("#app");
+
+// @todo Tmp calling this directly before auth is built in
+initStoresOnAppStartIfLoggedIn();

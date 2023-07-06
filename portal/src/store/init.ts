@@ -1,4 +1,4 @@
-// import { useUserStore } from "./user.store";
+import { useOrg } from "./org.store";
 
 /**
  * Use this function to initialize all stores that needs
@@ -8,9 +8,7 @@ export async function initStoresOnLoginSuccess(): Promise<void> {
   console.log(`Running initStoresOnLoginSuccess`);
 
   // Run all of these initializations without any particular order
-  await Promise.all([
-    //
-  ]);
+  await Promise.all([useOrg().loadProducts()]);
 }
 
 /**
@@ -23,7 +21,5 @@ export async function initStoresOnAppStartIfLoggedIn(): Promise<void> {
   console.log(`Running initStoresOnAppStartIfLoggedIn`);
 
   // Run all of these initializations without any particular order
-  await Promise.all([
-    // useUserStore().refreshUser(),
-  ]);
+  await Promise.all([useOrg().loadProducts()]);
 }
