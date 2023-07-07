@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useOrg } from "../../store";
+import { ProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 
@@ -20,7 +21,7 @@ const orgStore = useOrg();
         <router-link
           v-for="product in orgStore.productsArray"
           :key="product.id"
-          :to="{}"
+          :to="{ name: ProductRoute.name, params: { productID: product.id } }"
           class="m-6 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
         >
           <p class="text-4xl">{{ product.name }}</p>

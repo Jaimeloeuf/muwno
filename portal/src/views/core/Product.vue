@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
 import Chart from "./Chart.vue";
 import ProductCard from "./KeyInfoCard/ProductCard.vue";
@@ -6,6 +7,12 @@ import SprintNumberCard from "./KeyInfoCard/SprintNumberCard.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 import SamplingDetailsCard from "./KeyInfoCard/SamplingDetailsCard.vue";
 import MIT from "./MIT.vue";
+import type { Product } from "../../types";
+
+const props = defineProps<{ productID: Product["id"] }>();
+
+const orgStore = useOrg();
+const product = orgStore.getProduct(props.productID);
 </script>
 
 <template>
@@ -21,7 +28,7 @@ import MIT from "./MIT.vue";
       <div class="mx-4 flex flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <ProductCard />
         <SprintNumberCard />
-        <PMFScoreCard :score="42" />
+        <PMFScoreCard :score="product.score" />
         <SamplingDetailsCard />
         <MIT />
       </div>

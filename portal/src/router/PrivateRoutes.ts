@@ -29,7 +29,7 @@ export const ProductRoute = <const>{
   name: "product-view",
   path: "/product/view/:productID",
   props: true,
-  component: () => import("../views/core/Home.vue"),
+  component: () => import("../views/core/Product.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
