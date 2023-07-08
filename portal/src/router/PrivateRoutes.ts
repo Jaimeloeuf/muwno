@@ -23,13 +23,20 @@ export const OrgRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
-/* ================================== Core Module Routes =============================== */
+/* ================================== Product Module Routes =============================== */
 
 export const ProductRoute = <const>{
   name: "product-view",
   path: "/product/view/:productID",
   props: true,
   component: () => import("../views/core/Product.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
+export const AddProductRoute = <const>{
+  name: "product-add",
+  path: "/product/add",
+  component: () => import("../views/core/AddProduct.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
@@ -48,7 +55,11 @@ export const ProductRoute = <const>{
  * and ignore the const assertion, which is critical for treating the `name` field as
  * a string literal type for `PrivateRouteNames` type to be properly inferred.
  */
-const PrivateRoutes = [OrgRoute, ProductRoute] satisfies Array<PrivateRoute>;
+const PrivateRoutes = [
+  OrgRoute,
+  ProductRoute,
+  AddProductRoute,
+] satisfies Array<PrivateRoute>;
 
 /**
  * Sum type of all Private Route object names, used to constrain

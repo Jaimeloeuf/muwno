@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useOrg } from "../../store";
-import { ProductRoute } from "../../router";
+import { ProductRoute, AddProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 
@@ -33,7 +33,7 @@ const orgStore = useOrg();
 
         <!-- Create product card button -->
         <router-link
-          :to="{}"
+          :to="{ name: AddProductRoute.name }"
           class="m-6 inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-8 text-gray-500 hover:bg-gray-100 hover:text-gray-600"
           :class="{
             'bg-green-600 text-white hover:bg-green-600 hover:text-white':

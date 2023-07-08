@@ -101,18 +101,21 @@ export const useOrg = defineStore("org", {
     /**
      * Create a new Product
      */
-    createNewProduct(ProductName: string) {
+    createNewProduct(product: Pick<Product, "name" | "samplingDetails">) {
       // @todo call API to create new Product
       const ProductID = Math.trunc(Math.random() * 1000000).toString();
 
       this.products[ProductID] = {
         id: ProductID,
         createdAt: new Date().toISOString(),
-        name: ProductName,
         score: 0,
+        currentSprint: 1,
+
+        ...product,
       };
 
       this.setCurrentProduct(ProductID);
+      return this.getProduct(ProductID);
     },
   },
 
