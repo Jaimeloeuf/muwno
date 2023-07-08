@@ -14,6 +14,8 @@ const daysPerSprint = ref(14);
 const sampling = reactive<Product["samplingDetails"]>({
   rate: 1,
   size: 0,
+  maxSampleCount: 1,
+  coolOff: 4,
 });
 
 async function addProduct() {
@@ -76,6 +78,7 @@ async function addProduct() {
         </label>
       </div>
 
+      <!-- @todo There should be a button for user to choose automatic or use deault -->
       <!-- Sampling Details section header -->
       <div class="mb-6 border-t pt-4">
         <p class="text-3xl">Sampling Details</p>
@@ -97,6 +100,78 @@ async function addProduct() {
 
           <input
             v-model="sampling.rate"
+            type="number"
+            min="1"
+            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+            placeholder="Number of Sprints"
+          />
+        </label>
+
+        <!-- Calculated sample period value -->
+        <div class="mt-4">
+          <p class="text-lg">Sampling Period</p>
+          <div class="w-full rounded-lg bg-slate-100 p-3 font-extralight">
+            <p>
+              Sampling Rate:
+              <span class="font-normal">{{ sampling.rate }}</span>
+            </p>
+            <p class="ml-10">x</p>
+            <p>
+              Days per Sprint:
+              <span class="font-normal">{{ daysPerSprint }}</span> days
+            </p>
+
+            <p class="mt-2 border-t border-slate-300 pt-1 font-normal">
+              Every
+              {{ sampling.rate * daysPerSprint }} days
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Max Sample Count per user input -->
+      <div class="mb-10">
+        <label>
+          <p class="text-xl">Max Sample Count</p>
+          <ul class="list-decimal px-5">
+            <li>
+              What is the maximum number of times this tool can sample a single
+              customer?
+            </li>
+            <li>
+              A customer is considered sampled once they receive a survey link,
+              even if they do not open or complete the survey.
+            </li>
+          </ul>
+
+          <input
+            v-model="sampling.maxSampleCount"
+            type="number"
+            min="1"
+            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+            placeholder="Max Sample Count per customer"
+          />
+        </label>
+      </div>
+
+      <!-- Max Sample Count per user input -->
+      <div class="mb-10">
+        <label>
+          <p class="text-xl">Cool off between samples</p>
+          <ul class="list-decimal px-5">
+            <li>
+              After every sample there should be a cool off time period (in
+              number of sprints) before the same user is sampled again, to
+              prevent sampling the same user over and over again.
+            </li>
+            <li>
+              How long (in sprints) should we wait before we sample the same
+              customer again.
+            </li>
+          </ul>
+
+          <input
+            v-model="sampling.coolOff"
             type="number"
             min="1"
             class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"

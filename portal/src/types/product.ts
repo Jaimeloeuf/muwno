@@ -15,6 +15,8 @@ export type Product = {
   samplingDetails: {
     rate: number;
     size: number;
+    maxSampleCount: number;
+    coolOff: number;
   };
 };
 

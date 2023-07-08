@@ -15,7 +15,7 @@ const products: Products = {
     name: "Superhuman",
     score: 60,
     currentSprint: 143,
-    samplingDetails: { rate: 1, size: 100 },
+    samplingDetails: { rate: 1, size: 100, maxSampleCount: 1, coolOff: 4 },
   },
   [grp2ID]: {
     id: grp2ID,
@@ -23,7 +23,7 @@ const products: Products = {
     name: "HB30",
     score: 43,
     currentSprint: 2,
-    samplingDetails: { rate: 3, size: 5 },
+    samplingDetails: { rate: 3, size: 5, maxSampleCount: 1, coolOff: 4 },
   },
   [grp3ID]: {
     id: grp3ID,
@@ -31,7 +31,7 @@ const products: Products = {
     name: "HAS",
     score: 28,
     currentSprint: 12,
-    samplingDetails: { rate: 5, size: 100 },
+    samplingDetails: { rate: 5, size: 100, maxSampleCount: 1, coolOff: 4 },
   },
 };
 
