@@ -1,4 +1,4 @@
-import { oof } from "simpler-fetch";
+import { sf } from "simpler-fetch";
 
 /**
  * Export the list of identifiers for the different base Urls.
@@ -21,8 +21,7 @@ const baseApiUrl =
     : import.meta.env.VITE_API_URL;
 
 // Configure API library base Urls
-oof
-  .addBase(API.vNeutral, baseApiUrl)
+sf.addBase(API.vNeutral, baseApiUrl)
   .addBase(API.v1, `${baseApiUrl}/v1`)
 
   // Defaults to v1
