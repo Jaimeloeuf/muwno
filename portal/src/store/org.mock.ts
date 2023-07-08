@@ -14,18 +14,24 @@ const products: Products = {
     createdAt: generateIsoDateTimeString(-246400000),
     name: "Superhuman",
     score: 60,
+    currentSprint: 143,
+    samplingDetails: { rate: 1, size: 100 },
   },
   [grp2ID]: {
     id: grp2ID,
     createdAt: generateIsoDateTimeString(-246400000),
     name: "HB30",
     score: 43,
+    currentSprint: 2,
+    samplingDetails: { rate: 3, size: 5 },
   },
   [grp3ID]: {
     id: grp3ID,
     createdAt: generateIsoDateTimeString(-246400000),
     name: "HAS",
     score: 28,
+    currentSprint: 12,
+    samplingDetails: { rate: 5, size: 100 },
   },
 };
 

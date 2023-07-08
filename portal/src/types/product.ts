@@ -11,6 +11,11 @@ export type Product = {
   createdAt: ISODateTimeString;
   name: string;
   score: number;
+  currentSprint: number;
+  samplingDetails: {
+    rate: number;
+    size: number;
+  };
 };
 
 export type Products = Record<Product["id"], Product>;

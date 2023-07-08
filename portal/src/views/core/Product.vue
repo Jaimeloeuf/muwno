@@ -26,24 +26,12 @@ const product = orgStore.getProduct(props.productID);
       <Chart class="m-4 my-12 grow lg:m-12" />
 
       <div class="mx-4 flex flex-col space-y-6 lg:mx-0 lg:basis-1/4">
-        <ProductCard />
-        <SprintNumberCard />
+        <ProductCard :product="product" />
+        <SprintNumberCard :currentSprint="product.currentSprint" />
         <PMFScoreCard :score="product.score" />
-        <SamplingDetailsCard />
+        <SamplingDetailsCard :samplingDetails="product.samplingDetails" />
         <MIT />
       </div>
     </div>
-
-    <!-- Alternative UI look -->
-    <!-- <div>
-      <div class="m-12 flex flex-row justify-end space-x-6">
-        <MIT />
-        <SprintNumberCard />
-        <PMFScoreCard />
-        <ProductCard />
-      </div>
-
-      <Chart />
-    </div> -->
   </div>
 </template>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const product = { name: "Starterkit" };
+import type { Product } from "../../../types";
+
+defineProps<{ product: Product }>();
 </script>
 
 <template>

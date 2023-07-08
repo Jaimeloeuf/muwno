@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const currentSprintNumber = 12;
+import type { Product } from "../../../types";
+
+defineProps<{ currentSprint: Product["currentSprint"] }>();
 </script>
 
 <template>
@@ -8,7 +10,7 @@ const currentSprintNumber = 12;
 
     <div class="text-right">
       <p class="text-4xl font-light">
-        {{ currentSprintNumber }}
+        {{ currentSprint }}
       </p>
     </div>
   </div>

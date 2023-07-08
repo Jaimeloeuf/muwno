@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const samplingDetails = { rate: 3, size: 100 };
+import type { Product } from "../../../types";
+
+defineProps<{ samplingDetails: Product["samplingDetails"] }>();
 </script>
 
 <template>
