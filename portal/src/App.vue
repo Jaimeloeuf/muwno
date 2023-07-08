@@ -41,7 +41,11 @@ function clearError() {
     @acknowledged="clearError"
   />
 
-  <RouterView v-else v-slot="{ Component }">
+  <!--
+    Using path as key so that when a URL param is updated, it is treated a new
+    page instead of just reusing the same page without updating anything.
+  -->
+  <RouterView v-else v-slot="{ Component }" :key="$route.path">
     <!--
       A timeout MUST BE specified for the fallback content to be shown by default.
       Arbitrary timeout of 10 milliseconds to account for super quick

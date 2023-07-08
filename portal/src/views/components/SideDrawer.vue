@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { OrgRoute } from "../../router";
+import { useOrg } from "../../store";
+import { OrgRoute, ProductRoute } from "../../router";
 import Version from "./Version.vue";
+
+const orgStore = useOrg();
 
 const showDrawer = ref<boolean>(false);
 const showGroups = ref<boolean>(true);
@@ -109,41 +112,28 @@ watch(showDrawer, (shown) => {
           </svg>
         </button>
 
-        <!-- <div class="mt-2 space-y-2" :class="{ hidden: !showGroups }">
+        <div class="mt-2 space-y-2" :class="{ hidden: !showGroups }">
           <div
-            v-for="(group, i) in groupStore.groupsArray"
+            v-for="(product, i) in orgStore.productsArray"
             :key="i"
             class="flex flex-row"
           >
-            <button
-              class="inline-flex grow rounded-lg p-2 pl-7 pr-4 text-gray-900 transition duration-75"
-              :class="{ 'bg-gray-200': group.id === groupStore.currentGroupID }"
-              @click="selectGroup(group.id)"
-            >
-              {{ i + 1 }}. {{ group.name }}
-            </button>
-
             <router-link
               :to="{
-                name: GroupDetailsRoute.name,
-                params: { groupID: group.id },
+                name: ProductRoute.name,
+                params: { productID: product.id },
               }"
-              class="inline rounded-full border border-gray-50 p-2 pt-3"
+              class="inline-flex grow rounded-lg p-2 pl-7 pr-4 text-gray-900 transition duration-75"
+              :class="{
+                // @todo Should check by route param instead
+                // 'bg-gray-200': product.id === orgStore.currentProductID,
+              }"
+              @click="showDrawer = !showDrawer"
             >
-              <svg
-                width="3"
-                height="13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0 11.25C0 10.9185 0.131696 10.6005 0.366117 10.3661C0.600537 10.1317 0.918479 10 1.25 10C1.58152 10 1.89946 10.1317 2.13388 10.3661C2.3683 10.6005 2.5 10.9185 2.5 11.25C2.5 11.5815 2.3683 11.8995 2.13388 12.1339C1.89946 12.3683 1.58152 12.5 1.25 12.5C0.918479 12.5 0.600537 12.3683 0.366117 12.1339C0.131696 11.8995 0 11.5815 0 11.25ZM0 6.25C0 5.91848 0.131696 5.60054 0.366117 5.36612C0.600537 5.1317 0.918479 5 1.25 5C1.58152 5 1.89946 5.1317 2.13388 5.36612C2.3683 5.60054 2.5 5.91848 2.5 6.25C2.5 6.58152 2.3683 6.89946 2.13388 7.13388C1.89946 7.3683 1.58152 7.5 1.25 7.5C0.918479 7.5 0.600537 7.3683 0.366117 7.13388C0.131696 6.89946 0 6.58152 0 6.25ZM0 1.25C0 0.918479 0.131696 0.600537 0.366117 0.366117C0.600537 0.131696 0.918479 0 1.25 0C1.58152 0 1.89946 0.131696 2.13388 0.366117C2.3683 0.600537 2.5 0.918479 2.5 1.25C2.5 1.58152 2.3683 1.89946 2.13388 2.13388C1.89946 2.3683 1.58152 2.5 1.25 2.5C0.918479 2.5 0.600537 2.3683 0.366117 2.13388C0.131696 1.89946 0 1.58152 0 1.25Z"
-                  fill="black"
-                />
-              </svg>
+              {{ i + 1 }}. {{ product.name }}
             </router-link>
           </div>
-        </div> -->
+        </div>
       </div>
 
       <!-- Spacer divider that takes up all the space in the middle -->
