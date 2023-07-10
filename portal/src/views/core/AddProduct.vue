@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useOrg } from "../../store";
-import {} from "../../router";
+import { ImportCustomerRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
 import type { Product } from "../../types";
 
@@ -24,10 +24,12 @@ async function addProduct() {
   // @todo Call store method
   const { id } = await orgStore.createNewProduct({
     name: name.value,
+
+    // @todo This should be calculated and done at next page rather than here...
     samplingDetails: sampling,
   });
 
-  router.push({});
+  router.push({ name: ImportCustomerRoute.name, params: { productID: id } });
 }
 </script>
 

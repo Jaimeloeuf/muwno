@@ -40,6 +40,14 @@ export const AddProductRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const ImportCustomerRoute = <const>{
+  name: "product-import-customer",
+  path: "/product/:productID/customer/import",
+  props: true,
+  component: () => import("../views/core/ImportCustomer.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /**
  * This array is only used internally for typechecking and type creation purposes
  * only, and is never used as a value anywhere, therefore there is no need to worry
@@ -59,6 +67,7 @@ const PrivateRoutes = [
   OrgRoute,
   ProductRoute,
   AddProductRoute,
+  ImportCustomerRoute,
 ] satisfies Array<PrivateRoute>;
 
 /**
