@@ -1,6 +1,13 @@
 import type { Products } from "../types";
 import { generateIsoDateTimeString, generateRandomID } from "./mock.utils";
 
+export const mockOrg = {
+  id: generateRandomID(),
+  createdAt: generateIsoDateTimeString(-246400000),
+  name: "HB30",
+  plan: "Pro",
+};
+
 const grp1ID = generateRandomID();
 const grp2ID = generateRandomID();
 const grp3ID = generateRandomID();
@@ -20,7 +27,7 @@ const products: Products = {
   [grp2ID]: {
     id: grp2ID,
     createdAt: generateIsoDateTimeString(-246400000),
-    name: "HB30",
+    name: "theprodtool",
     score: 43,
     currentSprint: 2,
     samplingDetails: { rate: 3, size: 5, maxSampleCount: 1, coolOff: 4 },

@@ -1,11 +1,17 @@
 import { defineStore } from "pinia";
-import type { Product, Products } from "../types";
-import { mockProducts } from "./org.mock";
+import type { Org, Product, Products } from "../types";
+import { mockOrg, mockProducts } from "./org.mock";
 
 /**
  * Type of this pinia store's state.
  */
 interface State {
+  /**
+   * Org Details of the org the currently logged in user belongs to.
+   * Defaults to undefined if user is not logged in yet or does not have an org.
+   */
+  orgDetails: Org | undefined;
+
   /**
    * A mapping of all products of the user's org
    */
@@ -21,7 +27,11 @@ interface State {
  * Use this 'store' org data.
  */
 export const useOrg = defineStore("org", {
-  state: (): State => ({ products: {}, currentProductID: undefined }),
+  state: (): State => ({
+    orgDetails: undefined,
+    products: {},
+    currentProductID: undefined,
+  }),
 
   getters: {
     productsArray: (state) => Object.values(state.products),
@@ -38,6 +48,14 @@ export const useOrg = defineStore("org", {
   },
 
   actions: {
+    /**
+     * Load Org Details of the org the currently logged in user belongs to.
+     */
+    async loadOrg() {
+      // @todo Call API
+      this.orgDetails = mockOrg;
+    },
+
     /**
      * Load all the Products of the user's org
      */

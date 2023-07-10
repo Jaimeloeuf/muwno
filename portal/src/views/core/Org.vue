@@ -5,17 +5,51 @@ import SideDrawer from "../components/SideDrawer.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 
 const orgStore = useOrg();
+const orgDetails = orgStore.orgDetails;
+if (orgDetails === undefined)
+  throw new Error("Org.vue: Org details is undefined");
 </script>
 
 <template>
   <div>
-    <div class="mb-6">
+    <div class="mb-6 border-b pb-4">
       <SideDrawer />
       <span class="ml-4 text-4xl">Organisation Home</span>
     </div>
 
+    <!-- Org Detail cards -->
+    <div class="mx-12 mb-10 border-b border-gray-300 pb-10">
+      <p class="mb-6 text-3xl">Org Details</p>
+
+      <div class="flex flex-row gap-x-6">
+        <!-- Org name card -->
+        <div class="inline-block w-max rounded-lg bg-slate-50 p-4 px-8 shadow">
+          <p class="text-sm">Name</p>
+
+          <div class="text-right">
+            <p class="text-4xl font-light">
+              {{ orgDetails.name }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Org Plan card -->
+        <div class="inline-block w-max rounded-lg bg-slate-50 p-4 px-8 shadow">
+          <p class="text-sm">Plan</p>
+
+          <div class="text-right">
+            <p class="text-4xl font-light">
+              {{ orgDetails.plan }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="mx-6">
-      <p class="text-3xl">Products ({{ orgStore.productsArray.length }})</p>
+      <p class="ml-6 text-3xl">
+        Products ({{ orgStore.productsArray.length }})
+      </p>
 
       <div class="grid grid-cols-1 lg:grid-cols-2">
         <router-link
