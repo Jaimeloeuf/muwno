@@ -2,16 +2,22 @@
 import { useRouter } from "vue-router";
 import { useForm } from "./useForm";
 import { FeedbackSubmittedRoute } from "../../router";
+import { useLoader } from "../../store";
 
 const props = defineProps<{ formID: string }>();
 const router = useRouter();
+const loader = useLoader();
 
 const { productName, radioOptions, a1, a2, a3, a4, submitForm } = await useForm(
   props.formID
 );
 
 async function submit() {
+  loader.show();
+
   const submitSuccess = await submitForm();
+
+  loader.hide();
 
   if (submitSuccess) router.push({ name: FeedbackSubmittedRoute.name });
   else alert("Failed to submit form");
@@ -36,7 +42,7 @@ async function submit() {
         :key="i"
         class="mb-3 flex rounded-lg border border-gray-200 p-4 py-3"
       >
-        <label class="w-full font-light" @click="a1 = i">
+        <label class="w-full cursor-pointer font-light" @click="a1 = i">
           <input
             type="radio"
             name="bordered-radio"
@@ -92,7 +98,7 @@ async function submit() {
     </div>
 
     <button
-      class="w-full rounded bg-lime-500 px-4 py-2 font-bold text-white"
+      class="w-full rounded bg-lime-500 py-2 font-bold text-white"
       @click="submit"
     >
       Submit
