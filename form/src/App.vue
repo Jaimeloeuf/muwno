@@ -3,7 +3,7 @@ import { ref, onErrorCaptured } from "vue";
 import { useRouter } from "vue-router";
 
 import GlobalErrorView from "./views/GlobalError.vue";
-import loader from "./views/components/LoaderUI.vue";
+import loader from "./views/components/Loader.vue";
 
 const router = useRouter();
 
