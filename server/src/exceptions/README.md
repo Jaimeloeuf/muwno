@@ -1,0 +1,2 @@
+# src/exceptions
+Folder for common/shared custom exceptions thrown by the Service Layer. For each of the exceptions defined here, a corresponding exception-filter should be defined in [src/exception-filters](../exception-filters/).
