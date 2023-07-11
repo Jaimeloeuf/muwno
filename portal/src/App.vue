@@ -2,10 +2,12 @@
 import { ref, onErrorCaptured } from "vue";
 import { useRouter } from "vue-router";
 
+import { useLoader } from "./store";
 import GlobalErrorView from "./views/GlobalError.vue";
-import loader from "./views/components/Loader.vue";
+import Loader from "./views/components/Loader.vue";
 
 const router = useRouter();
+const loader = useLoader();
 
 const globalError = ref<Error | undefined>(undefined);
 onErrorCaptured((e) => (globalError.value = e as any));
@@ -80,11 +82,12 @@ function clearError() {
           https://caniuse.com/css-display-contents
         -->
         <div class="m-6">
-          <component :is="Component" />
+          <Loader v-if="loader.showLoader" />
+          <component :is="Component" v-else />
         </div>
 
         <!-- loading UI -->
-        <template #fallback><loader /></template>
+        <template #fallback><Loader /></template>
       </Suspense>
     </template>
   </RouterView>
