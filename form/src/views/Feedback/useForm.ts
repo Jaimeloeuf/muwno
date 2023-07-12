@@ -1,12 +1,20 @@
 import { ref } from "vue";
+import { sf } from "simpler-fetch";
 
 /**
  * Composable for handling the feedback form.
  */
 export async function useForm(formID: string) {
-  // @todo Load form asynchronously from API
+  // @todo Fix the generic types
+  const { res, err } = await sf
+    .useDefault()
+    .GET(`/feedback/form/${formID}`)
+    .runJSON<{ productName: string }>();
 
-  const productName = "Superhuman";
+  if (err) throw err;
+  if (!res.ok) throw new Error("Failed to load feedback form!");
+
+  const productName = res.data.productName;
 
   const radioOptions = ["Very", "Somewhat", "Not"];
 
@@ -17,17 +25,23 @@ export async function useForm(formID: string) {
   const a4 = ref<string>("");
 
   async function submitForm() {
-    // @todo Show loader
-
+    /* Input validation */
     if (a1.value === undefined) return false;
 
-    // @todo Call API
-    console.log({
-      a1: a1.value,
-      a2: a2.value,
-      a3: a3.value,
-      a4: a4.value,
-    });
+    // @todo Fix the generic types
+    const { res, err } = await sf
+      .useDefault()
+      .POST(`/feedback/submit/${formID}`)
+      .bodyJSON<unknown>({
+        a1: a1.value,
+        a2: a2.value,
+        a3: a3.value,
+        a4: a4.value,
+      })
+      .run();
+
+    if (err) throw err;
+    if (!res.ok) throw new Error("Failed to submit response!");
 
     return true;
   }
