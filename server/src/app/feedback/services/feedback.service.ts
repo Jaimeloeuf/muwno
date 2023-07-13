@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
+// Entity Types
+import type { FeedbackResponse } from 'domain-model';
+
 @Injectable()
 export class FeedbackService {
   /**
@@ -14,7 +17,7 @@ export class FeedbackService {
   /**
    * Save response of a feedback form.
    */
-  async saveResponse(formID: string, response: any) {
+  async saveResponse(formID: string, response: FeedbackResponse) {
     console.log('received', formID, response);
   }
 }

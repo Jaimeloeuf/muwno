@@ -2,6 +2,12 @@ import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 
 import { FeedbackService } from '../services/feedback.service.js';
 
+// DTO Types
+import type {
+  ReadOneFeedbackFormDTO,
+  CreateOneFeedbackResponseDTO,
+} from 'domain-model';
+
 @Controller('feedback')
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
@@ -10,8 +16,12 @@ export class FeedbackController {
    * Get a Feedback Form's data.
    */
   @Get('form/:formID')
-  async getForm(@Param('formID') formID: string) {
-    return this.feedbackService.getForm(formID);
+  async getForm(
+    @Param('formID') formID: string,
+  ): Promise<ReadOneFeedbackFormDTO> {
+    return this.feedbackService
+      .getForm(formID)
+      .then(mapFeedbackFormEntityToDTO);
   }
 
   /**
@@ -22,9 +32,9 @@ export class FeedbackController {
     @Param('formID') formID: string,
 
     // @todo Add DTO Validation
-    @Body() response: any,
+    @Body() response: CreateOneFeedbackResponseDTO,
   ) {
-    this.feedbackService.saveResponse(formID, response);
+    this.feedbackService.saveResponse(formID, response.response);
 
     return {};
   }
