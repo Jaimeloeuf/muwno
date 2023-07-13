@@ -1,4 +1,4 @@
-import type { ISODateTimeString } from "../utils/Timestamp";
+import type { ISODateTimeString } from "../utils/Timestamp.js";
 
 /**
  * Type to represent a single Org.

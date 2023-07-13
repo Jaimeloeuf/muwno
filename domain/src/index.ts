@@ -3,12 +3,12 @@
  */
 
 /* Entity Types */
-export * from "./Feedback";
-export * from "./Product";
-export * from "./Org";
+export * from "./Feedback/index.js";
+export * from "./Product/index.js";
+export * from "./Org/index.js";
 
 /* HTTP DTOs */
-export * from "./HttpDTOs";
+export * from "./HttpDTOs/index.js";
 
 /* Utilities */
 export * from "./utils/Timestamp.js";

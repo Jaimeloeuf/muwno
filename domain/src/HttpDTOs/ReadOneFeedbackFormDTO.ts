@@ -1,4 +1,4 @@
-import type { FeedbackForm } from "../Feedback";
+import type { FeedbackForm } from "../Feedback/index.js";
 
 /**
  * Read a single FeedbackForm from API service.
