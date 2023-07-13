@@ -1,23 +1,26 @@
 <script setup lang="ts">
 import type { Product } from "domain-model";
 
-defineProps<{ samplingDetails: Product["samplingDetails"] }>();
+defineProps<{ product: Product }>();
 </script>
 
 <template>
-  <div class="inline-block w-full rounded-lg bg-slate-50 p-4 shadow">
-    <p class="text-sm font-medium">Sampling Details</p>
+  <router-link
+    :to="{}"
+    class="inline-block w-full rounded-lg bg-slate-50 p-4 shadow hover:border hover:border-slate-400 hover:bg-white hover:shadow-xl"
+  >
+    <p class="text-sm font-medium">Sampling Details (click to edit)</p>
 
     <div class="text-2xl font-extralight">
       <p>
-        Rate: Once every <b>{{ samplingDetails.rate }}</b> sprints
+        Rate: Once every <b>{{ product.samplingDetails.rate }}</b> sprints
       </p>
       <p>
-        Period: <b>{{ samplingDetails.rate }}</b> sprints
+        Period: <b>{{ product.samplingDetails.rate }}</b> sprints
       </p>
       <p>
-        Size: <b>{{ samplingDetails.size }}</b> customers
+        Size: <b>{{ product.samplingDetails.size }}</b> customers
       </p>
     </div>
-  </div>
+  </router-link>
 </template>

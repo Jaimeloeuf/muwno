@@ -44,7 +44,7 @@ watch(autoRefresh, () => {
         <div
           class="w-full rounded-lg bg-slate-50 p-3 text-sm font-medium text-gray-700 shadow"
         >
-          <label class="cursor-pointer">
+          <label class="cursor-pointer select-none">
             <input
               v-model="autoRefresh"
               type="checkbox"
@@ -55,10 +55,10 @@ watch(autoRefresh, () => {
         </div>
 
         <ProductCard :product="product" />
-        <SprintNumberCard :currentSprint="product.currentSprint" />
         <PMFScoreCard :score="product.score" />
-        <SamplingDetailsCard :samplingDetails="product.samplingDetails" />
         <MIT />
+        <SprintNumberCard :currentSprint="product.currentSprint" />
+        <SamplingDetailsCard :product="product" />
       </div>
     </div>
   </div>
