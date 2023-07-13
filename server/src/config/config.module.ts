@@ -34,12 +34,12 @@ export const ConfigModule = _ConfigModule.forRoot({
     version: Joi.string().required(),
 
     /**
-     * Arbitrary default TTL of 60 seconds
+     * Arbitrary default TTL
      */
-    THROTTLE_TTL: Joi.number().default(60),
+    THROTTLE_TTL: Joi.number().default(10),
 
     /**
-     * Arbitrary default limit of 10 requests within each TTL period
+     * Arbitrary default limit within each TTL period
      */
     THROTTLE_LIMIT: Joi.number().default(10),
 
