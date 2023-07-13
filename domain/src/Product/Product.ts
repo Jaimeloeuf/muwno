@@ -1,7 +1,7 @@
-import type { ISODateTimeString } from "./ISODateTimeString";
+import type { ISODateTimeString } from "../utils/Timestamp";
 
 /**
- * Type to represent a single Product
+ * Type to represent a single Product.
  */
 export type Product = {
   /**
@@ -20,4 +20,7 @@ export type Product = {
   };
 };
 
+/**
+ * Type to represent a Mapping of Products of a single organisation.
+ */
 export type Products = Record<Product["id"], Product>;

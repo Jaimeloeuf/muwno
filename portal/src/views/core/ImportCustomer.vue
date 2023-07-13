@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { useOrg } from "../../store";
 import { ProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
-import type { Product } from "../../types";
+import type { Product } from "domain-model";
 
 const props = defineProps<{ productID: Product["id"] }>();
 

@@ -7,7 +7,7 @@ import SprintNumberCard from "./KeyInfoCard/SprintNumberCard.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 import SamplingDetailsCard from "./KeyInfoCard/SamplingDetailsCard.vue";
 import MIT from "./MIT.vue";
-import type { Product } from "../../types";
+import type { Product } from "domain-model";
 
 const props = defineProps<{ productID: Product["id"] }>();
 

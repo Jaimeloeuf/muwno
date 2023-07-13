@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { useOrg } from "../../store";
 import { ImportCustomerRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
-import type { Product } from "../../types";
+import type { Product } from "domain-model";
 
 const router = useRouter();
 const orgStore = useOrg();
