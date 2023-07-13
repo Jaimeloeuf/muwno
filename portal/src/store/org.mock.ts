@@ -1,4 +1,4 @@
-import type { Products } from "../types";
+import type { Products } from "domain-model";
 import { generateIsoDateTimeString, generateRandomID } from "./mock.utils";
 
 export const mockOrg = {

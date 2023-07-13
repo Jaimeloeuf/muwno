@@ -84,6 +84,7 @@ const chartData = {
   ],
 };
 
+// For filling colours under the chart https://www.youtube.com/watch?v=w44bkUcew8U
 const chartOptions = {
   responsive: true,
 

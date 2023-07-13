@@ -80,7 +80,12 @@ async function addProduct() {
         </label>
       </div>
 
-      <!-- @todo There should be a button for user to choose automatic or use deault -->
+      <!-- @todo
+          There should be a button for user to choose automatic or use deault
+
+          In fact by default the default values will be used, you should only
+          change them later in settings if you want to!
+        -->
       <!-- Sampling Details section header -->
       <div class="mb-6 border-t pt-4">
         <p class="text-3xl">Sampling Details</p>

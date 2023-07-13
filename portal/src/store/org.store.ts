@@ -24,7 +24,7 @@ interface State {
 }
 
 /**
- * Use this 'store' org data.
+ * Use this 'store' for org data.
  */
 export const useOrg = defineStore("org", {
   state: (): State => ({

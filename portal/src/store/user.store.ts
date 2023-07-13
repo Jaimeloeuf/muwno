@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { oof } from "simpler-fetch";
+import { sf } from "simpler-fetch";
 import type { User as FirebaseAuthUser } from "firebase/auth";
 import type {} from "domain-model";
 
