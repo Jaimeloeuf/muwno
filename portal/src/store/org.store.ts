@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import type { Product, Products } from "domain-model";
-import type { Org } from "../types";
+import type { Org, Product, Products } from "domain-model";
 import { mockOrg, mockProducts } from "./org.mock";
 
 /**

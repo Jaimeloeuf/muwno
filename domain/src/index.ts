@@ -5,6 +5,7 @@
 /* Entity Types */
 export * from "./Feedback";
 export * from "./Product";
+export * from "./Org";
 
 /* HTTP DTOs */
 export * from "./HttpDTOs";

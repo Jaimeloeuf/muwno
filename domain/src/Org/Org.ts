@@ -1,7 +1,7 @@
-import type { ISODateTimeString } from "./ISODateTimeString";
+import type { ISODateTimeString } from "../utils/Timestamp";
 
 /**
- * Type to represent a single Org
+ * Type to represent a single Org.
  */
 export type Org = {
   /**
