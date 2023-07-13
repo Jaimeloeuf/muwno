@@ -99,12 +99,6 @@ const chartOptions = {
   <div>
     <div class="flex flex-row items-center justify-between">
       <p class="text-3xl font-extralight">PMF Performance</p>
-
-      <button
-        class="mr-10 rounded-lg bg-slate-200 p-1 px-3 text-sm font-semibold text-gray-700"
-      >
-        auto refresh (daily)
-      </button>
     </div>
 
     <!-- @todo Tmp any cast used to surpress the type error caused by the plugin options -->
