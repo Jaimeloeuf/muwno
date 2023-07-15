@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import type { Org, Product, Products } from "domain-model";
-import { mockOrg, mockProducts } from "./org.mock";
+import { sf } from "simpler-fetch";
+import type { Org, ReadOneOrgDTO, Product, Products } from "domain-model";
+import { mockProducts } from "./org.mock";
 
 /**
  * Type of this pinia store's state.
@@ -52,8 +53,15 @@ export const useOrg = defineStore("org", {
      * Load Org Details of the org the currently logged in user belongs to.
      */
     async loadOrg() {
-      // @todo Call API
-      this.orgDetails = mockOrg;
+      const { res, err } = await sf
+        .useDefault()
+        .GET("/org/self")
+        .runJSON<ReadOneOrgDTO>();
+
+      if (err) throw err;
+      if (!res.ok) throw new Error("Failed to load Org data");
+
+      this.orgDetails = res.data.org;
     },
 
     /**

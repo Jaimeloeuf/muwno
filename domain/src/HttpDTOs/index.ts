@@ -4,3 +4,5 @@
 
 export * from "./ReadOneFeedbackFormDTO.js";
 export * from "./CreateOneFeedbackResponseDTO.js";
+
+export * from "./ReadOneOrgDTO.js";

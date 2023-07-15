@@ -1,13 +1,6 @@
 import type { Products } from "domain-model";
 import { generateIsoDateTimeString, generateRandomID } from "./mock.utils";
 
-export const mockOrg = {
-  id: generateRandomID(),
-  createdAt: generateIsoDateTimeString(-246400000),
-  name: "HB30",
-  plan: "Pro",
-};
-
 const grp1ID = generateRandomID();
 const grp2ID = generateRandomID();
 const grp3ID = generateRandomID();
