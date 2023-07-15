@@ -5,13 +5,15 @@
 import { PrismaClient } from '@prisma/client';
 
 // Individual seed files
-// import { seedItem } from './item';
+import { seedPlan } from './plan';
+import { seedOrg } from './org';
 
 async function main() {
   const prisma = new PrismaClient();
 
   try {
-    // await seedItem(prisma);
+    await seedPlan(prisma);
+    await seedOrg(prisma);
 
     await prisma.$disconnect();
   } catch (error) {
