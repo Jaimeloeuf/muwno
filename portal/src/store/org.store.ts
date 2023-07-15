@@ -1,7 +1,12 @@
 import { defineStore } from "pinia";
 import { sf } from "simpler-fetch";
-import type { Org, ReadOneOrgDTO, Product, Products } from "domain-model";
-import { mockProducts } from "./org.mock";
+import type {
+  Org,
+  ReadOneOrgDTO,
+  Product,
+  Products,
+  ReadManyProductDTO,
+} from "domain-model";
 
 /**
  * Type of this pinia store's state.
@@ -68,8 +73,15 @@ export const useOrg = defineStore("org", {
      * Load all the Products of the user's org
      */
     async loadProducts() {
-      // @todo Call API
-      this.products = mockProducts;
+      const { res, err } = await sf
+        .useDefault()
+        .GET(`/product/all`)
+        .runJSON<ReadManyProductDTO>();
+
+      if (err) throw err;
+      if (!res.ok) throw new Error("Failed to load Org data");
+
+      this.products = res.data.products;
 
       // Set first Product (if avail) as current Product if current Product is not set.
       // If somehow the currentProductID is invalid, choose a new current ProductID to set.
