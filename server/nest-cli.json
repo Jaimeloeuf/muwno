@@ -1,5 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "compilerOptions-comments": "Added since upgrading Nest to v10",
+  "compilerOptions": {
+    "builder": "swc",
+    "typeCheck": true
+  }
 }

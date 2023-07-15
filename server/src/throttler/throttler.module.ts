@@ -39,7 +39,8 @@ export const ThrottlerModule = _ThrottlerModule.forRootAsync({
   inject: [ConfigService],
 
   useFactory: (config: ConfigService<EnvironmentVariables, true>) => ({
-    ttl: config.get('THROTTLE_TTL', { infer: true }),
-    limit: config.get('THROTTLE_LIMIT', { infer: true }),
+    // @todo To fix: After upgrading to Nest v10, return type became optional...
+    ttl: config.get('THROTTLE_TTL', { infer: true }) as number,
+    limit: config.get('THROTTLE_LIMIT', { infer: true }) as number,
   }),
 });
