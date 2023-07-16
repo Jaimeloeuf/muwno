@@ -1,0 +1,2 @@
+# **/exception-filter
+Folder for Nest JS `exceptions filter` for controller classes and route methods to handle specific error types, so that a more specific error message can be returned to the client instead of the default generic `Internal server error` message.
