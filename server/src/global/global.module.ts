@@ -1,7 +1,7 @@
 import { Module, Global, Logger, type Provider } from '@nestjs/common';
 
 // Infra providers
-// import { RepoModule } from '../DAL/repo.module.js';
+import { RepoModule } from '../DAL/repo.module.js';
 // import { AuthServiceProvider } from '../infra/providers/index.js';
 
 /**
@@ -23,12 +23,12 @@ const GloballySharedProviders: Provider[] = [
  */
 @Global()
 @Module({
-  // imports: [RepoModule],
+  imports: [RepoModule],
 
   providers: GloballySharedProviders,
 
-  exports: GloballySharedProviders,
-  // RepoModule needs to be global so that the feature modules do not need to import it one by one
-  // .concat([RepoModule]),
+  exports: GloballySharedProviders
+    // RepoModule needs to be global so that the feature modules do not need to import it one by one
+    .concat([RepoModule]),
 })
 export class GlobalModule {}
