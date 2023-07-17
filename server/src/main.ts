@@ -26,16 +26,16 @@ async function bootstrap() {
   // https://expressjs.com/en/api.html#req.ip
   app.set('trust proxy', true);
 
-  // Enable global URI versioning, which uses the version passed within the URI
-  // of the request, e.g. version 1 will be `https://example.com/v1/route`
-  app.enableVersioning({
-    type: VersioningType.URI,
-
-    // Set default for every controller/route that does not have a version specified
-    defaultVersion: '1',
-  });
-
   await app
+
+    // Enable global URI versioning, which uses the version passed within the URI
+    // of the request, e.g. version 1 will be `https://example.com/v1/route`
+    .enableVersioning({
+      type: VersioningType.URI,
+
+      // Set default for every controller/route that does not have a version specified
+      defaultVersion: '1',
+    })
 
     // Bind required pipes globally
     .useGlobalPipes(
@@ -47,4 +47,5 @@ async function bootstrap() {
     // Use the provided PORT if given via a env variable, else defaults to PORT 3000
     .listen(process.env['PORT'] ?? 3000);
 }
+
 bootstrap();
