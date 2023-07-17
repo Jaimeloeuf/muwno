@@ -3,3 +3,4 @@
  */
 
 export * from './Org/OrgRepo.js';
+export * from './Product/ProductRepo.js';
