@@ -7,6 +7,7 @@ import { PrismaClient } from '@prisma/client';
 // Individual seed files
 import { seedPlan } from './plan';
 import { seedOrg } from './org';
+import { seedProduct } from './product';
 
 async function main() {
   const prisma = new PrismaClient();
@@ -14,6 +15,7 @@ async function main() {
   try {
     await seedPlan(prisma);
     await seedOrg(prisma);
+    await seedProduct(prisma);
 
     await prisma.$disconnect();
   } catch (error) {
