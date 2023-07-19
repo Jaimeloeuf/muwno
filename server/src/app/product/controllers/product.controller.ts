@@ -1,12 +1,16 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
+// Entity Types
+import type { Product } from 'domain-model';
+
 // DTO Types
-import type { ReadManyProductDTO } from 'domain-model';
+import type { ReadManyProductDTO, ReadManyMITDTO } from 'domain-model';
 
 // Mappers
 import { mapManyProductEntityToDTO } from '../mapper/toDTOs/products.js';
+import { mapManyMitEntityToDTO } from '../mapper/toDTOs/mit.js';
 
 @Controller('product')
 export class ProductController {
@@ -23,5 +27,17 @@ export class ProductController {
     return this.productService
       .getOrgProducts(orgID)
       .then(mapManyProductEntityToDTO);
+  }
+
+  /**
+   * Get a list of MITs that the team should work on
+   */
+  @Get('MIT/current/:productID')
+  async getCurrentMIT(
+    @Param('productID') productID: Product['id'],
+  ): Promise<ReadManyMITDTO> {
+    return this.productService
+      .getCurrentMIT(productID)
+      .then(mapManyMitEntityToDTO);
   }
 }

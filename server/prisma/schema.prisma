@@ -44,7 +44,7 @@ model org {
   // Autoincrementing Int ID needed for queries that require ordering
   iid Int @id @default(autoincrement())
 
-  // Unique random string ID as their orgID
+  // Unique random string ID as the orgID
   id        String   @unique @default(cuid()) @map("orgID")
   createdAt DateTime @default(now())
   name      String
@@ -81,7 +81,7 @@ model product {
   // Autoincrementing Int ID needed for queries that require ordering
   iid Int @id @default(autoincrement())
 
-  // Unique random string ID as their productID
+  // Unique random string ID as the productID
   id            String   @unique @default(cuid())
   createdAt     DateTime @default(now())
   name          String
@@ -94,6 +94,9 @@ model product {
 
   // Relationship: ONE product, can have MANY survey responses
   pmf_survey_responses pmf_survey_responses[]
+
+  // Relationship: ONE product, can have MANY MITs
+  mit mit[]
 }
 
 model pmf_survey_responses {
@@ -108,6 +111,22 @@ model pmf_survey_responses {
   a4 String
 
   // Relationship: MANY survey responses, belong to ONE (the same) product's survey
+  product   product @relation(fields: [productID], references: [id])
+  productID String
+}
+
+model mit {
+  // Autoincrementing Int ID needed for queries that require ordering
+  iid Int @id @default(autoincrement())
+
+  // Unique random string ID as the mitID
+  id        String   @unique @default(cuid())
+  // Using createdAt time to determine what sprint is this MIT from
+  createdAt DateTime @default(now())
+  task      String
+  done      Boolean  @default(false)
+
+  // Relationship: MANY MITs, belong to ONE (the same) product
   product   product @relation(fields: [productID], references: [id])
   productID String
 }
