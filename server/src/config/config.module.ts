@@ -36,12 +36,12 @@ export const ConfigModule = _ConfigModule.forRoot({
     /**
      * Arbitrary default TTL
      */
-    THROTTLE_TTL: Joi.number().default(10),
+    THROTTLE_TTL: Joi.number().default(5),
 
     /**
      * Arbitrary default limit within each TTL period
      */
-    THROTTLE_LIMIT: Joi.number().default(10),
+    THROTTLE_LIMIT: Joi.number().default(50),
 
     /**
      * Use this to run Prisma with verbose mode, defaults to false.

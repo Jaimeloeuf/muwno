@@ -14,7 +14,6 @@ import type {
 
 // Mappers
 import { mapManyProductEntityToDTO } from '../mapper/toDTOs/products.js';
-import { mapManyMitEntityToDTO } from '../mapper/toDTOs/mit.js';
 
 @Controller('product')
 export class ProductController {
@@ -54,6 +53,6 @@ export class ProductController {
   ): Promise<ReadManyMITDTO> {
     return this.productService
       .getCurrentMIT(productID)
-      .then(mapManyMitEntityToDTO);
+      .then((mits) => ({ mits }));
   }
 }

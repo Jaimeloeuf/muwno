@@ -84,6 +84,7 @@ export class ProductRepo implements IProductRepo {
         where: {
           productID,
           createdAt: { gte: startOfSprintWindow },
+          done: false,
         },
         orderBy: { createdAt: 'desc' },
       })
