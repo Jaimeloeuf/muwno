@@ -4,3 +4,4 @@
 
 export * from './Org/OrgRepo.js';
 export * from './Product/ProductRepo.js';
+export * from './Feedback/FeedbackRepo.js';
