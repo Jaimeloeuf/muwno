@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { IProductRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
-import type { Org, Product, Products, MIT } from 'domain-model';
+import type { Org, Product, Products, MIT, PMFLiveScore } from 'domain-model';
 
 @Injectable()
 export class ProductService {
@@ -16,6 +16,17 @@ export class ProductService {
     // @todo Validate orgID
 
     return this.productRepo.getOrgProducts(orgID);
+  }
+
+  /**
+   * Get the PMF live score.
+   */
+  async getPMFLiveScore(
+    productID: Product['id'],
+  ): Promise<PMFLiveScore | null> {
+    // @todo Validate productID
+
+    return this.productRepo.PMFLiveScore(productID);
   }
 
   /**

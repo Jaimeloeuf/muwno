@@ -6,7 +6,11 @@ import { ProductService } from '../services/product.service.js';
 import type { Product } from 'domain-model';
 
 // DTO Types
-import type { ReadManyProductDTO, ReadManyMITDTO } from 'domain-model';
+import type {
+  ReadManyProductDTO,
+  ReadOnePMFLiveScoreDTO,
+  ReadManyMITDTO,
+} from 'domain-model';
 
 // Mappers
 import { mapManyProductEntityToDTO } from '../mapper/toDTOs/products.js';
@@ -27,6 +31,18 @@ export class ProductController {
     return this.productService
       .getOrgProducts(orgID)
       .then(mapManyProductEntityToDTO);
+  }
+
+  /**
+   * Get the PMF live score.
+   */
+  @Get('PMF/live/:productID')
+  async getPMFLiveScore(
+    @Param('productID') productID: Product['id'],
+  ): Promise<ReadOnePMFLiveScoreDTO> {
+    return this.productService
+      .getPMFLiveScore(productID)
+      .then((score) => ({ score }));
   }
 
   /**

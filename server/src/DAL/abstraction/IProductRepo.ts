@@ -1,4 +1,4 @@
-import type { Org, Products, Product, MIT } from 'domain-model';
+import type { Org, Products, Product, MIT, PMFLiveScore } from 'domain-model';
 
 /**
  * Data Repository interface used as an abstraction over a collection of
@@ -9,6 +9,11 @@ export abstract class IProductRepo {
    * Get all products of an Org.
    */
   abstract getOrgProducts(orgID: Org['id']): Promise<Products>;
+
+  /**
+   * Get the PMF live score.
+   */
+  abstract PMFLiveScore(productID: Product['id']): Promise<PMFLiveScore | null>;
 
   /**
    * Get MITs of the given product's current sprint.

@@ -10,3 +10,5 @@ export * from "./ReadOneOrgDTO.js";
 export * from "./ReadManyProductDTO.js";
 
 export * from "./ReadManyMITDTO.js";
+
+export * from "./ReadOnePMFLiveScoreDTO.js";

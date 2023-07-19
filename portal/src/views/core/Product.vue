@@ -55,9 +55,11 @@ watch(autoRefresh, () => {
         </div>
 
         <ProductCard :product="product" />
-        <PMFScoreCard :score="product.score" />
+        <div class="flex flex-row space-x-8">
+          <PMFScoreCard :productID="product.id" />
+          <SprintNumberCard :currentSprint="product.currentSprint" />
+        </div>
         <MIT :productID="product.id" />
-        <SprintNumberCard :currentSprint="product.currentSprint" />
         <SamplingDetailsCard :product="product" />
       </div>
     </div>

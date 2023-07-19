@@ -61,7 +61,7 @@ if (orgDetails === undefined)
           <p class="text-4xl">{{ product.name }}</p>
 
           <div class="text-right">
-            <PMFScoreCard class="max-w-min bg-white" :score="product.score" />
+            <PMFScoreCard class="max-w-min bg-white" :productID="product.id" />
           </div>
         </router-link>
 
