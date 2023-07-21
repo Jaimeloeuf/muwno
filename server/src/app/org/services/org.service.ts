@@ -9,7 +9,7 @@ import type { Org } from 'domain-model';
 import type { CreateOneOrgDTO } from 'domain-model';
 
 // Service layer Exceptions
-import { OrgNotFoundException } from '../exceptions/index.js';
+import { NotFoundException } from '../../../exceptions/index.js';
 
 @Injectable()
 export class OrgService {
@@ -17,13 +17,12 @@ export class OrgService {
 
   /**
    * Get Org data of given orgID from data source.
-   *
-   * This will throw
-   * - `OrgNotFoundException` if Org is not found
    */
   async getOrg(orgID: Org['id']): Promise<Org> {
     const org = await this.orgRepo.getOne(orgID);
-    if (org === null) throw new OrgNotFoundException(orgID);
+    if (org === null)
+      throw new NotFoundException(`Org with orgID '${orgID}' is not found!`);
+
     return org;
   }
 

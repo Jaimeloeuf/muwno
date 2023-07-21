@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 
 import { OrgService } from '../services/org.service.js';
 
@@ -10,7 +10,6 @@ import { mapOrgEntityToDTO } from '../mapper/toDTOs/org.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
-import { OrgNotFoundExceptionFilter } from '../exception-filter/index.js';
 
 @Controller('org')
 @UseHttpControllerFilters
@@ -21,7 +20,6 @@ export class OrgController {
    * Get the given user's org, by getting their orgID from their JWT.
    */
   @Get('self')
-  @UseFilters(OrgNotFoundExceptionFilter)
   async getSelfOrg(): Promise<ReadOneOrgDTO> {
     // @todo Hardcoded orgID that should be read from user's JWT
     const orgID = '__TEST_ORG_ID__';
@@ -33,7 +31,6 @@ export class OrgController {
    * Create a new Organisation
    */
   @Post('create')
-  @UseFilters(OrgNotFoundExceptionFilter)
   async createOrg(
     // @todo Add DTO Validation
     @Body() createOneOrgDTO: CreateOneOrgDTO,
