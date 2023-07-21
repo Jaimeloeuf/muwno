@@ -9,9 +9,11 @@ import type { ReadOneOrgDTO, CreateOneOrgDTO } from 'domain-model';
 import { mapOrgEntityToDTO } from '../mapper/toDTOs/org.js';
 
 // Exception Filters
+import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 import { OrgNotFoundExceptionFilter } from '../exception-filter/index.js';
 
 @Controller('org')
+@UseHttpControllerFilters
 export class OrgController {
   constructor(private readonly orgService: OrgService) {}
 

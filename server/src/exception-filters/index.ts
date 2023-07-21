@@ -2,6 +2,8 @@
  * Barrel file used to export all values.
  */
 
+export * from './HTTPControllerFilters';
+
 export * from './NotFoundExceptionFilter.js';
 export * from './ForbiddenExceptionFilter.js';
 export * from './InvalidInputExceptionFilter.js';

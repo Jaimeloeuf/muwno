@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, UseFilters } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 
 import { FeedbackService } from '../services/feedback.service.js';
 
@@ -15,9 +15,10 @@ import type {
 import { mapFeedbackFormEntityToDTO } from '../mapper/toDTOs/feedbackform.js';
 
 // Exception Filters
-import { NotFoundExceptionFilter } from '../../../exception-filters/index.js';
+import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 @Controller('feedback')
+@UseHttpControllerFilters
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
@@ -25,7 +26,6 @@ export class FeedbackController {
    * Get a Feedback Form's data.
    */
   @Get('form/:productID')
-  @UseFilters(NotFoundExceptionFilter)
   async getForm(
     @Param('productID') productID: Product['id'],
   ): Promise<ReadOneFeedbackFormDTO> {

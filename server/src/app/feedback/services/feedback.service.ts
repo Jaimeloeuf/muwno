@@ -14,9 +14,6 @@ export class FeedbackService {
 
   /**
    * Get a Feedback Form's data from data source.
-   *
-   * This will throw
-   * - `NotFoundException` if Org is not found
    */
   async getForm(productID: Product['id']) {
     const form = await this.feedbackRepo.getOne(productID);
