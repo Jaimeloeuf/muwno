@@ -3,3 +3,4 @@
  */
 
 export * from "./PMFLiveScore.js";
+export * from "./PMFScore.js";
