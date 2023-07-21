@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
  */
 function getCurrentSprintNumber(productModel: ProductModel) {
   const today = dayjs();
-  const productFirstSprintStartDate = dayjs(productModel.createdAt);
+  const productFirstSprintStartDate = dayjs(productModel.firstSprint);
   const daysSinceFirstSprint = today.diff(
     productFirstSprintStartDate,
     'day',

@@ -87,6 +87,8 @@ model product {
   name          String
   // Using days for granular control
   daysPerSprint Int
+  // Start of First Sprint, all sprint dates are calculated relative to this.
+  firstSprint   DateTime
 
   // Relationship: MANY products, belong to ONE (the same) org
   org   org    @relation(fields: [orgID], references: [id])

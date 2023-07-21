@@ -99,13 +99,13 @@ export class ProductRepo implements IProductRepo {
    * Get the start and end dates of a selected sprint number.
    */
   private async sprintDates(productID: Product['id'], sprintNumber: number) {
-    const { daysPerSprint, createdAt: sprintDayOne } =
+    const { daysPerSprint, firstSprint } =
       await this.db.product.findUniqueOrThrow({
         where: { id: productID },
-        select: { daysPerSprint: true, createdAt: true },
+        select: { daysPerSprint: true, firstSprint: true },
       });
 
-    const start = dayjs(sprintDayOne).add(sprintNumber * daysPerSprint, 'day');
+    const start = dayjs(firstSprint).add(sprintNumber * daysPerSprint, 'day');
     const end = start.add(daysPerSprint, 'day'); // End is `start` plus 1 sprint
 
     return { start: start.toDate(), end: end.toDate() };
