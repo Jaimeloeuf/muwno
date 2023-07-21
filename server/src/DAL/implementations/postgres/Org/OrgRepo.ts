@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import type { IOrgRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
-import type { Org } from 'domain-model';
+import type { Org, CreateOneOrgDTO } from 'domain-model';
 
 // Mappers
 import { mapOrgModelToEntity } from './mapper.js';
@@ -26,5 +26,25 @@ export class OrgRepo implements IOrgRepo {
         },
       })
       .then(runMapperIfNotNull(mapOrgModelToEntity));
+  }
+
+  async createOne(createOneOrgDTO: CreateOneOrgDTO) {
+    return this.db.org
+      .create({
+        data: {
+          ...createOneOrgDTO,
+
+          // @todo Fix the hardcoded plan on Org creation
+          planID: 1,
+        },
+
+        // Create and read data back immediately to return user
+        include: {
+          plan: {
+            select: { name: true },
+          },
+        },
+      })
+      .then(mapOrgModelToEntity);
   }
 }

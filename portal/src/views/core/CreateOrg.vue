@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useLoader } from "../../store";
+import { useOrg, useLoader } from "../../store";
 import { OrgRoute } from "../../router";
 
 const router = useRouter();
+const orgStore = useOrg();
 const loaderStore = useLoader();
 
 const name = ref("");
@@ -16,7 +17,7 @@ async function createOrg() {
 
   loaderStore.show();
 
-  // @todo Call store method
+  await orgStore.createOrg({ name: name.value });
 
   loaderStore.hide();
 

@@ -1,9 +1,9 @@
-import { Controller, Get, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseFilters } from '@nestjs/common';
 
 import { OrgService } from '../services/org.service.js';
 
 // DTO Types
-import type { ReadOneOrgDTO } from 'domain-model';
+import type { ReadOneOrgDTO, CreateOneOrgDTO } from 'domain-model';
 
 // Mappers
 import { mapOrgEntityToDTO } from '../mapper/toDTOs/org.js';
@@ -25,5 +25,17 @@ export class OrgController {
     const orgID = '__TEST_ORG_ID__';
 
     return this.orgService.getOrg(orgID).then(mapOrgEntityToDTO);
+  }
+
+  /**
+   * Create a new Organisation
+   */
+  @Post('create')
+  @UseFilters(OrgNotFoundExceptionFilter)
+  async createOrg(
+    // @todo Add DTO Validation
+    @Body() createOneOrgDTO: CreateOneOrgDTO,
+  ): Promise<ReadOneOrgDTO> {
+    return this.orgService.createOrg(createOneOrgDTO).then(mapOrgEntityToDTO);
   }
 }

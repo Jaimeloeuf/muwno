@@ -5,6 +5,9 @@ import { IOrgRepo } from '../../../DAL/abstraction/index.js';
 // Entity Types
 import type { Org } from 'domain-model';
 
+// DTO Types
+import type { CreateOneOrgDTO } from 'domain-model';
+
 // Service layer Exceptions
 import { OrgNotFoundException } from '../exceptions/index.js';
 
@@ -22,5 +25,12 @@ export class OrgService {
     const org = await this.orgRepo.getOne(orgID);
     if (org === null) throw new OrgNotFoundException(orgID);
     return org;
+  }
+
+  /**
+   * Create a new Organisation
+   */
+  async createOrg(createOneOrgDTO: CreateOneOrgDTO): Promise<Org> {
+    return this.orgRepo.createOne(createOneOrgDTO);
   }
 }

@@ -6,6 +6,7 @@ import type {
   Product,
   Products,
   ReadManyProductDTO,
+  CreateOneOrgDTO,
 } from "domain-model";
 
 /**
@@ -65,6 +66,22 @@ export const useOrg = defineStore("org", {
 
       if (err) throw err;
       if (!res.ok) throw new Error("Failed to load Org data");
+
+      this.orgDetails = res.data.org;
+    },
+
+    /**
+     * Create a new Org.
+     */
+    async createOrg(createOneOrgDTO: CreateOneOrgDTO) {
+      const { res, err } = await sf
+        .useDefault()
+        .POST("/org/create")
+        .bodyJSON<CreateOneOrgDTO>(createOneOrgDTO)
+        .runJSON<ReadOneOrgDTO>();
+
+      if (err) throw err;
+      if (!res.ok) throw new Error("Failed to create new Organisation");
 
       this.orgDetails = res.data.org;
     },
