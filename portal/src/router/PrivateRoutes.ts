@@ -23,6 +23,13 @@ export const OrgRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const CreateOrgRoute = <const>{
+  name: "org-create",
+  path: "/org/create",
+  component: () => import("../views/core/CreateOrg.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /* ================================== Product Module Routes =============================== */
 
 export const ProductRoute = <const>{
@@ -65,6 +72,7 @@ export const ImportCustomerRoute = <const>{
  */
 const PrivateRoutes = [
   OrgRoute,
+  CreateOrgRoute,
   ProductRoute,
   AddProductRoute,
   ImportCustomerRoute,

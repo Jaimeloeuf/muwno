@@ -3,6 +3,7 @@ import type { RouteObject } from "./RouteTypes";
 import { LoginRoute } from "./PublicRoutes";
 import {
   OrgRoute,
+  CreateOrgRoute,
   ProductRoute,
   AddProductRoute,
   ImportCustomerRoute,
@@ -19,6 +20,7 @@ import {
 export const Routes = (<const>[
   // Private Routes
   OrgRoute,
+  CreateOrgRoute,
   ProductRoute,
   AddProductRoute,
   ImportCustomerRoute,
