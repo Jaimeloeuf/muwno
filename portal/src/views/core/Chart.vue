@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { sf } from "simpler-fetch";
+import type { Product, ReadManyPMFScoreDTO } from "domain-model";
+
 import { Line } from "vue-chartjs";
 import {
   Chart,
@@ -13,6 +16,22 @@ import {
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
+const props = defineProps<{ product: Product }>();
+
+// Make sure no negative starting sprint numbers
+const startSprint =
+  props.product.currentSprint - 5 > 0 ? props.product.currentSprint - 5 : 0;
+
+const { res, err } = await sf
+  .useDefault()
+  .GET(
+    `/product/PMF/historical/${props.product.id}/?startSprint=${startSprint}&endSprint=${props.product.currentSprint}`
+  )
+  .runJSON<ReadManyPMFScoreDTO>();
+
+if (err) throw err;
+if (!res.ok) throw new Error("Failed to load PMF Score for the Chart!");
+
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -25,31 +44,19 @@ Chart.register(
   ChartDataLabels
 );
 
-/**
- * Utility for generating ISODateTime strings
- */
-const generateLocaleDateString = (differenceInMs = 0) =>
-  new Date(new Date().getTime() + differenceInMs).toLocaleDateString();
-
-const labels = [];
-for (let i = 12; i > 0; i--) {
-  labels.push([
-    `Sprint ${i}`,
-    `${generateLocaleDateString(-1.21e9 * (12 - (i - 1)))} to`,
-    `${generateLocaleDateString(-1.21e9 * (12 - i))}`,
-  ]);
-}
-labels.reverse();
-
 const chartData = {
-  // This will be the sprint number + starting or end date
-  labels,
+  // This will be the sprint number, start date of sprint and end date of sprint
+  labels: res.data.score.map((a) => [
+    `Sprint ${a.sprintNumber}`,
+    `${new Date(a.sprintWindow.start).toLocaleDateString()} to`,
+    `${new Date(a.sprintWindow.end).toLocaleDateString()}`,
+  ]),
 
   datasets: [
     {
       label: "PMF Percentage",
 
-      data: [20, 23, 20, 30, 31, 32, 38, 41, 47, 35, 42],
+      data: res.data.score.map((a) => a.score),
 
       pointRadius: 4,
       pointBackgroundColor: "#737373",

@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
@@ -9,6 +9,7 @@ import type { Product } from 'domain-model';
 import type {
   ReadManyProductDTO,
   ReadOnePMFLiveScoreDTO,
+  ReadManyPMFScoreDTO,
   ReadManyMITDTO,
 } from 'domain-model';
 
@@ -41,6 +42,21 @@ export class ProductController {
   ): Promise<ReadOnePMFLiveScoreDTO> {
     return this.productService
       .getPMFLiveScore(productID)
+      .then((score) => ({ score }));
+  }
+
+  /**
+   * Get PMF score of the selected range of sprints.
+   */
+  @Get('PMF/historical/:productID')
+  async getPMFScoreOfSelectedSprints(
+    @Param('productID') productID: Product['id'],
+
+    @Query('startSprint', ParseIntPipe) startSprint: number,
+    @Query('endSprint', ParseIntPipe) endSprint: number,
+  ): Promise<ReadManyPMFScoreDTO> {
+    return this.productService
+      .getPMFScoreOfSelectedSprints(productID, startSprint, endSprint)
       .then((score) => ({ score }));
   }
 

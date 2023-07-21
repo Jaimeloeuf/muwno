@@ -3,7 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { IProductRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
-import type { Org, Product, Products, MIT, PMFLiveScore } from 'domain-model';
+import type {
+  Org,
+  Product,
+  Products,
+  MIT,
+  PMFLiveScore,
+  PMFScore,
+} from 'domain-model';
 
 @Injectable()
 export class ProductService {
@@ -27,6 +34,25 @@ export class ProductService {
     // @todo Validate productID
 
     return this.productRepo.PMFLiveScore(productID);
+  }
+
+  /**
+   * Get PMF score of the selected range of sprints.
+   */
+  async getPMFScoreOfSelectedSprints(
+    productID: Product['id'],
+    startSprint: number,
+    endSprint: number,
+  ) {
+    // @todo Validate productID
+
+    const scores: Array<Promise<PMFScore>> = [];
+
+    // Loop to get all the historical PMF Scores, inclusive of the end sprint
+    for (let i = startSprint; i <= endSprint; i++)
+      scores.push(this.productRepo.PMFScore(productID, i));
+
+    return Promise.all(scores);
   }
 
   /**
