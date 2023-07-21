@@ -7,7 +7,7 @@ import Version from "./Version.vue";
 const orgStore = useOrg();
 
 const showDrawer = ref<boolean>(false);
-const showGroups = ref<boolean>(true);
+const showProducts = ref<boolean>(true);
 
 const showVersionCount = ref<number>(0);
 watch(showDrawer, (shown) => {
@@ -82,7 +82,7 @@ watch(showDrawer, (shown) => {
         <button
           type="button"
           class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
-          @click="showGroups = !showGroups"
+          @click="showProducts = !showProducts"
         >
           <svg
             class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
@@ -96,10 +96,10 @@ watch(showDrawer, (shown) => {
               clip-rule="evenodd"
             />
           </svg>
-          <span class="ml-3 flex-1 text-left">Groups</span>
+          <span class="ml-3 flex-1 text-left">Products</span>
           <svg
             class="h-6 w-6"
-            :class="{ '-rotate-90': !showGroups }"
+            :class="{ '-rotate-90': !showProducts }"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +112,7 @@ watch(showDrawer, (shown) => {
           </svg>
         </button>
 
-        <div class="mt-2 space-y-2" :class="{ hidden: !showGroups }">
+        <div class="mt-2 space-y-2" :class="{ hidden: !showProducts }">
           <div
             v-for="(product, i) in orgStore.productsArray"
             :key="i"
