@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  ParseIntPipe,
+  UseFilters,
+} from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
@@ -15,6 +22,9 @@ import type {
 
 // Mappers
 import { mapManyProductEntityToDTO } from '../mapper/toDTOs/products.js';
+
+// Exception Filters
+import { InvalidInputExceptionFilter } from '../../../exception-filters/index.js';
 
 @Controller('product')
 export class ProductController {
@@ -49,6 +59,7 @@ export class ProductController {
    * Get PMF score of the selected range of sprints.
    */
   @Get('PMF/historical/:productID')
+  @UseFilters(InvalidInputExceptionFilter)
   async getPMFScoreOfSelectedSprints(
     @Param('productID') productID: Product['id'],
 

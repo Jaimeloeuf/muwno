@@ -12,6 +12,9 @@ import type {
   PMFScore,
 } from 'domain-model';
 
+// Service layer Exceptions
+import { InvalidInputException } from '../../../exceptions/index.js';
+
 @Injectable()
 export class ProductService {
   constructor(private readonly productRepo: IProductRepo) {}
@@ -44,6 +47,19 @@ export class ProductService {
     startSprint: number,
     endSprint: number,
   ) {
+    if (startSprint < 0)
+      throw new InvalidInputException(
+        `Start Sprint cannot be less than 0, received ${startSprint}.`,
+      );
+    if (endSprint < 0)
+      throw new InvalidInputException(
+        `End Sprint cannot be less than 0, received ${endSprint}.`,
+      );
+    if (endSprint < startSprint)
+      throw new InvalidInputException(
+        `End Sprint cannot be before Start Sprint.`,
+      );
+
     // @todo Validate productID
 
     const scores: Array<Promise<PMFScore>> = [];
