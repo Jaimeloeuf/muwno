@@ -128,14 +128,7 @@ export class ProductRepo implements IProductRepo {
   }
 
   async currentMIT(productID: Product['id']) {
-    const { daysPerSprint } = await this.db.product.findUniqueOrThrow({
-      where: { id: productID },
-      select: { daysPerSprint: true },
-    });
-
-    const startOfSprintWindow = dayjs()
-      .subtract(daysPerSprint, 'day')
-      .toISOString();
+    const startOfSprintWindow = await this.startOfSprintWindow(productID);
 
     return this.db.mit
       .findMany({
