@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>theprodtool</title>
+
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Global top level styles -->
+  <style>
+    html {
+      /* @todo Test this out as this is not supported on all platforms */
+      scroll-behavior: smooth;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+      display: none;
+      /* remove scrollbar space */
+      width: 0px;
+      /* optional: just make scrollbar invisible */
+      background: transparent;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    body {
+      /* IE and Edge */
+      -ms-overflow-style: none;
+      /* Firefox */
+      scrollbar-width: none;
+    }
+  </style>
+
+  <!-- Link to main stylesheet to link tailwind in -->
+  <link rel="stylesheet" href="/src/css/index.css">
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but this app does not work without JavaScript enabled. Please enable it and retry.</strong>
+  </noscript>
+
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
