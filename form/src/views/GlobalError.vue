@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { HomeRoute } from "../router";
-
 defineProps<{ globalError: Error }>();
-
-defineEmits(["acknowledged"]);
 </script>
 
 <template>
@@ -42,19 +38,12 @@ defineEmits(["acknowledged"]);
         </div>
 
         <div class="my-6 flex flex-row justify-center space-x-6">
-          <button
-            class="rounded-lg bg-slate-200 px-6 py-2 text-xl text-gray-500"
-            @click="$emit('acknowledged')"
-          >
-            Back
-          </button>
-
-          <router-link
-            :to="{ name: HomeRoute.name }"
+          <a
+            href="https://theprodtool.com"
             class="rounded-lg bg-slate-200 px-6 py-2 text-xl text-gray-500"
           >
             Home
-          </router-link>
+          </a>
         </div>
 
         <div class="text-left">
