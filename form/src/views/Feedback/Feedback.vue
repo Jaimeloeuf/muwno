@@ -4,13 +4,20 @@ import { useForm } from "./useForm";
 import { FeedbackSubmittedRoute } from "../../router";
 import { useLoader } from "../../store";
 
-const props = defineProps<{ formID: string }>();
+const props = defineProps<{ formID: string; defaultA1?: string }>();
+
 const router = useRouter();
 const loader = useLoader();
 
 const { productName, radioOptions, a1, a2, a3, a4, submitForm } = await useForm(
   props.formID
 );
+
+// Use the default value for a1 after validating it
+if (props.defaultA1 !== undefined) {
+  const defaultA1 = parseInt(props.defaultA1);
+  if (defaultA1 in [0, 1, 2]) a1.value = defaultA1;
+}
 
 async function submit() {
   loader.show();
@@ -47,6 +54,7 @@ async function submit() {
             type="radio"
             name="bordered-radio"
             class="h-3 w-3 accent-lime-600"
+            :checked="a1 === i"
           />
 
           <span class="ml-2 font-medium">{{ option }}</span> disappointed

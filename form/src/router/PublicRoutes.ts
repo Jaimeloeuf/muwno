@@ -1,3 +1,5 @@
+import type { RouteLocationNormalized } from "vue-router";
+
 export const HomeRoute = <const>{
   name: "home",
   path: "/",
@@ -20,7 +22,10 @@ export const SubmittedRoute = <const>{
 export const FeedbackRoute = <const>{
   name: "feedback",
   path: "/feedback/:formID",
-  props: true,
+  props: (route: RouteLocationNormalized) => ({
+    ...route.params,
+    ...route.query,
+  }),
   component: () => import("../views/Feedback/Feedback.vue"),
 };
 
