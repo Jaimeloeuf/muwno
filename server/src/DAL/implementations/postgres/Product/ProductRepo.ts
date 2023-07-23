@@ -53,7 +53,7 @@ export class ProductRepo implements IProductRepo {
     };
   }
 
-  async PMFScore(productID: Product['id'], sprintNumber: number) {
+  async PMFScoreOfSprint(productID: Product['id'], sprintNumber: number) {
     const { start, end } = await this.sprintDates(productID, sprintNumber);
 
     // Select all the responses submitted during the rolling sprint window.
@@ -89,6 +89,43 @@ export class ProductRepo implements IProductRepo {
     return {
       sprintNumber,
       sprintWindow: { start: start.toISOString(), end: end.toISOString() },
+      votesByCategory,
+      totalResponses,
+      score: Math.trunc((votesByCategory[0] / totalResponses) * 100),
+    };
+  }
+
+  async PMFScoreOfPeriod(productID: Product['id'], start: string, end: string) {
+    // Select all responses submitted during the given time period.
+    // Group by a1 and count how many in each group.
+    const responses = await this.db.pmf_survey_responses.groupBy({
+      by: ['a1'],
+      _count: { a1: true },
+      where: {
+        AND: [
+          { productID },
+          { createdAt: { gte: start } }, // Start of period
+          { createdAt: { lt: end } }, // End of period
+        ],
+      },
+    });
+
+    // @todo This might be changed to return null to indicate no response.
+    // If there are no survey responses in the sprint, do nothing, and allow it
+    // to be treated as a time period of zero for the PMF score.
+    // if (responses.length === 0) return null;
+
+    // Use a tuple and prefill them with 0 to prevent type errors, while also
+    // ensuring that unselected options will not be left empty.
+    const votesByCategory: [number, number, number] = [0, 0, 0];
+    let totalResponses = 0;
+    for (const response of responses) {
+      votesByCategory[response.a1] = response._count.a1;
+      totalResponses += response._count.a1;
+    }
+
+    return {
+      timeWindow: { start, end },
       votesByCategory,
       totalResponses,
       score: Math.trunc((votesByCategory[0] / totalResponses) * 100),

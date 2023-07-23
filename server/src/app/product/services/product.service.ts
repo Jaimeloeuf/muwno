@@ -66,7 +66,7 @@ export class ProductService {
 
     // Loop to get all the historical PMF Scores, inclusive of the end sprint
     for (let i = startSprint; i <= endSprint; i++)
-      scores.push(this.productRepo.PMFScore(productID, i));
+      scores.push(this.productRepo.PMFScoreOfSprint(productID, i));
 
     return Promise.all(scores);
   }
