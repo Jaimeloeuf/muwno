@@ -18,14 +18,19 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 const props = defineProps<{ product: Product }>();
 
+const sprintsToShow = ref<number>(5);
+
 // Make sure no negative starting sprint numbers
-const startSprint =
-  props.product.currentSprint - 5 > 0 ? props.product.currentSprint - 5 : 0;
+const startSprint = computed<number>(() =>
+  props.product.currentSprint - sprintsToShow.value > 0
+    ? props.product.currentSprint - sprintsToShow.value
+    : 0
+);
 
 const { res, err } = await sf
   .useDefault()
   .GET(
-    `/product/PMF/historical/${props.product.id}/?startSprint=${startSprint}&endSprint=${props.product.currentSprint}`
+    `/product/PMF/historical/${props.product.id}/?startSprint=${startSprint.value}&endSprint=${props.product.currentSprint}`
   )
   .runJSON<ReadManyPMFScoreDTO>();
 
@@ -78,7 +83,7 @@ const chartData = {
       label: "PMF Goal!",
 
       // Dynamically generate this fixed line
-      data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
+      data: res.data.score.map(() => 40),
 
       pointRadius: 0,
       borderWidth: 2,
