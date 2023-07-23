@@ -4,7 +4,7 @@ import type {
   Product,
   MIT,
   PMFLiveScore,
-  PMFScore,
+  PMFScoreOfSprint,
 } from 'domain-model';
 
 /**
@@ -28,7 +28,7 @@ export abstract class IProductRepo {
   abstract PMFScore(
     productID: Product['id'],
     sprintNumber: number,
-  ): Promise<PMFScore>;
+  ): Promise<PMFScoreOfSprint>;
 
   /**
    * Get MITs of the given product's current sprint.

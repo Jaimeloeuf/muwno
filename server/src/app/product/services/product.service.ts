@@ -9,7 +9,7 @@ import type {
   Products,
   MIT,
   PMFLiveScore,
-  PMFScore,
+  PMFScoreOfSprint,
 } from 'domain-model';
 
 // Service layer Exceptions
@@ -62,7 +62,7 @@ export class ProductService {
 
     // @todo Validate productID
 
-    const scores: Array<Promise<PMFScore>> = [];
+    const scores: Array<Promise<PMFScoreOfSprint>> = [];
 
     // Loop to get all the historical PMF Scores, inclusive of the end sprint
     for (let i = startSprint; i <= endSprint; i++)
