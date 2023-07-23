@@ -41,7 +41,8 @@ async function submit() {
     <!-- Question 1 -->
     <div class="mb-6">
       <p class="mb-2 font-medium">
-        *How would you feel if you could no longer use the product?
+        <span class="mr-1">Q1.</span> How would you feel if you could no longer
+        use the product? <span class="text-red-500">*</span>
       </p>
 
       <div
@@ -65,8 +66,8 @@ async function submit() {
     <!-- Question 2 -->
     <div class="mb-6">
       <p class="mb-2 font-medium">
-        What type of people do you think would most benefit from
-        {{ productName }}?
+        <span class="mr-1">Q2.</span> What type of people do you think would
+        most benefit from {{ productName }}?
       </p>
 
       <textarea
@@ -80,7 +81,8 @@ async function submit() {
     <!-- Question 3 -->
     <div class="mb-6">
       <p class="mb-2 font-medium">
-        What is the main benefit you receive from {{ productName }}?
+        <span class="mr-1">Q3.</span> What is the main benefit you receive from
+        {{ productName }}?
       </p>
 
       <textarea
@@ -94,7 +96,8 @@ async function submit() {
     <!-- Question 4 -->
     <div class="mb-6">
       <p class="mb-2 font-medium">
-        How can we improve {{ productName }} for you?
+        <span class="mr-1">Q4.</span> How can we improve {{ productName }} for
+        you?
       </p>
 
       <textarea
