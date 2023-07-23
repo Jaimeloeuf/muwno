@@ -4,3 +4,4 @@
 
 export * from "./PMFLiveScore.js";
 export * from "./PMFScore.js";
+export * from "./IntervalType.js";

@@ -10,10 +10,15 @@ import type {
   MIT,
   PMFLiveScore,
   PMFScoreOfSprint,
+  PMFScore,
 } from 'domain-model';
 
 // Service layer Exceptions
 import { InvalidInputException } from '../../../exceptions/index.js';
+
+// Utils
+import { intervalDates } from './utils/intervalDates.js';
+import { isValidIntervalType } from 'domain-model';
 
 @Injectable()
 export class ProductService {
@@ -67,6 +72,36 @@ export class ProductService {
     // Loop to get all the historical PMF Scores, inclusive of the end sprint
     for (let i = startSprint; i <= endSprint; i++)
       scores.push(this.productRepo.PMFScoreOfSprint(productID, i));
+
+    return Promise.all(scores);
+  }
+
+  /**
+   * Get PMF score of all time periods within the selected time range.
+   */
+  async getPMFScoresOfSelectedRange(
+    productID: Product['id'],
+    intervals: number,
+    intervalType: string,
+  ) {
+    if (intervals < 1)
+      throw new InvalidInputException(
+        `intervals must be 1 or more '${intervals}'`,
+      );
+
+    if (!isValidIntervalType(intervalType))
+      throw new InvalidInputException(`Invalid intervalType '${intervalType}'`);
+
+    // @todo Validate productID
+
+    const scores: Array<Promise<PMFScore>> = [];
+
+    // Loop to get PMF Scores of all periods, inclusive of the current period.
+    // Using >= so that the current time period is also computed.
+    for (let i = intervals; i >= 0; i--) {
+      const { start, end } = intervalDates(i, intervalType);
+      scores.push(this.productRepo.PMFScoreOfPeriod(productID, start, end));
+    }
 
     return Promise.all(scores);
   }

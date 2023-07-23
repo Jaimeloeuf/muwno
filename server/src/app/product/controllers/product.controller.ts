@@ -58,9 +58,24 @@ export class ProductController {
 
     @Query('startSprint', ParseIntPipe) startSprint: number,
     @Query('endSprint', ParseIntPipe) endSprint: number,
-  ): Promise<ReadManyPMFScoreDTO> {
+  ) {
     return this.productService
       .getPMFScoreOfSelectedSprints(productID, startSprint, endSprint)
+      .then((score) => ({ score }));
+  }
+
+  /**
+   * Get PMF score of all time periods within the selected time range.
+   */
+  @Get('PMF/range/:productID')
+  async getPMFScoresOfSelectedRange(
+    @Param('productID') productID: Product['id'],
+
+    @Query('intervals', ParseIntPipe) intervals: number,
+    @Query('intervalType') intervalType: string,
+  ): Promise<ReadManyPMFScoreDTO> {
+    return this.productService
+      .getPMFScoresOfSelectedRange(productID, intervals, intervalType)
       .then((score) => ({ score }));
   }
 
