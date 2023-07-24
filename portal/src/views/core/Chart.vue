@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import type { Product, ReadManyPMFScoreDTO } from "domain-model";
 
@@ -18,19 +19,19 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 const props = defineProps<{ product: Product }>();
 
-const sprintsToShow = ref<number>(5);
-
-// Make sure no negative starting sprint numbers
-const startSprint = computed<number>(() =>
-  props.product.currentSprint - sprintsToShow.value > 0
-    ? props.product.currentSprint - sprintsToShow.value
-    : 0
-);
+/**
+ * Show this lastNIntervals
+ * Default to 5 for weeks
+ * Default to 3 for month and year
+ */
+const intervals = ref<number>(5);
 
 const { res, err } = await sf
   .useDefault()
   .GET(
-    `/product/PMF/historical/${props.product.id}/?startSprint=${startSprint.value}&endSprint=${props.product.currentSprint}`
+    `/product/PMF/range/${props.product.id}/?intervals=${
+      intervals.value
+    }&intervalType=${"week"}`
   )
   .runJSON<ReadManyPMFScoreDTO>();
 
@@ -50,12 +51,25 @@ Chart.register(
 );
 
 const chartData = {
-  // This will be the sprint number, start date of sprint and end date of sprint
-  labels: res.data.score.map((a) => [
-    `Sprint ${a.sprintNumber}`,
-    `${new Date(a.sprintWindow.start).toLocaleDateString()} to`,
-    `${new Date(a.sprintWindow.end).toLocaleDateString()}`,
-  ]),
+  // This will be the time period number, and the start/end date of each period.
+  labels: res.data.score
+    .slice(0, -1)
+    .map((a, index) => [
+      `Period ${index + 1}`,
+      `${new Date(a.timeWindow.start).toLocaleDateString()} to`,
+      `${new Date(a.timeWindow.end).toLocaleDateString()}`,
+    ])
+    .concat([
+      [
+        `Current Period`,
+        `${new Date(
+          res.data.score[res.data.score.length - 1]?.timeWindow.start as string
+        ).toLocaleDateString()} to`,
+        `${new Date(
+          res.data.score[res.data.score.length - 1]?.timeWindow.end as string
+        ).toLocaleDateString()}`,
+      ],
+    ]),
 
   datasets: [
     {
