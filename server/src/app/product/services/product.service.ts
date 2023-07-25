@@ -98,7 +98,8 @@ export class ProductService {
 
     // Loop to get PMF Scores of all periods, inclusive of the current period.
     // Using >= so that the current time period is also computed.
-    for (let i = intervals; i >= 0; i--) {
+    // -1 to prevent having 1 more interval since this counts down to 0
+    for (let i = intervals - 1; i >= 0; i--) {
       const { start, end } = intervalDates(i, intervalType);
       scores.push(this.productRepo.PMFScoreOfPeriod(productID, start, end));
     }
