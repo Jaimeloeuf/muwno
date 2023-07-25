@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import type { Product, ReadManyPMFScoreDTO } from "domain-model";
 
@@ -17,20 +16,13 @@ import {
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-const props = defineProps<{ product: Product }>();
-
-/**
- * Show this lastNIntervals
- * Default to 5 for weeks
- * Default to 3 for month and year
- */
-const intervals = ref<number>(5);
+const props = defineProps<{ product: Product; intervals: number }>();
 
 const { res, err } = await sf
   .useDefault()
   .GET(
     `/product/PMF/range/${props.product.id}/?intervals=${
-      intervals.value
+      props.intervals
     }&intervalType=${"week"}`
   )
   .runJSON<ReadManyPMFScoreDTO>();
@@ -123,12 +115,6 @@ const chartOptions = {
 </script>
 
 <template>
-  <div>
-    <div class="flex flex-row items-center justify-between">
-      <p class="text-3xl font-extralight">PMF Performance</p>
-    </div>
-
-    <!-- @todo Tmp any cast used to surpress the type error caused by the plugin options -->
-    <Line :options="chartOptions" :data="(chartData as any)" />
-  </div>
+  <!-- @todo Tmp any cast used to surpress the type error caused by the plugin options -->
+  <Line :options="chartOptions" :data="(chartData as any)" />
 </template>

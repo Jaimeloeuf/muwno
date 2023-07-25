@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
-import Chart from "./Chart.vue";
+import PMFChart from "./PMFChart.vue";
 import ProductCard from "./KeyInfoCard/ProductCard.vue";
 import SprintNumberCard from "./KeyInfoCard/SprintNumberCard.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
@@ -38,7 +38,7 @@ watch(autoRefresh, () => {
     </div>
 
     <div class="flex flex-col-reverse lg:flex-row">
-      <Chart class="m-4 my-12 grow lg:m-12" :product="product" />
+      <PMFChart class="m-4 my-12 grow lg:m-12" :product="product" />
 
       <div class="mx-4 flex flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <div
