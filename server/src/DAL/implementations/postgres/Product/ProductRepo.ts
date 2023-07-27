@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma.service.js';
 import type { Org, Product, CreateOneProductDTO } from 'domain-model';
 
 // Mappers
-import { mapProductModelToEntity, mapMITModelsToEntity } from './mapper.js';
+import { mapProductModelsToEntity, mapMITModelsToEntity } from './mapper.js';
 
 @Injectable()
 export class ProductRepo implements IProductRepo {
@@ -24,7 +24,7 @@ export class ProductRepo implements IProductRepo {
   async getOrgProducts(orgID: Org['id']) {
     return this.db.product
       .findMany({ where: { orgID } })
-      .then(mapProductModelToEntity);
+      .then(mapProductModelsToEntity);
   }
 
   async createOne(orgID: Org['id'], createOneProductDTO: CreateOneProductDTO) {
@@ -32,13 +32,8 @@ export class ProductRepo implements IProductRepo {
       this.db.product
         .create({
           data: {
-            // ...createOneProductDTO,
-            name: createOneProductDTO.name,
+            ...createOneProductDTO,
             orgID,
-
-            // @todo Tmp to remove
-            daysPerSprint: 1,
-            firstSprint: new Date(),
           },
         })
         // @todo Fix the type and add a mapper

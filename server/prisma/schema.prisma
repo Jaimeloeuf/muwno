@@ -82,13 +82,11 @@ model product {
   iid Int @id @default(autoincrement())
 
   // Unique random string ID as the productID
-  id            String   @unique @default(cuid())
-  createdAt     DateTime @default(now())
-  name          String
-  // Using days for granular control
-  daysPerSprint Int
-  // Start of First Sprint, all sprint dates are calculated relative to this.
-  firstSprint   DateTime
+  id         String   @unique @default(cuid())
+  createdAt  DateTime @default(now())
+  name       String
+  // This is a surveyModeID but surveyMode is not stored in DB so using Int.
+  surveyMode Int
 
   // Relationship: MANY products, belong to ONE (the same) org
   org   org    @relation(fields: [orgID], references: [id])

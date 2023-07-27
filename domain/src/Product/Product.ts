@@ -1,3 +1,4 @@
+import type { SurveyMode } from "./SurveyMode.js";
 import type { ISODateTimeString } from "../utils/Timestamp.js";
 
 /**
@@ -10,14 +11,7 @@ export type Product = {
   id: string;
   createdAt: ISODateTimeString;
   name: string;
-  score: number;
-  currentSprint: number;
-  samplingDetails: {
-    rate: number;
-    size: number;
-    maxSampleCount: number;
-    coolOff: number;
-  };
+  surveyMode: SurveyMode["id"];
 };
 
 /**

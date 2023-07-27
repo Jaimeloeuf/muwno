@@ -1,27 +1,7 @@
 import type { product as ProductModel, mit as MITModel } from '@prisma/client';
-import type { Products, MIT } from 'domain-model';
-import dayjs from 'dayjs';
+import type { Products, MIT, SurveyMode } from 'domain-model';
 
-/**
- * Utility function to calculate current sprint number of a `Product` using its
- * `createdAt` timestamp as the start of its first sprint, and `daysPerSprint`
- * value as each sprint's interval.
- */
-function getCurrentSprintNumber(productModel: ProductModel) {
-  const today = dayjs();
-  const productFirstSprintStartDate = dayjs(productModel.firstSprint);
-  const daysSinceFirstSprint = today.diff(
-    productFirstSprintStartDate,
-    'day',
-    true,
-  );
-  const currentSprintNumber = Math.trunc(
-    daysSinceFirstSprint / productModel.daysPerSprint,
-  );
-  return currentSprintNumber;
-}
-
-export function mapProductModelToEntity(
+export function mapProductModelsToEntity(
   productModels: Array<ProductModel>,
 ): Products {
   const products: Products = {};
@@ -31,16 +11,7 @@ export function mapProductModelToEntity(
       id: productModel.id,
       createdAt: productModel.createdAt.toISOString(),
       name: productModel.name,
-      currentSprint: getCurrentSprintNumber(productModel),
-
-      // @todo Fix these values
-      score: 1,
-      samplingDetails: {
-        rate: 1,
-        size: 1,
-        maxSampleCount: 1,
-        coolOff: 1,
-      },
+      surveyMode: productModel.surveyMode as SurveyMode['id'],
     };
 
   return products;
