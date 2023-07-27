@@ -11,7 +11,9 @@ export function mapProductModelsToEntity(
       id: productModel.id,
       createdAt: productModel.createdAt.toISOString(),
       name: productModel.name,
-      surveyMode: productModel.surveyMode as SurveyMode['id'],
+
+      // No need for runtime check here since there is a runtime check on write.
+      surveyMode: productModel.surveyMode as SurveyMode,
     };
 
   return products;

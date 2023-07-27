@@ -86,6 +86,7 @@ model product {
   createdAt  DateTime @default(now())
   name       String
   // This is a surveyModeID but surveyMode is not stored in DB so using Int.
+  // See the `SurveyMode` enum type in domain/
   surveyMode Int
 
   // Relationship: MANY products, belong to ONE (the same) org

@@ -5,7 +5,7 @@ import { useOrg, useLoader } from "../../store";
 import { ProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
 
-import type { SurveyMode } from "domain-model";
+import type { SurveyMode, SurveyModeDescription } from "domain-model";
 import SurveyModeCard from "./SurveyModeCard.vue";
 
 const router = useRouter();
@@ -14,7 +14,7 @@ const loaderStore = useLoader();
 
 const name = ref<string>("");
 
-async function addProduct(surveyModeID: SurveyMode["id"]) {
+async function addProduct(surveyMode: SurveyMode) {
   // @todo Check inputs
 
   loaderStore.show();
@@ -24,17 +24,16 @@ async function addProduct(surveyModeID: SurveyMode["id"]) {
     name: name.value,
   });
 
-  if (surveyModeID === 1) {
+  if (surveyMode === 1) {
     // router.push({ name: ProductRoute.name, params: { productID: id } });
-    // Need to go import customers first
-  } else if (surveyModeID === 2) {
+  } else if (surveyMode === 2) {
     router.push({ name: ProductRoute.name, params: { productID: id } });
   }
 
   loaderStore.hide();
 }
 
-const surveyModes: Array<SurveyMode> = [
+const surveyModeDescriptions: Array<SurveyModeDescription> = [
   {
     id: 1,
     name: "Automatically Recurring",
@@ -107,9 +106,9 @@ const surveyModes: Array<SurveyMode> = [
       class="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:items-stretch sm:justify-center"
     >
       <SurveyModeCard
-        v-for="surveyMode in surveyModes"
+        v-for="surveyMode in surveyModeDescriptions"
         :key="surveyMode.id"
-        :surveyMode="surveyMode"
+        :surveyModeDescription="surveyMode"
         @click="addProduct(surveyMode.id)"
       />
     </div>

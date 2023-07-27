@@ -5,5 +5,5 @@ import type { Product, SurveyMode } from "../Product/index.js";
  */
 export type CreateOneProductDTO = {
   name: Product["name"];
-  surveyMode: SurveyMode["id"];
+  surveyMode: SurveyMode;
 };

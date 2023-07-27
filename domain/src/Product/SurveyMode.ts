@@ -1,12 +1,21 @@
 /**
- * Type to represent a single Survey Mode object.
+ * Enum to represent all possible Survey Modes.
  */
-export type SurveyMode = {
+export enum SurveyMode {
+  auto = 1,
+  manual = 2,
+}
+
+/**
+ * Type to represent a single Survey Mode Description object.
+ */
+export type SurveyModeDescription = {
   /**
    * Unique ID for this survey mode, since there is only a fixed number of
-   * survey modes now, the values are hard coded numeric literal values.
+   * survey modes now, the values are hard coded numeric literal values on
+   * `SurveyMode` enum.
    */
-  id: 1 | 2;
+  id: SurveyMode;
 
   /**
    * This is the name of the survey mode that users will see

@@ -11,7 +11,7 @@ export type Product = {
   id: string;
   createdAt: ISODateTimeString;
   name: string;
-  surveyMode: SurveyMode["id"];
+  surveyMode: SurveyMode;
 };
 
 /**

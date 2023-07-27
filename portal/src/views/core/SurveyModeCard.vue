@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { SurveyMode } from "domain-model";
+import type { SurveyModeDescription } from "domain-model";
 
-defineProps<{ surveyMode: SurveyMode }>();
+defineProps<{ surveyModeDescription: SurveyModeDescription }>();
 </script>
 
 <template>
@@ -11,18 +11,21 @@ defineProps<{ surveyMode: SurveyMode }>();
     <p
       class="mb-6 border-b border-gray-300 pb-3 text-3xl font-light text-gray-900"
     >
-      {{ surveyMode.id }}. {{ surveyMode.name }}
+      {{ surveyModeDescription.id }}. {{ surveyModeDescription.name }}
     </p>
 
     <div class="mb-6 border-b border-gray-300 pb-6">
       <p class="text-2xl">Your Product Type</p>
       <p class="mb-2 text-xl font-light text-yellow-700">
-        {{ surveyMode.productType }}
+        {{ surveyModeDescription.productType }}
       </p>
 
       <p class="mb-2">Examples of product in this category:</p>
       <ul class="list-decimal px-5">
-        <li v-for="example in surveyMode.productExamples" :key="example">
+        <li
+          v-for="example in surveyModeDescription.productExamples"
+          :key="example"
+        >
           {{ example }}
         </li>
       </ul>
@@ -31,7 +34,7 @@ defineProps<{ surveyMode: SurveyMode }>();
     <div class="mb-6 border-b border-gray-300 pb-6">
       <p class="text-2xl">What is this survey mode used for?</p>
       <ul class="list-decimal px-5">
-        <li v-for="usecase in surveyMode.usecase" :key="usecase">
+        <li v-for="usecase in surveyModeDescription.usecase" :key="usecase">
           {{ usecase }}
         </li>
       </ul>
@@ -41,7 +44,7 @@ defineProps<{ surveyMode: SurveyMode }>();
       <p class="text-2xl">How does this mode work?</p>
       <ul class="list-decimal px-5">
         <li
-          v-for="modeDescriptionPoint in surveyMode.descriptions"
+          v-for="modeDescriptionPoint in surveyModeDescription.descriptions"
           :key="modeDescriptionPoint"
         >
           {{ modeDescriptionPoint }}
