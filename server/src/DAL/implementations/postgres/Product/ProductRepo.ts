@@ -13,6 +13,15 @@ import { mapProductModelToEntity, mapMITModelsToEntity } from './mapper.js';
 export class ProductRepo implements IProductRepo {
   constructor(private readonly db: PrismaService) {}
 
+  async productExists(productID: Product['id']) {
+    return this.db.product
+      .findUnique({
+        where: { id: productID },
+        select: { iid: true }, // Select as little as possible for efficiency
+      })
+      .then((product) => product !== null);
+  }
+
   async getOrgProducts(orgID: Org['id']) {
     return this.db.product
       .findMany({ where: { orgID } })

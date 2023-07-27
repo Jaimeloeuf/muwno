@@ -15,6 +15,11 @@ import type {
  */
 export abstract class IProductRepo {
   /**
+   * Check if a product exists, and test if a product ID is valid.
+   */
+  abstract productExists(productID: Product['id']): Promise<boolean>;
+
+  /**
    * Get all products of an Org.
    */
   abstract getOrgProducts(orgID: Org['id']): Promise<Products>;

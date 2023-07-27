@@ -14,7 +14,10 @@ import type {
 } from 'domain-model';
 
 // Service layer Exceptions
-import { InvalidInputException } from '../../../exceptions/index.js';
+import {
+  NotFoundException,
+  InvalidInputException,
+} from '../../../exceptions/index.js';
 
 // Utils
 import { intervalDates } from './utils/intervalDates.js';
@@ -23,6 +26,17 @@ import { isValidIntervalType } from 'domain-model';
 @Injectable()
 export class ProductService {
   constructor(private readonly productRepo: IProductRepo) {}
+
+  /**
+   * Validate a product ID by checking if a product exists. Throws the common
+   * `NotFoundException` if it does not exists.
+   */
+  async validateProductID(productID: Product['id']): Promise<void> {
+    if (!(await this.productRepo.productExists(productID)))
+      throw new NotFoundException(
+        `Product with ProductID '${productID}' does not exist.`,
+      );
+  }
 
   /**
    * Get all products of an Org.
@@ -39,7 +53,7 @@ export class ProductService {
   async getPMFLiveScore(
     productID: Product['id'],
   ): Promise<PMFLiveScore | null> {
-    // @todo Validate productID
+    await this.validateProductID(productID);
 
     return this.productRepo.PMFLiveScore(productID);
   }
@@ -65,7 +79,7 @@ export class ProductService {
         `End Sprint cannot be before Start Sprint.`,
       );
 
-    // @todo Validate productID
+    await this.validateProductID(productID);
 
     const scores: Array<Promise<PMFScoreOfSprint>> = [];
 
@@ -92,7 +106,7 @@ export class ProductService {
     if (!isValidIntervalType(intervalType))
       throw new InvalidInputException(`Invalid intervalType '${intervalType}'`);
 
-    // @todo Validate productID
+    await this.validateProductID(productID);
 
     const scores: Array<Promise<PMFScore>> = [];
 
@@ -111,7 +125,7 @@ export class ProductService {
    * Get a list of MITs that the team should work on
    */
   async getCurrentMIT(productID: Product['id']): Promise<Array<MIT>> {
-    // @todo Validate productID
+    await this.validateProductID(productID);
 
     return this.productRepo.currentMIT(productID);
   }
