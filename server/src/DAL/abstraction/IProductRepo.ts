@@ -7,6 +7,7 @@ import type {
   PMFScoreOfSprint,
   PMFScore,
   ISODateTimeString,
+  CreateOneProductDTO,
 } from 'domain-model';
 
 /**
@@ -23,6 +24,14 @@ export abstract class IProductRepo {
    * Get all products of an Org.
    */
   abstract getOrgProducts(orgID: Org['id']): Promise<Products>;
+
+  /**
+   * Create a new Product in data source
+   */
+  abstract createOne(
+    orgID: Org['id'],
+    createOneProductDTO: CreateOneProductDTO,
+  ): Promise<Product>;
 
   /**
    * Get the PMF live score.

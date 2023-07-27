@@ -99,27 +99,7 @@ const surveyModes: Array<SurveyMode> = [
             Choose a <b>Survey Mode</b> based on the type of your product and
             how you want to gather feedback.
           </li>
-          </ul>
-          </ul>
-
-          <input
-            v-model="daysPerSprint"
-            type="number"
-            min="7"
-            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
-            placeholder="Number of Days"
-          />
-        </label>
         </ul>
-
-          <input
-            v-model="daysPerSprint"
-            type="number"
-            min="7"
-            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
-            placeholder="Number of Days"
-          />
-        </label>
       </div>
     </div>
 

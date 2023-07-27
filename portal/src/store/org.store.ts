@@ -7,6 +7,8 @@ import type {
   Products,
   ReadManyProductDTO,
   CreateOneOrgDTO,
+  CreateOneProductDTO,
+  ReadOneProductDTO,
 } from "domain-model";
 
 /**
@@ -156,21 +158,20 @@ export const useOrg = defineStore("org", {
     /**
      * Create a new Product
      */
-    createNewProduct(product: Pick<Product, "name" | "samplingDetails">) {
-      // @todo call API to create new Product
-      const ProductID = Math.trunc(Math.random() * 1000000).toString();
+    async createNewProduct(product: Pick<Product, "name">) {
+      const { res, err } = await sf
+        .useDefault()
+        .POST(`/product/create`)
+        .bodyJSON<CreateOneProductDTO>({ name: product.name, surveyMode: 2 })
+        .runJSON<ReadOneProductDTO>();
 
-      this.products[ProductID] = {
-        id: ProductID,
-        createdAt: new Date().toISOString(),
-        score: 0,
-        currentSprint: 1,
+      if (err) throw err;
+      if (!res.ok) throw new Error("Failed to add new product.");
 
-        ...product,
-      };
+      this.products[res.data.product.id] = res.data.product;
 
-      this.setCurrentProduct(ProductID);
-      return this.getProduct(ProductID);
+      this.setCurrentProduct(res.data.product.id);
+      return this.getProduct(res.data.product.id);
     },
   },
 

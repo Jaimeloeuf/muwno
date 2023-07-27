@@ -11,6 +11,7 @@ import type {
   PMFLiveScore,
   PMFScoreOfSprint,
   PMFScore,
+  CreateOneProductDTO,
 } from 'domain-model';
 
 // Service layer Exceptions
@@ -42,9 +43,21 @@ export class ProductService {
    * Get all products of an Org.
    */
   async getOrgProducts(orgID: Org['id']): Promise<Products> {
-    // @todo Validate orgID
+    // @todo Validate orgID, and if user have permission to create for this org
 
     return this.productRepo.getOrgProducts(orgID);
+  }
+
+  /**
+   * Create a new Product
+   */
+  async createProduct(
+    orgID: Org['id'],
+    createOneProductDTO: CreateOneProductDTO,
+  ): Promise<Product> {
+    // @todo Validate orgID, and if user have permission to create for this org
+
+    return this.productRepo.createOne(orgID, createOneProductDTO);
   }
 
   /**

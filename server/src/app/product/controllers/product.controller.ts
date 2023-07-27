@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  ParseIntPipe,
+  Post,
+  Body,
+} from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
@@ -7,6 +15,8 @@ import type { Product } from 'domain-model';
 
 // DTO Types
 import type {
+  CreateOneProductDTO,
+  ReadOneProductDTO,
   ReadManyProductDTO,
   ReadOnePMFLiveScoreDTO,
   ReadManyPMFScoreDTO,
@@ -35,6 +45,22 @@ export class ProductController {
     return this.productService
       .getOrgProducts(orgID)
       .then(mapManyProductEntityToDTO);
+  }
+
+  /**
+   * Create a new Product
+   */
+  @Post('create')
+  async createProduct(
+    // @todo Add DTO Validation
+    @Body() createOneProductDTO: CreateOneProductDTO,
+  ): Promise<ReadOneProductDTO> {
+    // @todo Hardcoded orgID that should be read from user's JWT
+    const orgID = '__TEST_ORG_ID__';
+
+    return this.productService
+      .createProduct(orgID, createOneProductDTO)
+      .then((product) => ({ product }));
   }
 
   /**

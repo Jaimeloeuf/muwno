@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import type { IProductRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
-import type { Org, Product } from 'domain-model';
+import type { Org, Product, CreateOneProductDTO } from 'domain-model';
 
 // Mappers
 import { mapProductModelToEntity, mapMITModelsToEntity } from './mapper.js';
@@ -26,6 +26,25 @@ export class ProductRepo implements IProductRepo {
     return this.db.product
       .findMany({ where: { orgID } })
       .then(mapProductModelToEntity);
+  }
+
+  async createOne(orgID: Org['id'], createOneProductDTO: CreateOneProductDTO) {
+    return (
+      this.db.product
+        .create({
+          data: {
+            // ...createOneProductDTO,
+            name: createOneProductDTO.name,
+            orgID,
+
+            // @todo Tmp to remove
+            daysPerSprint: 1,
+            firstSprint: new Date(),
+          },
+        })
+        // @todo Fix the type and add a mapper
+        .then((a) => a as unknown as Product)
+    );
   }
 
   async PMFLiveScore(productID: Product['id']) {

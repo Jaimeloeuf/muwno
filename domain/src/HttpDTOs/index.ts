@@ -8,7 +8,9 @@ export * from "./CreateOneFeedbackResponseDTO.js";
 export * from "./ReadOneOrgDTO.js";
 export * from "./CreateOneOrgDTO.js";
 
+export * from "./ReadOneProductDTO.js";
 export * from "./ReadManyProductDTO.js";
+export * from "./CreateOneProductDTO.js";
 
 export * from "./ReadManyMITDTO.js";
 
