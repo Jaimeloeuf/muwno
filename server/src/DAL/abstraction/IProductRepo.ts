@@ -4,7 +4,6 @@ import type {
   Product,
   MIT,
   PMFLiveScore,
-  PMFScoreOfSprint,
   PMFScore,
   ISODateTimeString,
   CreateOneProductDTO,
@@ -37,14 +36,6 @@ export abstract class IProductRepo {
    * Get the PMF live score.
    */
   abstract PMFLiveScore(productID: Product['id']): Promise<PMFLiveScore | null>;
-
-  /**
-   * Get PMF score of the sprint with the given sprint number.
-   */
-  abstract PMFScoreOfSprint(
-    productID: Product['id'],
-    sprintNumber: number,
-  ): Promise<PMFScoreOfSprint>;
 
   /**
    * Get PMF score of the given time period.

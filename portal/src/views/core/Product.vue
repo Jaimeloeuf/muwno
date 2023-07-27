@@ -4,7 +4,6 @@ import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
 import ProductCard from "./KeyInfoCard/ProductCard.vue";
-import SprintNumberCard from "./KeyInfoCard/SprintNumberCard.vue";
 import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
 import SamplingDetailsCard from "./KeyInfoCard/SamplingDetailsCard.vue";
 import MIT from "./MIT.vue";
@@ -57,10 +56,17 @@ watch(autoRefresh, () => {
         <ProductCard :product="product" />
         <div class="flex flex-row space-x-8">
           <PMFScoreCard :productID="product.id" />
-          <SprintNumberCard :currentSprint="product.currentSprint" />
         </div>
         <MIT :productID="product.id" />
-        <SamplingDetailsCard :product="product" />
+        <!-- @todo -->
+        <SamplingDetailsCard
+          :samplingDetails="{
+            rate: 1,
+            size: 1,
+            maxSampleCount: 1,
+            coolOff: 1,
+          }"
+        />
       </div>
     </div>
   </div>

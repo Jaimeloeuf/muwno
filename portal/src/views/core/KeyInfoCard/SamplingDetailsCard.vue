@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import type { Product } from "domain-model";
-
-defineProps<{ product: Product }>();
+defineProps<{
+  samplingDetails: {
+    rate: number;
+    size: number;
+    maxSampleCount: number;
+    coolOff: number;
+  };
+}>();
 </script>
 
 <template>
@@ -13,13 +18,13 @@ defineProps<{ product: Product }>();
 
     <div class="text-2xl font-extralight">
       <p>
-        Rate: Once every <b>{{ product.samplingDetails.rate }}</b> sprints
+        Rate: Once every <b>{{ samplingDetails.rate }}</b> sprints
       </p>
       <p>
-        Period: <b>{{ product.samplingDetails.rate }}</b> sprints
+        Period: <b>{{ samplingDetails.rate }}</b> sprints
       </p>
       <p>
-        Size: <b>{{ product.samplingDetails.size }}</b> customers
+        Size: <b>{{ samplingDetails.size }}</b> customers
       </p>
     </div>
   </router-link>
