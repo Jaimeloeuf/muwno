@@ -76,21 +76,6 @@ export class ProductController {
   }
 
   /**
-   * Get PMF score of the selected range of sprints.
-   */
-  @Get('PMF/historical/:productID')
-  async getPMFScoreOfSelectedSprints(
-    @Param('productID') productID: Product['id'],
-
-    @Query('startSprint', ParseIntPipe) startSprint: number,
-    @Query('endSprint', ParseIntPipe) endSprint: number,
-  ) {
-    return this.productService
-      .getPMFScoreOfSelectedSprints(productID, startSprint, endSprint)
-      .then((score) => ({ score }));
-  }
-
-  /**
    * Get PMF score of all time periods within the selected time range.
    */
   @Get('PMF/range/:productID')

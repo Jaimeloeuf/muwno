@@ -123,7 +123,6 @@ model mit {
 
   // Unique random string ID as the mitID
   id        String   @unique @default(cuid())
-  // Using createdAt time to determine what sprint is this MIT from
   createdAt DateTime @default(now())
   task      String
   done      Boolean  @default(false)

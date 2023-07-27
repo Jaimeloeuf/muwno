@@ -9,7 +9,6 @@ import type {
   Products,
   MIT,
   PMFLiveScore,
-  PMFScoreOfSprint,
   PMFScore,
   CreateOneProductDTO,
 } from 'domain-model';
@@ -69,38 +68,6 @@ export class ProductService {
     await this.validateProductID(productID);
 
     return this.productRepo.PMFLiveScore(productID);
-  }
-
-  /**
-   * Get PMF score of the selected range of sprints.
-   */
-  async getPMFScoreOfSelectedSprints(
-    productID: Product['id'],
-    startSprint: number,
-    endSprint: number,
-  ) {
-    if (startSprint < 0)
-      throw new InvalidInputException(
-        `Start Sprint cannot be less than 0, received ${startSprint}.`,
-      );
-    if (endSprint < 0)
-      throw new InvalidInputException(
-        `End Sprint cannot be less than 0, received ${endSprint}.`,
-      );
-    if (endSprint < startSprint)
-      throw new InvalidInputException(
-        `End Sprint cannot be before Start Sprint.`,
-      );
-
-    await this.validateProductID(productID);
-
-    const scores: Array<Promise<PMFScoreOfSprint>> = [];
-
-    // Loop to get all the historical PMF Scores, inclusive of the end sprint
-    for (let i = startSprint; i <= endSprint; i++)
-      scores.push(this.productRepo.PMFScoreOfSprint(productID, i));
-
-    return Promise.all(scores);
   }
 
   /**
