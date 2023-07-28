@@ -5,7 +5,7 @@
 <template>
   <div class="bg-slate-50">
     <div class="flex flex-row justify-between items-center md:p-4 p-6">
-      <img src="../assets/logot.svg" class="md:w-52 md:ml-20" />
+      <img src="../assets/logo.svg" class="md:w-52 md:ml-20" />
 
       <div>
         <button class="mr-6 bg-green-800 h-12 text-white py-3 px-8 rounded-3xl">
@@ -273,7 +273,7 @@
 
   <div class="bg-slate-50">
     <div class="flex flex-row justify-between items-center md:p-4 p-6">
-      <img src="../assets/logot.svg" class="md:w-52 md:ml-20" />
+      <img src="../assets/logo.svg" class="md:w-52 md:ml-20" />
 
       <div>
         <p class="mr-12"><u>Privacy Policy</u></p>
