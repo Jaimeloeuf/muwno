@@ -81,7 +81,7 @@ function clearError() {
           https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
           https://caniuse.com/css-display-contents
         -->
-        <div class="m-6">
+        <div>
           <Loader v-if="loader.showLoader" />
           <component :is="Component" v-else />
         </div>
