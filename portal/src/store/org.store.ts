@@ -9,6 +9,7 @@ import type {
   CreateOneOrgDTO,
   CreateOneProductDTO,
   ReadOneProductDTO,
+  SurveyMode,
 } from "domain-model";
 
 /**
@@ -158,11 +159,14 @@ export const useOrg = defineStore("org", {
     /**
      * Create a new Product
      */
-    async createNewProduct(product: Pick<Product, "name">) {
+    async createNewProduct(
+      productName: Product["name"],
+      surveyMode: SurveyMode
+    ) {
       const { res, err } = await sf
         .useDefault()
         .POST(`/product/create`)
-        .bodyJSON<CreateOneProductDTO>({ name: product.name, surveyMode: 2 })
+        .bodyJSON<CreateOneProductDTO>({ name: productName, surveyMode })
         .runJSON<ReadOneProductDTO>();
 
       if (err) throw err;

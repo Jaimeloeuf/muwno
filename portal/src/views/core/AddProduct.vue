@@ -15,14 +15,11 @@ const loaderStore = useLoader();
 const name = ref<string>("");
 
 async function addProduct(surveyMode: SurveyMode) {
-  // @todo Check inputs
+  if (name.value === "") return alert("Product Name cannot be empty!");
 
   loaderStore.show();
 
-  // @todo Call store method
-  const { id } = await orgStore.createNewProduct({
-    name: name.value,
-  });
+  const { id } = await orgStore.createNewProduct(name.value, surveyMode);
 
   if (surveyMode === 1) {
     // router.push({ name: ProductRoute.name, params: { productID: id } });
@@ -40,12 +37,13 @@ const surveyModeDescriptions: Array<SurveyModeDescription> = [
     productType: "Software as a Service (SaaS)",
     productExamples: ["Spotify", "Netflix", "Instagram"],
     usecase: [
-      "Mainly used for doing automatic and recurring surveying following product sprint/feature-release cycles.",
-      "Use this if you want to have a quick feedback loop/cycle for active product development.",
+      "Automatically survey your customers recurringly, by following your product's sprint/feature-release cycles.",
+      "Use this for a quick feedback loop cycle, especially helpful for active product development.",
     ],
     descriptions: [
-      "This will automatically send out surveys for you without your intervention",
-      "Note that for this to work you will need to either integrate your system to automatically upload emails of your customers continuously or manually update them reguarly",
+      "You will need to either do a one-off system integration to automatically upload your customers emails continuously or manually upload them reguarly.",
+      "This will automatically send out surveys for you without your intervention at your selected automatic surveying rate.",
+      "Once setup, all you need to do is improve your product based on the actionable insights and monitor your PMF Score over time.",
     ],
   },
 
@@ -53,17 +51,15 @@ const surveyModeDescriptions: Array<SurveyModeDescription> = [
     id: 2,
     name: "Passive/Manual",
     productType: "Physical Products",
-    productExamples: ["Innisfree", "Sephora", "Cereals"],
+    productExamples: ["Cosmetics", "Clothing", "Bottled Drinks"],
     usecase: [
-      "Mainly used for getting customer feedbacks without reaching out through email surveys.",
-      "More of a customers reach out to do the survey",
-      "You can also used for one off campaigns",
-      "Use this if you do not have access to your customer's email for email blasts.",
+      "Get customers' feedback passively without reaching out to them through our email surveys.",
+      "Use this if you do not have access to your customers' email for email blasts, for example by passively presenting the survey to them with a QR code on your product, or as a link on your website.",
+      "If you do have your customer's emails but do not want to automatically survey them, you can also use this to do one-off survey blasts by manually uploading your customers' email.",
     ],
     descriptions: [
-      "With Passive mode, you create a survey link + QR code and you disseminate to your customers however you want",
-      "As and when the customers decide to fill in your survey, you will get results",
-      "With Passive mode, you can do one off email survey blasts, by manually importing in customers' email",
+      "With Passive mode, you will get a survey link + QR code for you to share it to your customers however you want.",
+      "With Passive mode, you can do one-off email survey blasts, by manually uploading your customers' email.",
     ],
   },
 ];
