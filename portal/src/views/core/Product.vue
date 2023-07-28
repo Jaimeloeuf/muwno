@@ -4,7 +4,7 @@ import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
 import ProductCard from "./KeyInfoCard/ProductCard.vue";
-import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
+import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
 import SamplingDetailsCard from "./KeyInfoCard/SamplingDetailsCard.vue";
 import MIT from "./MIT.vue";
 import type { Product } from "domain-model";
@@ -55,7 +55,7 @@ watch(autoRefresh, () => {
 
         <ProductCard :product="product" />
         <div class="flex flex-row space-x-8">
-          <PMFScoreCard :productID="product.id" />
+          <PMFLiveScoreCard class="w-full" :productID="product.id" />
         </div>
         <MIT :productID="product.id" />
         <!-- @todo -->

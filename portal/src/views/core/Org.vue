@@ -2,7 +2,7 @@
 import { useOrg } from "../../store";
 import { ProductRoute, AddProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
-import PMFScoreCard from "./KeyInfoCard/PMFScoreCard.vue";
+import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
 
 const orgStore = useOrg();
 const orgDetails = orgStore.orgDetails;
@@ -61,7 +61,7 @@ if (orgDetails === undefined)
           <p class="text-4xl">{{ product.name }}</p>
 
           <div class="text-right">
-            <PMFScoreCard class="max-w-min bg-white" :productID="product.id" />
+            <PMFLiveScoreCard class="bg-white" :productID="product.id" />
           </div>
         </router-link>
 

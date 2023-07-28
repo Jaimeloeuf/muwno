@@ -16,15 +16,18 @@ const score = res.data.score;
 </script>
 
 <template>
-  <div
-    class="inline-block w-full min-w-[8rem] rounded-lg bg-slate-50 p-4 shadow"
-  >
+  <div class="inline-block min-w-[8rem] rounded-lg bg-slate-50 p-4 shadow">
     <!-- @todo Add an icon for user to click and understand what is a live score -->
-    <p class="text-sm font-medium">Live Score</p>
-
-    <div v-if="score === null">
-      <p class="text-center font-extralight">Waiting for Responses</p>
+    <div class="mb-0.5">
+      <p class="text-sm font-medium">Live Score</p>
+      <p v-if="score !== null" class="text-xs font-extralight">
+        Your live score across the last 7 days
+      </p>
     </div>
+
+    <template v-if="score === null">
+      <p class="font-light">Waiting for Responses</p>
+    </template>
 
     <div v-else class="">
       <p class="text-right text-4xl">
