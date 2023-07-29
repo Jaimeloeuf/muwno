@@ -5,3 +5,4 @@
 export * from "./Product.js";
 export * from "./SurveyMode.js";
 export * from "./MIT.js";
+export * from "./AutoSurveyDetails.js";
