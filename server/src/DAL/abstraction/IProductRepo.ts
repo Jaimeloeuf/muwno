@@ -50,4 +50,9 @@ export abstract class IProductRepo {
    * Get MITs of the given product's current sprint.
    */
   abstract currentMIT(productID: Product['id']): Promise<Array<MIT>>;
+
+  /**
+   * Mark a single 'MIT' task as done.
+   */
+  abstract markTaskAsDone(mitID: MIT['id']): Promise<Array<MIT>>;
 }

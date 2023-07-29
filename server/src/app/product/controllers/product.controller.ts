@@ -11,7 +11,7 @@ import {
 import { ProductService } from '../services/product.service.js';
 
 // Entity Types
-import type { Product } from 'domain-model';
+import type { Product, MIT } from 'domain-model';
 
 // DTO Types
 import type {
@@ -100,5 +100,15 @@ export class ProductController {
     return this.productService
       .getCurrentMIT(productID)
       .then((mits) => ({ mits }));
+  }
+
+  /**
+   * Mark a single 'MIT' task as done.
+   */
+  @Post('MIT/done/:mitID')
+  async markTaskAsDone(
+    @Param('mitID') mitID: MIT['id'],
+  ): Promise<ReadManyMITDTO> {
+    return this.productService.markTaskAsDone(mitID).then((mits) => ({ mits }));
   }
 }

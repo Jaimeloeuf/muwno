@@ -109,4 +109,13 @@ export class ProductService {
 
     return this.productRepo.currentMIT(productID);
   }
+
+  /**
+   * Mark a single 'MIT' task as done.
+   */
+  async markTaskAsDone(mitID: MIT['id']): Promise<Array<MIT>> {
+    // @todo Validate mitID
+
+    return this.productRepo.markTaskAsDone(mitID);
+  }
 }

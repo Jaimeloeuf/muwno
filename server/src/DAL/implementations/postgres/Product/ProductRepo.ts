@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import type { IProductRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
-import type { Org, Product, CreateOneProductDTO } from 'domain-model';
+import type { Org, Product, CreateOneProductDTO, MIT } from 'domain-model';
 
 // Mappers
 import { mapProductModelsToEntity, mapMITModelsToEntity } from './mapper.js';
@@ -131,5 +131,17 @@ export class ProductRepo implements IProductRepo {
         orderBy: { createdAt: 'desc' },
       })
       .then(mapMITModelsToEntity);
+  }
+
+  async markTaskAsDone(mitID: MIT['id']) {
+    const { productID } = await this.db.mit.update({
+      where: { id: mitID },
+      data: { done: true },
+
+      // Get the productID back to return back a new list of current MITs
+      select: { productID: true },
+    });
+
+    return this.currentMIT(productID);
   }
 }
