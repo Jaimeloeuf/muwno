@@ -14,19 +14,9 @@ const props = defineProps<{ productID: Product["id"] }>();
 const orgStore = useOrg();
 const product = orgStore.getProduct(props.productID);
 
-// @todo Tmp mock NoOp refresh function
-const refresh = () => ({});
-
-// @todo Should this be enabled by default
-const autoRefresh = ref<boolean>(false);
-const autoRefreshIntervalTimer = ref<number | undefined>(undefined);
-watch(autoRefresh, () => {
-  if (autoRefresh.value)
-    // Save the timer ID so that it can be cleared later.
-    // This interval runs once every 24 hours from the moment you enable it.
-    autoRefreshIntervalTimer.value = setInterval(refresh, 8.64e7);
-  else clearInterval(autoRefreshIntervalTimer.value);
-});
+// Auto refresh runs once every 24 hours.
+// This is a quick and easy but ugly way to do it by reloading the entire page.
+setInterval(() => window.location.reload(), 8.64e7);
 </script>
 
 <template>
