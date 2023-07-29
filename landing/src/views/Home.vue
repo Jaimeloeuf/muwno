@@ -272,11 +272,21 @@
   </div>
 
   <div class="bg-slate-50">
-    <div class="flex flex-row justify-between items-center md:p-4 p-6">
-      <img src="../assets/logo.svg" class="md:w-52 md:ml-20" />
-
+    <div class="flex flex-row justify-between items-center md:p-4 p-6 lg:mx-20">
       <div>
-        <p class="mr-12"><u>Privacy Policy</u></p>
+        <img src="../assets/logo.svg" class="md:w-48" />
+      </div>
+
+      <div class="flex flex-col md:flex-row md:space-x-6">
+        <a href="" target="_blank" class="underline inline-block">
+          Terms & Conditions
+        </a>
+        <a href="" target="_blank" class="underline inline-block">
+          Privacy Policy
+        </a>
+        <a href="/DPN.pdf" target="_blank" class="underline inline-block">
+          PDPA Data Protection Notice
+        </a>
       </div>
     </div>
   </div>
