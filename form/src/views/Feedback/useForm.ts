@@ -19,7 +19,11 @@ export async function useForm(formID: string) {
 
   const productName = res.data.form.productName;
 
-  const radioOptions = ["Very", "Somewhat", "Not"];
+  const radioOptions = [
+    { value: 3, text: "Very" },
+    { value: 2, text: "Somewhat" },
+    { value: 1, text: "Not" },
+  ];
 
   // Answer variables
   const a1 = ref<number | undefined>(undefined);

@@ -5,7 +5,7 @@ import type { ISODateTimeString } from "../utils/Timestamp.js";
  */
 export type PMFScore = {
   timeWindow: { start: ISODateTimeString; end: ISODateTimeString };
-  votesByCategory: [number, number, number];
+  votesByCategory: { 1: number; 2: number; 3: number };
   totalResponses: number;
   score: number;
 };

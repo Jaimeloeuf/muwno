@@ -3,7 +3,13 @@ import { Injectable } from '@nestjs/common';
 import type { IProductRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
-import type { Org, Product, CreateOneProductDTO, MIT } from 'domain-model';
+import type {
+  Org,
+  Product,
+  CreateOneProductDTO,
+  MIT,
+  PMFScore,
+} from 'domain-model';
 
 // Mappers
 import { mapProductModelsToEntity, mapMITModelsToEntity } from './mapper.js';
@@ -63,10 +69,13 @@ export class ProductRepo implements IProductRepo {
 
     // Use a tuple and prefill them with 0 to prevent type errors, while also
     // ensuring that unselected options will not be left empty.
-    const votesByCategory: [number, number, number] = [0, 0, 0];
+    const votesByCategory: PMFScore['votesByCategory'] = { 1: 0, 2: 0, 3: 0 };
     let totalResponses = 0;
     for (const response of responses) {
-      votesByCategory[response.a1] = response._count.a1;
+      // Casting without runtime check since assuming that it is validated on DB write.
+      votesByCategory[response.a1 as keyof PMFScore['votesByCategory']] =
+        response._count.a1;
+
       totalResponses += response._count.a1;
     }
 
@@ -74,7 +83,7 @@ export class ProductRepo implements IProductRepo {
       startOfSprintWindow,
       votesByCategory,
       totalResponses,
-      currentPMFScore: Math.trunc((votesByCategory[0] / totalResponses) * 100),
+      currentPMFScore: Math.trunc((votesByCategory[3] / totalResponses) * 100),
     };
   }
 
@@ -98,12 +107,14 @@ export class ProductRepo implements IProductRepo {
     // to be treated as a time period of zero for the PMF score.
     // if (responses.length === 0) return null;
 
-    // Use a tuple and prefill them with 0 to prevent type errors, while also
-    // ensuring that unselected options will not be left empty.
-    const votesByCategory: [number, number, number] = [0, 0, 0];
+    // Prefill with 0 to ensure that unselected options will not be left empty.
+    const votesByCategory: PMFScore['votesByCategory'] = { 1: 0, 2: 0, 3: 0 };
     let totalResponses = 0;
     for (const response of responses) {
-      votesByCategory[response.a1] = response._count.a1;
+      // Casting without runtime check since assuming that it is validated on DB write.
+      votesByCategory[response.a1 as keyof PMFScore['votesByCategory']] =
+        response._count.a1;
+
       totalResponses += response._count.a1;
     }
 
@@ -111,7 +122,7 @@ export class ProductRepo implements IProductRepo {
       timeWindow: { start, end },
       votesByCategory,
       totalResponses,
-      score: Math.trunc((votesByCategory[0] / totalResponses) * 100),
+      score: Math.trunc((votesByCategory[3] / totalResponses) * 100),
     };
   }
 

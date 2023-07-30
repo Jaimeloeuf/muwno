@@ -46,19 +46,22 @@ async function submit() {
       </p>
 
       <div
-        v-for="(option, i) in radioOptions"
-        :key="i"
+        v-for="option in radioOptions"
+        :key="option.value"
         class="mb-3 flex rounded-lg border border-gray-200 p-4 py-3"
       >
-        <label class="w-full cursor-pointer font-light" @click="a1 = i">
+        <label
+          class="w-full cursor-pointer font-light"
+          @click="a1 = option.value"
+        >
           <input
             type="radio"
             name="bordered-radio"
             class="h-3 w-3 accent-lime-600"
-            :checked="a1 === i"
+            :checked="a1 === option.value"
           />
 
-          <span class="ml-2 font-medium">{{ option }}</span> disappointed
+          <span class="ml-2 font-medium">{{ option.text }}</span> disappointed
         </label>
       </div>
     </div>
