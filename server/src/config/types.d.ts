@@ -11,9 +11,10 @@ import type { Schema } from 'joi';
  */
 export interface EnvironmentVariables {
   readonly version: string;
+  readonly POSTMARK_API_KEY: string;
   readonly THROTTLE_TTL: number;
   readonly THROTTLE_LIMIT: number;
-  readonly PRISMA_VERBOSE: string;
+  readonly PRISMA_VERBOSE: boolean;
 }
 
 /**

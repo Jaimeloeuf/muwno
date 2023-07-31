@@ -29,19 +29,25 @@ export const ConfigModule = _ConfigModule.forRoot({
    */
   validationSchema: Joi.object({
     /**
-     * Expect `version` to be a string made with build time git branch and commit hash
+     * Expect `version` to be a string made with build time git branch and
+     * commit hash.
      */
     version: Joi.string().required(),
 
     /**
+     * Expects the POSTMARK Email Service API key.
+     */
+    POSTMARK_API_KEY: Joi.string().required(),
+
+    /**
      * Arbitrary default TTL
      */
-    THROTTLE_TTL: Joi.number().default(5),
+    THROTTLE_TTL: Joi.number().default(3),
 
     /**
      * Arbitrary default limit within each TTL period
      */
-    THROTTLE_LIMIT: Joi.number().default(50),
+    THROTTLE_LIMIT: Joi.number().default(150),
 
     /**
      * Use this to run Prisma with verbose mode, defaults to false.
