@@ -34,15 +34,16 @@ async function submit() {
 <template>
   <!-- This ensures that the UI is always centered and limited to a width even in desktop mode -->
   <div class="m-6">
-    <h1 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900">
+    <h1 class="mb-6 text-3xl font-extrabold tracking-tight text-gray-900">
       {{ productName }} feedback form
     </h1>
 
     <!-- Question 1 -->
     <div class="mb-6">
-      <p class="mb-2 font-medium">
-        <span class="mr-1">Q1.</span> How would you feel if you could no longer
-        use the product? <span class="text-red-500">*</span>
+      <p class="mb-2">
+        <span class="mr-1">Q1.</span> How would you feel if
+        <span class="font-semibold">{{ productName }}</span>
+        no longer exists? <span class="text-red-500">*</span>
       </p>
 
       <div
@@ -61,16 +62,17 @@ async function submit() {
             :checked="a1 === option.value"
           />
 
-          <span class="ml-2 font-medium">{{ option.text }}</span> disappointed
+          <span class="ml-2 font-normal">{{ option.text }}</span> disappointed
         </label>
       </div>
     </div>
 
     <!-- Question 2 -->
     <div class="mb-6">
-      <p class="mb-2 font-medium">
+      <p class="mb-2">
         <span class="mr-1">Q2.</span> What type of people do you think would
-        most benefit from {{ productName }}?
+        most benefit from <span class="font-semibold">{{ productName }}</span
+        >?
       </p>
 
       <textarea
@@ -83,9 +85,10 @@ async function submit() {
 
     <!-- Question 3 -->
     <div class="mb-6">
-      <p class="mb-2 font-medium">
+      <p class="mb-2">
         <span class="mr-1">Q3.</span> What is the main benefit you receive from
-        {{ productName }}?
+        <span class="font-semibold">{{ productName }}</span
+        >?
       </p>
 
       <textarea
@@ -98,9 +101,10 @@ async function submit() {
 
     <!-- Question 4 -->
     <div class="mb-6">
-      <p class="mb-2 font-medium">
-        <span class="mr-1">Q4.</span> How can we improve {{ productName }} for
-        you?
+      <p class="mb-2">
+        <span class="mr-1">Q4.</span> How can we improve
+        <span class="font-semibold">{{ productName }}</span>
+        for you?
       </p>
 
       <textarea
@@ -118,9 +122,15 @@ async function submit() {
       Submit
     </button>
 
-    <p class="mt-6 text-center text-xs text-gray-500">
-      &copy;2023 - {{ new Date().getFullYear() }} StarterKit. All rights
-      reserved.
-    </p>
+    <div class="mt-6 text-center">
+      <a
+        href="https://thepmftool.com"
+        target="_blank"
+        class="text-xs text-gray-500 underline"
+      >
+        &copy;2023 - {{ new Date().getFullYear() }} thepmftool. All rights
+        reserved.
+      </a>
+    </div>
   </div>
 </template>
