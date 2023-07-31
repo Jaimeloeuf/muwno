@@ -26,7 +26,7 @@
   <div
     class="flex flex-row items-center justify-between bg-slate-200 px-10 py-16 md:px-24 lg:px-32"
   >
-    <div class="max-w-sm md:max-w-full md:basis-1/2">
+    <div class="mr-6 max-w-sm md:max-w-full md:basis-1/2">
       <p class="mb-4 text-3xl text-green-800 md:pb-3 md:text-4xl lg:text-5xl">
         We tell you what your customers would pay for
       </p>
@@ -82,7 +82,7 @@
   >
     <div class="mb-12 w-full md:mb-0">
       <p class="mb-2 text-2xl text-green-800 md:text-3xl lg:text-4xl">
-        How theprodtool works
+        How thepmftool works
       </p>
 
       <p class="mb-4">Part 1</p>
@@ -109,7 +109,7 @@
     </div>
 
     <div class="w-full max-w-lg md:max-w-full">
-      <img src="../assets/hero.svg" />
+      <img src="../assets/survey%20collection.svg" />
     </div>
   </div>
 
@@ -117,7 +117,7 @@
     class="flex flex-col-reverse justify-between bg-slate-200 p-10 pt-0 md:flex-row md:px-24 md:py-20 lg:p-32"
   >
     <div class="w-full max-w-lg md:mb-0 md:max-w-full">
-      <img src="../assets/hero.svg" />
+      <img src="../assets/data%20analysis.svg" />
     </div>
 
     <div class="mb-12 w-full">
@@ -139,17 +139,19 @@
   </div>
 
   <div class="bg-slate-100 px-10 py-20 md:px-24 lg:px-32">
-    <div class="max-w-2xl">
+    <div class="mb-6 max-w-2xl md:mb-12 lg:mb-20">
       <p class="text-2xl text-green-800 md:text-3xl lg:text-4xl">
         The PMF Survey has successfully helped companies like these grow
         <b>really fast.</b>
       </p>
     </div>
 
-    <div class="grid grid-cols-3">
-      <img src="../assets/dropbox.svg" />
-      <img src="../assets/eventbrite.svg" />
-      <img src="../assets/superhuman.svg" />
+    <div
+      class="grid grid-cols-3 items-center justify-between gap-4 sm:gap-8 md:gap-12 lg:gap-20 xl:gap-32 2xl:gap-64"
+    >
+      <img src="../assets/dropbox.svg" class="w-full" />
+      <img src="../assets/eventbrite.svg" class="w-full" />
+      <img src="../assets/superhuman.svg" class="w-full" />
     </div>
   </div>
 
@@ -221,11 +223,11 @@
     </div>
 
     <div class="flex flex-col md:flex-row md:space-x-3 lg:space-x-6">
-      <a href="" target="_blank" class="inline-block underline">
+      <a href="/TC.pdf" target="_blank" class="inline-block underline">
         Terms & Conditions
       </a>
 
-      <a href="" target="_blank" class="inline-block underline">
+      <a href="/PP.pdf" target="_blank" class="inline-block underline">
         Privacy Policy
       </a>
 
