@@ -109,7 +109,7 @@
     </div>
 
     <div class="w-full max-w-lg md:max-w-full">
-      <img src="../assets/survey%20collection.svg" />
+      <img src="../assets/survey-collection.svg" />
     </div>
   </div>
 
@@ -117,7 +117,7 @@
     class="flex flex-col-reverse justify-between bg-slate-200 p-10 pt-0 md:flex-row md:px-24 md:py-20 lg:p-32"
   >
     <div class="w-full max-w-lg md:mb-0 md:max-w-full">
-      <img src="../assets/data%20analysis.svg" />
+      <img src="../assets/data-analysis.svg" />
     </div>
 
     <div class="mb-12 w-full">
