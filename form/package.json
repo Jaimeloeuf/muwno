@@ -10,9 +10,7 @@
     "typecheck": "npx vue-tsc --noEmit",
     "build": "npx vite build",
     "build:delete": "npx rimraf ./dist",
-    "build:full": "npm run typecheck && npm run build:delete && npm run build",
-    "deploy-firebase-hosting": "npx firebase deploy --only hosting:FIREBASE_PROJECT_ID",
-    "deploy": "npm run build:full && npm run deploy-firebase-hosting"
+    "build:full": "npm run typecheck && npm run build:delete && npm run build"
   },
   "dependencies": {
     "@formkit/vue": "^0.17.4",
@@ -35,7 +33,6 @@
     "autoprefixer": "^10.4.14",
     "eslint": "^8.44.0",
     "eslint-plugin-vue": "^9.15.1",
-    "firebase": "^9.23.0",
     "postcss": "^8.4.25",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",

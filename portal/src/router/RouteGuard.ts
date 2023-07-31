@@ -16,7 +16,7 @@ export type RouteGuard = NavigationGuardWithThis<undefined>;
  *
  * This predicate will get the current navigation's to and from route,
  * although note that it is not needed for you to use these arguements
- * and you can simply just read from an external library like firebase
+ * and you can simply just read from an external library like auth0
  * authentication to check if your user is authenticated.
  */
 export type AuthenticationPredicate = (

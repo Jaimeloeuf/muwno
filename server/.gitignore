@@ -5,9 +5,6 @@
 # env vars
 *.env
 
-# Firebase service account key file
-serviceAccountKey.json
-
 # Ignore the tsbuildinfo file used by tsc to cache build info to rebuild faster
 .tsbuildinfo
 

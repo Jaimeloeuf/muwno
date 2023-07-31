@@ -1,5 +1,4 @@
 import { router, LoginRoute } from "../router";
-import { auth } from "../firebase";
 
 import { resetAllPiniaStores } from "./resetAllPiniaStores";
 
@@ -9,9 +8,6 @@ import { resetAllPiniaStores } from "./resetAllPiniaStores";
  */
 export async function logout(getConfirmation: boolean) {
   if (getConfirmation && !confirm("Logout?")) return;
-
-  // Signout current user
-  await auth.signOut();
 
   // Reset all the stores, so that no data is still kept in memory!
   resetAllPiniaStores();
