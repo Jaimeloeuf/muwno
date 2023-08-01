@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useOrg } from "../../store";
-import { OrgRoute, ProductRoute } from "../../router";
+import { OrgRoute, ProductRoute, ProfileRoute } from "../../router";
 import { logout } from "../../utils/logout";
 import Version from "./Version.vue";
 
@@ -141,7 +141,7 @@ watch(showDrawer, (shown) => {
       <div class="grow"></div>
 
       <router-link
-        :to="{}"
+        :to="{ name: ProfileRoute.name }"
         class="flex w-full p-2 pb-0 text-start text-gray-700"
       >
         <svg

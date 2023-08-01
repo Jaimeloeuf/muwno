@@ -16,6 +16,13 @@ import { AuthType } from "./AuthType";
 
 /* ================================== Core Module Routes =============================== */
 
+export const ProfileRoute = <const>{
+  name: "profile",
+  path: "/profile",
+  component: () => import("../views/core/Profile.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const OrgRoute = <const>{
   name: "org",
   path: "/org",
@@ -71,6 +78,7 @@ export const ImportCustomerRoute = <const>{
  * a string literal type for `PrivateRouteNames` type to be properly inferred.
  */
 const PrivateRoutes = [
+  ProfileRoute,
   OrgRoute,
   CreateOrgRoute,
   ProductRoute,
