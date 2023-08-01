@@ -26,11 +26,6 @@ interface State {
    * A mapping of all products of the user's org
    */
   products: Products;
-
-  /**
-   * ID of the currently selected product for viewing
-   */
-  currentProductID: Product["id"] | undefined;
 }
 
 /**
@@ -40,21 +35,10 @@ export const useOrg = defineStore("org", {
   state: (): State => ({
     orgDetails: undefined,
     products: {},
-    currentProductID: undefined,
   }),
 
   getters: {
     productsArray: (state) => Object.values(state.products),
-
-    /**
-     * # ***WARNING***
-     *
-     * Only use the `Product` object of this getter if you are 1000% sure that
-     * the `currentProductID` is set! Since this does type casting to make it
-     * easier for store users to access the current Product.
-     */
-    currentProduct: (state) =>
-      state.products[state.currentProductID as Product["id"]] as Product,
   },
 
   actions: {
@@ -102,46 +86,6 @@ export const useOrg = defineStore("org", {
       if (!res.ok) throw new Error("Failed to load Org data");
 
       this.products = res.data.products;
-
-      // Set first Product (if avail) as current Product if current Product is not set.
-      // If somehow the currentProductID is invalid, choose a new current ProductID to set.
-      if (
-        this.currentProductID === undefined ||
-        this.products[this.currentProductID] === undefined
-      ) {
-        const product = this.productsArray[0];
-        if (product !== undefined) this.setCurrentProduct(product.id);
-      } else {
-        // If current Product is already set, load current Product data to make sure
-        // it is up to date on app launch.
-        this.loadCurrentProductData();
-      }
-    },
-
-    /**
-     * Load data / details of current Product using other stores.
-     */
-    loadCurrentProductData() {
-      // @todo Use current Product ID to load data through the other stores.
-      this.currentProductID;
-
-      // Call API through other stores to load details of the current Product
-      // useItem().loadItems();
-      // useCart().loadCart();
-      // useWaste().loadWaste();
-    },
-
-    /**
-     * Set the current Product
-     */
-    setCurrentProduct(ProductID: Product["id"]) {
-      if (!(ProductID in this.products))
-        throw new Error("Invalid Product ID used when setting current Product");
-
-      this.currentProductID = ProductID;
-
-      // Load Product data after changing current Product
-      this.loadCurrentProductData();
     },
 
     /**
@@ -172,10 +116,7 @@ export const useOrg = defineStore("org", {
       if (err) throw err;
       if (!res.ok) throw new Error("Failed to add new product.");
 
-      this.products[res.data.product.id] = res.data.product;
-
-      this.setCurrentProduct(res.data.product.id);
-      return this.getProduct(res.data.product.id);
+      return res.data.product;
     },
   },
 

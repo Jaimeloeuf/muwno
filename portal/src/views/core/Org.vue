@@ -5,6 +5,11 @@ import SideDrawer from "../components/SideDrawer.vue";
 import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
 
 const orgStore = useOrg();
+
+// Load details just in case it doesnt exist to prevent this from breaking.
+await orgStore.loadOrg();
+await orgStore.loadProducts();
+
 const orgDetails = orgStore.orgDetails;
 if (orgDetails === undefined)
   throw new Error("Org.vue: Org details is undefined");
@@ -14,26 +19,13 @@ if (orgDetails === undefined)
   <div>
     <div class="mb-6 border-b pb-4">
       <SideDrawer />
-      <span class="ml-4 text-4xl">Organisation Home</span>
+      <span class="ml-4 text-4xl">{{ orgDetails.name }}</span>
     </div>
 
-    <!-- Org Detail cards -->
-    <div class="mx-12 mb-10 border-b border-gray-300 pb-10">
-      <p class="mb-6 text-3xl">Org Details</p>
+    <div class="mx-6 mb-10 border-b border-gray-300 pb-10 md:mx-12">
+      <p class="mb-2 text-xl">Org Details</p>
 
       <div class="flex flex-row gap-x-6">
-        <!-- Org name card -->
-        <div class="inline-block w-max rounded-lg bg-slate-50 p-4 px-8 shadow">
-          <p class="text-sm">Name</p>
-
-          <div class="text-right">
-            <p class="text-4xl font-light">
-              {{ orgDetails.name }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Org Plan card -->
         <div class="inline-block w-max rounded-lg bg-slate-50 p-4 px-8 shadow">
           <p class="text-sm">Plan</p>
 
@@ -46,7 +38,7 @@ if (orgDetails === undefined)
       </div>
     </div>
 
-    <div class="mx-6">
+    <div class="md:mx-6">
       <p class="ml-6 text-3xl">
         Products ({{ orgStore.productsArray.length }})
       </p>
@@ -58,7 +50,7 @@ if (orgDetails === undefined)
           :to="{ name: ProductRoute.name, params: { productID: product.id } }"
           class="m-6 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
         >
-          <p class="text-4xl">{{ product.name }}</p>
+          <p class="mb-2 text-4xl">{{ product.name }}</p>
 
           <div class="text-right">
             <PMFLiveScoreCard class="bg-white" :productID="product.id" />
