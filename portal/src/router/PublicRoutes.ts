@@ -12,9 +12,9 @@ import { AuthType } from "./AuthType";
 */
 
 export const LoginRoute = <const>{
-  path: "/login",
+  path: "/",
   name: "login",
-  component: () => import("../views/core/GoogleLogin.vue"),
+  component: () => import("../views/core/Login.vue"),
   meta: { AuthRequirements: AuthType.PublicOnly },
 };
 
