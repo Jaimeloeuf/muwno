@@ -2,10 +2,10 @@
 import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
-import SurveyLinkCard from "./KeyInfoCard/SurveyLinkCard.vue";
 import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
+import MITCard from "./KeyInfoCard/MITCard.vue";
 import SurveyModeStatsCard from "./KeyInfoCard/SurveyModeStatsCard.vue";
-import MIT from "./MIT.vue";
+import SurveyLinkCard from "./KeyInfoCard/SurveyLinkCard.vue";
 import type { Product } from "domain-model";
 
 const props = defineProps<{ productID: Product["id"] }>();
@@ -30,7 +30,7 @@ setInterval(() => window.location.reload(), 8.64e7);
 
       <div class="mx-4 flex max-w-lg flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <PMFLiveScoreCard class="w-full" :productID="product.id" />
-        <MIT :productID="product.id" />
+        <MITCard :productID="product.id" />
         <SurveyModeStatsCard :product="product" />
         <SurveyLinkCard :product="product" />
       </div>

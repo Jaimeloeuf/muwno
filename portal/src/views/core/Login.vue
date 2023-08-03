@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLoader, useUserStore } from "../../store";
-import { OrgRoute, CreateOrgRoute } from "../../router";
+import { OrgRoute, CreateOrgRoute, SignupRoute } from "../../router";
 
 const router = useRouter();
 const loader = useLoader();
@@ -83,5 +83,11 @@ async function login() {
     >
       LOGIN
     </button>
+
+    <div class="mt-12 text-center">
+      <router-link :to="{ name: SignupRoute.name }" class="underline">
+        click here to signup
+      </router-link>
+    </div>
   </div>
 </template>

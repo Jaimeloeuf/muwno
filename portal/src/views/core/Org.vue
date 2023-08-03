@@ -66,10 +66,11 @@ if (orgDetails === undefined) router.push({ name: CreateOrgRoute.name });
         <!-- Create product card button -->
         <router-link
           :to="{ name: AddProductRoute.name }"
-          class="m-6 inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-8 text-gray-500 hover:bg-gray-100 hover:text-gray-600"
+          class="m-6 inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 p-8"
           :class="{
-            'bg-green-600 text-white hover:bg-green-600 hover:text-white':
-              orgStore.productsArray.length === 0,
+            'bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-600':
+              orgStore.productsArray.length !== 0,
+            'bg-green-600 text-white': orgStore.productsArray.length === 0,
           }"
         >
           <div class="text-2xl">Add a Product</div>

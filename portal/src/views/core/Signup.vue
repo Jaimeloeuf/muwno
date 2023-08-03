@@ -54,47 +54,47 @@ async function signup() {
 
 <template>
   <div class="mx-auto w-full max-w-lg">
-    <div class="my-10">
+    <div class="mb-4 mt-10">
       <p class="text-3xl">
         Sign up for
         <span class="font-semibold tracking-tighter">thepmftool</span>
       </p>
     </div>
 
-    <div class="mb-10">
+    <div class="mb-6">
       <label>
         <p class="text-xl">Name</p>
 
         <input
           v-model="name"
           type="text"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-4"
           placeholder="Jane Doe"
         />
       </label>
     </div>
 
-    <div class="mb-10">
+    <div class="mb-6">
       <label>
         <p class="text-xl">Email</p>
 
         <input
           v-model="email"
           type="text"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-4"
           placeholder="janedoe@gmail.com"
         />
       </label>
     </div>
 
-    <div class="mb-10">
+    <div class="mb-6">
       <label>
         <p class="text-xl">Password</p>
 
         <input
           v-model="password"
           type="password"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-4"
           placeholder="password"
         />
       </label>
@@ -106,5 +106,11 @@ async function signup() {
     >
       SIGNUP
     </button>
+
+    <div class="mt-10 text-center">
+      <router-link :to="{ name: LoginRoute.name }" class="underline">
+        click here to login
+      </router-link>
+    </div>
   </div>
 </template>

@@ -39,18 +39,18 @@ export const CreateOrgRoute = <const>{
 
 /* ================================== Product Module Routes =============================== */
 
-export const ProductRoute = <const>{
-  name: "product-view",
-  path: "/product/view/:productID",
-  props: true,
-  component: () => import("../views/core/Product.vue"),
-  meta: { AuthRequirements: AuthType.Private },
-};
-
 export const AddProductRoute = <const>{
   name: "product-add",
   path: "/product/add",
   component: () => import("../views/core/AddProduct.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
+export const ProductRoute = <const>{
+  name: "product-view",
+  path: "/product/:productID/view",
+  props: true,
+  component: () => import("../views/core/Product.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 

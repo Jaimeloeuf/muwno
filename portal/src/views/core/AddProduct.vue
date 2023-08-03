@@ -17,11 +17,18 @@ const name = ref<string>("");
 async function addProduct(surveyMode: SurveyMode) {
   if (name.value === "") return alert("Product Name cannot be empty!");
 
+  // @todo Temporarily block use of survey mode 1
+  // @todo Using 0+1 to preven TS from erroring out below
+  if (surveyMode === 0 + 1)
+    return alert("SORRY unfortunately this mode is still under development...");
+
   loaderStore.show();
 
   const { id } = await orgStore.createNewProduct(name.value, surveyMode);
 
   if (surveyMode === 1) {
+    // @todo Bring them to the page to configure survey/sampling cycle details
+    // before they setup their customer import thing then finally go Product view page
     // router.push({ name: ProductRoute.name, params: { productID: id } });
   } else if (surveyMode === 2) {
     router.push({ name: ProductRoute.name, params: { productID: id } });
@@ -50,8 +57,12 @@ const surveyModeDescriptions: Array<SurveyModeDescription> = [
   {
     id: 2,
     name: "Passive/Manual",
-    productType: "Physical Products",
-    productExamples: ["Cosmetics", "Clothing", "Bottled Drinks"],
+    productType: "Physical Products / Services",
+    productExamples: [
+      "Cosmetics",
+      "Education Service (e.g. Tuition)",
+      "Packaged Food",
+    ],
     usecase: [
       "Get customers' feedback passively without reaching out to them through our email surveys.",
       "Use this if you do not have access to your customers' email for email blasts, for example by passively presenting the survey to them with a QR code on your product, or as a link on your website.",
