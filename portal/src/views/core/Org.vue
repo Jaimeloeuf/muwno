@@ -1,18 +1,24 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import { useOrg } from "../../store";
-import { ProductRoute, AddProductRoute } from "../../router";
+import { CreateOrgRoute, ProductRoute, AddProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
 import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
+import type { Org } from "domain-model";
 
+const router = useRouter();
 const orgStore = useOrg();
 
 // Load details just in case it doesnt exist to prevent this from breaking.
 await orgStore.loadOrg();
 await orgStore.loadProducts();
 
-const orgDetails = orgStore.orgDetails;
-if (orgDetails === undefined)
-  throw new Error("Org.vue: Org details is undefined");
+// Type cast here to ensure that the template types work
+// Since there will be runtime check to ensure that it will not be ran.
+const orgDetails = orgStore.orgDetails ?? ({} as Org);
+
+// If user does not have an org, bring user to create org vue
+if (orgDetails === undefined) router.push({ name: CreateOrgRoute.name });
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 import type {
   Org,
+  UserID,
   Products,
   Product,
   MIT,
@@ -23,6 +24,11 @@ export abstract class IProductRepo {
    * Get all products of an Org.
    */
   abstract getOrgProducts(orgID: Org['id']): Promise<Products>;
+
+  /**
+   * Get all products of the user's Org.
+   */
+  abstract getUserOrgProducts(userID: UserID): Promise<Products>;
 
   /**
    * Create a new Product in data source

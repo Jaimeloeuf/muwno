@@ -5,6 +5,7 @@ import { PrismaService } from '../prisma.service.js';
 
 import type {
   Org,
+  UserID,
   Product,
   CreateOneProductDTO,
   MIT,
@@ -12,7 +13,11 @@ import type {
 } from 'domain-model';
 
 // Mappers
-import { mapProductModelsToEntity, mapMITModelsToEntity } from './mapper.js';
+import {
+  mapProductModelToEntity,
+  mapProductModelsToEntity,
+  mapMITModelsToEntity,
+} from './mapper.js';
 
 @Injectable()
 export class ProductRepo implements IProductRepo {
@@ -29,22 +34,34 @@ export class ProductRepo implements IProductRepo {
 
   async getOrgProducts(orgID: Org['id']) {
     return this.db.product
-      .findMany({ where: { orgID } })
+      .findMany({ where: { orgID }, orderBy: { createdAt: 'asc' } })
       .then(mapProductModelsToEntity);
   }
 
-  async createOne(orgID: Org['id'], createOneProductDTO: CreateOneProductDTO) {
+  async getUserOrgProducts(userID: UserID) {
     return (
-      this.db.product
-        .create({
-          data: {
-            ...createOneProductDTO,
-            orgID,
+      this.db.user
+        .findUnique({
+          where: { id: userID },
+          select: {
+            org: {
+              select: {
+                product: {
+                  orderBy: { createdAt: 'asc' },
+                },
+              },
+            },
           },
         })
-        // @todo Fix the type and add a mapper
-        .then((a) => a as unknown as Product)
+        // Default to an empty array to denote Org with no products
+        .then((user) => mapProductModelsToEntity(user?.org?.product ?? []))
     );
+  }
+
+  async createOne(orgID: Org['id'], createOneProductDTO: CreateOneProductDTO) {
+    return this.db.product
+      .create({ data: { ...createOneProductDTO, orgID } })
+      .then(mapProductModelToEntity);
   }
 
   async PMFLiveScore(productID: Product['id']) {

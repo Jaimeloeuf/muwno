@@ -10,10 +10,10 @@ import {
 
 import { ProductService } from '../services/product.service.js';
 
-import { GuardWithRBAC, AllowAllRoles } from '../../../rbac/index.js';
+import { GuardWithRBAC, AllowAllRoles, JWT_uid } from '../../../rbac/index.js';
 
 // Entity Types
-import type { Product, MIT } from 'domain-model';
+import type { FirebaseAuthUID, Product, MIT } from 'domain-model';
 
 // DTO Types
 import type {
@@ -38,16 +38,15 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   /**
-   * Get all products of the user's org, by getting their orgID from their JWT.
+   * Get all products of the user's org
    */
-  @Get('all')
+  @Get('all/self')
   @AllowAllRoles
-  async getSelfOrgProducts(): Promise<ReadManyProductDTO> {
-    // @todo Hardcoded orgID that should be read from user's JWT
-    const orgID = '__TEST_ORG_ID__';
-
+  async getUserOrgProducts(
+    @JWT_uid userID: FirebaseAuthUID,
+  ): Promise<ReadManyProductDTO> {
     return this.productService
-      .getOrgProducts(orgID)
+      .getUserOrgProducts(userID)
       .then(mapManyProductEntityToDTO);
   }
 
@@ -57,14 +56,13 @@ export class ProductController {
   @Post('create')
   @AllowAllRoles
   async createProduct(
+    @JWT_uid userID: FirebaseAuthUID,
+
     // @todo Add DTO Validation
     @Body() createOneProductDTO: CreateOneProductDTO,
   ): Promise<ReadOneProductDTO> {
-    // @todo Hardcoded orgID that should be read from user's JWT
-    const orgID = '__TEST_ORG_ID__';
-
     return this.productService
-      .createProduct(orgID, createOneProductDTO)
+      .createProduct(userID, createOneProductDTO)
       .then((product) => ({ product }));
   }
 

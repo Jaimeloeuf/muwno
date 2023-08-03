@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { IProductRepo } from '../../../DAL/abstraction/index.js';
+import { IProductRepo, IOrgRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
 import type {
   Org,
+  UserID,
   Product,
   Products,
   MIT,
@@ -17,6 +18,7 @@ import type {
 import {
   NotFoundException,
   InvalidInputException,
+  InvalidOperationException,
 } from '../../../exceptions/index.js';
 
 // Utils
@@ -25,7 +27,10 @@ import { isValidIntervalType } from 'domain-model';
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly productRepo: IProductRepo) {}
+  constructor(
+    private readonly productRepo: IProductRepo,
+    private readonly orgRepo: IOrgRepo,
+  ) {}
 
   /**
    * Validate a product ID by checking if a product exists. Throws the common
@@ -42,21 +47,32 @@ export class ProductService {
    * Get all products of an Org.
    */
   async getOrgProducts(orgID: Org['id']): Promise<Products> {
-    // @todo Validate orgID, and if user have permission to create for this org
+    // @todo Validate orgID, and if user have permission to this org
 
     return this.productRepo.getOrgProducts(orgID);
   }
 
   /**
-   * Create a new Product
+   * Get all products of the user's Org.
+   */
+  async getUserOrgProducts(userID: UserID): Promise<Products> {
+    return this.productRepo.getUserOrgProducts(userID);
+  }
+
+  /**
+   * Create a new Product in the user's own Org.
    */
   async createProduct(
-    orgID: Org['id'],
+    userID: UserID,
     createOneProductDTO: CreateOneProductDTO,
   ): Promise<Product> {
-    // @todo Validate orgID, and if user have permission to create for this org
+    const org = await this.orgRepo.getUserOrg(userID);
+    if (org === null)
+      throw new InvalidOperationException(
+        `User '${userID}' cannot create product without being in an Org`,
+      );
 
-    return this.productRepo.createOne(orgID, createOneProductDTO);
+    return this.productRepo.createOne(org.id, createOneProductDTO);
   }
 
   /**

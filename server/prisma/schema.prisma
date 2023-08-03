@@ -60,21 +60,30 @@ model org {
   product product[]
 }
 
+// This enum mirrors the Role enum type's name in domain/, but the shortform
+// defined for the Role enum cannot be used since DB enum names cannot contain
+//  dashes, so these are the literal string values stored in the DB.
+enum Role {
+  OrgUser
+  OrgAdmin
+  OrgOwner
+}
+
 model user {
   // Autoincrementing Int ID needed for queries that require ordering
   iid Int @id @default(autoincrement())
 
-  id           String   @unique // See /docs/User ID.md
-  createdAt    DateTime @default(now())
-  createdByUID String? // See /docs/createdByUID column type.md
-  // role         Role
-  name         String
-  email        String   @unique
-  deactivated  Boolean  @default(false) // See /docs/Deactivating User Accounts.md
+  id          String   @unique // See /docs/User ID.md
+  createdAt   DateTime @default(now())
+  role        Role?
+  name        String
+  email       String   @unique
+  deactivated Boolean  @default(false) // See /docs/Deactivating User Accounts.md
 
+  // orgID/org is optional because a user do not have an org when first created.
   // Relationship: MANY users, can have ONE (the same) org
-  org   org    @relation(fields: [orgID], references: [id])
-  orgID String
+  org   org?    @relation(fields: [orgID], references: [id])
+  orgID String?
 }
 
 model product {

@@ -26,7 +26,7 @@ export abstract class IAuthService {
    */
   abstract setCustomClaims(
     userID: UserID,
-    customClaims: CustomClaims,
+    customClaims: Partial<CustomClaims>,
   ): Promise<void>;
 
   /**

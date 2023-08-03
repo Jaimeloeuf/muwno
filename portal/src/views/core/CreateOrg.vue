@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useOrg, useLoader } from "../../store";
+import { useOrg, useUserStore, useLoader } from "../../store";
 import { OrgRoute } from "../../router";
 
 const router = useRouter();
 const orgStore = useOrg();
+const userStore = useUserStore();
 const loaderStore = useLoader();
 
 const name = ref("");
+
+// If user already have an organisation redirect to Org home view.
+if (orgStore.orgDetails !== undefined) router.push({ name: OrgRoute.name });
 
 async function createOrg() {
   // Check inputs
@@ -28,7 +32,7 @@ async function createOrg() {
 <template>
   <div>
     <div class="mb-12 border-b pb-4">
-      <span class="ml-4 text-4xl">Create Organisation</span>
+      <span class="text-4xl">Create Organisation</span>
     </div>
 
     <div class="mx-auto w-full max-w-md">
@@ -56,7 +60,7 @@ async function createOrg() {
           <div
             class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6 font-extralight text-slate-800"
           >
-            {{ "account@example.com" }}
+            {{ userStore.user.email }}
           </div>
         </label>
       </div>

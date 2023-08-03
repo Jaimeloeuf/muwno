@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../firebase";
+import { auth, getAuthHeader } from "../firebase";
+import { validateCustomClaimsOnJWT } from "../utils/validateCustomClaimsOnJWT";
 import type {
   Org,
   ReadOneOrgDTO,
@@ -73,6 +74,14 @@ export const useOrg = defineStore("org", {
       if (err) throw err;
       if (!res.ok) throw new Error("Failed to create new Organisation");
 
+      // Force refresh JWT since creating Org will add to JWT's 'roles' claim
+      await auth.currentUser?.getIdToken(true);
+      if (auth.currentUser === null)
+        throw new Error("Invalid State: User is logged out after org creation");
+
+      // Validate that the claims are correctly set, will throw if invalid.
+      await validateCustomClaimsOnJWT(auth.currentUser);
+
       this.orgDetails = res.data.org;
     },
 
@@ -82,7 +91,7 @@ export const useOrg = defineStore("org", {
     async loadProducts() {
       const { res, err } = await sf
         .useDefault()
-        .GET(`/product/all`)
+        .GET(`/product/all/self`)
         .useHeader(getAuthHeader)
         .runJSON<ReadManyProductDTO>();
 
@@ -121,7 +130,10 @@ export const useOrg = defineStore("org", {
       if (err) throw err;
       if (!res.ok) throw new Error("Failed to add new product.");
 
-      return res.data.product;
+      // Store the product object locally and return it
+      const { product } = res.data;
+      this.products[product.id] = product;
+      return product;
     },
   },
 

@@ -2,7 +2,15 @@ import { Controller, Get, Post, Body } from '@nestjs/common';
 
 import { OrgService } from '../services/org.service.js';
 
-import { GuardWithRBAC, AllowAllRoles } from '../../../rbac/index.js';
+import {
+  GuardWithRBAC,
+  AllowAllRoles,
+  NoRoleRequired,
+  JWT_uid,
+} from '../../../rbac/index.js';
+
+// Entity Types
+import type { FirebaseAuthUID } from 'domain-model';
 
 // DTO Types
 import type { ReadOneOrgDTO, CreateOneOrgDTO } from 'domain-model';
@@ -20,26 +28,29 @@ export class OrgController {
   constructor(private readonly orgService: OrgService) {}
 
   /**
-   * Get the given user's org, by getting their orgID from their JWT.
+   * Get the given user's org
    */
   @Get('self')
   @AllowAllRoles
-  async getSelfOrg(): Promise<ReadOneOrgDTO> {
-    // @todo Hardcoded orgID that should be read from user's JWT
-    const orgID = '__TEST_ORG_ID__';
-
-    return this.orgService.getOrg(orgID).then(mapOrgEntityToDTO);
+  async getSelfOrg(@JWT_uid userID: FirebaseAuthUID): Promise<ReadOneOrgDTO> {
+    return this.orgService.getUserOrg(userID).then(mapOrgEntityToDTO);
   }
 
   /**
-   * Create a new Organisation
+   * Create a new Organisation, and set creator as the Org Owner
    */
   @Post('create')
-  @AllowAllRoles
+  // A user does not have any roles since they do not belong to any organisation
+  // when creating a new organisation, therefore no role is required.
+  @NoRoleRequired
   async createOrg(
+    @JWT_uid userID: FirebaseAuthUID,
+
     // @todo Add DTO Validation
     @Body() createOneOrgDTO: CreateOneOrgDTO,
   ): Promise<ReadOneOrgDTO> {
-    return this.orgService.createOrg(createOneOrgDTO).then(mapOrgEntityToDTO);
+    return this.orgService
+      .createOrg(userID, createOneOrgDTO)
+      .then(mapOrgEntityToDTO);
   }
 }

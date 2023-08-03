@@ -4,10 +4,16 @@ import { Module } from '@nestjs/common';
 import { PrismaService } from './implementations/postgres/prisma.service.js';
 
 /* Abstractions */
-import { IOrgRepo, IProductRepo, IFeedbackRepo } from './abstraction/index.js';
+import {
+  IUserRepo,
+  IOrgRepo,
+  IProductRepo,
+  IFeedbackRepo,
+} from './abstraction/index.js';
 
 /* Implementations */
 import {
+  UserRepo,
   OrgRepo,
   ProductRepo,
   FeedbackRepo,
@@ -32,6 +38,7 @@ import {
      * the implementations for exporting from this module, so that other modules
      * can import the repos using the abstraction classes as injection token.
      */
+    { provide: IUserRepo, useClass: UserRepo },
     { provide: IOrgRepo, useClass: OrgRepo },
     { provide: IProductRepo, useClass: ProductRepo },
     { provide: IFeedbackRepo, useClass: FeedbackRepo },
@@ -39,6 +46,7 @@ import {
 
   exports: [
     /* Export all data repos using the Abstraction classes as injection token */
+    IUserRepo,
     IOrgRepo,
     IProductRepo,
     IFeedbackRepo,

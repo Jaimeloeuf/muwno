@@ -21,23 +21,25 @@ export interface User {
   /**
    * A user's given role.
    */
-  role: Role;
+  role?: Role;
 
   /**
    * The user's organisation's ID
+   *
+   * Optional because a user do not have an org when first created, they only
+   * have an orgID once they create a new org or join an org.
    */
-  orgID: OrgID;
-
-  /**
-   * User email account that is tied to their PMF account.
-   * This is the email they use to login with Google Login.
-   */
-  email: string;
+  orgID?: OrgID;
 
   /**
    * User's name
    */
   name: string;
+
+  /**
+   * User's email account used to login to the portal
+   */
+  email: string;
 
   /**
    * User's phone number

@@ -30,3 +30,13 @@ export const RolesRequired = (...roles: Role[]) =>
  * by any of the Roles defined in the Domain Model's `Role` enum.
  */
 export const AllowAllRoles = SetMetadata(ROLES_KEY, ArrayOfRoleEnums);
+
+/**
+ * Decorator to indicate that a controller or route method can be accessed
+ * as long as client request shows proof of authentication, even without any
+ * custom claims attached to it. Mainly used for cases like new account signup
+ * with no custom claims yet.
+ *
+ * Value of metadata is an empty array to indicate no roles need to be matched.
+ */
+export const NoRoleRequired = SetMetadata(ROLES_KEY, []);

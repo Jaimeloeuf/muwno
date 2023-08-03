@@ -1,44 +1,51 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLoader, useUserStore } from "../../store";
-import { OrgRoute, CreateOrgRoute } from "../../router";
+import { CreateOrgRoute, LoginRoute } from "../../router";
 
 const router = useRouter();
 const loader = useLoader();
 const userStore = useUserStore();
 
+const name = ref<string>("");
 const email = ref<string>("");
 const password = ref<string>("");
 
-async function login() {
+async function signup() {
   try {
+    if (name.value === "") return alert("Please enter a valid name!");
     if (email.value === "") return alert("Please enter a valid email!");
     if (password.value === "") return alert("Please enter a valid password!");
 
     loader.show();
 
-    await signInWithEmailAndPassword(auth, email.value, password.value);
+    await createUserWithEmailAndPassword(auth, email.value, password.value);
 
-    const user = await userStore.initOnLogin();
+    // Create a new User Entity with API
+    await userStore.createUser(name.value);
 
-    // If user does not have an Org, means they did not complete onboarding flow,
-    // route them to continue with onboarding, else route them to Org home page.
-    if (user.orgID === undefined) router.push({ name: CreateOrgRoute.name });
-    else router.push({ name: OrgRoute.name });
+    router.push({ name: CreateOrgRoute.name });
   } catch (error: any) {
     // If Login succeeded but initialisation failed, user should be logged out
     // instead of allowing them to access the UI on refreshing the app since the
     // router guard will think that user is authenticated with the cached JWT.
     if (auth.currentUser !== null) await auth.signOut();
 
+    // @todo Handle the case where account already exists!
+
     const errorCode = error.code;
     const errorMessage = error.message;
     console.error(errorCode, errorMessage);
 
-    alert("Login failed!");
+    if (errorCode === "auth/email-already-in-use") {
+      alert("Account already exists, please login instead!");
+      router.push({ name: LoginRoute.name });
+    } else {
+      alert("Signup failed!");
+    }
   } finally {
     loader.hide();
   }
@@ -48,7 +55,23 @@ async function login() {
 <template>
   <div class="mx-auto w-full max-w-lg">
     <div class="my-10">
-      <p class="text-4xl">The PMF Tool</p>
+      <p class="text-3xl">
+        Sign up for
+        <span class="font-semibold tracking-tighter">thepmftool</span>
+      </p>
+    </div>
+
+    <div class="mb-10">
+      <label>
+        <p class="text-xl">Name</p>
+
+        <input
+          v-model="name"
+          type="text"
+          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+          placeholder="Jane Doe"
+        />
+      </label>
     </div>
 
     <div class="mb-10">
@@ -79,9 +102,9 @@ async function login() {
 
     <button
       class="w-full rounded-lg bg-lime-500 p-3 text-xl tracking-widest text-white"
-      @click="login"
+      @click="signup"
     >
-      LOGIN
+      SIGNUP
     </button>
   </div>
 </template>

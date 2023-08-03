@@ -15,3 +15,4 @@ export * from "./HttpDTOs/index.js";
 
 /* Utilities */
 export * from "./utils/Timestamp.js";
+export * from "./utils/FirebaseAuthUID.js";

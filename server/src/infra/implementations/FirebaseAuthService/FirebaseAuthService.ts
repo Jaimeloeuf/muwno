@@ -54,7 +54,7 @@ export class FirebaseAuthService implements IAuthService {
       });
   }
 
-  async setCustomClaims(userID: UserID, customClaims: CustomClaims) {
+  async setCustomClaims(userID: UserID, customClaims: Partial<CustomClaims>) {
     await this.auth
       .setCustomUserClaims(userID, customClaims)
       // Re throw error as `FirebaseAuthException` for Exception Filter to work

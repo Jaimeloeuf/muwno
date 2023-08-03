@@ -2,6 +2,9 @@
  * Barrel file used to export all types.
  */
 
+export * from "./CreateOneUserDTO.js";
+export * from "./ReadOneUserDTO.js";
+
 export * from "./ReadOneFeedbackFormDTO.js";
 export * from "./CreateOneFeedbackResponseDTO.js";
 

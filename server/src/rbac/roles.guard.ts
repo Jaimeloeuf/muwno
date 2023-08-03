@@ -69,9 +69,9 @@ class RolesGuard implements CanActivate {
       undefined | Array<Role>
     >(ROLES_KEY, [context.getHandler(), context.getClass()]);
 
-    // Check against undefined here, to throw an error as all routes need to have
-    // a role requirement explicitly set.
-    if (!requiredRoles) {
+    // Check against undefined here, to throw an error as all routes need to
+    // have a role requirement explicitly set.
+    if (requiredRoles === undefined) {
       this.logger.error(
         `INTERNAL ERROR: Missing Authz Role for ${context.getClass().name}'s ${
           context.getHandler().name
@@ -140,6 +140,9 @@ class RolesGuard implements CanActivate {
 
     // Attach decoded token to req object to use downstream.
     req[RequestJwtKey] = jwt;
+
+    // If there is no roles required, allow request immediately
+    if (requiredRoles.length === 0) return true;
 
     // Get the roles value out from the custom claims object on the JWT
     const roles = jwt[CustomClaimsKeys.roles];

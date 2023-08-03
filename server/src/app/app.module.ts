@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 // Feature Modules
 import { BasicModule } from './basic/basic.module.js';
 import { FeedbackModule } from './feedback/feedback.module.js';
+import { UserModule } from './user/user.module.js';
 import { OrgModule } from './org/org.module.js';
 import { ProductModule } from './product/product.module.js';
 
@@ -10,6 +11,6 @@ import { ProductModule } from './product/product.module.js';
  * App module used to tie all application feature modules together.
  */
 @Module({
-  imports: [BasicModule, FeedbackModule, OrgModule, ProductModule],
+  imports: [BasicModule, FeedbackModule, UserModule, OrgModule, ProductModule],
 })
 export class AppModule {}

@@ -40,9 +40,9 @@ export const JWTProperty = createParamDecorator(
 export const JWT_uid = JWTProperty('uid');
 
 /**
- * Wrapper around the `JWTProperty` decorator to get the `role: Role` property from
- * the JWT, as this is a common use case, it is added here so it does not need to be
- * duplicated everywhere.
+ * Wrapper around the `JWTProperty` decorator to get the `roles: Array<Role>`
+ * property from the JWT, as this is a common use case, it is added here so it
+ * does not need to be duplicated everywhere.
  *
  * Unfortunately, NestJS param decorators cannot actually infer the return type,
  * so all params that use this decorator still need to annotate the field's type themselves.
