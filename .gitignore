@@ -31,3 +31,6 @@ pids
 
 # Optional eslint cache
 .eslintcache
+
+# Firebase service account key
+**/serviceAccountKey.json

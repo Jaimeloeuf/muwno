@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useAuth0 } from "@auth0/auth0-vue";
+import { auth } from "../../firebase";
 import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
 
-const { user } = useAuth0();
 const orgStore = useOrg();
 
 const orgDetails = orgStore.orgDetails;
@@ -22,7 +21,8 @@ if (orgDetails === undefined)
       <p class="mb-2 text-xl">User</p>
 
       <div class="m-3 rounded-lg bg-slate-200 p-3">
-        <pre>{{ user }}</pre>
+        <p>User ID</p>
+        <p class="text-xl">{{ auth.currentUser?.uid }}</p>
       </div>
 
       <hr class="my-12" />

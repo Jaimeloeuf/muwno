@@ -13,10 +13,10 @@
     "build:full": "npm run typecheck && npm run build:delete && npm run build"
   },
   "dependencies": {
-    "@auth0/auth0-vue": "^2.3.0",
     "chart.js": "^4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "domain-model": "file:../domain",
+    "firebase": "^10.1.0",
     "fuse.js": "^6.6.2",
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.1.0",

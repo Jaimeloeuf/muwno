@@ -1,6 +1,12 @@
 import { createNewRouter } from "./CreateNewRouter";
 import { LoginRoute, OrgRoute } from "./index";
-import { authGuard } from "@auth0/auth0-vue";
+import { auth } from "../firebase";
+
+/**
+ * Auth predicate to determine if user is logged in by checking if current user
+ * is null or not.
+ */
+const firebaseAuthPredicate = () => auth.currentUser !== null;
 
 /**
  * Router created for this project
@@ -8,5 +14,5 @@ import { authGuard } from "@auth0/auth0-vue";
 export const router = createNewRouter(
   LoginRoute.name,
   OrgRoute.name,
-  authGuard
+  firebaseAuthPredicate
 );

@@ -6,7 +6,7 @@ import CopyOnClick from "../../components/CopyOnClick.vue";
 
 const props = defineProps<{ product: Product }>();
 
-const surveyLink = `https://form.theprodtool.com/#/feedback/${props.product.id}`;
+const surveyLink = `https://form.thepmftool.com/#/feedback/${props.product.id}`;
 
 const imageDataUrl = ref<string>("");
 

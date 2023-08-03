@@ -70,7 +70,7 @@ model user {
   // role         Role
   name         String
   email        String   @unique
-  deleted      Boolean  @default(false) // See /docs/Deleting User Accounts.md
+  deactivated  Boolean  @default(false) // See /docs/Deactivating User Accounts.md
 
   // Relationship: MANY users, can have ONE (the same) org
   org   org    @relation(fields: [orgID], references: [id])

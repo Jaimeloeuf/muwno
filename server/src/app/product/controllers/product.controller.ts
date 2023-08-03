@@ -10,6 +10,8 @@ import {
 
 import { ProductService } from '../services/product.service.js';
 
+import { GuardWithRBAC, AllowAllRoles } from '../../../rbac/index.js';
+
 // Entity Types
 import type { Product, MIT } from 'domain-model';
 
@@ -30,6 +32,7 @@ import { mapManyProductEntityToDTO } from '../mapper/toDTOs/products.js';
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 @Controller('product')
+@GuardWithRBAC()
 @UseHttpControllerFilters
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -38,6 +41,7 @@ export class ProductController {
    * Get all products of the user's org, by getting their orgID from their JWT.
    */
   @Get('all')
+  @AllowAllRoles
   async getSelfOrgProducts(): Promise<ReadManyProductDTO> {
     // @todo Hardcoded orgID that should be read from user's JWT
     const orgID = '__TEST_ORG_ID__';
@@ -51,6 +55,7 @@ export class ProductController {
    * Create a new Product
    */
   @Post('create')
+  @AllowAllRoles
   async createProduct(
     // @todo Add DTO Validation
     @Body() createOneProductDTO: CreateOneProductDTO,
@@ -67,6 +72,7 @@ export class ProductController {
    * Get the PMF live score.
    */
   @Get('PMF/live/:productID')
+  @AllowAllRoles
   async getPMFLiveScore(
     @Param('productID') productID: Product['id'],
   ): Promise<ReadOnePMFLiveScoreDTO> {
@@ -79,6 +85,7 @@ export class ProductController {
    * Get PMF score of all time periods within the selected time range.
    */
   @Get('PMF/range/:productID')
+  @AllowAllRoles
   async getPMFScoresOfSelectedRange(
     @Param('productID') productID: Product['id'],
 
@@ -94,6 +101,7 @@ export class ProductController {
    * Get a list of MITs that the team should work on
    */
   @Get('MIT/current/:productID')
+  @AllowAllRoles
   async getCurrentMIT(
     @Param('productID') productID: Product['id'],
   ): Promise<ReadManyMITDTO> {
@@ -106,6 +114,7 @@ export class ProductController {
    * Mark a single 'MIT' task as done.
    */
   @Post('MIT/done/:mitID')
+  @AllowAllRoles
   async markTaskAsDone(
     @Param('mitID') mitID: MIT['id'],
   ): Promise<ReadManyMITDTO> {

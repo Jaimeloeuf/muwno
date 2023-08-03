@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body } from '@nestjs/common';
 
 import { OrgService } from '../services/org.service.js';
 
+import { GuardWithRBAC, AllowAllRoles } from '../../../rbac/index.js';
+
 // DTO Types
 import type { ReadOneOrgDTO, CreateOneOrgDTO } from 'domain-model';
 
@@ -12,6 +14,7 @@ import { mapOrgEntityToDTO } from '../mapper/toDTOs/org.js';
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 @Controller('org')
+@GuardWithRBAC()
 @UseHttpControllerFilters
 export class OrgController {
   constructor(private readonly orgService: OrgService) {}
@@ -20,6 +23,7 @@ export class OrgController {
    * Get the given user's org, by getting their orgID from their JWT.
    */
   @Get('self')
+  @AllowAllRoles
   async getSelfOrg(): Promise<ReadOneOrgDTO> {
     // @todo Hardcoded orgID that should be read from user's JWT
     const orgID = '__TEST_ORG_ID__';
@@ -31,6 +35,7 @@ export class OrgController {
    * Create a new Organisation
    */
   @Post('create')
+  @AllowAllRoles
   async createOrg(
     // @todo Add DTO Validation
     @Body() createOneOrgDTO: CreateOneOrgDTO,

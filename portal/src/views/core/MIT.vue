@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
+import { getAuthHeader } from "../../firebase";
 import type { Product, ReadManyMITDTO, MIT } from "domain-model";
 
 const props = defineProps<{ productID: Product["id"] }>();
@@ -8,6 +9,7 @@ const props = defineProps<{ productID: Product["id"] }>();
 const { res, err } = await sf
   .useDefault()
   .GET(`/product/MIT/current/${props.productID}`)
+  .useHeader(getAuthHeader)
   .runJSON<ReadManyMITDTO>();
 
 if (err) throw err;
@@ -19,6 +21,7 @@ async function markTaskAsDone(mitID: MIT["id"]) {
   const { res, err } = await sf
     .useDefault()
     .POST(`/product/MIT/done/${mitID}`)
+    .useHeader(getAuthHeader)
     .runJSON<ReadManyMITDTO>();
 
   if (err) throw err;

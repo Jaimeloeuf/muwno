@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { sf } from "simpler-fetch";
+import { getAuthHeader } from "../firebase";
 import type {
   Org,
   ReadOneOrgDTO,
@@ -49,6 +50,7 @@ export const useOrg = defineStore("org", {
       const { res, err } = await sf
         .useDefault()
         .GET("/org/self")
+        .useHeader(getAuthHeader)
         .runJSON<ReadOneOrgDTO>();
 
       if (err) throw err;
@@ -64,6 +66,7 @@ export const useOrg = defineStore("org", {
       const { res, err } = await sf
         .useDefault()
         .POST("/org/create")
+        .useHeader(getAuthHeader)
         .bodyJSON<CreateOneOrgDTO>(createOneOrgDTO)
         .runJSON<ReadOneOrgDTO>();
 
@@ -80,6 +83,7 @@ export const useOrg = defineStore("org", {
       const { res, err } = await sf
         .useDefault()
         .GET(`/product/all`)
+        .useHeader(getAuthHeader)
         .runJSON<ReadManyProductDTO>();
 
       if (err) throw err;
@@ -110,6 +114,7 @@ export const useOrg = defineStore("org", {
       const { res, err } = await sf
         .useDefault()
         .POST(`/product/create`)
+        .useHeader(getAuthHeader)
         .bodyJSON<CreateOneProductDTO>({ name: productName, surveyMode })
         .runJSON<ReadOneProductDTO>();
 

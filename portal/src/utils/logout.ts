@@ -1,13 +1,17 @@
-import { auth0 } from "../auth0";
+import { router, LoginRoute } from "../router";
+import { auth } from "../firebase";
 
 import { resetAllPiniaStores } from "./resetAllPiniaStores";
 
 /**
- * Clear local state, logout current user and redirect to landing page.
+ * Signout current user, clear local state and redirect to login view.
  * @function logout
  */
-export async function logout(getConfirmation = true) {
+export async function logout(getConfirmation: boolean) {
   if (getConfirmation && !confirm("Logout?")) return;
+
+  // Signout current user
+  await auth.signOut();
 
   // Reset all the stores, so that no data is still kept in memory!
   resetAllPiniaStores();
@@ -17,7 +21,6 @@ export async function logout(getConfirmation = true) {
   localStorage.clear();
   sessionStorage.clear();
 
-  // Run this last because this will redirect to a different page, so all other
-  // JS logic must be ran first before this.
-  await auth0.logout({ logoutParams: { returnTo: "https://thepmftool.com" } });
+  // Redirect to login view
+  router.push({ name: LoginRoute.name });
 }

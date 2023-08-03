@@ -5,8 +5,6 @@
 // Location of this file is defined in tsconfig.json
 interface ImportMetaEnv {
   readonly VITE_API_URL: string;
-  readonly VITE_AUTH0_DOMAIN: string;
-  readonly VITE_AUTH0_CLIENT_ID: string;
 
   // Add more env variables as needed...
 }

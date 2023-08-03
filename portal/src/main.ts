@@ -1,39 +1,38 @@
 // Import to run the side effect of setting base Urls before it is used elsewhere
 import "./API";
 
-import { createApp, watchEffect } from "vue";
-import { auth0 } from "./auth0";
+import { auth, onAuthStateChanged } from "./firebase";
+import { type ComponentPublicInstance, createApp } from "vue";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { router } from "./router";
 import App from "./App.vue";
 import { initStoresOnAppStartIfLoggedIn } from "./store";
 
-createApp(App)
-  .use(router)
-  // Auth0 must be registered after router to prevent unexpected behaviors
-  .use(auth0)
-  .use(createPinia().use(piniaPluginPersistedstate))
-  .mount("#app");
+// App variable to store reference to the vue App object
+let app: ComponentPublicInstance;
 
 /**
- * Handle to stop watching for reactive changes.
+ * Why is app creation wrapped in this?
+ *
+ * Wait for firebase to finish initialization before creating the app.
+ * So that the router navigation wont break due to invalid auth
  */
-const stopWatchEffect = watchEffect(() => {
-  // Once auth0 SDK completes the PKCE flow,
-  // If the user is logged in, run the required init functions.
-  if (!auth0.isLoading.value)
-    if (auth0.isAuthenticated.value) {
-      // Stop the watch effect function from being called again to prevent
-      // `initStoresOnAppStartIfLoggedIn` from getting called more than once.
-      stopWatchEffect();
+const unsubscribe = onAuthStateChanged(auth, (user) => {
+  // Prevent app initialization from running more than once
+  if (!app) {
+    // Use firebase.Unsubscribe function returned from authStateChange listener
+    // to unsubscribe to prevent this from running more than once.
+    unsubscribe();
 
-      // This is only called after `createApp` to ensure that pinia stores are
-      // installed since most of the init functions are pinia store methods.
-      //
-      // Run the `initStoresOnAppStartIfLoggedIn` function after making sure the
-      // watchEffect is stopped since this contains async code which will cause
-      // issue with calling stopWatchEffect.
-      initStoresOnAppStartIfLoggedIn();
-    }
+    // Create new vue app
+    app = createApp(App)
+      .use(router)
+      .use(createPinia().use(piniaPluginPersistedstate))
+      .mount("#app");
+
+    // If the user is logged in, run the required init functions. This is only
+    // called after `createApp` to ensure that pinia stores are installed.
+    if (user !== null) initStoresOnAppStartIfLoggedIn();
+  }
 });

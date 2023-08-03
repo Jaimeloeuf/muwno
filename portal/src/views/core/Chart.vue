@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
+import { getAuthHeader } from "../../firebase";
 import type { Product, ReadManyPMFScoreDTO } from "domain-model";
 
 import { Line } from "vue-chartjs";
@@ -25,6 +26,7 @@ const { res, err } = await sf
       props.intervals
     }&intervalType=${"week"}`
   )
+  .useHeader(getAuthHeader)
   .runJSON<ReadManyPMFScoreDTO>();
 
 if (err) throw err;

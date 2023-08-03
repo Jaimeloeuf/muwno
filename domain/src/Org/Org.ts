@@ -12,3 +12,8 @@ export type Org = {
   name: string;
   plan: string;
 };
+
+/**
+ * Type alias for `Org['id']` where all orgIDs will follow the same type.
+ */
+export type OrgID = Org["id"];

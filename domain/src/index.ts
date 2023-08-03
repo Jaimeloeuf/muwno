@@ -3,6 +3,7 @@
  */
 
 /* Entity Types */
+export * from "./User/index.js";
 export * from "./Feedback/index.js";
 export * from "./Product/index.js";
 export * from "./Org/index.js";
