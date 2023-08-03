@@ -15,6 +15,8 @@ export async function useForm(formID: string) {
     .runJSON<ReadOneFeedbackFormDTO>();
 
   if (err) throw err;
+  // @todo If 404 should redirect to landing page immediately or a not found
+  // page instead of throwing an error here!
   if (!res.ok) throw new Error("Failed to load feedback form!");
 
   const productName = res.data.form.productName;

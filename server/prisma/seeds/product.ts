@@ -18,7 +18,7 @@ export async function seedProduct(prisma: PrismaClient) {
       {
         orgID: '__TEST_ORG_ID__',
         createdAt: generateIsoDateTimeString(-246400000),
-        name: 'theprodtool',
+        name: 'thepmftool',
         surveyMode: 1,
       },
 

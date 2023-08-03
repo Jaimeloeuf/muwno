@@ -1,5 +1,5 @@
-# PMF
-X is a tool that helps SaaS Startups achieve PMF using clear and actionable insights from their customers
+# thepmftool
+***thepmftool*** helps *Product Teams* survey their customers so that they can measure their *PMF (Product Market Fit)* and get summarised key *actionable insights* from the feedbacks automatically.
 
 
 ## Project structure
@@ -7,9 +7,11 @@ X is a tool that helps SaaS Startups achieve PMF using clear and actionable insi
     - Standalone domain model that is shared/used by all other subrepos.
     - Make sure this is built before running the other subrepos, see [README](./domain/README.md) for more info.
 - [portal](./portal)
-    - Project directory for PWA made with Vue3/TS/Bulma/Firebase
+    - Project directory for PWA made with Vue3/TS/Tailwind
 - [form](./form)
-    - Project directory for PWA made with Vue3/TS/Bulma/Firebase
+    - Project directory for PWA made with Vue3/TS/Tailwind
+- [landing](./landing)
+    - Project directory for landing page made with Vue3/TS/Tailwind
 - [server](./server)
     - Project directory for API server built with NestJS/TS/PostgreSQL
 - [docs](./docs)
@@ -21,4 +23,5 @@ X is a tool that helps SaaS Startups achieve PMF using clear and actionable insi
 
 ### By
 - [JJ](https://github.com/Jaimeloeuf)
+- [Yan Jun](https://github.com/yanjunn)
 - [JayZ](https://github.com/MysteryGenius)

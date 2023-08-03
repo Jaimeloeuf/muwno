@@ -2,12 +2,15 @@
 import { auth } from "../../firebase";
 import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
+import { type Role, roleMapper } from "domain-model";
 
 const orgStore = useOrg();
 
 const orgDetails = orgStore.orgDetails;
 if (orgDetails === undefined)
   throw new Error("Profile.vue: Org details is undefined");
+
+const claims = await auth.currentUser?.getIdTokenResult();
 </script>
 
 <template>
@@ -23,6 +26,15 @@ if (orgDetails === undefined)
       <div class="m-3 rounded-lg bg-slate-200 p-3">
         <p>User ID</p>
         <p class="text-xl">{{ auth.currentUser?.uid }}</p>
+      </div>
+
+      <div class="m-3 rounded-lg bg-slate-200 p-3">
+        <p>Roles</p>
+        <p class="text-xl">
+          {{
+            (claims?.claims as any).roles.map((role: Role) => roleMapper[role])
+          }}
+        </p>
       </div>
 
       <hr class="my-12" />

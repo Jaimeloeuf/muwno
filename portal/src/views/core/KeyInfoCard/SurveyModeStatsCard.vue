@@ -34,12 +34,6 @@ const autoSurveyDetails: AutoSurveyDetails = {
       Mode
     </p>
 
-    <div class="mb-2 border-b border-slate-300 pb-2">
-      <!-- @todo Above 15% show green -->
-      <p class="text-xl text-lime-600">21% response rate</p>
-      <p class="text-lg">{{ 100 }} surveys sent, {{ 21 }} responded.</p>
-    </div>
-
     <div v-if="product.surveyMode === SurveyMode.manual" class="">
       <p>Click in to do a Manual Email Blast</p>
 

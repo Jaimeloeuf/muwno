@@ -144,19 +144,15 @@ export class ProductRepo implements IProductRepo {
   }
 
   async currentMIT(productID: Product['id']) {
-    // @todo To fix
-    const startOfSprintWindow = new Date(
-      new Date().getTime() - 6.048e8,
-    ).toISOString();
-
     return this.db.mit
       .findMany({
         where: {
           productID,
-          createdAt: { gte: startOfSprintWindow },
           done: false,
         },
+        // @todo Sort by points system too
         orderBy: { createdAt: 'desc' },
+        take: 3,
       })
       .then(mapMITModelsToEntity);
   }

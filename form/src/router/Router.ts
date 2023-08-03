@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import { Routes } from "./Routes";
+import { NotFoundRoute } from "./PublicRoutes";
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -40,10 +41,6 @@ export const router = createRouter({
     ...Routes,
 
     /* 404 Catch all route handler */
-    {
-      path: "/:pathMatch(.*)*",
-      name: "404",
-      component: () => import("../views/404.vue"),
-    },
+    NotFoundRoute,
   ],
 });
