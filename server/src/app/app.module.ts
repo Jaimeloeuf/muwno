@@ -6,11 +6,19 @@ import { FeedbackModule } from './feedback/feedback.module.js';
 import { UserModule } from './user/user.module.js';
 import { OrgModule } from './org/org.module.js';
 import { ProductModule } from './product/product.module.js';
+import { LandingModule } from './landing/landing.module.js';
 
 /**
  * App module used to tie all application feature modules together.
  */
 @Module({
-  imports: [BasicModule, FeedbackModule, UserModule, OrgModule, ProductModule],
+  imports: [
+    BasicModule,
+    FeedbackModule,
+    UserModule,
+    OrgModule,
+    ProductModule,
+    LandingModule,
+  ],
 })
 export class AppModule {}

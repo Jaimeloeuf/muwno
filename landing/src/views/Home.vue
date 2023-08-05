@@ -26,7 +26,7 @@ async function submitMessage() {
       .POST("/landing/contact-form/submit")
       .useHeader({ "x-recaptcha-token": await getRecaptchaToken("contactUs") })
       .bodyJSON({
-        firstName: name.value,
+        name: name.value,
         email: email.value,
         message: message.value,
       })
