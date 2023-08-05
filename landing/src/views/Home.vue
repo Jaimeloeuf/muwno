@@ -1,6 +1,48 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import { useLoader } from "../store";
+
 const loginLink = "https://portal.thepmftool.com";
 const signupLink = "https://portal.thepmftool.com/#/signup";
+
+const loader = useLoader();
+
+const name = ref<string>("");
+const email = ref<string>("");
+const message = ref<string>("");
+
+async function submitMessage() {
+  if (name.value === "") return alert("Please enter a valid name!");
+  if (email.value === "") return alert("Please enter a valid email!");
+
+  try {
+    loader.show();
+
+    const { getRecaptchaToken } = await import("../recaptcha");
+    const { sf } = await import("simpler-fetch");
+
+    const { res, err } = await sf
+      .useDefault()
+      .POST("/landing/contact-form/submit")
+      .useHeader({ "x-recaptcha-token": await getRecaptchaToken("contactUs") })
+      .bodyJSON({
+        firstName: name.value,
+        email: email.value,
+        message: message.value,
+      })
+      .runJSON();
+
+    if (err) return alert(`Error: ${err}`);
+    if (!res.ok)
+      return alert(`Failed to submit message: ${(res as any)?.data?.message}`);
+    if (res.status === 201)
+      return alert("Message sent! We will get back to you as soon as possible");
+  } catch (error) {
+    alert(`Failed to submit message: ${error}`);
+  } finally {
+    loader.hide();
+  }
+}
 </script>
 
 <template>
@@ -164,7 +206,7 @@ const signupLink = "https://portal.thepmftool.com/#/signup";
     </div>
 
     <div
-      class="grid grid-cols-3 items-center justify-between gap-4 sm:gap-8 md:gap-12 lg:gap-20 xl:gap-32 2xl:gap-64"
+      class="grid grid-cols-3 items-center justify-between sm:gap-8 md:gap-12 lg:gap-20 xl:gap-32 2xl:gap-64"
     >
       <img src="../assets/dropbox.svg" class="w-full" />
       <img src="../assets/eventbrite.svg" class="w-full" />
@@ -173,44 +215,33 @@ const signupLink = "https://portal.thepmftool.com/#/signup";
   </div>
 
   <div
-    class="flex flex-col space-y-6 bg-slate-200 px-10 py-16 md:flex-row md:space-x-12 md:px-16 lg:px-32"
+    class="flex flex-col space-y-6 bg-slate-200 px-10 py-12 md:flex-row md:space-x-12 md:px-16 lg:px-32"
   >
-    <p class="mb-3 w-full text-2xl text-green-800 md:text-3xl lg:text-4xl">
+    <p class="w-full text-2xl text-green-800 md:text-3xl lg:text-4xl">
       Reach out to us when you are ready to growth hack your product to PMF!
     </p>
 
-    <div class="flex w-full flex-col px-3 text-sm">
-      <div
-        class="mb-6 flex flex-col space-y-6 sm:flex-row sm:space-x-4 sm:space-y-0"
-      >
-        <label class="w-full tracking-wide">
-          <p class="mb-2 font-bold text-gray-700">FIRST NAME</p>
+    <div class="flex w-full flex-col px-3 text-sm lg:px-12">
+      <label class="mb-6 w-full tracking-wide">
+        <p class="mb-2 font-bold text-gray-700">NAME</p>
 
-          <input
-            class="w-full appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            type="text"
-            placeholder="Jane"
-          />
-        </label>
-
-        <label class="w-full tracking-wide">
-          <p class="mb-2 font-bold text-gray-700">LAST NAME</p>
-
-          <input
-            class="w-full appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            type="text"
-            placeholder="Doe"
-          />
-        </label>
-      </div>
+        <input
+          v-model="name"
+          class="w-full appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+          type="text"
+          placeholder="Jane Doe"
+        />
+      </label>
 
       <label class="mb-6 w-full tracking-wide">
         <p class="mb-2 font-bold text-gray-700">EMAIL</p>
 
         <input
+          v-model="email"
           class="w-full appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
           type="text"
           placeholder="janedoe@gmail.com"
+          @keydown.enter="submitMessage"
         />
       </label>
 
@@ -218,6 +249,7 @@ const signupLink = "https://portal.thepmftool.com/#/signup";
         <p class="mb-2 font-bold text-gray-700">YOUR MESSAGE</p>
 
         <textarea
+          v-model="message"
           class="w-full resize-none appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
           rows="4"
           placeholder="I am ready to growth hack my product to PMF!"
@@ -226,6 +258,7 @@ const signupLink = "https://portal.thepmftool.com/#/signup";
 
       <button
         class="w-40 rounded-3xl bg-green-800 px-6 py-2 text-lg text-slate-50"
+        @click="submitMessage"
       >
         Submit
       </button>
@@ -233,7 +266,7 @@ const signupLink = "https://portal.thepmftool.com/#/signup";
   </div>
 
   <div
-    class="flex flex-row justify-between bg-slate-50 p-10 md:items-center md:px-16 lg:px-32"
+    class="flex flex-row justify-between bg-slate-50 p-4 md:items-center md:px-16 lg:px-32"
   >
     <div>
       <img src="/logo.svg" class="md:w-40" />
