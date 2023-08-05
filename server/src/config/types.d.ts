@@ -13,6 +13,8 @@ export interface EnvironmentVariables {
   readonly version: string;
   readonly RECAPTCHA_SECRET: string;
   readonly POSTMARK_API_KEY: string;
+  readonly TELE_BOT_TOKEN: string;
+  readonly TELE_ADMIN_CHAT_ID: string;
   readonly THROTTLE_TTL: number;
   readonly THROTTLE_LIMIT: number;
   readonly PRISMA_VERBOSE: boolean;

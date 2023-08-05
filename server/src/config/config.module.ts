@@ -45,6 +45,16 @@ export const ConfigModule = _ConfigModule.forRoot({
     POSTMARK_API_KEY: Joi.string().required(),
 
     /**
+     * Expects the telegram bot's token.
+     */
+    TELE_BOT_TOKEN: Joi.string().required(),
+
+    /**
+     * Expects the chat ID of thepmftool's telegram admin chat.
+     */
+    TELE_ADMIN_CHAT_ID: Joi.string().required(),
+
+    /**
      * Arbitrary default TTL
      */
     THROTTLE_TTL: Joi.number().default(3),
