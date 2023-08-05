@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { SkipThrottle } from '@nestjs/throttler';
 
 import { FeedbackService } from '../services/feedback.service.js';
 
@@ -26,6 +27,9 @@ export class FeedbackController {
    * Get a Feedback Form's data.
    */
   @Get('form/:productID')
+  // Skip throttle on this public API to prevent erroring on users.
+  // Recaptcha will be used to gaurd this from malicious automatic DDoS.
+  @SkipThrottle()
   async getForm(
     @Param('productID') productID: Product['id'],
   ): Promise<ReadOneFeedbackFormDTO> {
@@ -38,6 +42,9 @@ export class FeedbackController {
    * Endpoint to submit responses of a feedback form.
    */
   @Post('submit/:productID')
+  // Skip throttle on this public API to prevent erroring on users.
+  // Recaptcha will be used to gaurd this from malicious automatic DDoS.
+  @SkipThrottle()
   async submitForm(
     @Param('productID') productID: Product['id'],
 
