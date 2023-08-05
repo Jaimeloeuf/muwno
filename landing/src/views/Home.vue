@@ -1,5 +1,6 @@
 <script setup lang="ts">
-//
+const loginLink = "https://portal.thepmftool.com";
+const signupLink = "https://portal.thepmftool.com/#/signup";
 </script>
 
 <template>
@@ -7,18 +8,24 @@
   <div
     class="flex flex-row items-center justify-between bg-slate-50 p-4 lg:px-20"
   >
-    <img src="../assets/logo.svg" class="sm:w-52" />
+    <img src="/logo.svg" class="sm:w-52" />
 
     <div>
-      <button class="mr-6 rounded-3xl bg-green-800 px-8 py-2 text-white">
+      <a
+        :href="loginLink"
+        target="_blank"
+        class="mr-6 rounded-3xl bg-green-800 px-8 py-2 text-white"
+      >
         Login
-      </button>
+      </a>
 
-      <button
+      <a
+        :href="signupLink"
+        target="_blank"
         class="hidden rounded-3xl border-2 border-green-800 px-8 py-2 text-black md:inline-block"
       >
         Sign up
-      </button>
+      </a>
     </div>
   </div>
 
@@ -38,16 +45,22 @@
 
       <div>
         <div
-          class="flex max-w-lg flex-col items-center space-y-4 md:flex-row md:space-x-4 md:space-y-0"
+          class="flex max-w-lg flex-col space-y-4 text-center md:flex-row md:space-x-4 md:space-y-0"
         >
-          <button class="w-full rounded-3xl bg-green-800 px-7 py-2 text-white">
+          <a
+            :href="loginLink"
+            target="_blank"
+            class="w-full rounded-3xl bg-green-800 px-7 py-2 text-white"
+          >
             Start
-          </button>
-          <button
+          </a>
+          <a
+            :href="loginLink"
+            target="_blank"
             class="w-full rounded-3xl border-2 border-green-800 bg-white px-7 py-2 text-black"
           >
             Live Demo
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -101,11 +114,13 @@
         to get feedback consistently and recurringly.
       </p>
 
-      <button
+      <a
+        :href="signupLink"
+        target="_blank"
         class="w-48 rounded-3xl bg-green-800 px-6 py-2 text-lg text-slate-50"
       >
         Create Survey
-      </button>
+      </a>
     </div>
 
     <div class="w-full max-w-lg md:max-w-full">
@@ -130,11 +145,13 @@
         our AI model that analyses your customers' feedback.
       </p>
 
-      <button
+      <a
+        :href="loginLink"
+        target="_blank"
         class="w-48 rounded-3xl bg-green-800 px-6 py-2 text-lg text-slate-50"
       >
         View Dashboard
-      </button>
+      </a>
     </div>
   </div>
 
@@ -219,7 +236,7 @@
     class="flex flex-row justify-between bg-slate-50 p-10 md:items-center md:px-16 lg:px-32"
   >
     <div>
-      <img src="../assets/logo.svg" class="md:w-40" />
+      <img src="/logo.svg" class="md:w-40" />
     </div>
 
     <div class="flex flex-col md:flex-row md:space-x-3 lg:space-x-6">
