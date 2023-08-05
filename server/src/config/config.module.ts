@@ -35,6 +35,11 @@ export const ConfigModule = _ConfigModule.forRoot({
     version: Joi.string().required(),
 
     /**
+     * Expects the Recaptcha secret key.
+     */
+    RECAPTCHA_SECRET: Joi.string().required(),
+
+    /**
      * Expects the POSTMARK Email Service API key.
      */
     POSTMARK_API_KEY: Joi.string().required(),
