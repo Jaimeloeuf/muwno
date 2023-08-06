@@ -33,7 +33,8 @@ async function submit() {
 
 <template>
   <!-- This ensures that the UI is always centered and limited to a width even in desktop mode -->
-  <div class="m-6">
+  <!-- The extra bottom padding is to allow full scrolling past the mandatory injected recaptcha widget -->
+  <div class="m-6 pb-20">
     <h1 class="mb-6 text-3xl font-extrabold tracking-tight text-gray-900">
       {{ productName }} feedback form
     </h1>

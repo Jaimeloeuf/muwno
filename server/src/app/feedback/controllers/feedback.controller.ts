@@ -3,6 +3,8 @@ import { SkipThrottle } from '@nestjs/throttler';
 
 import { FeedbackService } from '../services/feedback.service.js';
 
+import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
+
 // Entity Types
 import type { Product } from 'domain-model';
 
@@ -19,6 +21,7 @@ import { mapFeedbackFormEntityToDTO } from '../mapper/toDTOs/feedbackform.js';
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 @Controller('feedback')
+@GuardWithRecaptcha()
 @UseHttpControllerFilters
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}

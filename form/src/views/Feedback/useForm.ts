@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
+import { getRecaptchaToken } from "./recaptcha";
 import type {
   ReadOneFeedbackFormDTO,
   CreateOneFeedbackResponseDTO,
@@ -12,6 +13,9 @@ export async function useForm(formID: string) {
   const { res, err } = await sf
     .useDefault()
     .GET(`/feedback/form/${formID}`)
+    .useHeader({
+      "x-recaptcha-token": await getRecaptchaToken("getFormDetails"),
+    })
     .runJSON<ReadOneFeedbackFormDTO>();
 
   if (err) throw err;
@@ -40,6 +44,9 @@ export async function useForm(formID: string) {
     const { res, err } = await sf
       .useDefault()
       .POST(`/feedback/submit/${formID}`)
+      .useHeader({
+        "x-recaptcha-token": await getRecaptchaToken("submitFeedbackForm"),
+      })
       .bodyJSON<CreateOneFeedbackResponseDTO>({
         response: {
           a1: a1.value,

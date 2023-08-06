@@ -46,6 +46,17 @@
 
   <!-- Link to main stylesheet to link tailwind in -->
   <link rel="stylesheet" href="/src/css/index.css">
+
+  <!--
+    Loading the recaptcha library synchronously so that it is loaded before the
+    main app runs, because if the feedback page is loaded immediately, that will
+    make an API call to the API service to get feedback form details, which might
+    fail if the recaptcha library's `grecaptcha` is not defined yet.
+
+    Here is a solution to use if the library should be loaded asynchronously inside the JS module
+    https://github.com/AurityLab/recaptcha-v3
+  -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6Ldwb4InAAAAAP8Z6U1JnGq3WQ9pguOtWGh3kuHL"></script>
 </head>
 
 <body>
