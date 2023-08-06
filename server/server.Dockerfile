@@ -7,8 +7,8 @@
 # will not find any, and cause everything to be sent to the docker daemon.
 #
 # To build and run the image from this Dockerfile, where x is the name of the worker node's JS file name
-# docker build -t PMF-api -f ./server.Dockerfile .
-# docker run -d --rm -p 3000:3000 --name PMF-api PMF-api
+# docker build -t thepmftool-api -f ./server.Dockerfile .
+# docker run -d --rm -p 3000:3000 --name thepmftool-api thepmftool-api
 # Alternativly, use docker compose in root to run this service
 #
 # Why the server needs to be built first before the image is built:

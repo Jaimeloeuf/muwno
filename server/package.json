@@ -8,7 +8,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "node dist/src/main",
+    "start": "node dist/main",
     "serve": "nest start --path tsconfig.json --watch",
     "start:debug": "nest start --path tsconfig.json --watch --debug",
     "prebuild": "npx rimraf dist .tsbuildinfo",
@@ -16,10 +16,10 @@
     "postbuild": "node ./scripts/createServerVersion.mjs",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
-    "docker:build": "docker build -t asia.gcr.io/PMF/api -f ./server.Dockerfile ../",
-    "docker:run": "docker run -d -p 3000:3000 --rm --name PMF --env-file .env asia.gcr.io/PMF/api",
-    "docker:run-attached": "docker run -p 3000:3000 --rm --name PMF --env-file .env asia.gcr.io/PMF/api",
-    "docker:push": "docker push asia.gcr.io/PMF/api",
+    "docker:build": "docker build --platform linux/amd64 -t asia.gcr.io/thepmftool/api -f ./server.Dockerfile ../",
+    "docker:run": "docker run -d -p 3000:3000 --rm --name thepmftool --env-file .env asia.gcr.io/thepmftool/api",
+    "docker:run-attached": "docker run -p 3000:3000 --rm --name thepmftool --env-file .env asia.gcr.io/thepmftool/api",
+    "docker:push": "docker push asia.gcr.io/thepmftool/api",
     "deploy": "npm run docker:build && npm run docker:push",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch",
