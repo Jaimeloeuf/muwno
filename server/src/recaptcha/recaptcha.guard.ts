@@ -39,7 +39,7 @@ export const GuardWithRecaptcha = () => UseGuards(RecaptchaGuard);
 class RecaptchaGuard implements CanActivate {
   constructor(configService: ConfigService<EnvironmentVariables, true>) {
     const secret = configService.get('RECAPTCHA_SECRET', { infer: true });
-    this.baseUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secret}`;
+    this.baseUrl = `https://www.recaptcha.net/recaptcha/api/siteverify?secret=${secret}`;
   }
 
   /**
