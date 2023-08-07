@@ -9,10 +9,10 @@ import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
 import type { Product } from 'domain-model';
 
 // DTO Types
-import type {
-  ReadOneFeedbackFormDTO,
-  CreateOneFeedbackResponseDTO,
-} from 'domain-model';
+import type { ReadOneFeedbackFormDTO } from 'domain-model';
+
+// DTO Validators
+import { ValidatedCreateOneFeedbackResponseDTO } from '../dto-validation/ValidatedCreateOneFeedbackResponseDTO.js';
 
 // Mappers
 import { mapFeedbackFormEntityToDTO } from '../mapper/toDTOs/feedbackform.js';
@@ -50,10 +50,8 @@ export class FeedbackController {
   @SkipThrottle()
   async submitForm(
     @Param('productID') productID: Product['id'],
-
-    // @todo Add DTO Validation
-    @Body() response: CreateOneFeedbackResponseDTO,
+    @Body() response: ValidatedCreateOneFeedbackResponseDTO,
   ) {
-    this.feedbackService.saveResponse(productID, response.response);
+    this.feedbackService.saveResponse(productID, response);
   }
 }

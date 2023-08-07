@@ -13,7 +13,10 @@ import {
 import type { FirebaseAuthUID } from 'domain-model';
 
 // DTO Types
-import type { ReadOneOrgDTO, CreateOneOrgDTO } from 'domain-model';
+import type { ReadOneOrgDTO } from 'domain-model';
+
+// DTO Validators
+import { ValidatedCreateOneOrgDTO } from '../dto-validation/ValidatedCreateOneOrgDTO.js';
 
 // Mappers
 import { mapOrgEntityToDTO } from '../mapper/toDTOs/org.js';
@@ -45,9 +48,7 @@ export class OrgController {
   @NoRoleRequired
   async createOrg(
     @JWT_uid userID: FirebaseAuthUID,
-
-    // @todo Add DTO Validation
-    @Body() createOneOrgDTO: CreateOneOrgDTO,
+    @Body() createOneOrgDTO: ValidatedCreateOneOrgDTO,
   ): Promise<ReadOneOrgDTO> {
     return this.orgService
       .createOrg(userID, createOneOrgDTO)

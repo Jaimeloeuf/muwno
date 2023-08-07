@@ -17,13 +17,15 @@ import type { FirebaseAuthUID, Product, MIT } from 'domain-model';
 
 // DTO Types
 import type {
-  CreateOneProductDTO,
   ReadOneProductDTO,
   ReadManyProductDTO,
   ReadOnePMFLiveScoreDTO,
   ReadManyPMFScoreDTO,
   ReadManyMITDTO,
 } from 'domain-model';
+
+// DTO Validators
+import { ValidatedCreateOneProductDTO } from '../dto-validation/ValidatedCreateOneProductDTO.js';
 
 // Mappers
 import { mapManyProductEntityToDTO } from '../mapper/toDTOs/products.js';
@@ -57,9 +59,7 @@ export class ProductController {
   @AllowAllRoles
   async createProduct(
     @JWT_uid userID: FirebaseAuthUID,
-
-    // @todo Add DTO Validation
-    @Body() createOneProductDTO: CreateOneProductDTO,
+    @Body() createOneProductDTO: ValidatedCreateOneProductDTO,
   ): Promise<ReadOneProductDTO> {
     return this.productService
       .createProduct(userID, createOneProductDTO)

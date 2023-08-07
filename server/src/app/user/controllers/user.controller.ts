@@ -15,7 +15,10 @@ import type { ServerJWT } from '../../../types/ServerJWT.js';
 import type { FirebaseAuthUID } from 'domain-model';
 
 // DTO Types
-import type { ReadOneUserDTO, CreateOneUserDTO } from 'domain-model';
+import type { ReadOneUserDTO } from 'domain-model';
+
+// DTO Validators
+import { ValidatedCreateOneUserDTO } from '../dto-validation/ValidatedCreateOneUserDTO.js';
 
 // Mappers
 import { mapUserEntityToDTO } from '../mapper/toDTOs/user.js';
@@ -46,9 +49,7 @@ export class UserController {
   @NoRoleRequired
   async createUser(
     @JWT() jwt: ServerJWT,
-
-    // @todo Add DTO Validation
-    @Body() createOneUserDTO: CreateOneUserDTO,
+    @Body() createOneUserDTO: ValidatedCreateOneUserDTO,
   ): Promise<ReadOneUserDTO> {
     if (jwt.email === undefined)
       throw new InvalidInternalStateException(

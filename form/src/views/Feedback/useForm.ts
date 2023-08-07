@@ -48,12 +48,10 @@ export async function useForm(formID: string) {
         "x-recaptcha-token": await getRecaptchaToken("submitFeedbackForm"),
       })
       .bodyJSON<CreateOneFeedbackResponseDTO>({
-        response: {
-          a1: a1.value,
-          a2: a2.value,
-          a3: a3.value,
-          a4: a4.value,
-        },
+        a1: a1.value,
+        a2: a2.value,
+        a3: a3.value,
+        a4: a4.value,
       })
       .run();
 

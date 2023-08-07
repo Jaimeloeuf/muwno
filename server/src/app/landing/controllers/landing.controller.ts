@@ -4,6 +4,9 @@ import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
 
 import { ITelegramBotService } from '../../../infra/abstractions/index.js';
 
+// DTO Validators
+import { ValidatedContactFormDetailsDTO } from '../dto-validation/ValidatedCreateOneOrgDTO.js';
+
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -17,10 +20,7 @@ export class LandingController {
    * API Endpoint for contact us form submission from landing page.
    */
   @Post('contact-form/submit')
-  async createUser(
-    // @todo Add DTO Validation
-    @Body() details: { name: string; email: string; message: string },
-  ) {
+  async createUser(@Body() details: ValidatedContactFormDetailsDTO) {
     await this.telegramBotService.notifyAdmin(
       `<b>ContactForm</b>
 Name: ${details.name}
