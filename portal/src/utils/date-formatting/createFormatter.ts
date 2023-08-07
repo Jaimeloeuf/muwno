@@ -1,4 +1,4 @@
-import type { ISODateTimeString } from "domain-model";
+import type { ISODateTimeString } from "@domain-model";
 
 /**
  * Factor function for creating formatters, which will return a formatted

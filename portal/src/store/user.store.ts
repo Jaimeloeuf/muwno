@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { sf, type ApiResponse } from "simpler-fetch";
-import type { User, CreateOneUserDTO, ReadOneUserDTO } from "domain-model";
+import type { User, CreateOneUserDTO, ReadOneUserDTO } from "@domain-model";
 
 import { getAuthHeader } from "../firebase";
 import { logout } from "../utils/logout";

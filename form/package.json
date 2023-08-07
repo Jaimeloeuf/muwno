@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@formkit/vue": "^0.17.4",
-    "domain-model": "file:../domain",
     "fuse.js": "^6.6.2",
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.1.0",

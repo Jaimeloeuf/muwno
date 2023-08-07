@@ -1,5 +1,5 @@
 import type { User } from "firebase/auth";
-import { Role } from "domain-model";
+import { Role } from "@domain-model";
 
 /**
  * Utility function to validate JWT's custom claims object.

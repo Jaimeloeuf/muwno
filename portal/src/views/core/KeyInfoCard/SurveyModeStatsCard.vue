@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import type { Product, AutoSurveyDetails } from "domain-model";
-import { SurveyMode } from "domain-model";
+import {
+  SurveyMode,
+  type Product,
+  type AutoSurveyDetails,
+} from "@domain-model";
 
 const props = defineProps<{ product: Product }>();
 

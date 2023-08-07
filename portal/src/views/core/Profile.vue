@@ -2,7 +2,7 @@
 import { auth } from "../../firebase";
 import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
-import { type Role, roleMapper } from "domain-model";
+import { type Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();
 

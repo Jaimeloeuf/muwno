@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import path from "path";
 
 import vue from "@vitejs/plugin-vue";
 import basicSSL from "@vitejs/plugin-basic-ssl";
@@ -16,6 +17,12 @@ const gitValues = {
 // https://vitejs.dev/config/
 // https://vitejs.dev/config/#conditional-config
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@domain-model": path.resolve(__dirname, "../domain/src/index.ts"),
+    },
+  },
+
   plugins: [
     vue(),
 

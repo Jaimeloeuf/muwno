@@ -5,7 +5,7 @@ import { useOrg, useLoader } from "../../store";
 import { ProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
 
-import type { SurveyMode, SurveyModeDescription } from "domain-model";
+import type { SurveyMode, SurveyModeDescription } from "@domain-model";
 import SurveyModeCard from "./SurveyModeCard.vue";
 
 const router = useRouter();

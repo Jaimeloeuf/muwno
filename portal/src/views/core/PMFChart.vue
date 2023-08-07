@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { Product } from "domain-model";
+import type { Product } from "@domain-model";
 import Chart from "./Chart.vue";
 
 defineProps<{ product: Product }>();

@@ -6,7 +6,7 @@ import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
 import MITCard from "./KeyInfoCard/MITCard.vue";
 import SurveyModeStatsCard from "./KeyInfoCard/SurveyModeStatsCard.vue";
 import SurveyLinkCard from "./KeyInfoCard/SurveyLinkCard.vue";
-import type { Product } from "domain-model";
+import type { Product } from "@domain-model";
 
 const props = defineProps<{ productID: Product["id"] }>();
 

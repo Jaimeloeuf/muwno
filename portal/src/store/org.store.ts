@@ -12,7 +12,7 @@ import type {
   CreateOneProductDTO,
   ReadOneProductDTO,
   SurveyMode,
-} from "domain-model";
+} from "@domain-model";
 
 /**
  * Type of this pinia store's state.

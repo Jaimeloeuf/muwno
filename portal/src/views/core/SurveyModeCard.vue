@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SurveyModeDescription } from "domain-model";
+import type { SurveyModeDescription } from "@domain-model";
 
 defineProps<{ surveyModeDescription: SurveyModeDescription }>();
 </script>

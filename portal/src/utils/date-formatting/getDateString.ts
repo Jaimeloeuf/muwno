@@ -1,4 +1,4 @@
-import type { ISODateTimeString } from "domain-model";
+import type { ISODateTimeString } from "@domain-model";
 
 /**
  * Simple utility function to convert isoDateTimeString to localeDateString

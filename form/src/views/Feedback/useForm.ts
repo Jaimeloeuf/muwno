@@ -4,7 +4,7 @@ import { getRecaptchaToken } from "./recaptcha";
 import type {
   ReadOneFeedbackFormDTO,
   CreateOneFeedbackResponseDTO,
-} from "domain-model";
+} from "@domain-model";
 
 /**
  * Composable for handling the feedback form.

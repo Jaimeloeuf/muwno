@@ -9,6 +9,10 @@
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
 
   "compilerOptions": {
+    "paths": {
+      "@domain-model": ["../domain/src/index.ts"]
+    },
+
     // @todo Remove someday
     // @vue/tsconfig sets moduleResolution to use bundler,
     // however that is not compatible with all the libraries right now,
