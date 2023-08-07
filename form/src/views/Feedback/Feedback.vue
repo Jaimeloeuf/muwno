@@ -33,8 +33,7 @@ async function submit() {
 
 <template>
   <!-- This ensures that the UI is always centered and limited to a width even in desktop mode -->
-  <!-- The extra bottom padding is to allow full scrolling past the mandatory injected recaptcha widget -->
-  <div class="m-6 pb-20">
+  <div class="m-6">
     <h1 class="mb-6 text-3xl font-extrabold tracking-tight text-gray-900">
       {{ productName }} feedback form
     </h1>
@@ -132,6 +131,26 @@ async function submit() {
         &copy;2023 - {{ new Date().getFullYear() }} thepmftool. All rights
         reserved.
       </a>
+    </div>
+
+    <div class="mt-6 text-center text-xs font-extralight">
+      This site is protected by reCAPTCHA and the Google
+      <a
+        target="_blank"
+        class="text-blue-800"
+        href="https://policies.google.com/privacy"
+      >
+        Privacy Policy
+      </a>
+      and
+      <a
+        target="_blank"
+        class="text-blue-800"
+        href="https://policies.google.com/terms"
+      >
+        Terms of Service
+      </a>
+      apply.
     </div>
   </div>
 </template>

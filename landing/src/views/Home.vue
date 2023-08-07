@@ -262,6 +262,26 @@ async function submitMessage() {
       >
         Submit
       </button>
+
+      <div class="-mx-4 mt-6 text-center text-xs font-extralight">
+        This site is protected by reCAPTCHA and the Google
+        <a
+          target="_blank"
+          class="text-blue-800"
+          href="https://policies.google.com/privacy"
+        >
+          Privacy Policy
+        </a>
+        and
+        <a
+          target="_blank"
+          class="text-blue-800"
+          href="https://policies.google.com/terms"
+        >
+          Terms of Service
+        </a>
+        apply.
+      </div>
     </div>
   </div>
 
