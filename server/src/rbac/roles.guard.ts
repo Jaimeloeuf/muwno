@@ -19,15 +19,15 @@ import { isRoles } from './roles.utils.js';
 import { RequestJwtKey } from './express-req-extension.js';
 
 /**
- * Decorator for Controller classes to protect the controller routes with RBAC.
- * Any controller that uses this Guard decorator will need to explicitly set a
- * role requirement for all the routes using the `RolesRequired` or `NoRolesRequired`
- * decorators from 'roles.decorator.ts' if not the service will error out and die
- * on the first request to the route without any explicit role requirement.
+ * Decorator for Controller classes to protect API routes with RBAC. Any
+ * controller that uses this decorator will need to explicitly set a role
+ * requirement for all the routes using the `RolesRequired` or `NoRolesRequired`
+ * decorators from 'roles.decorator.ts' if not the service will error out and
+ * exit on the first request to the route without any explicit role requirement.
  *
  * Although this can be controller-scoped or method-scoped, it is recommended to
  * use this on controllers only, because a single resource should have a common
- * guard requirement, and since controller usually groups different access methods
+ * guard requirement, and controllerS usually groups different access methods
  * of the same resource together, it is better to apply this Guard decorator to
  * the controller to denote that the specific resource is protected with RBAC.
  */
@@ -37,9 +37,9 @@ export const GuardWithRBAC = () => UseGuards(RolesGuard);
  * The RBAC Guard Class that compare role(s) assigned to the current user making
  * the request to the actual roles required by the current route being processed.
  *
- * This is not exported since the expected use through the GuardWithRBAC function
- * as defined as above, as it is easier to use since module users do not need to
- * import UseGuards too.
+ * This is not exported since this Guard is expected to be used through the
+ * GuardWithRBAC decorator as defined above, since it is easier to use as module
+ * users do not need to import `UseGuards` too.
  *
  * This can be exported to use this Guard in the global scope like so
  * ```TypeScript
@@ -75,7 +75,7 @@ class RolesGuard implements CanActivate {
       this.logger.error(
         `INTERNAL ERROR: Missing Authz Role for ${context.getClass().name}'s ${
           context.getHandler().name
-        }`,
+        } method`,
         RolesGuard.name,
       );
 
@@ -121,22 +121,7 @@ class RolesGuard implements CanActivate {
     );
 
     // Verify JWT string using Auth service.
-    const jwt = await this.auth
-      .verifyJWT(jwtString, checkRevoked)
-      .catch((err) => {
-        // Throw 401 errors with specific error messages for these error codes,
-        // instead of letting the original error bubble through and returning
-        // the user with a generic 500 internal server error.
-        if (err.code === 'auth/id-token-expired')
-          throw new UnauthorizedException('JWT expired, please reauthenticate');
-        if (err.code === 'auth/id-token-revoked')
-          throw new UnauthorizedException('JWT revoked, please reauthenticate');
-
-        // Re-throw the error if it is none of the specified error codes and
-        // treat this as a UnauthorizedException error type so that the error
-        // string and codes can be set by NestJS automatically.
-        throw new UnauthorizedException(`JWT Verification failed: ${err.code}`);
-      });
+    const jwt = await this.auth.verifyJWT(jwtString, checkRevoked);
 
     // Attach decoded token to req object to use downstream.
     req[RequestJwtKey] = jwt;

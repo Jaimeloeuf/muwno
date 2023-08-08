@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { createFirebaseApp } from './createFirebaseApp.js';
 
 import type { IAuthService } from '../../abstractions/IAuthService.js';
@@ -36,13 +36,35 @@ export class FirebaseAuthService implements IAuthService {
   }
 
   async verifyJWT(jwtString: string, checkRevoked?: boolean) {
-    // Type cast as simple alternative to type predicate.
-    // Type casting it to include custom claims object keys, which should be validated
-    // by the method caller so this can be safely assumed to be fine for now.
-    return this.auth.verifyIdToken(
-      jwtString,
-      checkRevoked,
-    ) as Promise<ServerJWT>;
+    return (
+      this.auth
+        .verifyIdToken(jwtString, checkRevoked)
+        // Catch and rethrow errors to use more specific error messages and
+        // types based on the specific error code instead of just letting the
+        // error bubble through and letting NestJS convert it to the generic 500
+        // internal server error for all error types!
+        .catch((err) => {
+          if (err.code === 'auth/id-token-expired')
+            throw new UnauthorizedException(
+              'JWT expired, please reauthenticate',
+            );
+          if (err.code === 'auth/id-token-revoked')
+            throw new UnauthorizedException(
+              'JWT revoked, please reauthenticate',
+            );
+
+          // Re-throw as 401 error if it is none of the specified firebase auth
+          // error codes, which is at least better than the default 500 internal
+          // server error which does not specify the reason for failure.
+          throw new UnauthorizedException(
+            `JWT Verification failed: ${err.code}`,
+          );
+
+          // Type cast as simple alternative to type predicate.
+          // Type casting it to include custom claims object keys, which should
+          // be validated by the caller so this can be assumed to be safe.
+        }) as Promise<ServerJWT>
+    );
   }
 
   async getUserIdWithEmail(email: string) {
