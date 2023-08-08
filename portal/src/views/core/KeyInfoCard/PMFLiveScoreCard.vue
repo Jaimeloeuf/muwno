@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import type { Product, ReadOnePMFLiveScoreDTO } from "@domain-model";
+import type { ProductID, ReadOnePMFLiveScoreDTO } from "@domain-model";
 
-const props = defineProps<{ productID: Product["id"] }>();
+const props = defineProps<{ productID: ProductID }>();
 
 const { res, err } = await sf
   .useDefault()

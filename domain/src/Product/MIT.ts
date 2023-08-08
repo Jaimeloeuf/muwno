@@ -1,4 +1,4 @@
-import type { Product } from "./Product.js";
+import type { ProductID } from "./Product.js";
 import type { ISODateTimeString } from "../utils/Timestamp.js";
 
 /**
@@ -9,7 +9,7 @@ export type MIT = {
    * Unique ID for this MIT
    */
   id: string;
-  productID: Product["id"];
+  productID: ProductID;
   createdAt: ISODateTimeString;
   task: string;
   done: boolean;

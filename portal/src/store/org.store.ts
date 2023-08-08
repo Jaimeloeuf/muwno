@@ -6,6 +6,7 @@ import type {
   Org,
   ReadOneOrgDTO,
   Product,
+  ProductID,
   Products,
   ReadManyProductDTO,
   CreateOneOrgDTO,
@@ -104,7 +105,7 @@ export const useOrg = defineStore("org", {
     /**
      * Get Product object of given `ProductID`
      */
-    getProduct(ProductID: Product["id"]) {
+    getProduct(ProductID: ProductID) {
       const Product = this.products[ProductID];
 
       if (Product === undefined)

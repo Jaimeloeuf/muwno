@@ -6,7 +6,7 @@ import { FeedbackService } from '../services/feedback.service.js';
 import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
 
 // Entity Types
-import type { Product } from 'domain-model';
+import type { ProductID } from 'domain-model';
 
 // DTO Types
 import type { ReadOneFeedbackFormDTO } from 'domain-model';
@@ -34,7 +34,7 @@ export class FeedbackController {
   // Recaptcha will be used to gaurd this from malicious automatic DDoS.
   @SkipThrottle()
   async getForm(
-    @Param('productID') productID: Product['id'],
+    @Param('productID') productID: ProductID,
   ): Promise<ReadOneFeedbackFormDTO> {
     return this.feedbackService
       .getForm(productID)
@@ -49,7 +49,7 @@ export class FeedbackController {
   // Recaptcha will be used to gaurd this from malicious automatic DDoS.
   @SkipThrottle()
   async submitForm(
-    @Param('productID') productID: Product['id'],
+    @Param('productID') productID: ProductID,
     @Body() response: ValidatedCreateOneFeedbackResponseDTO,
   ) {
     this.feedbackService.saveResponse(productID, response);

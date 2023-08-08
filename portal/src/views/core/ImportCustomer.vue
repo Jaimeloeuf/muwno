@@ -3,9 +3,9 @@ import { useRouter } from "vue-router";
 import { useOrg } from "../../store";
 import { ProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
-import type { Product } from "@domain-model";
+import type { ProductID } from "@domain-model";
 
-const props = defineProps<{ productID: Product["id"] }>();
+const props = defineProps<{ productID: ProductID }>();
 
 const router = useRouter();
 const orgStore = useOrg();

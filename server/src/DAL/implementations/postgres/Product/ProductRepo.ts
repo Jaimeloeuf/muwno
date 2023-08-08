@@ -4,9 +4,9 @@ import type { IProductRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
 import type {
-  Org,
+  OrgID,
   UserID,
-  Product,
+  ProductID,
   CreateOneProductDTO,
   MIT,
   PMFScore,
@@ -23,7 +23,7 @@ import {
 export class ProductRepo implements IProductRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async productExists(productID: Product['id']) {
+  async productExists(productID: ProductID) {
     return this.db.product
       .findUnique({
         where: { id: productID },
@@ -32,7 +32,7 @@ export class ProductRepo implements IProductRepo {
       .then((product) => product !== null);
   }
 
-  async getOrgProducts(orgID: Org['id']) {
+  async getOrgProducts(orgID: OrgID) {
     return this.db.product
       .findMany({ where: { orgID }, orderBy: { createdAt: 'asc' } })
       .then(mapProductModelsToEntity);
@@ -58,13 +58,13 @@ export class ProductRepo implements IProductRepo {
     );
   }
 
-  async createOne(orgID: Org['id'], createOneProductDTO: CreateOneProductDTO) {
+  async createOne(orgID: OrgID, createOneProductDTO: CreateOneProductDTO) {
     return this.db.product
       .create({ data: { ...createOneProductDTO, orgID } })
       .then(mapProductModelToEntity);
   }
 
-  async PMFLiveScore(productID: Product['id']) {
+  async PMFLiveScore(productID: ProductID) {
     // @todo To fix
     const startOfSprintWindow = new Date(
       new Date().getTime() - 6.048e8,
@@ -104,7 +104,7 @@ export class ProductRepo implements IProductRepo {
     };
   }
 
-  async PMFScoreOfPeriod(productID: Product['id'], start: string, end: string) {
+  async PMFScoreOfPeriod(productID: ProductID, start: string, end: string) {
     // Select all responses submitted during the given time period.
     // Group by a1 and count how many in each group.
     const responses = await this.db.pmf_survey_responses.groupBy({
@@ -143,7 +143,7 @@ export class ProductRepo implements IProductRepo {
     };
   }
 
-  async currentMIT(productID: Product['id']) {
+  async currentMIT(productID: ProductID) {
     return this.db.mit
       .findMany({
         where: {

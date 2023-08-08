@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { IFeedbackRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
-import type { Product, FeedbackResponse } from 'domain-model';
+import type { ProductID, FeedbackResponse } from 'domain-model';
 
 // Service layer Exceptions
 import { NotFoundException } from '../../../exceptions/index.js';
@@ -15,7 +15,7 @@ export class FeedbackService {
   /**
    * Get a Feedback Form's data from data source.
    */
-  async getForm(productID: Product['id']) {
+  async getForm(productID: ProductID) {
     const form = await this.feedbackRepo.getOne(productID);
     if (form === null)
       throw new NotFoundException(
@@ -28,7 +28,7 @@ export class FeedbackService {
   /**
    * Save response of a feedback form.
    */
-  async saveResponse(productID: Product['id'], response: FeedbackResponse) {
+  async saveResponse(productID: ProductID, response: FeedbackResponse) {
     await this.feedbackRepo.saveOne(productID, response);
   }
 }

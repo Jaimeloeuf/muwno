@@ -202,7 +202,7 @@ watch(showDrawer, (shown) => {
 
       <button
         class="flex w-full p-2 pb-0 text-start text-gray-700"
-        @click="logout()"
+        @click="logout(true)"
       >
         <svg
           class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"

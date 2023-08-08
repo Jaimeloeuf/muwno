@@ -4,9 +4,10 @@ import { IProductRepo, IOrgRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
 import type {
-  Org,
+  OrgID,
   UserID,
   Product,
+  ProductID,
   Products,
   MIT,
   PMFLiveScore,
@@ -36,7 +37,7 @@ export class ProductService {
    * Validate a product ID by checking if a product exists. Throws the common
    * `NotFoundException` if it does not exists.
    */
-  async validateProductID(productID: Product['id']): Promise<void> {
+  async validateProductID(productID: ProductID): Promise<void> {
     if (!(await this.productRepo.productExists(productID)))
       throw new NotFoundException(
         `Product with ProductID '${productID}' does not exist.`,
@@ -46,7 +47,7 @@ export class ProductService {
   /**
    * Get all products of an Org.
    */
-  async getOrgProducts(orgID: Org['id']): Promise<Products> {
+  async getOrgProducts(orgID: OrgID): Promise<Products> {
     // @todo Validate orgID, and if user have permission to this org
 
     return this.productRepo.getOrgProducts(orgID);
@@ -78,9 +79,7 @@ export class ProductService {
   /**
    * Get the PMF live score.
    */
-  async getPMFLiveScore(
-    productID: Product['id'],
-  ): Promise<PMFLiveScore | null> {
+  async getPMFLiveScore(productID: ProductID): Promise<PMFLiveScore | null> {
     await this.validateProductID(productID);
 
     return this.productRepo.PMFLiveScore(productID);
@@ -90,7 +89,7 @@ export class ProductService {
    * Get PMF score of all time periods within the selected time range.
    */
   async getPMFScoresOfSelectedRange(
-    productID: Product['id'],
+    productID: ProductID,
     intervals: number,
     intervalType: string,
   ) {
@@ -120,7 +119,7 @@ export class ProductService {
   /**
    * Get a list of MITs that the team should work on
    */
-  async getCurrentMIT(productID: Product['id']): Promise<Array<MIT>> {
+  async getCurrentMIT(productID: ProductID): Promise<Array<MIT>> {
     await this.validateProductID(productID);
 
     return this.productRepo.currentMIT(productID);

@@ -15,6 +15,11 @@ export type Product = {
 };
 
 /**
+ * Type alias for `Product['id']` where all productIDs will follow the same type.
+ */
+export type ProductID = Product["id"];
+
+/**
  * Type to represent a Mapping of Products of a single organisation.
  */
-export type Products = Record<Product["id"], Product>;
+export type Products = Record<ProductID, Product>;

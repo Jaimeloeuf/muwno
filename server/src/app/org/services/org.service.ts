@@ -4,7 +4,7 @@ import { IOrgRepo, IUserRepo } from '../../../DAL/abstraction/index.js';
 import { IAuthService } from '../../../infra/abstractions/index.js';
 
 // Entity Types
-import type { Org, UserID } from 'domain-model';
+import type { Org, OrgID, UserID } from 'domain-model';
 import { Role } from 'domain-model';
 // DTO Types
 import type { CreateOneOrgDTO } from 'domain-model';
@@ -23,7 +23,7 @@ export class OrgService {
   /**
    * Get Org data of given orgID from data source.
    */
-  async getOrg(orgID: Org['id']): Promise<Org> {
+  async getOrg(orgID: OrgID): Promise<Org> {
     const org = await this.orgRepo.getOne(orgID);
     if (org === null)
       throw new NotFoundException(`Org with orgID '${orgID}' is not found!`);

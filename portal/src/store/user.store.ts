@@ -151,7 +151,7 @@ export const useUserStore = defineStore("user", {
       console.log("[user.store] Signing out of user account now");
 
       // Sign user out without getting their confirmation
-      await logout(false);
+      await logout();
     },
   },
 

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import type { IOrgRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
-import type { Org, CreateOneOrgDTO, UserID } from 'domain-model';
+import type { OrgID, CreateOneOrgDTO, UserID } from 'domain-model';
 
 // Mappers
 import { mapOrgModelToEntity } from './mapper.js';
@@ -15,7 +15,7 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class OrgRepo implements IOrgRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getOne(id: Org['id']) {
+  async getOne(id: OrgID) {
     return this.db.org
       .findUnique({
         where: { id },

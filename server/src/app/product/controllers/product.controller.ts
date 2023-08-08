@@ -13,7 +13,7 @@ import { ProductService } from '../services/product.service.js';
 import { GuardWithRBAC, AllowAllRoles, JWT_uid } from '../../../rbac/index.js';
 
 // Entity Types
-import type { FirebaseAuthUID, Product, MIT } from 'domain-model';
+import type { FirebaseAuthUID, ProductID, MIT } from 'domain-model';
 
 // DTO Types
 import type {
@@ -72,7 +72,7 @@ export class ProductController {
   @Get('PMF/live/:productID')
   @AllowAllRoles
   async getPMFLiveScore(
-    @Param('productID') productID: Product['id'],
+    @Param('productID') productID: ProductID,
   ): Promise<ReadOnePMFLiveScoreDTO> {
     return this.productService
       .getPMFLiveScore(productID)
@@ -85,7 +85,7 @@ export class ProductController {
   @Get('PMF/range/:productID')
   @AllowAllRoles
   async getPMFScoresOfSelectedRange(
-    @Param('productID') productID: Product['id'],
+    @Param('productID') productID: ProductID,
 
     @Query('intervals', ParseIntPipe) intervals: number,
     @Query('intervalType') intervalType: string,
@@ -101,7 +101,7 @@ export class ProductController {
   @Get('MIT/current/:productID')
   @AllowAllRoles
   async getCurrentMIT(
-    @Param('productID') productID: Product['id'],
+    @Param('productID') productID: ProductID,
   ): Promise<ReadManyMITDTO> {
     return this.productService
       .getCurrentMIT(productID)

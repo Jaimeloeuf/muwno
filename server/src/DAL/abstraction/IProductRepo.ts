@@ -1,7 +1,8 @@
 import type {
-  Org,
+  OrgID,
   UserID,
   Products,
+  ProductID,
   Product,
   MIT,
   PMFLiveScore,
@@ -18,12 +19,12 @@ export abstract class IProductRepo {
   /**
    * Check if a product exists, and test if a product ID is valid.
    */
-  abstract productExists(productID: Product['id']): Promise<boolean>;
+  abstract productExists(productID: ProductID): Promise<boolean>;
 
   /**
    * Get all products of an Org.
    */
-  abstract getOrgProducts(orgID: Org['id']): Promise<Products>;
+  abstract getOrgProducts(orgID: OrgID): Promise<Products>;
 
   /**
    * Get all products of the user's Org.
@@ -34,20 +35,20 @@ export abstract class IProductRepo {
    * Create a new Product in data source
    */
   abstract createOne(
-    orgID: Org['id'],
+    orgID: OrgID,
     createOneProductDTO: CreateOneProductDTO,
   ): Promise<Product>;
 
   /**
    * Get the PMF live score.
    */
-  abstract PMFLiveScore(productID: Product['id']): Promise<PMFLiveScore | null>;
+  abstract PMFLiveScore(productID: ProductID): Promise<PMFLiveScore | null>;
 
   /**
    * Get PMF score of the given time period.
    */
   abstract PMFScoreOfPeriod(
-    productID: Product['id'],
+    productID: ProductID,
     start: ISODateTimeString,
     end: ISODateTimeString,
   ): Promise<PMFScore>;
@@ -55,7 +56,7 @@ export abstract class IProductRepo {
   /**
    * Get MITs of the given product's current sprint.
    */
-  abstract currentMIT(productID: Product['id']): Promise<Array<MIT>>;
+  abstract currentMIT(productID: ProductID): Promise<Array<MIT>>;
 
   /**
    * Mark a single 'MIT' task as done.

@@ -7,7 +7,7 @@ import { resetAllPiniaStores } from "./resetAllPiniaStores";
  * Signout current user, clear local state and redirect to login view.
  * @function logout
  */
-export async function logout(getConfirmation: boolean) {
+export async function logout(getConfirmation?: true) {
   if (getConfirmation && !confirm("Logout?")) return;
 
   // Signout current user
