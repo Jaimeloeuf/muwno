@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useOrg } from "../../store";
-import { OrgRoute, ProductRoute, ProfileRoute } from "../../router";
+import { OrgRoute, ProductRoute, ProfileRoute, TeamRoute } from "../../router";
 import { logout } from "../../utils/logout";
 import Version from "./Version.vue";
 
@@ -135,6 +135,28 @@ watch(showDrawer, (shown) => {
             </router-link>
           </div>
         </div>
+
+        <router-link
+          :to="{ name: TeamRoute.name }"
+          class="flex w-full p-2 text-start text-gray-900"
+          @click="showDrawer = !showDrawer"
+        >
+          <svg
+            class="ml-0.5 h-6 w-6 flex-shrink-0 transition duration-75"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.44444 3.55556C4.44444 2.61256 4.81905 1.70819 5.48584 1.0414C6.15264 0.374602 7.05701 0 8 0C8.94299 0 9.84736 0.374602 10.5142 1.0414C11.181 1.70819 11.5556 2.61256 11.5556 3.55556C11.5556 4.49855 11.181 5.40292 10.5142 6.06971C9.84736 6.73651 8.94299 7.11111 8 7.11111C7.05701 7.11111 6.15264 6.73651 5.48584 6.06971C4.81905 5.40292 4.44444 4.49855 4.44444 3.55556ZM4.44444 8.88889C3.2657 8.88889 2.13524 9.35714 1.30175 10.1906C0.468253 11.0241 0 12.1546 0 13.3333C0 14.0406 0.280952 14.7189 0.781049 15.219C1.28115 15.719 1.95942 16 2.66667 16H13.3333C14.0406 16 14.7189 15.719 15.219 15.219C15.719 14.7189 16 14.0406 16 13.3333C16 12.1546 15.5317 11.0241 14.6983 10.1906C13.8648 9.35714 12.7343 8.88889 11.5556 8.88889H4.44444Z"
+              fill="black"
+            />
+          </svg>
+
+          <span class="ml-3 flex-1">Team</span>
+        </router-link>
       </div>
 
       <!-- Spacer divider that takes up all the space in the middle -->

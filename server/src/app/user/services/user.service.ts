@@ -21,7 +21,7 @@ export class UserService {
   async getUser(userID: UserID): Promise<User> {
     const user = await this.userRepo.getOne(userID);
     if (user === null)
-      throw new NotFoundException(`User with userID '${userID}' is not found!`);
+      throw new NotFoundException(`User '${userID}' does not exist!`);
 
     return user;
   }

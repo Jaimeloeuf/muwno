@@ -9,6 +9,7 @@ import {
   IOrgRepo,
   IProductRepo,
   IFeedbackRepo,
+  ITeamRepo,
 } from './abstraction/index.js';
 
 /* Implementations */
@@ -17,6 +18,7 @@ import {
   OrgRepo,
   ProductRepo,
   FeedbackRepo,
+  TeamRepo,
 } from './implementations/postgres/index.js';
 
 /**
@@ -42,6 +44,7 @@ import {
     { provide: IOrgRepo, useClass: OrgRepo },
     { provide: IProductRepo, useClass: ProductRepo },
     { provide: IFeedbackRepo, useClass: FeedbackRepo },
+    { provide: ITeamRepo, useClass: TeamRepo },
   ],
 
   exports: [
@@ -50,6 +53,7 @@ import {
     IOrgRepo,
     IProductRepo,
     IFeedbackRepo,
+    ITeamRepo,
   ],
 })
 export class RepoModule {}

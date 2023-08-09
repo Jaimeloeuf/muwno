@@ -58,6 +58,9 @@ model org {
 
   // Relationship: ONE org, can have MANY products
   product product[]
+
+  // Relationship: ONE org, can have MANY pending team member invitations
+  team_member_invitation team_member_invitation[]
 }
 
 // This enum mirrors the Role enum type's name in domain/, but the shortform
@@ -84,6 +87,9 @@ model user {
   // Relationship: MANY users, can have ONE (the same) org
   org   org?    @relation(fields: [orgID], references: [id])
   orgID String?
+
+  // Relationship: ONE user, can invite MANY team members
+  team_member_invitation team_member_invitation[]
 }
 
 model product {
@@ -138,4 +144,19 @@ model mit {
   // Relationship: MANY MITs, belong to ONE (the same) product
   product   product @relation(fields: [productID], references: [id])
   productID String
+}
+
+model team_member_invitation {
+  // Autoincrementing Int ID needed for queries that require ordering
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  inviteeEmail String   @unique
+
+  // Relationship: MANY Invitations, made by ONE (the same) User
+  inviter   user   @relation(fields: [inviterID], references: [id])
+  inviterID String
+
+  // Relationship: MANY Invitations, belong to ONE (the same) Organisation
+  org   org    @relation(fields: [orgID], references: [id])
+  orgID String
 }

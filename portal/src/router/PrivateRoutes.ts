@@ -62,6 +62,22 @@ export const ImportCustomerRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ================================== Team Module Routes =============================== */
+
+export const TeamRoute = <const>{
+  name: "team",
+  path: "/team",
+  component: () => import("../views/core/Team/Team.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
+export const InviteMemberRoute = <const>{
+  name: "team-invite",
+  path: "/team/invite",
+  component: () => import("../views/core/Team/InviteMember.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /**
  * This array is only used internally for typechecking and type creation purposes
  * only, and is never used as a value anywhere, therefore there is no need to worry
@@ -84,6 +100,8 @@ const PrivateRoutes = [
   ProductRoute,
   AddProductRoute,
   ImportCustomerRoute,
+  TeamRoute,
+  InviteMemberRoute,
 ] satisfies Array<PrivateRoute>;
 
 /**

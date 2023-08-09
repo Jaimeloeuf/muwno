@@ -4,6 +4,9 @@
 
 export * from "./CreateOneUserDTO.js";
 export * from "./ReadOneUserDTO.js";
+export * from "./ReadManyUserDTO.js";
+
+export * from "./CreateOneTeamMemberInvitationDTO.js";
 
 export * from "./ReadOneFeedbackFormDTO.js";
 export * from "./CreateOneFeedbackResponseDTO.js";

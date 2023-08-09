@@ -6,6 +6,7 @@ import { FeedbackModule } from './feedback/feedback.module.js';
 import { UserModule } from './user/user.module.js';
 import { OrgModule } from './org/org.module.js';
 import { ProductModule } from './product/product.module.js';
+import { TeamModule } from './team/team.module.js';
 import { LandingModule } from './landing/landing.module.js';
 
 /**
@@ -18,6 +19,7 @@ import { LandingModule } from './landing/landing.module.js';
     UserModule,
     OrgModule,
     ProductModule,
+    TeamModule,
     LandingModule,
   ],
 })

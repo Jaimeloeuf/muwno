@@ -8,6 +8,8 @@ import {
   ProductRoute,
   AddProductRoute,
   ImportCustomerRoute,
+  TeamRoute,
+  InviteMemberRoute,
 } from "./PrivateRoutes";
 
 /**
@@ -26,6 +28,8 @@ export const Routes = (<const>[
   ProductRoute,
   AddProductRoute,
   ImportCustomerRoute,
+  TeamRoute,
+  InviteMemberRoute,
 
   /* Public Routes */
   LoginRoute,
