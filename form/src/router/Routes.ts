@@ -2,6 +2,7 @@ import type { RouteObject } from "./RouteTypes";
 
 import {
   HomeRoute,
+  DebugRoute,
   FormRoute,
   SubmittedRoute,
   FeedbackRoute,
@@ -19,6 +20,7 @@ import {
 export const Routes = (<const>[
   /* Public Routes */
   HomeRoute,
+  DebugRoute,
   FormRoute,
   SubmittedRoute,
   FeedbackRoute,

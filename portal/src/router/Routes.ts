@@ -1,6 +1,6 @@
 import type { RouteObject } from "./RouteTypes";
 
-import { LoginRoute, SignupRoute } from "./PublicRoutes";
+import { LoginRoute, SignupRoute, DebugRoute } from "./PublicRoutes";
 import {
   ProfileRoute,
   OrgRoute,
@@ -30,6 +30,7 @@ export const Routes = (<const>[
   /* Public Routes */
   LoginRoute,
   SignupRoute,
+  DebugRoute,
 
   /* Public Only Routes */
   // ...

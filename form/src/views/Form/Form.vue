@@ -12,9 +12,7 @@ const { form, submitForm } = await useForm(props.formID);
 <template>
   <div class="m-6">
     <FormKit type="form" :actions="false" @submit="submitForm">
-      <h1
-        class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
-      >
+      <h1 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900">
         {{ form.title }}
       </h1>
 

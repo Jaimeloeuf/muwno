@@ -25,6 +25,13 @@ export const SignupRoute = <const>{
   meta: { AuthRequirements: AuthType.PublicOnly },
 };
 
+export const DebugRoute = <const>{
+  path: "/debug",
+  name: "debug",
+  component: () => import("../views/Debug.vue"),
+  meta: { AuthRequirements: AuthType.Public },
+};
+
 /**
  * This array is only used internally for typechecking and type creation purposes
  * only, and is never used as a value anywhere, therefore there is no need to worry
@@ -40,7 +47,11 @@ export const SignupRoute = <const>{
  * and ignore the const assertion, which is critical for treating the `name` field as
  * a string literal type for `PublicRouteNames` type to be properly inferred.
  */
-const PublicRoutes = [LoginRoute, SignupRoute] satisfies Array<PublicRoute>;
+const PublicRoutes = [
+  LoginRoute,
+  SignupRoute,
+  DebugRoute,
+] satisfies Array<PublicRoute>;
 
 /**
  * Sum type of all Public Route object names, used to constrain

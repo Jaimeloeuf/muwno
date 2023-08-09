@@ -3,3 +3,9 @@ export const HomeRoute = <const>{
   path: "/",
   component: () => import("../views/Home.vue"),
 };
+
+export const DebugRoute = <const>{
+  name: "debug",
+  path: "/debug",
+  component: () => import("../views/Debug.vue"),
+};

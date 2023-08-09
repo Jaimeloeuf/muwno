@@ -12,6 +12,12 @@ export const HomeRoute = <const>{
   component: () => import("../views/core/Home.vue"),
 };
 
+export const DebugRoute = <const>{
+  name: "debug",
+  path: "/debug",
+  component: () => import("../views/core/Debug.vue"),
+};
+
 export const FormRoute = <const>{
   name: "form",
   path: "/form/:formID",

@@ -173,7 +173,7 @@ async function submitMessage() {
   <div
     class="flex flex-col-reverse justify-between bg-slate-200 p-10 pt-0 md:flex-row md:px-24 md:py-20 lg:p-32"
   >
-    <div class="w-full max-w-lg md:mb-0 md:max-w-full">
+    <div class="mr-4 w-full max-w-lg md:mb-0 md:max-w-full">
       <img src="../assets/data-analysis.svg" />
     </div>
 
