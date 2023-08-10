@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { sf } from "simpler-fetch";
-import { auth, getAuthHeader } from "../firebase";
-import { validateCustomClaimsOnJWT } from "../utils/validateCustomClaimsOnJWT";
+import { getAuthHeader } from "../firebase";
 import type {
   Org,
   ReadOneOrgDTO,
@@ -14,6 +13,8 @@ import type {
   ReadOneProductDTO,
   SurveyMode,
 } from "@domain-model";
+
+import { useUserStore } from "./user.store";
 
 /**
  * Type of this pinia store's state.
@@ -75,13 +76,7 @@ export const useOrg = defineStore("org", {
       if (err) throw err;
       if (!res.ok) throw new Error("Failed to create new Organisation");
 
-      // Force refresh JWT since creating Org will add to JWT's 'roles' claim
-      await auth.currentUser?.getIdToken(true);
-      if (auth.currentUser === null)
-        throw new Error("Invalid State: User is logged out after org creation");
-
-      // Validate that the claims are correctly set, will throw if invalid.
-      await validateCustomClaimsOnJWT(auth.currentUser);
+      await useUserStore().refreshJWT(true);
 
       this.orgDetails = res.data.org;
     },
