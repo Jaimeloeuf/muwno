@@ -3,17 +3,12 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useLoader, useUserStore, useTeamInvitationStore } from "../../store";
-import {
-  CreateOrgRoute,
-  PendingInvitationRoute,
-  LoginRoute,
-} from "../../router";
+import { useLoader, useUserStore } from "../../store";
+import { OnboardingRoute, LoginRoute } from "../../router";
 
 const router = useRouter();
 const loader = useLoader();
 const userStore = useUserStore();
-const teamInvitationStore = useTeamInvitationStore();
 
 const name = ref<string>("");
 const email = ref<string>("");
@@ -32,12 +27,7 @@ async function signup() {
     // Create a new User Entity with API
     await userStore.createUser(name.value);
 
-    const userHavePendingInvitations =
-      await teamInvitationStore.checkForPendingTeamInvitations();
-
-    if (userHavePendingInvitations)
-      router.push({ name: PendingInvitationRoute.name });
-    else router.push({ name: CreateOrgRoute.name });
+    router.push({ name: OnboardingRoute.name });
   } catch (error: any) {
     // If Login succeeded but initialisation failed, user should be logged out
     // instead of allowing them to access the UI on refreshing the app since the

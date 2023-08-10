@@ -16,6 +16,13 @@ import { AuthType } from "./AuthType";
 
 /* ================================== Core Module Routes =============================== */
 
+export const OnboardingRoute = <const>{
+  name: "onboarding",
+  path: "/onboarding",
+  component: () => import("../views/core/Onboarding.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const ProfileRoute = <const>{
   name: "profile",
   path: "/profile",
@@ -101,6 +108,7 @@ export const PendingInvitationRoute = <const>{
  * a string literal type for `PrivateRouteNames` type to be properly inferred.
  */
 const PrivateRoutes = [
+  OnboardingRoute,
   ProfileRoute,
   OrgRoute,
   CreateOrgRoute,

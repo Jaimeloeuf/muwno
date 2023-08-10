@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useOrg } from "../../../store";
+import { useOrg, useUserStore } from "../../../store";
 import { InviteMemberRoute } from "../../../router";
 import SideDrawer from "../../components/SideDrawer.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
-import { type ReadManyUserDTO, roleMapper } from "@domain-model";
+import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();
+const userStore = useUserStore();
 
 const { res, err } = await sf
   .useDefault()
@@ -50,7 +51,13 @@ const teamMembers = res.data.users;
           Team Members ({{ teamMembers.length }})
         </p>
 
-        <div class="w-full flex-grow md:w-max">
+        <div
+          v-if="
+            userStore.user.role === Role.OrgOwner ||
+            userStore.user.role === Role.OrgAdmin
+          "
+          class="w-full flex-grow md:w-max"
+        >
           <router-link
             :to="{ name: InviteMemberRoute.name }"
             class="my-6 inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 p-8"
