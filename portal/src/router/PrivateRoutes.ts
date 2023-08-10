@@ -78,6 +78,13 @@ export const InviteMemberRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const PendingInvitationRoute = <const>{
+  name: "team-pending-invitation",
+  path: "/team/pending/invitation",
+  component: () => import("../views/core/Team/PendingInvitations.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /**
  * This array is only used internally for typechecking and type creation purposes
  * only, and is never used as a value anywhere, therefore there is no need to worry
@@ -102,6 +109,7 @@ const PrivateRoutes = [
   ImportCustomerRoute,
   TeamRoute,
   InviteMemberRoute,
+  PendingInvitationRoute,
 ] satisfies Array<PrivateRoute>;
 
 /**

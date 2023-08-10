@@ -10,6 +10,7 @@ import {
   ImportCustomerRoute,
   TeamRoute,
   InviteMemberRoute,
+  PendingInvitationRoute,
 } from "./PrivateRoutes";
 
 /**
@@ -30,6 +31,7 @@ export const Routes = (<const>[
   ImportCustomerRoute,
   TeamRoute,
   InviteMemberRoute,
+  PendingInvitationRoute,
 
   /* Public Routes */
   LoginRoute,

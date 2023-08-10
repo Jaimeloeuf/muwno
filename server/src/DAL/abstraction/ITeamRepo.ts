@@ -3,6 +3,7 @@ import type {
   User,
   UserID,
   CreateOneTeamMemberInvitationDTO,
+  TeamInvitation,
 } from 'domain-model';
 
 /**
@@ -23,4 +24,21 @@ export abstract class ITeamRepo {
     orgID: OrgID,
     createOneTeamMemberInvitationDTO: CreateOneTeamMemberInvitationDTO,
   ): Promise<boolean>;
+
+  /**
+   * Get all of user's pending team invitations.
+   */
+  abstract getPendingInvites(
+    inviteeEmail: User['email'],
+  ): Promise<Array<TeamInvitation>>;
+
+  /**
+   * Get a pending team invitation using the given `invitationID`.
+   */
+  abstract getInvite(invitationID: number): Promise<TeamInvitation | null>;
+
+  /**
+   * Delete a pending team invitation.
+   */
+  abstract deleteInvite(invitationID: number): Promise<void>;
 }

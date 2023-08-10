@@ -4,7 +4,7 @@ import type { Role } from "../Role/index.js";
 import type { OrgID } from "../Org/index.js";
 
 /**
- * Type to define shared/common properties of all User types
+ * Type of a User Entity.
  */
 export interface User {
   /**

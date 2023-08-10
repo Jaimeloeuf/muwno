@@ -7,10 +7,18 @@ import type {
   OrgID,
   UserID,
   CreateOneTeamMemberInvitationDTO,
+  User,
 } from 'domain-model';
 
 // Mappers
-import { mapUserModelsToEntity } from './mapper.js';
+import {
+  mapUserModelsToEntity,
+  mapToTeamInvitations,
+  mapToTeamInvitation,
+} from './mapper.js';
+
+// Utils
+import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 
 @Injectable()
 export class TeamRepo implements ITeamRepo {
@@ -46,5 +54,35 @@ export class TeamRepo implements ITeamRepo {
     });
 
     return true;
+  }
+
+  async getPendingInvites(inviteeEmail: User['email']) {
+    return this.db.team_member_invitation
+      .findMany({
+        where: { inviteeEmail },
+        include: {
+          inviter: { select: { name: true, role: true } },
+          org: { select: { name: true } },
+        },
+      })
+      .then(mapToTeamInvitations);
+  }
+
+  async getInvite(invitationID: number) {
+    return this.db.team_member_invitation
+      .findUnique({
+        where: { id: invitationID },
+        include: {
+          inviter: { select: { name: true, role: true } },
+          org: { select: { name: true } },
+        },
+      })
+      .then(runMapperIfNotNull(mapToTeamInvitation));
+  }
+
+  async deleteInvite(invitationID: number) {
+    await this.db.team_member_invitation.delete({
+      where: { id: invitationID },
+    });
   }
 }

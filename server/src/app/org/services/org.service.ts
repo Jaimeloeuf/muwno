@@ -17,7 +17,7 @@ export class OrgService {
   constructor(
     private readonly orgRepo: IOrgRepo,
     private readonly userRepo: IUserRepo,
-    private readonly auth: IAuthService,
+    private readonly authService: IAuthService,
   ) {}
 
   /**
@@ -53,12 +53,12 @@ export class OrgService {
 
     // Update User Entity to add Role and OrgID
     await this.userRepo.updateOne(userID, {
-      role: Role.OrgOwner,
       orgID: org.id,
+      role: Role.OrgOwner,
     });
 
     // Set Org creator as the Org Owner
-    await this.auth.setCustomClaims(userID, { roles: [Role.OrgOwner] });
+    await this.authService.setCustomClaims(userID, { roles: [Role.OrgOwner] });
 
     return org;
   }

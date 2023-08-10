@@ -7,6 +7,7 @@ export * from "./ReadOneUserDTO.js";
 export * from "./ReadManyUserDTO.js";
 
 export * from "./CreateOneTeamMemberInvitationDTO.js";
+export * from "./ReadManyTeamMemberInvitationDTO.js";
 
 export * from "./ReadOneFeedbackFormDTO.js";
 export * from "./CreateOneFeedbackResponseDTO.js";

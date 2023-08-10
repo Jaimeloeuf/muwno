@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { sf, type ApiResponse } from "simpler-fetch";
-import type { User, CreateOneUserDTO, ReadOneUserDTO } from "@domain-model";
-
-import { getAuthHeader } from "../firebase";
+import { auth, getAuthHeader } from "../firebase";
+import { validateCustomClaimsOnJWT } from "../utils/validateCustomClaimsOnJWT";
 import { logout } from "../utils/logout";
+import type { User, CreateOneUserDTO, ReadOneUserDTO } from "@domain-model";
 
 /**
  * Type of this pinia store's state.
@@ -97,6 +97,20 @@ export const useUserStore = defineStore("user", {
       this._setUser(res.data.user);
 
       return res.data.user;
+    },
+
+    /**
+     * Refresh a user's JWT with Firebase Auth and optionally validate custom
+     * claims set on JWT. Call this method when claims is expected to be updated.
+     */
+    async refreshJWT(validateClaims: boolean) {
+      // Force refresh JWT since creating Org will add to JWT's 'roles' claim
+      await auth.currentUser?.getIdToken(true);
+      if (auth.currentUser === null)
+        throw new Error("Invalid State: User is logged out after org creation");
+
+      // Optionally validate the custom claims, will throw if invalid.
+      if (validateClaims) await validateCustomClaimsOnJWT(auth.currentUser);
     },
 
     /**

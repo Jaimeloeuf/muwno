@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 
 import { TeamService } from '../services/team.service.js';
 
@@ -6,17 +6,19 @@ import {
   GuardWithRBAC,
   AllowAllRoles,
   JWT_uid,
-  JWT,
   RolesRequired,
+  NoRoleRequired,
 } from '../../../rbac/index.js';
-import type { ServerJWT } from '../../../types/ServerJWT.js';
 
 // Entity Types
 import type { FirebaseAuthUID } from 'domain-model';
 import { Role } from 'domain-model';
 
 // DTO Types
-import type { ReadManyUserDTO } from 'domain-model';
+import type {
+  ReadManyUserDTO,
+  ReadManyTeamMemberInvitationDTO,
+} from 'domain-model';
 
 // DTO Validators
 import { ValidatedCreateOneTeamMemberInvitationDTO } from '../dto-validation/ValidatedCreateOneTeamMemberInvitationDTO.js';
@@ -24,7 +26,7 @@ import { ValidatedCreateOneTeamMemberInvitationDTO } from '../dto-validation/Val
 // Mappers
 import { mapUserEntityToDTO } from '../mapper/toDTOs/user.js';
 
-// Exceptions and Filters
+// Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 @Controller('team')
@@ -52,13 +54,56 @@ export class TeamController {
   @Post('member/invite')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async inviteMember(
-    @JWT() jwt: ServerJWT,
+    @JWT_uid userID: FirebaseAuthUID,
     @Body()
     createOneTeamMemberInvitationDTO: ValidatedCreateOneTeamMemberInvitationDTO,
   ): Promise<void> {
     await this.teamService.inviteMember(
-      jwt.uid,
+      userID,
       createOneTeamMemberInvitationDTO,
     );
+  }
+
+  /**
+   * Get all pending team invitations of the current user.
+   */
+  @Get('member/invites')
+  // A user might not have any roles if they do not belong to any organisation
+  // yet before they accept the invite, therefore no role is required.
+  @NoRoleRequired
+  async getPendingInvites(
+    @JWT_uid userID: FirebaseAuthUID,
+  ): Promise<ReadManyTeamMemberInvitationDTO> {
+    return this.teamService
+      .getPendingInvites(userID)
+      .then((invitations) => ({ invitations }));
+  }
+
+  /**
+   * Accept an invitation belonging to the current user.
+   */
+  @Post('member/invite/accept/:invitationID')
+  // A user might not have any roles if they do not belong to any organisation
+  // yet before they accept the invite, therefore no role is required.
+  @NoRoleRequired
+  async acceptInvitation(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Param('invitationID') invitationID: number,
+  ): Promise<void> {
+    await this.teamService.acceptInvitation(userID, invitationID);
+  }
+
+  /**
+   * Reject an invitation belonging to the current user.
+   */
+  @Post('member/invite/reject/:invitationID')
+  // A user might not have any roles if they do not belong to any organisation
+  // yet before they accept the invite, therefore no role is required.
+  @NoRoleRequired
+  async rejectInvitation(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Param('invitationID') invitationID: number,
+  ): Promise<void> {
+    await this.teamService.rejectInvitation(userID, invitationID);
   }
 }

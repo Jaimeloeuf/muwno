@@ -5,10 +5,14 @@ import {
   IOrgRepo,
   IUserRepo,
 } from '../../../DAL/abstraction/index.js';
-import { IEmailService } from '../../../infra/abstractions/index.js';
+import {
+  IEmailService,
+  IAuthService,
+} from '../../../infra/abstractions/index.js';
 
 // Entity Types
-import type { User, UserID } from 'domain-model';
+import type { User, UserID, TeamInvitation } from 'domain-model';
+import { Role } from 'domain-model';
 
 // DTO Types
 import type { CreateOneTeamMemberInvitationDTO } from 'domain-model';
@@ -17,6 +21,7 @@ import type { CreateOneTeamMemberInvitationDTO } from 'domain-model';
 import {
   InvalidOperationException,
   InvalidInternalStateException,
+  ForbiddenException,
 } from '../../../exceptions/index.js';
 
 // Utils
@@ -29,6 +34,7 @@ export class TeamService {
     private readonly orgRepo: IOrgRepo,
     private readonly userRepo: IUserRepo,
     private readonly emailService: IEmailService,
+    private readonly authService: IAuthService,
   ) {}
 
   /**
@@ -77,5 +83,78 @@ export class TeamService {
       subject: `${user.name} invited you to join ${userOrg.name}`,
       textBody: createInviteTeamMemberEmailMessage(user.name, userOrg.name),
     });
+  }
+
+  /**
+   * Get a user's pending team invitations.
+   */
+  async getPendingInvites(userID: UserID): Promise<Array<TeamInvitation>> {
+    const user = await this.userRepo.getOne(userID);
+    if (user === null)
+      throw new InvalidInternalStateException(
+        `User '${userID}' does not exists!`,
+      );
+
+    return this.teamRepo.getPendingInvites(user.email);
+  }
+
+  async acceptInvitation(
+    inviteeID: UserID,
+    invitationID: number,
+  ): Promise<void> {
+    const invitee = await this.userRepo.getOne(inviteeID);
+    if (invitee === null)
+      throw new InvalidInternalStateException(
+        `User '${inviteeID}' does not exists!`,
+      );
+
+    const invitation = await this.teamRepo.getInvite(invitationID);
+    if (invitation === null)
+      throw new InvalidInternalStateException(
+        `Invitation '${invitationID}' does not exists!`,
+      );
+
+    if (invitee.email !== invitation.inviteeEmail)
+      throw new ForbiddenException(`You can only accept your own invitations!`);
+
+    // Update invitee's OrgID and Role in data source
+    await this.userRepo.updateOne(inviteeID, {
+      orgID: invitation.team.id,
+      role: Role.OrgUser,
+    });
+
+    // Set custom claims onto the invitee's JWT
+    await this.authService.setCustomClaims(inviteeID, {
+      // @todo Defaults to OrgUser until we let inviters select the role
+      roles: [Role.OrgUser],
+    });
+
+    // Delete the invite
+    await this.teamRepo.deleteInvite(invitationID);
+
+    // @todo Notify inviter that invitee has accepted the invite
+  }
+
+  async rejectInvitation(
+    inviteeID: UserID,
+    invitationID: number,
+  ): Promise<void> {
+    const invitee = await this.userRepo.getOne(inviteeID);
+    if (invitee === null)
+      throw new InvalidInternalStateException(
+        `User '${inviteeID}' does not exists!`,
+      );
+
+    const invitation = await this.teamRepo.getInvite(invitationID);
+    if (invitation === null)
+      throw new InvalidInternalStateException(
+        `Invitation '${invitationID}' does not exists!`,
+      );
+
+    if (invitee.email !== invitation.inviteeEmail)
+      throw new ForbiddenException(`You can only reject your own invitations!`);
+
+    // Delete the invite
+    await this.teamRepo.deleteInvite(invitationID);
   }
 }
