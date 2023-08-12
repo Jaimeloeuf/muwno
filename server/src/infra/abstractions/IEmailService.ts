@@ -4,7 +4,7 @@
 export type EmailObject = {
   from: string;
   subject: string;
-  textBody: string;
+  body: string;
 };
 
 /**

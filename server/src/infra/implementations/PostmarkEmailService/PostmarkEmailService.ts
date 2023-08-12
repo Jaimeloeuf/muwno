@@ -38,7 +38,7 @@ export class PostmarkEmailService implements IEmailService {
       To: recipient,
       From: emailObject.from,
       Subject: emailObject.subject,
-      TextBody: emailObject.textBody,
+      HtmlBody: emailObject.body,
       MessageStream: 'outbound',
     });
 

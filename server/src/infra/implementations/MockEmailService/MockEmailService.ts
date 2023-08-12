@@ -21,7 +21,7 @@ export class MockEmailService implements IEmailService {
         To: recipient,
         From: emailObject.from,
         Subject: emailObject.subject,
-        TextBody: emailObject.textBody,
+        Body: emailObject.body,
       },
       MockEmailService.name,
     );
