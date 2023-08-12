@@ -20,6 +20,12 @@ import { mapFeedbackFormEntityToDTO } from '../mapper/toDTOs/feedbackform.js';
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
+/**
+ * Controller to define API endpoints used by form/ subrepo, to load the
+ * feedback form and save the user's response. These endpoints are accessible
+ * without any RBAC protection since it is used by public users, therefore these
+ * are protected with recaptcha.
+ */
 @Controller('feedback')
 @GuardWithRecaptcha()
 @UseHttpControllerFilters

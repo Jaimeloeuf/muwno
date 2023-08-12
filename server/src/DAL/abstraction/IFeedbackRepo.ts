@@ -17,4 +17,9 @@ export abstract class IFeedbackRepo {
     productID: ProductID,
     response: FeedbackResponse,
   ): Promise<void>;
+
+  /**
+   * Get all survey responses of the selected product.
+   */
+  abstract getResponses(productID: ProductID): Promise<Array<any>>;
 }

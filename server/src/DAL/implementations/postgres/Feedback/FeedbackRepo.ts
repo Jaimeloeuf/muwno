@@ -24,6 +24,17 @@ export class FeedbackRepo implements IFeedbackRepo {
       .then(runMapperIfNotNull(mapProductModelToEntity));
   }
 
+  async getResponses(productID: ProductID) {
+    return this.db.pmf_survey_responses.findMany({
+      where: {
+        productID,
+      },
+
+      // Limit up to 10 thousand rows each time
+      take: 10000,
+    });
+  }
+
   async saveOne(
     productID: ProductID,
     response: FeedbackResponse,
