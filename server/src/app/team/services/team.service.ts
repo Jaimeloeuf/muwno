@@ -57,32 +57,35 @@ export class TeamService {
     inviterUserID: UserID,
     createOneTeamMemberInvitationDTO: CreateOneTeamMemberInvitationDTO,
   ): Promise<void> {
-    const user = await this.userRepo.getOne(inviterUserID);
-    if (user === null)
+    const inviter = await this.userRepo.getOne(inviterUserID);
+    if (inviter === null)
       throw new InvalidInternalStateException(
         `User '${inviterUserID}' does not exists!`,
       );
 
-    const userOrg = await this.orgRepo.getUserOrg(inviterUserID);
-    if (userOrg === null)
+    const inviterOrg = await this.orgRepo.getUserOrg(inviterUserID);
+    if (inviterOrg === null)
       throw new InvalidInternalStateException(
         `User '${inviterUserID}' does not have an Org!`,
       );
 
     const inviteCreated = await this.teamRepo.createInvite(
       inviterUserID,
-      userOrg.id,
+      inviterOrg.id,
       createOneTeamMemberInvitationDTO,
     );
 
     if (!inviteCreated) throw new Error('Failed to create team member invite');
 
-    // only email users the invite link if this succeeded!
-    await this.emailService.sendOne(user.email, {
-      from: 'robot@thepmftool.com',
-      subject: `${user.name} invited you to join ${userOrg.name}`,
-      textBody: createInviteTeamMemberEmailMessage(user.name, userOrg.name),
-    });
+    // Only email invitee if invitation is successfully saved
+    await this.emailService.sendOne(
+      createOneTeamMemberInvitationDTO.inviteeEmail,
+      {
+        from: 'robot@thepmftool.com',
+        subject: `${inviter.name} invited you to join ${inviterOrg.name}`,
+        body: createInviteTeamMemberEmailMessage(inviter.name, inviterOrg.name),
+      },
+    );
   }
 
   /**
