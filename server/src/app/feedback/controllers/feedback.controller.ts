@@ -58,6 +58,6 @@ export class FeedbackController {
     @Param('productID') productID: ProductID,
     @Body() response: ValidatedCreateOneFeedbackResponseDTO,
   ) {
-    this.feedbackService.saveResponse(productID, response);
+    await this.feedbackService.saveResponse(productID, response);
   }
 }

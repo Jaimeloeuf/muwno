@@ -4,7 +4,11 @@ import { unparse as PapaUnparse } from 'papaparse';
 import { IFeedbackRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
-import type { ProductID, FeedbackResponse } from 'domain-model';
+import type {
+  ProductID,
+  FeedbackForm,
+  CreateOneFeedbackResponseDTO,
+} from 'domain-model';
 
 // Service layer Exceptions
 import { NotFoundException } from '../../../exceptions/index.js';
@@ -16,7 +20,7 @@ export class FeedbackService {
   /**
    * Get a Feedback Form's data from data source.
    */
-  async getForm(productID: ProductID) {
+  async getForm(productID: ProductID): Promise<FeedbackForm> {
     const form = await this.feedbackRepo.getOne(productID);
     if (form === null)
       throw new NotFoundException(
@@ -29,14 +33,17 @@ export class FeedbackService {
   /**
    * Save response of a feedback form.
    */
-  async saveResponse(productID: ProductID, response: FeedbackResponse) {
+  async saveResponse(
+    productID: ProductID,
+    response: CreateOneFeedbackResponseDTO,
+  ): Promise<void> {
     await this.feedbackRepo.saveOne(productID, response);
   }
 
   /**
    * Get survey responses as CSV string to download as a CSV file on the client.
    */
-  async getResponseCsvString(productID: ProductID) {
+  async getResponseCsvString(productID: ProductID): Promise<string> {
     const { productName } = await this.getForm(productID);
 
     // Do string interpolation once so it is not repeated during response mapping
@@ -58,7 +65,7 @@ export class FeedbackService {
      * not need to create so many objects with such long string keys as it takes
      * alot of memory, and prepend the header row after parsing it as csv string.
      */
-    const mappedResponse = responses.map((response: any, index: number) => ({
+    const mappedResponse = responses.map((response, index: number) => ({
       // Use 1 indexed serial ID
       id: index + 1,
       'Survey Response Time': response.createdAt.toISOString(),

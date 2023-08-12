@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import type { IFeedbackRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
-import type { FeedbackResponse, ProductID } from 'domain-model';
+import type { CreateOneFeedbackResponseDTO, ProductID } from 'domain-model';
 
 // Mappers
 import { mapProductModelToEntity } from './mapper.js';
@@ -26,6 +26,7 @@ export class FeedbackRepo implements IFeedbackRepo {
 
   async getResponses(productID: ProductID) {
     return this.db.pmf_survey_responses.findMany({
+      select: { a1: true, a2: true, a3: true, createdAt: true, a4: true },
       where: {
         productID,
       },
@@ -37,12 +38,12 @@ export class FeedbackRepo implements IFeedbackRepo {
 
   async saveOne(
     productID: ProductID,
-    response: FeedbackResponse,
+    response: CreateOneFeedbackResponseDTO,
   ): Promise<void> {
     await this.db.pmf_survey_responses.create({
       data: {
-        productID,
         ...response,
+        productID,
       },
     });
   }

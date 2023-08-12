@@ -1,4 +1,14 @@
-import type { ProductID, FeedbackForm, FeedbackResponse } from 'domain-model';
+import type {
+  ProductID,
+  FeedbackForm,
+  CreateOneFeedbackResponseDTO,
+  FeedbackResponse,
+} from 'domain-model';
+
+type DBFeedbackResponse = Omit<
+  FeedbackResponse,
+  'id' | 'productID' | 'createdAt'
+> & { createdAt: Date };
 
 /**
  * Data Repository interface used as an abstraction over a collection of
@@ -15,11 +25,13 @@ export abstract class IFeedbackRepo {
    */
   abstract saveOne(
     productID: ProductID,
-    response: FeedbackResponse,
+    response: CreateOneFeedbackResponseDTO,
   ): Promise<void>;
 
   /**
    * Get all survey responses of the selected product.
    */
-  abstract getResponses(productID: ProductID): Promise<Array<any>>;
+  abstract getResponses(
+    productID: ProductID,
+  ): Promise<Array<DBFeedbackResponse>>;
 }
