@@ -22,6 +22,7 @@ export type PMFScore = {
 
   /**
    * The actual PMF score out of 100 as a percentage of votes for `3`.
+   * This will be null if there is no survey responses within the `timeWindow`.
    */
-  score: number;
+  score: number | null;
 };

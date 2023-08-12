@@ -19,7 +19,7 @@ import type { FirebaseAuthUID, ProductID, MIT } from 'domain-model';
 import type {
   ReadOneProductDTO,
   ReadManyProductDTO,
-  ReadOnePMFLiveScoreDTO,
+  ReadOnePMFScoreDTO,
   ReadManyPMFScoreDTO,
   ReadManyMITDTO,
 } from 'domain-model';
@@ -67,13 +67,13 @@ export class ProductController {
   }
 
   /**
-   * Get the PMF live score.
+   * Get the live PMF score of a rolling time window.
    */
   @Get('PMF/live/:productID')
   @AllowAllRoles
   async getPMFLiveScore(
     @Param('productID') productID: ProductID,
-  ): Promise<ReadOnePMFLiveScoreDTO> {
+  ): Promise<ReadOnePMFScoreDTO> {
     return this.productService
       .getPMFLiveScore(productID)
       .then((score) => ({ score }));

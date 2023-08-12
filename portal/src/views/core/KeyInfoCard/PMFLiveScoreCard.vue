@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import type { ProductID, ReadOnePMFLiveScoreDTO } from "@domain-model";
+import type { ProductID, ReadOnePMFScoreDTO } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 
@@ -9,37 +9,38 @@ const { res, err } = await sf
   .useDefault()
   .GET(`/product/PMF/live/${props.productID}`)
   .useHeader(getAuthHeader)
-  .runJSON<ReadOnePMFLiveScoreDTO>();
+  .runJSON<ReadOnePMFScoreDTO>();
 
 if (err) throw err;
 if (!res.ok) throw new Error("Failed to load PMF live score!");
 
-const score = res.data.score;
+const PMFScore = res.data.score;
 </script>
 
 <template>
   <div class="inline-block min-w-[8rem] rounded-lg bg-slate-50 p-4 shadow">
     <!-- @todo Add an icon for user to click and understand what is a live score -->
+    <!-- @todo Allow users to edit the time period in which to calculate for live score -->
     <div class="mb-0.5">
       <p class="text-sm font-medium">Live Score</p>
-      <p v-if="score !== null" class="text-xs font-extralight">
+      <p class="text-xs font-extralight">
         Your live score across the last 7 days
       </p>
     </div>
 
-    <template v-if="score === null">
-      <p class="font-light">Waiting for Responses</p>
+    <template v-if="PMFScore.score === null">
+      <p class="text-xl font-extralight">No Responses in current window...</p>
     </template>
 
     <div v-else class="">
       <p class="text-right text-4xl">
         <span
           :class="{
-            'text-lime-700': score.currentPMFScore >= 40,
-            'text-red-700': score.currentPMFScore < 40,
+            'text-lime-700': PMFScore.score >= 40,
+            'text-red-700': PMFScore.score < 40,
           }"
         >
-          {{ score.currentPMFScore }}
+          {{ PMFScore.score }}
         </span>
         <span class="font-extralight">/40</span>
       </p>

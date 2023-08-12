@@ -21,5 +21,5 @@ export * from "./CreateOneProductDTO.js";
 
 export * from "./ReadManyMITDTO.js";
 
-export * from "./ReadOnePMFLiveScoreDTO.js";
+export * from "./ReadOnePMFScoreDTO.js";
 export * from "./ReadManyPMFScoreDTO.js";

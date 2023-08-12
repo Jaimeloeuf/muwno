@@ -10,7 +10,6 @@ import type {
   ProductID,
   Products,
   MIT,
-  PMFLiveScore,
   PMFScore,
   CreateOneProductDTO,
 } from 'domain-model';
@@ -77,12 +76,24 @@ export class ProductService {
   }
 
   /**
-   * Get the PMF live score.
+   * Get the live PMF score of a rolling time window.
    */
-  async getPMFLiveScore(productID: ProductID): Promise<PMFLiveScore | null> {
+  async getPMFLiveScore(productID: ProductID): Promise<PMFScore> {
     await this.validateProductID(productID);
 
-    return this.productRepo.PMFLiveScore(productID);
+    // @todo Currently hard coded to 7 days, should allow users to select duration
+    const startOfRollingWindow = new Date(
+      new Date().getTime() - 6.048e8,
+    ).toISOString();
+
+    // End is just right now since it is a rolling window
+    const end = new Date().toISOString();
+
+    return this.productRepo.PMFScoreOfPeriod(
+      productID,
+      startOfRollingWindow,
+      end,
+    );
   }
 
   /**
@@ -95,7 +106,7 @@ export class ProductService {
   ) {
     if (intervals < 1)
       throw new InvalidInputException(
-        `intervals must be 1 or more '${intervals}'`,
+        `Intervals must be 1 or more '${intervals}'`,
       );
 
     if (!isValidIntervalType(intervalType))
