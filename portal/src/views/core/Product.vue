@@ -6,6 +6,7 @@ import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
 import MITCard from "./KeyInfoCard/MITCard.vue";
 import SurveyModeStatsCard from "./KeyInfoCard/SurveyModeStatsCard.vue";
 import SurveyLinkCard from "./KeyInfoCard/SurveyLinkCard.vue";
+import DownloadRawResponseButton from "./KeyInfoCard/DownloadRawResponseButton.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -33,6 +34,7 @@ setInterval(() => window.location.reload(), 8.64e7);
         <MITCard :productID="product.id" />
         <SurveyModeStatsCard :product="product" />
         <SurveyLinkCard :product="product" />
+        <DownloadRawResponseButton :product="product" />
       </div>
     </div>
   </div>

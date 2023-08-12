@@ -28,7 +28,7 @@ export class FeedbackResponseController {
   @Get('response/download/:productID')
   @AllowAllRoles
   // @todo Throttle by user/team instead of throttling by IP
-  @Throttle(10, 10) // Highly rate limited since this is an expensive DB operation
+  @Throttle(3, 1) // Highly rate limited since this is an expensive DB operation
   async getResponseCsvString(
     @Param('productID') productID: ProductID,
   ): Promise<string> {
