@@ -111,6 +111,9 @@ model product {
   // Relationship: ONE product, can have MANY survey responses
   pmf_survey_responses pmf_survey_responses[]
 
+  // Relationship: ONE product, can have MANY Tasks
+  task task[]
+
   // Relationship: ONE product, can have MANY MITs
   mit mit[]
 }
@@ -127,6 +130,23 @@ model pmf_survey_responses {
   a4 String
 
   // Relationship: MANY survey responses, belong to ONE (the same) product's survey
+  product   product @relation(fields: [productID], references: [id])
+  productID String
+}
+
+// Generated tasks for customers to do based on their own customers' feedback.
+// Built using responses to question 4 of the PMF survey.
+model task {
+  // Autoincrementing Int ID needed for queries that require ordering
+  iid Int @id @default(autoincrement())
+
+  // Unique random string ID as the taskID
+  id        String   @unique @default(cuid())
+  createdAt DateTime @default(now())
+  task      String
+  done      Boolean  @default(false)
+
+  // Relationship: MANY Tasks, belong to ONE (the same) product
   product   product @relation(fields: [productID], references: [id])
   productID String
 }

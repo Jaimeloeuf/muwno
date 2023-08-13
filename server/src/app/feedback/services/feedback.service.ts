@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { unparse as PapaUnparse } from 'papaparse';
 
-import { IFeedbackRepo } from '../../../DAL/abstraction/index.js';
+import { IFeedbackRepo, ITaskRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
 import type {
@@ -15,7 +15,10 @@ import { NotFoundException } from '../../../exceptions/index.js';
 
 @Injectable()
 export class FeedbackService {
-  constructor(private readonly feedbackRepo: IFeedbackRepo) {}
+  constructor(
+    private readonly feedbackRepo: IFeedbackRepo,
+    private readonly taskRepo: ITaskRepo,
+  ) {}
 
   /**
    * Get a Feedback Form's data from data source.
@@ -38,6 +41,11 @@ export class FeedbackService {
     response: CreateOneFeedbackResponseDTO,
   ): Promise<void> {
     await this.feedbackRepo.saveOne(productID, response);
+
+    // @todo Call OpenAI API to generate the actionable task
+    const task = response.a4;
+
+    await this.taskRepo.createOne(productID, task);
   }
 
   /**
