@@ -38,9 +38,6 @@ export async function useForm(formID: string) {
   const a4 = ref<string>("");
 
   async function submitForm() {
-    /* Input validation */
-    if (a1.value === undefined) return false;
-
     const { res, err } = await sf
       .useDefault()
       .POST(`/feedback/submit/${formID}`)
@@ -48,17 +45,22 @@ export async function useForm(formID: string) {
         "x-recaptcha-token": await getRecaptchaToken("submitFeedbackForm"),
       })
       .bodyJSON<CreateOneFeedbackResponseDTO>({
-        a1: a1.value,
+        // Type cast here is safe because the caller should do input validation
+        // for `a1` before calling this function since this function will not be
+        // awaited for by the caller so it cannot rely on this function to check.
+        a1: a1.value as number,
         a2: a2.value,
         a3: a3.value,
         a4: a4.value,
       })
       .run();
 
-    if (err) throw err;
-    if (!res.ok) throw new Error("Failed to submit response!");
-
-    return true;
+    // Since not throwing any errors to keep users on the happy path towards the
+    // submitted response page to thank them, this just logs out all details in
+    // case it is needed for debugging directly in devtools.
+    if (err) console.error(`Submission failed`, err);
+    else if (!res.ok) console.error(`Submission failed`, res);
+    else console.log("Response submitted");
   }
 
   return { productName, radioOptions, a1, a2, a3, a4, submitForm };

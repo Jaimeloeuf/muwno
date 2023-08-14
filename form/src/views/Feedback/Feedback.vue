@@ -2,12 +2,10 @@
 import { useRouter } from "vue-router";
 import { useForm } from "./useForm";
 import { FeedbackSubmittedRoute } from "../../router";
-import { useLoader } from "../../store";
 
 const props = defineProps<{ formID: string; defaultA1?: string }>();
 
 const router = useRouter();
-const loader = useLoader();
 
 const { productName, radioOptions, a1, a2, a3, a4, submitForm } = await useForm(
   props.formID
@@ -20,14 +18,19 @@ if (props.defaultA1 !== undefined) {
 }
 
 async function submit() {
-  loader.show();
+  // Input validation needs to be done before calling `submitForm` since it does
+  // not do any input validation as there is no one to stop it from moving to
+  // the next 'Thank you' page.
+  if (a1.value === undefined)
+    return alert("Please select an answer for Question 1!");
 
-  const submitSuccess = await submitForm();
+  // Not showing loader before submitting form and also not awaiting for this
+  // because it doesnt really matter for the users submitting the form because
+  // even if it failed it should just fail silently instead of messing with the
+  // user's happy path and associating the product with errors.
+  submitForm();
 
-  loader.hide();
-
-  if (submitSuccess) router.push({ name: FeedbackSubmittedRoute.name });
-  else alert("Failed to submit form");
+  router.push({ name: FeedbackSubmittedRoute.name });
 }
 </script>
 
