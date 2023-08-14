@@ -36,15 +36,12 @@ export class FeedbackRepo implements IFeedbackRepo {
     });
   }
 
-  async saveOne(
-    productID: ProductID,
-    response: CreateOneFeedbackResponseDTO,
-  ): Promise<void> {
-    await this.db.pmf_survey_responses.create({
-      data: {
-        ...response,
-        productID,
-      },
-    });
+  async saveOne(productID: ProductID, response: CreateOneFeedbackResponseDTO) {
+    return this.db.pmf_survey_responses
+      .create({
+        data: { ...response, productID },
+        select: { id: true },
+      })
+      .then(({ id }) => id);
   }
 }

@@ -3,6 +3,7 @@ import type {
   FeedbackForm,
   CreateOneFeedbackResponseDTO,
   FeedbackResponse,
+  FeedbackResponseID,
 } from 'domain-model';
 
 type DBFeedbackResponse = Omit<
@@ -26,7 +27,7 @@ export abstract class IFeedbackRepo {
   abstract saveOne(
     productID: ProductID,
     response: CreateOneFeedbackResponseDTO,
-  ): Promise<void>;
+  ): Promise<FeedbackResponseID>;
 
   /**
    * Get all survey responses of the selected product.

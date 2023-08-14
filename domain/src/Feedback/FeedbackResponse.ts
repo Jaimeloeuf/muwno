@@ -12,3 +12,8 @@ export interface FeedbackResponse {
   a3: string;
   a4: string;
 }
+
+/**
+ * Type alias for `FeedbackResponseID['id']` where all ids will follow the same type.
+ */
+export type FeedbackResponseID = FeedbackResponse["id"];

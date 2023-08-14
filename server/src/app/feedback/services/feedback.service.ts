@@ -40,9 +40,9 @@ export class FeedbackService {
     productID: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ): Promise<void> {
-    await this.feedbackRepo.saveOne(productID, response);
+    const responseID = await this.feedbackRepo.saveOne(productID, response);
 
-    await this.taskService.createOne(productID, response);
+    await this.taskService.createOne(productID, responseID, response);
   }
 
   /**

@@ -1,4 +1,6 @@
-import type { ProductID, Task } from 'domain-model';
+import type { Task } from 'domain-model';
+
+export type DBCreateOneTaskDTO = Omit<Task, 'id' | 'createdAt' | 'done'>;
 
 /**
  * Data Repository interface used as an abstraction over a collection of
@@ -8,5 +10,5 @@ export abstract class ITaskRepo {
   /**
    * Create a new Task in data source.
    */
-  abstract createOne(productID: ProductID, task: Task['task']): Promise<Task>;
+  abstract createOne(createOneTaskDTO: DBCreateOneTaskDTO): Promise<Task>;
 }

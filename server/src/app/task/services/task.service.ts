@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ITaskRepo } from '../../../DAL/abstraction/index.js';
 
 // Entity Types
-import type { ProductID, Task } from 'domain-model';
+import type { ProductID, FeedbackResponseID, Task } from 'domain-model';
 
 // DTO Types
 import type { CreateOneFeedbackResponseDTO } from 'domain-model';
@@ -16,11 +16,12 @@ export class TaskService {
    */
   async createOne(
     productID: ProductID,
+    responseID: FeedbackResponseID,
     response: CreateOneFeedbackResponseDTO,
   ): Promise<Task> {
     // @todo Call OpenAI API to generate the actionable task
     const task = response.a4;
 
-    return this.taskRepo.createOne(productID, task);
+    return this.taskRepo.createOne({ productID, responseID, task });
   }
 }

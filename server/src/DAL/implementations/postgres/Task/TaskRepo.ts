@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import type { ITaskRepo } from '../../../abstraction/index.js';
+import type {
+  ITaskRepo,
+  DBCreateOneTaskDTO,
+} from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
-
-import type { ProductID, Task } from 'domain-model';
 
 // Mappers
 import { mapTaskModelToEntity } from './mapper.js';
@@ -12,9 +13,9 @@ import { mapTaskModelToEntity } from './mapper.js';
 export class TaskRepo implements ITaskRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async createOne(productID: ProductID, task: Task['task']) {
+  async createOne(createOneTaskDTO: DBCreateOneTaskDTO) {
     return this.db.task
-      .create({ data: { productID, task } })
+      .create({ data: createOneTaskDTO })
       .then(mapTaskModelToEntity);
   }
 }
