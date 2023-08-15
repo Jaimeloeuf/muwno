@@ -55,6 +55,16 @@ export const ConfigModule = _ConfigModule.forRoot({
     TELE_ADMIN_CHAT_ID: Joi.string().required(),
 
     /**
+     * Expects the API key to access OpenAI's API.
+     */
+    OPENAI_API_KEY: Joi.string().required(),
+
+    /**
+     * Expects the Org ID of thepmftool's OpenAI API org.
+     */
+    OPENAI_ORG: Joi.string().required(),
+
+    /**
      * Arbitrary default TTL
      */
     THROTTLE_TTL: Joi.number().default(3),

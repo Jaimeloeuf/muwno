@@ -11,12 +11,20 @@ import type { Schema } from 'joi';
  */
 export interface EnvironmentVariables {
   readonly version: string;
+
   readonly RECAPTCHA_SECRET: string;
+
   readonly POSTMARK_API_KEY: string;
+
+  readonly OPENAI_API_KEY: string;
+  readonly OPENAI_ORG: string;
+
   readonly TELE_BOT_TOKEN: string;
   readonly TELE_ADMIN_CHAT_ID: string;
+
   readonly THROTTLE_TTL: number;
   readonly THROTTLE_LIMIT: number;
+
   readonly PRISMA_VERBOSE: boolean;
 }
 
