@@ -4,6 +4,7 @@
  * Defined here instead of inlining it to ensure this array is only created once.
  */
 export const listOfNoFeedbackStrings = [
+  '',
   'nothing',
   'no',
   'na',
