@@ -45,16 +45,6 @@ export const ConfigModule = _ConfigModule.forRoot({
     POSTMARK_API_KEY: Joi.string().required(),
 
     /**
-     * Expects the telegram bot's token.
-     */
-    TELE_BOT_TOKEN: Joi.string().required(),
-
-    /**
-     * Expects the chat ID of thepmftool's telegram admin chat.
-     */
-    TELE_ADMIN_CHAT_ID: Joi.string().required(),
-
-    /**
      * Expects the API key to access OpenAI's API.
      */
     OPENAI_API_KEY: Joi.string().required(),
@@ -63,6 +53,16 @@ export const ConfigModule = _ConfigModule.forRoot({
      * Expects the Org ID of thepmftool's OpenAI API org.
      */
     OPENAI_ORG: Joi.string().required(),
+
+    /**
+     * Expects the telegram bot's token.
+     */
+    TELE_BOT_TOKEN: Joi.string().required(),
+
+    /**
+     * Expects the chat ID of thepmftool's telegram admin chat.
+     */
+    TELE_ADMIN_CHAT_ID: Joi.string().required(),
 
     /**
      * Arbitrary default TTL
