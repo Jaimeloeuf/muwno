@@ -44,6 +44,7 @@
     "domain-model": "file:../domain",
     "firebase-admin": "^11.10.1",
     "joi": "^17.9.2",
+    "openai": "^3.3.0",
     "papaparse": "^5.4.1",
     "postmark": "^3.0.19",
     "reflect-metadata": "^0.1.13",

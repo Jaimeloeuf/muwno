@@ -16,3 +16,8 @@ export type Task = {
   task: string;
   done: boolean;
 };
+
+/**
+ * Type alias for `Task['id']` where all TaskIDs will follow the same type.
+ */
+export type TaskID = Task["id"];

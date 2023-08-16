@@ -10,5 +10,8 @@ import { ProductController } from './controllers/product.controller.js';
   providers: [ProductService],
 
   controllers: [ProductController],
+
+  // Export these services so other modules can use these
+  exports: [ProductService],
 })
 export class ProductModule {}
