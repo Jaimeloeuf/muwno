@@ -5,7 +5,7 @@ import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
 import { ITelegramBotService } from '../../../infra/abstractions/index.js';
 
 // DTO Validators
-import { ValidatedContactFormDetailsDTO } from '../dto-validation/ValidatedCreateOneOrgDTO.js';
+import { ValidatedContactFormDetailsDTO } from '../dto-validation/ValidatedContactFormDetailsDTO.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
