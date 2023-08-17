@@ -24,7 +24,7 @@ export class FeedbackService {
    * Get a Feedback Form's data from data source.
    */
   async getForm(productID: ProductID): Promise<FeedbackForm> {
-    const form = await this.feedbackRepo.getOne(productID);
+    const form = await this.feedbackRepo.getOneFeedbackForm(productID);
     if (form === null)
       throw new NotFoundException(
         `Cannot find form of Product ID '${productID}'`,
@@ -40,7 +40,10 @@ export class FeedbackService {
     productID: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ): Promise<void> {
-    const responseID = await this.feedbackRepo.saveOne(productID, response);
+    const responseID = await this.feedbackRepo.saveOneResponse(
+      productID,
+      response,
+    );
 
     await this.taskService.createOne(productID, responseID, response);
   }

@@ -19,12 +19,14 @@ export abstract class IFeedbackRepo {
   /**
    * Get a single `FeedbackForm` Entity object back
    */
-  abstract getOne(productID: ProductID): Promise<FeedbackForm | null>;
+  abstract getOneFeedbackForm(
+    productID: ProductID,
+  ): Promise<FeedbackForm | null>;
 
   /**
    * Save response of a feedback form.
    */
-  abstract saveOne(
+  abstract saveOneResponse(
     productID: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ): Promise<FeedbackResponseID>;

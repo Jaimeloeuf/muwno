@@ -15,7 +15,7 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class FeedbackRepo implements IFeedbackRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getOne(productID: ProductID) {
+  async getOneFeedbackForm(productID: ProductID) {
     return this.db.product
       .findUnique({
         where: { id: productID },
@@ -36,7 +36,10 @@ export class FeedbackRepo implements IFeedbackRepo {
     });
   }
 
-  async saveOne(productID: ProductID, response: CreateOneFeedbackResponseDTO) {
+  async saveOneResponse(
+    productID: ProductID,
+    response: CreateOneFeedbackResponseDTO,
+  ) {
     return this.db.pmf_survey_responses
       .create({
         data: { ...response, productID },
