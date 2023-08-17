@@ -53,7 +53,7 @@ export async function useForm(formID: string) {
         a3: a3.value,
         a4: a4.value,
       })
-      .run();
+      .runVoid((res) => res.json());
 
     // Since not throwing any errors to keep users on the happy path towards the
     // submitted response page to thank them, this just logs out all details in

@@ -23,7 +23,7 @@ async function invite() {
     .POST(`/team/member/invite`)
     .bodyJSON<CreateOneTeamMemberInvitationDTO>({ inviteeEmail: email.value })
     .useHeader(getAuthHeader)
-    .run();
+    .runVoid((res) => res.json());
 
   if (err) throw err;
   if (!res.ok) throw new Error(`Failed to invite user. ${JSON.stringify(res)}`);

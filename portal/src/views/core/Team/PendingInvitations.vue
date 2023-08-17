@@ -22,7 +22,7 @@ async function acceptInvitation(invitationID: number) {
     .useDefault()
     .POST(`/team/member/invite/accept/${invitationID}`)
     .useHeader(getAuthHeader)
-    .run();
+    .runVoid((res) => res.json());
 
   if (err) throw err;
   if (!res.ok)
@@ -44,7 +44,7 @@ async function rejectInvitation(invitationID: number) {
     .useDefault()
     .POST(`/team/member/invite/reject/${invitationID}`)
     .useHeader(getAuthHeader)
-    .run();
+    .runVoid((res) => res.json());
 
   if (err) throw err;
   if (!res.ok)
