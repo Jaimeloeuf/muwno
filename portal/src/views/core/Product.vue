@@ -3,7 +3,7 @@ import { useOrg } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
-import MITCard from "./KeyInfoCard/MITCard.vue";
+import TaskCard from "./KeyInfoCard/TaskCard.vue";
 import SurveyModeStatsCard from "./KeyInfoCard/SurveyModeStatsCard.vue";
 import SurveyLinkCard from "./KeyInfoCard/SurveyLinkCard.vue";
 import DownloadRawResponseButton from "./KeyInfoCard/DownloadRawResponseButton.vue";
@@ -31,7 +31,7 @@ setInterval(() => window.location.reload(), 8.64e7);
 
       <div class="mx-4 flex max-w-lg flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <PMFLiveScoreCard class="w-full" :productID="product.id" />
-        <MITCard :productID="product.id" />
+        <TaskCard :productID="product.id" />
         <SurveyModeStatsCard :product="product" />
         <SurveyLinkCard :product="product" />
         <DownloadRawResponseButton :product="product" />
