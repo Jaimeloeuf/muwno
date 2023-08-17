@@ -30,6 +30,8 @@ export const ProfileRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ================================== Org Module Routes =============================== */
+
 export const OrgRoute = <const>{
   name: "org",
   path: "/org",
@@ -45,6 +47,13 @@ export const CreateOrgRoute = <const>{
 };
 
 /* ================================== Product Module Routes =============================== */
+
+export const AllProductRoute = <const>{
+  name: "product-all",
+  path: "/product/all",
+  component: () => import("../views/core/AllProduct.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
 
 export const AddProductRoute = <const>{
   name: "product-add",
@@ -112,6 +121,7 @@ const PrivateRoutes = [
   ProfileRoute,
   OrgRoute,
   CreateOrgRoute,
+  AllProductRoute,
   ProductRoute,
   AddProductRoute,
   ImportCustomerRoute,

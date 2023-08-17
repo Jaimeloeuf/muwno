@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { useOrg } from "../../store";
-import { OrgRoute, ProductRoute, ProfileRoute, TeamRoute } from "../../router";
+import {
+  AllProductRoute,
+  OrgRoute,
+  ProfileRoute,
+  TeamRoute,
+} from "../../router";
 import { logout } from "../../utils/logout";
 import Version from "./Version.vue";
 
-const orgStore = useOrg();
-
 const showDrawer = ref<boolean>(false);
-const showProducts = ref<boolean>(true);
+// const showProducts = ref<boolean>(true);
 
 const showVersionCount = ref<number>(0);
 watch(showDrawer, (shown) => {
@@ -61,42 +63,43 @@ watch(showDrawer, (shown) => {
 
       <div class="w-full">
         <router-link
+          :to="{ name: AllProductRoute.name }"
+          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
+          @click="showDrawer = !showDrawer"
+        >
+          <img
+            src="../../assets/SideDrawerIcon/Product.svg"
+            class="h-6 w-6 text-gray-500"
+          />
+          <span class="ml-3 flex-1 text-left">Products</span>
+        </router-link>
+
+        <router-link
           :to="{ name: OrgRoute.name }"
           class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
           @click="showDrawer = !showDrawer"
         >
-          <svg
-            class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <img
+            src="../../assets/SideDrawerIcon/Org.svg"
+            class="h-6 w-6 text-gray-500"
+          />
           <span class="ml-3 flex-1 text-left">Organisation</span>
         </router-link>
 
-        <button
+        <!--
+          Original Products drawer item that can be shown/hidden. Issue with
+          this is that with too many products it prevent the side drawer from
+          scrolling properly. So it is no longer used but kept here for reference.
+        -->
+        <!-- <button
           type="button"
           class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
           @click="showProducts = !showProducts"
         >
-          <svg
-            class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <img
+            src="../../assets/SideDrawerIcon/Product.svg"
+            class="h-6 w-6 text-gray-500"
+          />
           <span class="ml-3 flex-1 text-left">Products</span>
           <svg
             class="h-6 w-6"
@@ -125,16 +128,12 @@ watch(showDrawer, (shown) => {
                 params: { productID: product.id },
               }"
               class="inline-flex grow rounded-lg p-2 pl-7 pr-4 text-gray-900 transition duration-75"
-              :class="{
-                // @todo Should check by route param instead
-                // 'bg-gray-200': product.id === orgStore.currentProductID,
-              }"
               @click="showDrawer = !showDrawer"
             >
               {{ i + 1 }}. {{ product.name }}
             </router-link>
           </div>
-        </div>
+        </div> -->
 
         <router-link
           :to="{ name: TeamRoute.name }"
