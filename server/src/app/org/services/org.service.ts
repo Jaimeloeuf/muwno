@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
-import { IOrgRepo, IUserRepo } from '../../../DAL/abstraction/index.js';
-import { IAuthService } from '../../../infra/abstractions/index.js';
+import { IOrgRepo, IUserRepo } from '../../../DAL/index.js';
+import { IAuthService } from '../../../infra/index.js';
 
 // Entity Types
 import type { Org, OrgID, UserID } from 'domain-model';
 import { Role } from 'domain-model';
+
 // DTO Types
 import type { CreateOneOrgDTO } from 'domain-model';
 

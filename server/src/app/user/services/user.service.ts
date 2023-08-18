@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { IUserRepo } from '../../../DAL/abstraction/index.js';
+import { IUserRepo } from '../../../DAL/index.js';
 
 // Entity Types
 import type { User, UserID } from 'domain-model';

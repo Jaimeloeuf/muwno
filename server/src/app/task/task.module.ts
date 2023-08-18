@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 // Infra
-import { AiServiceProvider } from '../../infra/providers/index.js';
+import { AiServiceProvider } from '../../infra/index.js';
 
 // Modules
 import { ProductModule } from '../product/product.module.js';

@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 
 import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
 
-import { ITelegramBotService } from '../../../infra/abstractions/index.js';
+import { ITelegramBotService } from '../../../infra/index.js';
 
 // DTO Validators
 import { ValidatedContactFormDetailsDTO } from '../dto-validation/ValidatedContactFormDetailsDTO.js';

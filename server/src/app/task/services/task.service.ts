@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { ITaskRepo } from '../../../DAL/abstraction/index.js';
+import { ITaskRepo } from '../../../DAL/index.js';
 import { ProductService } from '../../product/services/product.service.js';
-import { IAiService } from '../../../infra/abstractions/IAiService.js';
+import { IAiService } from '../../../infra/index.js';
 
 // Entity Types
 import type {

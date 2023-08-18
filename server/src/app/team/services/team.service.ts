@@ -1,14 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import {
-  ITeamRepo,
-  IOrgRepo,
-  IUserRepo,
-} from '../../../DAL/abstraction/index.js';
-import {
-  IEmailService,
-  IAuthService,
-} from '../../../infra/abstractions/index.js';
+import { ITeamRepo, IOrgRepo, IUserRepo } from '../../../DAL/index.js';
+import { IEmailService, IAuthService } from '../../../infra/index.js';
 
 // Entity Types
 import type { User, UserID, TeamInvitation } from 'domain-model';

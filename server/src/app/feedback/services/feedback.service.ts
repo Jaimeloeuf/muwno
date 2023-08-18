@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { IFeedbackRepo } from '../../../DAL/abstraction/index.js';
+import { IFeedbackRepo } from '../../../DAL/index.js';
 import { TaskService } from '../../task/services/task.service.js';
 
 // Entity Types

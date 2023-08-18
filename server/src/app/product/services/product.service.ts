@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { IProductRepo, IOrgRepo } from '../../../DAL/abstraction/index.js';
+import { IProductRepo, IOrgRepo } from '../../../DAL/index.js';
 
 // Entity Types
 import type {
