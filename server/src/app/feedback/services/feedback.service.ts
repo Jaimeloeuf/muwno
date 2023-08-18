@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { unparse as PapaUnparse } from 'papaparse';
 
 import { IFeedbackRepo } from '../../../DAL/abstraction/index.js';
 import { TaskService } from '../../task/services/task.service.js';
@@ -83,6 +82,9 @@ export class FeedbackService {
       [q3Header]: response.a3,
       [q4Header]: response.a4,
     }));
+
+    // Lazily load library since this is not used very often
+    const { unparse: PapaUnparse } = await import('papaparse');
 
     // 'unparse' array of objects into a CSV String
     return PapaUnparse(mappedResponse, { header: true });
