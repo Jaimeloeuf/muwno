@@ -10,6 +10,7 @@ export * from "./Org/index.js";
 export * from "./PMF/index.js";
 export * from "./Task/index.js";
 export * from "./Role/index.js";
+export * from "./Plan/index.js";
 
 /* HTTP DTOs */
 export * from "./HttpDTOs/index.js";

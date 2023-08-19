@@ -25,3 +25,5 @@ export * from "./ReadManyTaskDTO.js";
 
 export * from "./ReadOnePMFScoreDTO.js";
 export * from "./ReadManyPMFScoreDTO.js";
+
+export * from "./ReadManyActivePlanDTO.js";

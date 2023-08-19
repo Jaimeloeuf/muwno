@@ -8,6 +8,7 @@ import { OrgModule } from './org/org.module.js';
 import { ProductModule } from './product/product.module.js';
 import { TaskModule } from './task/task.module.js';
 import { TeamModule } from './team/team.module.js';
+import { SubscriptionModule } from './subscription/subscription.module.js';
 import { LandingModule } from './landing/landing.module.js';
 
 /**
@@ -22,6 +23,7 @@ import { LandingModule } from './landing/landing.module.js';
     ProductModule,
     TaskModule,
     TeamModule,
+    SubscriptionModule,
     LandingModule,
   ],
 })

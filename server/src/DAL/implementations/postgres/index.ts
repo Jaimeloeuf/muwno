@@ -8,3 +8,4 @@ export * from './Product/ProductRepo.js';
 export * from './Feedback/FeedbackRepo.js';
 export * from './Team/TeamRepo.js';
 export * from './Task/TaskRepo.js';
+export * from './Plan/PlanRepo.js';

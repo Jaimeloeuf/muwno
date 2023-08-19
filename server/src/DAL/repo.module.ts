@@ -11,6 +11,7 @@ import {
   IFeedbackRepo,
   ITeamRepo,
   ITaskRepo,
+  IPlanRepo,
 } from './abstraction/index.js';
 
 /* Implementations */
@@ -21,6 +22,7 @@ import {
   FeedbackRepo,
   TeamRepo,
   TaskRepo,
+  PlanRepo,
 } from './implementations/postgres/index.js';
 
 /**
@@ -48,6 +50,7 @@ import {
     { provide: IFeedbackRepo, useClass: FeedbackRepo },
     { provide: ITeamRepo, useClass: TeamRepo },
     { provide: ITaskRepo, useClass: TaskRepo },
+    { provide: IPlanRepo, useClass: PlanRepo },
   ],
 
   exports: [
@@ -58,6 +61,7 @@ import {
     IFeedbackRepo,
     ITeamRepo,
     ITaskRepo,
+    IPlanRepo,
   ],
 })
 export class RepoModule {}
