@@ -45,7 +45,7 @@ model org {
   iid Int @id @default(autoincrement())
 
   // Unique random string ID as the orgID
-  id        String   @unique @default(cuid()) @map("orgID")
+  id        String   @unique @default(cuid())
   createdAt DateTime @default(now())
   name      String
 
