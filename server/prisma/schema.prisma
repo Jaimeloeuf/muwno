@@ -188,3 +188,9 @@ model team_member_invitation {
   org   org    @relation(fields: [orgID], references: [id])
   orgID String
 }
+
+model stripe_webhook_event {
+  // Use Stripe's unique event ID as the indempotency key
+  id        String   @id
+  createdAt DateTime @default(now())
+}

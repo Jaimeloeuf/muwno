@@ -12,6 +12,7 @@ import {
   ITeamRepo,
   ITaskRepo,
   IPlanRepo,
+  IStripeWebhookEventRepo,
 } from './abstraction/index.js';
 
 /* Implementations */
@@ -23,6 +24,7 @@ import {
   TeamRepo,
   TaskRepo,
   PlanRepo,
+  StripeWebhookEventRepo,
 } from './implementations/postgres/index.js';
 
 /**
@@ -51,6 +53,7 @@ import {
     { provide: ITeamRepo, useClass: TeamRepo },
     { provide: ITaskRepo, useClass: TaskRepo },
     { provide: IPlanRepo, useClass: PlanRepo },
+    { provide: IStripeWebhookEventRepo, useClass: StripeWebhookEventRepo },
   ],
 
   exports: [
@@ -62,6 +65,7 @@ import {
     ITeamRepo,
     ITaskRepo,
     IPlanRepo,
+    IStripeWebhookEventRepo,
   ],
 })
 export class RepoModule {}
