@@ -38,7 +38,12 @@ async function login() {
     const errorMessage = error.message;
     console.error(errorCode, errorMessage);
 
-    alert("Login failed!");
+    if (errorCode === "auth/user-not-found") {
+      alert("Account does not exists, please signup instead!");
+      router.push({ name: SignupRoute.name });
+    } else {
+      alert("Login failed!");
+    }
   } finally {
     loader.hide();
   }
