@@ -3,6 +3,7 @@ import { ref, watch } from "vue";
 import {
   AllProductRoute,
   OrgRoute,
+  SubscriptionPlansRoute,
   ProfileRoute,
   TeamRoute,
 } from "../../router";
@@ -84,6 +85,19 @@ watch(showDrawer, (shown) => {
             class="h-6 w-6 text-gray-500"
           />
           <span class="ml-3 flex-1 text-left">Organisation</span>
+        </router-link>
+
+        <router-link
+          :to="{ name: SubscriptionPlansRoute.name }"
+          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
+          @click="showDrawer = !showDrawer"
+        >
+          <!-- @todo Change the icon -->
+          <img
+            src="../../assets/SideDrawerIcon/Org.svg"
+            class="h-6 w-6 text-gray-500"
+          />
+          <span class="ml-3 flex-1 text-left">Subscription</span>
         </router-link>
 
         <!--

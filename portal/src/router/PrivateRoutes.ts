@@ -1,5 +1,4 @@
-// import type { RouteLocationNormalized } from "vue-router";
-// props: (route: RouteLocationNormalized) => route.query,
+import type { RouteLocationNormalized } from "vue-router";
 
 import type { PrivateRoute } from "./RouteTypes";
 import { AuthType } from "./AuthType";
@@ -101,6 +100,16 @@ export const PendingInvitationRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ================================== Subscription Module Routes =============================== */
+
+export const SubscriptionPlansRoute = <const>{
+  name: "subscription-plans",
+  path: "/subscription/plans",
+  props: (route: RouteLocationNormalized) => route.query,
+  component: () => import("../views/core/Subscription.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /**
  * This array is only used internally for typechecking and type creation purposes
  * only, and is never used as a value anywhere, therefore there is no need to worry
@@ -128,6 +137,7 @@ const PrivateRoutes = [
   TeamRoute,
   InviteMemberRoute,
   PendingInvitationRoute,
+  SubscriptionPlansRoute,
 ] satisfies Array<PrivateRoute>;
 
 /**

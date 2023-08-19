@@ -13,6 +13,7 @@ import {
   TeamRoute,
   InviteMemberRoute,
   PendingInvitationRoute,
+  SubscriptionPlansRoute,
 } from "./PrivateRoutes";
 
 /**
@@ -36,6 +37,7 @@ export const Routes = (<const>[
   TeamRoute,
   InviteMemberRoute,
   PendingInvitationRoute,
+  SubscriptionPlansRoute,
 
   /* Public Routes */
   LoginRoute,
