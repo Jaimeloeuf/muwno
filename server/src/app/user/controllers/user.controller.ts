@@ -4,7 +4,6 @@ import { UserService } from '../services/user.service.js';
 
 import {
   GuardWithRBAC,
-  AllowAllRoles,
   NoRoleRequired,
   JWT_uid,
   JWT,
@@ -37,7 +36,7 @@ export class UserController {
    * Get the user's own User Entity object.
    */
   @Get('self')
-  @AllowAllRoles
+  @NoRoleRequired
   async getSelf(@JWT_uid userID: FirebaseAuthUID): Promise<ReadOneUserDTO> {
     return this.userService.getUser(userID).then(mapUserEntityToDTO);
   }
