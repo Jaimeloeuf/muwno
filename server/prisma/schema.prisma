@@ -34,6 +34,7 @@ model plan {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   name      String
+  active    Boolean
 
   // Relationship: ONE plan, can be used by MANY orgs
   org org[]
