@@ -49,6 +49,7 @@
     "postmark": "^3.0.19",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "stripe": "^13.1.0",
     "tiny-json-http": "^7.5.1",
     "zod": "^3.21.4"
   },

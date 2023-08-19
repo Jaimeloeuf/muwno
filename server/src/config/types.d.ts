@@ -37,6 +37,22 @@ export interface EnvironmentVariables {
   readonly OPENAI_ORG: string;
 
   /**
+   * Stripe's Secret Key
+   */
+  readonly STRIPE_SECRET_KEY: string;
+
+  /**
+   * Stripe's Webhook Secret
+   */
+  readonly STRIPE_WEBHOOK_SECRET: string;
+
+  /**
+   * Base URL of portal for Stripe Checkout Session to redirect to on either
+   * payment success or cancellation.
+   */
+  readonly STRIPE_CHECKOUT_REDIRECT_URL: string;
+
+  /**
    * Telegram bot's token.
    */
   readonly TELE_BOT_TOKEN: string;

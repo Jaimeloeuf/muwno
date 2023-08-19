@@ -55,6 +55,22 @@ export const ConfigModule = _ConfigModule.forRoot({
     OPENAI_ORG: Joi.string().required(),
 
     /**
+     * Expects a Stripe Secret Key.
+     */
+    STRIPE_SECRET_KEY: Joi.string().required(),
+
+    /**
+     * Expects a Stripe Webhook Secret.
+     */
+    STRIPE_WEBHOOK_SECRET: Joi.string().required(),
+
+    /**
+     * Expects a base URL of portal for Stripe Checkout Session to redirect to
+     * on either payment success or cancellation.
+     */
+    STRIPE_CHECKOUT_REDIRECT_URL: Joi.string().required(),
+
+    /**
      * Expects the telegram bot's token.
      */
     TELE_BOT_TOKEN: Joi.string().required(),
