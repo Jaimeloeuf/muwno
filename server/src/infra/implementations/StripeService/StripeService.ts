@@ -48,6 +48,10 @@ export class StripeService {
    */
   private readonly stripeCheckoutRedirectUrl: string;
 
+  /**
+   * Create a new Stripe Checkout Session and get back the session's URL string
+   * for client to redirect to.
+   */
   async createCheckoutSession(planID: string) {
     // Lookup priceID from stripe using planID, so that frontend will be 'buying'
     // plan using planID from DB without having to save stripe specific priceID
@@ -82,5 +86,18 @@ export class StripeService {
       throw new Error(`Failed to get Stripe Checkout Session URL.`);
 
     return session.url;
+  }
+
+  /**
+   * Create a new Stripe Billing Portal Session and get back the session's URL
+   * string for client to redirect to.
+   */
+  async createPortalSession(session_id: string) {
+    const customerEmail = '';
+
+    // @todo Tmp way of just sending the portal link back for them to login themselves
+    return `https://billing.stripe.com/p/login/test_8wM4gP5oxe0Zc5G6oo?prefilled_email=${encodeURI(
+      customerEmail,
+    )}`;
   }
 }

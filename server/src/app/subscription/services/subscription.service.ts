@@ -27,4 +27,15 @@ export class SubscriptionService {
 
     return this.stripeService.createCheckoutSession(planID);
   }
+
+  /**
+   * Create a new Stripe Billing Portal Session and get back the session's URL
+   * string for client to redirect to.
+   */
+  async createPortalSession(userID: UserID): Promise<string> {
+    // @todo track the user's request using their ID
+    userID;
+
+    return this.stripeService.createPortalSession(userID);
+  }
 }

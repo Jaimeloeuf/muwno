@@ -32,12 +32,36 @@ async function getPlans() {
 
 const plans = await getPlans();
 
+async function goToBillingPortal() {
+  loader.show();
+
+  const { res, err } = await sf
+    .useDefault()
+    .POST(`/subscription/stripe/create-portal-session`)
+    .useHeader(getAuthHeader)
+    .runText();
+
+  // Dont really need to hide since they are redirected away, but just in case
+  // something breaks they should not be stuck on the loading screen.
+  loader.hide();
+
+  if (err) throw err;
+  if (!res.ok)
+    throw new Error(
+      `Failed to open Stripe Billing Portal ${JSON.stringify(res)}`
+    );
+
+  // Open link in current tab / redirect there since after that is done, user
+  // will be redirected back to the portal.
+  window.location.href = res.data;
+}
+
 async function buyPlan(planID: number) {
   loader.show();
 
   const { res, err } = await sf
     .useDefault()
-    .POST(`/subscription/create-checkout-session/${planID}`)
+    .POST(`/subscription/stripe/create-checkout-session/${planID}`)
     .useHeader(getAuthHeader)
     .runText();
 
@@ -78,6 +102,7 @@ async function buyPlan(planID: number) {
 
         <div
           class="inline-block w-max cursor-pointer rounded-lg bg-slate-50 p-4 px-8 shadow"
+          @click="goToBillingPortal"
         >
           <p class="text-sm">Manage your billing information</p>
           <p class="text-4xl font-light">Billing Portal</p>

@@ -2,9 +2,15 @@ import { Controller, Get, Post, Param } from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
-import { GuardWithRBAC, NoRoleRequired, JWT_uid } from '../../../rbac/index.js';
+import {
+  GuardWithRBAC,
+  NoRoleRequired,
+  JWT_uid,
+  RolesRequired,
+} from '../../../rbac/index.js';
 
 // Entity Types
+import { Role } from 'domain-model';
 import type { FirebaseAuthUID } from 'domain-model';
 
 // DTO Types
@@ -32,7 +38,7 @@ export class SubscriptionController {
    * Create a new Stripe Checkout Session and get back the session's URL string
    * for client to redirect to.
    */
-  @Post('create-checkout-session/:planID')
+  @Post('stripe/create-checkout-session/:planID')
   @NoRoleRequired // No role required since users can pay before creating an Org
   async createCheckoutSession(
     @JWT_uid userID: FirebaseAuthUID,
@@ -43,5 +49,15 @@ export class SubscriptionController {
     @Param('planID') planID: string,
   ): Promise<string> {
     return this.subscriptionService.createCheckoutSession(userID, planID);
+  }
+
+  /**
+   * Create a new Stripe Billing Portal Session and get back the session's URL
+   * string for client to redirect to.
+   */
+  @Post('stripe/create-portal-session')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  async createPortalSession(@JWT_uid userID: FirebaseAuthUID): Promise<string> {
+    return this.subscriptionService.createPortalSession(userID);
   }
 }
