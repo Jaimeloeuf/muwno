@@ -49,6 +49,18 @@ export class StripeService {
   private readonly stripeCheckoutRedirectUrl: string;
 
   /**
+   * Method to verify a Stripe webhook event by checking its signature before
+   * creating the Event object and returning it.
+   */
+  async verifyAndConstructEvent(payload: Buffer, stripeSignature: string) {
+    return this.stripe.webhooks.constructEvent(
+      payload,
+      stripeSignature,
+      this.stripeWebhookSecret,
+    );
+  }
+
+  /**
    * Create a new Stripe Checkout Session and get back the session's URL string
    * for client to redirect to.
    */

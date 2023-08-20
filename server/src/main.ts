@@ -9,9 +9,22 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     RootModule,
 
-    // Since this service will be ran on a different domain than the portal,
-    // CORS needs to be enabled for the portal's API requests to work.
-    { cors: true },
+    {
+      // Since this service will be ran on a different domain than the portal,
+      // CORS needs to be enabled for the portal's API requests to work.
+      cors: true,
+
+      // Allow controllers to access the raw Request body so that it can perform
+      // webhook signature verifications using the unserialized request body to
+      // calculate a HMAC hash. This is used for handling Stripe Webhook Events.
+      //
+      // This feature can be used only if the built-in global body parser
+      // middleware is enabled, ie., you must not pass `bodyParser: false`
+      // when creating the app.
+      //
+      // Reference: https://docs.nestjs.com/faq/raw-body
+      rawBody: true,
+    },
   );
 
   // Disable adding `x-powered-by` header on HTTP responses to give out as
