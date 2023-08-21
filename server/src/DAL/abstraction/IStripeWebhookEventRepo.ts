@@ -7,5 +7,9 @@ export abstract class IStripeWebhookEventRepo {
    * Check if the given Stripe Webhook Event is unprocessed, if it is, return
    * true and record its ID so that it can be used for future checks.
    */
-  abstract isUnprocessed(id: string): Promise<boolean>;
+  abstract isUnprocessed(
+    id: string,
+    type: string,
+    livemode: boolean,
+  ): Promise<boolean>;
 }

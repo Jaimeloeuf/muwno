@@ -11,10 +11,10 @@ export class StripeWebhookEventRepo implements IStripeWebhookEventRepo {
   // @todo
   // Might explore other data sources like firestore instead of hitting the main
   // postgres database.
-  async isUnprocessed(id: string) {
+  async isUnprocessed(id: string, type: string, livemode: boolean) {
     return (
       this.db.stripe_webhook_event
-        .create({ data: { id } })
+        .create({ data: { id, type, livemode } })
 
         // Cast to true on success to indicate that the event is unprocessed.
         .then(() => true)

@@ -192,5 +192,8 @@ model team_member_invitation {
 model stripe_webhook_event {
   // Use Stripe's unique event ID as the indempotency key
   id        String   @id
+  // Time of DB insertion, not time where Stripe created the event
   createdAt DateTime @default(now())
+  type      String
+  livemode  Boolean
 }

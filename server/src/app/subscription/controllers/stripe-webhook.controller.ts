@@ -76,6 +76,8 @@ export class StripeWebhookController {
     // Reference: https://stripe.com/docs/webhooks#handle-duplicate-events
     const eventIsUnprocessed = await this.stripeWebhookEventRepo.isUnprocessed(
       event.id,
+      event.type,
+      event.livemode,
     );
 
     // Do indempotency check, if event is already processed before, ignore it.
@@ -97,8 +99,10 @@ export class StripeWebhookController {
    * 1. Dispatch specific event's handlers
    */
   private async processEvent(event: Stripe.Event) {
+    const modeString = event.livemode ? 'live' : 'test';
+
     this.logger.verbose(
-      `Processing Stripe event: ${event.id} -> ${event.type}`,
+      `Processing '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
       StripeWebhookController.name,
     );
   }
