@@ -7,10 +7,8 @@ import { type Role, roleMapper } from "@domain-model";
 const orgStore = useOrg();
 
 const orgDetails = orgStore.orgDetails;
-if (orgDetails === undefined)
-  throw new Error("Profile.vue: Org details is undefined");
 
-const claims = await auth.currentUser?.getIdTokenResult();
+const userJWT = await auth.currentUser?.getIdTokenResult();
 </script>
 
 <template>
@@ -30,26 +28,29 @@ const claims = await auth.currentUser?.getIdTokenResult();
 
       <div class="m-3 rounded-lg bg-slate-200 p-3">
         <p>Roles</p>
-        <p class="text-xl">
-          {{
-            (claims?.claims as any).roles.map((role: Role) => roleMapper[role])
-          }}
+        <p v-if="Array.isArray(userJWT?.claims?.roles)" class="text-xl">
+          {{ userJWT?.claims.roles.map((role: Role) => roleMapper[role]) }}
         </p>
+        <p v-else class="text-xl">No Custom Claims</p>
       </div>
 
       <hr class="my-12" />
 
-      <p class="mb-2 text-xl">Organisation</p>
+      <div v-if="orgDetails !== undefined">
+        <p class="mb-2 text-xl">Organisation</p>
 
-      <div class="m-3 rounded-lg bg-slate-200 p-3">
-        <p>Name</p>
-        <p class="text-xl">{{ orgDetails.name }}</p>
+        <div class="m-3 rounded-lg bg-slate-200 p-3">
+          <p>Name</p>
+          <p class="text-xl">{{ orgDetails.name }}</p>
+        </div>
+
+        <div class="m-3 rounded-lg bg-slate-200 p-3">
+          <p>Plan</p>
+          <p class="text-xl">{{ orgDetails.plan }}</p>
+        </div>
       </div>
 
-      <div class="m-3 rounded-lg bg-slate-200 p-3">
-        <p>Plan</p>
-        <p class="text-xl">{{ orgDetails.plan }}</p>
-      </div>
+      <p v-else class="mb-2 text-xl">No Organisation</p>
     </div>
   </div>
 </template>
