@@ -29,6 +29,13 @@ export const ConfigModule = _ConfigModule.forRoot({
    */
   validationSchema: Joi.object({
     /**
+     * Expect `NODE_ENV` to be a standard value. Defaults to 'development'
+     */
+    NODE_ENV: Joi.string()
+      .valid('development', 'production', 'test')
+      .default('development'),
+
+    /**
      * Expect `version` to be a string made with build time git branch and
      * commit hash.
      */

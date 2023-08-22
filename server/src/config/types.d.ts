@@ -11,6 +11,11 @@ import type { Schema } from 'joi';
  */
 export interface EnvironmentVariables {
   /**
+   * NODE_ENV String used by Node build tools.
+   */
+  readonly NODE_ENV: 'development' | 'production' | 'test';
+
+  /**
    * A string made with build time git branch and commit hash.
    */
   readonly version: string;

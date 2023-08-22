@@ -15,12 +15,24 @@ import type { EnvironmentVariables } from '../../../config/types.js';
 @Injectable()
 export class StripeService {
   constructor(configService: ConfigService<EnvironmentVariables, true>) {
+    const nodeEnv = configService.get('NODE_ENV', { infer: true });
+    const version = configService.get('version', { infer: true });
+
     this.stripe = new Stripe(
       configService.get('STRIPE_SECRET_KEY', { infer: true }),
 
-      // API Version is hardcoded as updating this will usually require code
-      // update and is not just a configuration change.
-      { apiVersion: '2023-08-16' },
+      {
+        // API Version is hardcoded as updating this will usually require code
+        // update and is not just a configuration change.
+        apiVersion: '2023-08-16',
+
+        // For support and debugging (not required for production)
+        appInfo: {
+          name: `thepmftool-${nodeEnv}-${version}`,
+          version,
+          url: 'https://thepmftool.com',
+        },
+      },
     );
 
     this.stripeWebhookSecret = configService.get('STRIPE_WEBHOOK_SECRET', {
