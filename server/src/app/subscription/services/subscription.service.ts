@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { IPlanRepo } from '../../../DAL/index.js';
-import { StripeService } from '../../../infra/index.js';
+import { StripeService } from './stripe.service.js';
 
 // Entity Types
 import type { Plan, UserID } from 'domain-model';

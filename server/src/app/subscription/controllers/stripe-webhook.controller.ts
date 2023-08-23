@@ -13,7 +13,7 @@ import type { Stripe } from 'stripe';
 
 import { IStripeWebhookEventRepo } from '../../../DAL/index.js';
 import { SubscriptionService } from '../services/subscription.service.js';
-import { StripeService } from '../../../infra/index.js';
+import { StripeService } from '../services/stripe.service.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';

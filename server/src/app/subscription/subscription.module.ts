@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 
-// Infra
-import { StripeService } from '../../infra/index.js';
-
 // Services
 import { SubscriptionService } from './services/subscription.service.js';
+import { StripeService } from './services/stripe.service.js';
 
 // Controllers
 import { SubscriptionController } from './controllers/subscription.controller.js';
