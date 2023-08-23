@@ -9,4 +9,5 @@ export * from './Feedback/FeedbackRepo.js';
 export * from './Team/TeamRepo.js';
 export * from './Task/TaskRepo.js';
 export * from './Plan/PlanRepo.js';
+export * from './StripeCustomer/StripeCustomerRepo.js';
 export * from './StripeWebhookEvent/StripeWebhookEventRepo.js';

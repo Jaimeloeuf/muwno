@@ -63,6 +63,9 @@ model org {
 
   // Relationship: ONE org, can have MANY pending team member invitations
   team_member_invitation team_member_invitation[]
+
+  // Relationship: ONE org, is ONE (a) Stripe Customer if it is subscribed.
+  stripe_customer stripe_customer?
 }
 
 // This enum mirrors the Role enum type's name in domain/, but the shortform
@@ -197,4 +200,16 @@ model stripe_webhook_event {
   createdAt DateTime @default(now())
   type      String
   livemode  Boolean
+}
+
+// Table to store Stripe specific details like its customer and subscription ID.
+model stripe_customer {
+  // Stripe's unique customer ID
+  id             String   @id
+  createdAt      DateTime @default(now())
+  subscriptionID String
+
+  // Relationship: ONE Stripe Customer, is created for ONE (each) paying Organisation
+  org   org    @relation(fields: [orgID], references: [id])
+  orgID String @unique
 }

@@ -3,3 +3,4 @@
  */
 
 export * from './ServerJWT.js';
+export * from './StripeCustomer.js';
