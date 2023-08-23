@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
 
+import { IPlanRepo, IOrgRepo } from '../../../DAL/index.js';
 import { StripeService } from './stripe.service.js';
 
 // Entity Types
 import type { Plan, UserID } from 'domain-model';
 
+// Exceptions
+import { InvalidInternalStateException } from '../../../exceptions/index.js';
+
 @Injectable()
 export class SubscriptionService {
   constructor(
     private readonly planRepo: IPlanRepo,
+    private readonly orgRepo: IOrgRepo,
     private readonly stripeService: StripeService,
   ) {}
 
@@ -32,9 +37,14 @@ export class SubscriptionService {
    * string for client to redirect to.
    */
   async createPortalSession(userID: UserID): Promise<string> {
-    // @todo track the user's request using their ID
-    userID;
+    const org = await this.orgRepo.getUserOrg(userID);
+    if (org === null)
+      throw new InvalidInternalStateException(
+        `User '${userID}' cannot access portal as they do not have an Org`,
+      );
 
-    return this.stripeService.createPortalSession(userID);
+    // @todo track the user's request using their ID
+
+    return this.stripeService.createPortalSession(org.id);
   }
 }

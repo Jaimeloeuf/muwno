@@ -4,6 +4,14 @@ import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import type { EnvironmentVariables } from '../../../config/types.js';
 
+import { IStripeCustomerRepo } from '../../../DAL/index.js';
+
+// Entity Types
+import type { Org, OrgID } from 'domain-model';
+
+// Exceptions
+import { InvalidInternalStateException } from '../../../exceptions/index.js';
+
 /**
  * Implements a Payment Service using Stripe.
  *
@@ -14,7 +22,10 @@ import type { EnvironmentVariables } from '../../../config/types.js';
  */
 @Injectable()
 export class StripeService {
-  constructor(configService: ConfigService<EnvironmentVariables, true>) {
+  constructor(
+    private readonly stripeCustomerRepo: IStripeCustomerRepo,
+    configService: ConfigService<EnvironmentVariables, true>,
+  ) {
     const nodeEnv = configService.get('NODE_ENV', { infer: true });
     const version = configService.get('version', { infer: true });
 
@@ -115,13 +126,38 @@ export class StripeService {
   /**
    * Create a new Stripe Billing Portal Session and get back the session's URL
    * string for client to redirect to.
+   *
+   * https://stripe.com/docs/customer-management/integrate-customer-portal
    */
-  async createPortalSession(session_id: string) {
-    const customerEmail = '';
+  async createPortalSession(orgID: OrgID) {
+    const stripeCustomerID =
+      await this.stripeCustomerRepo.getCustomerIDWithOrgID(orgID);
 
-    // @todo Tmp way of just sending the portal link back for them to login themselves
-    return `https://billing.stripe.com/p/login/test_8wM4gP5oxe0Zc5G6oo?prefilled_email=${encodeURI(
-      customerEmail,
-    )}`;
+    if (stripeCustomerID === null)
+      throw new InvalidInternalStateException(
+        `Org '${orgID}' does not have a Stripe Customer ID`,
+      );
+
+    const portalSession = await this.stripe.billingPortal.sessions.create({
+      customer: stripeCustomerID,
+
+      // This is the url to which the customer will be redirected when they are
+      // done managing their billing with the portal.
+      return_url: this.stripeCheckoutRedirectUrl,
+    });
+
+    if (portalSession.url === null)
+      throw new Error(`Failed to get Stripe Customer Portal Session URL.`);
+
+    return portalSession.url;
+
+    // Alternative using a hardcoded link that requires email OTP to login
+    // https://stripe.com/docs/customer-management/activate-no-code-customer-portal#url-parameters
+    //
+    // const org = await this.orgRepo.getOne(orgID);
+    // if (org === null)
+    //   throw new InvalidInternalStateException(`Org '${orgID}' does not exists`);
+    //
+    // return `${stripeBillingPortalLink}?prefilled_email=${encodeURI(org.email)}`;
   }
 }

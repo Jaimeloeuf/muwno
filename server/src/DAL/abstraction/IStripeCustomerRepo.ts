@@ -13,6 +13,18 @@ export abstract class IStripeCustomerRepo {
     stripeCustomerID: string,
   ): Promise<StripeCustomer | null>;
 
+  // /**
+  //  * Get a `StripeCustomer` object back using a `OrgID`.
+  //  */
+  // abstract getCustomerWithOrgID(orgID: OrgID): Promise<StripeCustomer | null>;
+
+  /**
+   * Get `StripeCustomer` Entity ID of the given `OrgID`.
+   */
+  abstract getCustomerIDWithOrgID(
+    orgID: OrgID,
+  ): Promise<StripeCustomer['id'] | null>;
+
   /**
    * Create and save a new `StripeCustomer` object in data source.
    */
