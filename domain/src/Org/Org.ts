@@ -10,6 +10,7 @@ export type Org = {
   id: string;
   createdAt: ISODateTimeString;
   name: string;
+  email: string;
   plan: string;
 };
 

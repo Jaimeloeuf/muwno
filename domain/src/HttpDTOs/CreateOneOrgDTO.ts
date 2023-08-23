@@ -5,4 +5,5 @@ import type { Org } from "../Org/index.js";
  */
 export type CreateOneOrgDTO = {
   name: Org["name"];
+  email: Org["email"];
 };

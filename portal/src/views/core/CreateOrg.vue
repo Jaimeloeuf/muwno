@@ -10,6 +10,7 @@ const userStore = useUserStore();
 const loaderStore = useLoader();
 
 const name = ref("");
+const orgEmail = ref(userStore.user.email); // Defaults to the Org Owner's email
 
 // If user already have an organisation redirect to Org home view.
 if (orgStore.orgDetails !== undefined) router.push({ name: OrgRoute.name });
@@ -21,7 +22,10 @@ async function createOrg() {
 
   loaderStore.show();
 
-  await orgStore.createOrg({ name: name.value });
+  await orgStore.createOrg({
+    name: name.value,
+    email: orgEmail.value,
+  });
 
   loaderStore.hide();
 
@@ -52,10 +56,31 @@ async function createOrg() {
       </div>
 
       <!-- Organisation Owner Account display -->
+      <div class="mb-10">
+        <label>
+          <p class="text-3xl">Organisation Administrative Email</p>
+          <ul class="list-decimal px-5">
+            <li>
+              Main administrative email address used for things like
+              subscription payment and invoicing.
+            </li>
+            <li>Defaults to Organisation Owner's email.</li>
+          </ul>
+
+          <input
+            v-model="orgEmail"
+            type="text"
+            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+            placeholder="Organisation Email"
+          />
+        </label>
+      </div>
+
+      <!-- Organisation Owner Account display -->
       <div class="mb-14">
         <label>
-          <p class="text-3xl">Organisation Owner / Admin</p>
-          <p>Main account of Organisation</p>
+          <p class="text-3xl">Organisation Owner</p>
+          <p>Main admin account of Organisation</p>
 
           <div
             class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6 font-extralight text-slate-800"

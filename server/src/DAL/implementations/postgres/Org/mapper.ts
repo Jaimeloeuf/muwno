@@ -7,5 +7,6 @@ export const mapOrgModelToEntity = (
   id: orgModel.id,
   createdAt: orgModel.createdAt.toISOString(),
   name: orgModel.name,
+  email: orgModel.email,
   plan: orgModel.plan.name,
 });

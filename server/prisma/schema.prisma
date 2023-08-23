@@ -49,6 +49,7 @@ model org {
   id        String   @unique @default(cuid())
   createdAt DateTime @default(now())
   name      String
+  email     String
 
   // Relationship: MANY orgs, can have ONE (the same) plan
   plan   plan @relation(fields: [planID], references: [id])
