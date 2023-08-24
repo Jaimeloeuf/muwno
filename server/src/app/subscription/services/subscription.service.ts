@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { IOrgRepo } from '../../../DAL/index.js';
+import { IOrgRepo, ISubscriptionRepo } from '../../../DAL/index.js';
 import { StripeService } from './stripe.service.js';
 
 // Entity Types
@@ -13,6 +13,7 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 export class SubscriptionService {
   constructor(
     private readonly orgRepo: IOrgRepo,
+    private readonly subscriptionRepo: ISubscriptionRepo,
     private readonly stripeService: StripeService,
   ) {}
 
@@ -46,5 +47,19 @@ export class SubscriptionService {
     // @todo track the user's request using their ID
 
     return this.stripeService.createPortalSession(org.id);
+  }
+
+  /**
+   * Activate the `Org`'s subscription.
+   */
+  async activateSubscription(orgID: OrgID): Promise<void> {
+    await this.subscriptionRepo.activateSubscription(orgID);
+  }
+
+  /**
+   * Deactivate the `Org`'s subscription.
+   */
+  async deactivateSubscription(orgID: OrgID): Promise<void> {
+    await this.subscriptionRepo.deactivateSubscription(orgID);
   }
 }
