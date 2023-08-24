@@ -87,7 +87,7 @@ export class StripeService {
    * Create a new Stripe Checkout Session and get back the session's URL string
    * for client to redirect to.
    */
-  async createCheckoutSession(planID: string) {
+  async createCheckoutSession(planID: string, org: Org) {
     // Lookup priceID from stripe using planID, so that frontend will be 'buying'
     // plan using planID from DB without having to save stripe specific priceID
     // for every new plan created in DB.
@@ -104,6 +104,20 @@ export class StripeService {
 
     const session = await this.stripe.checkout.sessions.create({
       mode: 'subscription',
+
+      // A unique string to reference the Checkout Session used to reconcile the
+      // Checkout Session with our internal systems later when the event is sent
+      // to the Webhook Controller to process. In the webhook handler, it can
+      // use this value to know what is the orgID that just paid/subscribed.
+      client_reference_id: org.id,
+
+      // Use the Org's main administrative email address for billing instead of
+      // being a individual user's email address. Note that by setting this, the
+      // user cannot edit it anymore in the checkout UI.
+      customer_email: org.email,
+
+      // Allow customer to enter a promo code
+      allow_promotion_codes: true,
 
       line_items: [
         // For metered billing, do not pass quantity

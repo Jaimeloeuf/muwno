@@ -4,7 +4,7 @@ import { IPlanRepo, IOrgRepo } from '../../../DAL/index.js';
 import { StripeService } from './stripe.service.js';
 
 // Entity Types
-import type { Plan, UserID } from 'domain-model';
+import type { Plan, UserID, OrgID } from 'domain-model';
 
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
@@ -26,10 +26,15 @@ export class SubscriptionService {
    * for client to redirect to.
    */
   async createCheckoutSession(userID: UserID, planID: string): Promise<string> {
-    // @todo track the user's request using their ID
-    userID;
+    const org = await this.orgRepo.getUserOrg(userID);
+    if (org === null)
+      throw new InvalidInternalStateException(
+        `User '${userID}' cannot checkout as they do not have an Org`,
+      );
 
-    return this.stripeService.createCheckoutSession(planID);
+    // @todo track the user's request using their ID
+
+    return this.stripeService.createCheckoutSession(planID, org);
   }
 
   /**
