@@ -37,7 +37,15 @@ export class OrgRepo implements IOrgRepo {
 
   async createOne(createOneOrgDTO: CreateOneOrgDTO) {
     return this.db.org
-      .create({ data: createOneOrgDTO })
+      .create({
+        data: {
+          ...createOneOrgDTO,
+
+          // By default an Org is created before it can pay for a subscription
+          // plan, therefore this is only set to true once paid.
+          subscribed: false,
+        },
+      })
       .then(mapOrgModelToEntity);
   }
 }

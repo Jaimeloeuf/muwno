@@ -45,6 +45,9 @@ model org {
   name      String
   email     String
 
+  // Boolean flag to indicate if Org has an active subscription
+  subscribed Boolean
+
   // Optional as Org are created before they pay for a plan.
   plan SubscriptionPlan?
 
