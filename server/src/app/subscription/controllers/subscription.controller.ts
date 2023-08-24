@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param } from '@nestjs/common';
+import { Controller, Post, Param } from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
@@ -13,9 +13,6 @@ import {
 import { Role } from 'domain-model';
 import type { FirebaseAuthUID } from 'domain-model';
 
-// DTO Types
-import type { ReadManyActivePlanDTO } from 'domain-model';
-
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -24,15 +21,6 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 @UseHttpControllerFilters
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
-
-  /**
-   * Get all the currently available subscription plans.
-   */
-  @Get('plans')
-  @NoRoleRequired // No role required since users can see all before choosing.
-  async getPlans(): Promise<ReadManyActivePlanDTO> {
-    return this.subscriptionService.getPlans().then((plans) => ({ plans }));
-  }
 
   /**
    * Create a new Stripe Checkout Session and get back the session's URL string

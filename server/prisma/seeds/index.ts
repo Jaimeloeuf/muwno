@@ -5,7 +5,6 @@
 import { PrismaClient } from '@prisma/client';
 
 // Individual seed files
-import { seedPlan } from './plan.js';
 import { seedOrg } from './org.js';
 import { seedProduct } from './product.js';
 
@@ -13,7 +12,6 @@ async function main() {
   const prisma = new PrismaClient();
 
   try {
-    await seedPlan(prisma);
     await seedOrg(prisma);
     await seedProduct(prisma);
 

@@ -11,7 +11,6 @@ import {
   IFeedbackRepo,
   ITeamRepo,
   ITaskRepo,
-  IPlanRepo,
   IStripeCustomerRepo,
   IStripeWebhookEventRepo,
 } from './abstraction/index.js';
@@ -24,7 +23,6 @@ import {
   FeedbackRepo,
   TeamRepo,
   TaskRepo,
-  PlanRepo,
   StripeCustomerRepo,
   StripeWebhookEventRepo,
 } from './implementations/postgres/index.js';
@@ -54,7 +52,6 @@ import {
     { provide: IFeedbackRepo, useClass: FeedbackRepo },
     { provide: ITeamRepo, useClass: TeamRepo },
     { provide: ITaskRepo, useClass: TaskRepo },
-    { provide: IPlanRepo, useClass: PlanRepo },
     { provide: IStripeCustomerRepo, useClass: StripeCustomerRepo },
     { provide: IStripeWebhookEventRepo, useClass: StripeWebhookEventRepo },
   ],
@@ -67,7 +64,6 @@ import {
     IFeedbackRepo,
     ITeamRepo,
     ITaskRepo,
-    IPlanRepo,
     IStripeCustomerRepo,
     IStripeWebhookEventRepo,
   ],

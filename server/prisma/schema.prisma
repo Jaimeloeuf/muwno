@@ -28,16 +28,10 @@ datasource db {
   // shadowDatabaseUrl = env(“SHADOW_DATABASE_URL”)
 }
 
-// Table to store all the possible subscription plans
-model plan {
-  // Using autoincrement as ID needs to be ordered for the queries to work
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  name      String
-  active    Boolean
-
-  // Relationship: ONE plan, can be used by MANY orgs
-  org org[]
+// This enum mirrors the SubscriptionPlan enum type in domain/
+// these are stored as literal string values in the DB.
+enum SubscriptionPlan {
+  Standard
 }
 
 // Table to store all the user organisations
@@ -51,9 +45,8 @@ model org {
   name      String
   email     String
 
-  // Relationship: MANY orgs, can have ONE (the same) plan
-  plan   plan @relation(fields: [planID], references: [id])
-  planID Int
+  // Optional as Org are created before they pay for a plan.
+  plan SubscriptionPlan?
 
   // Relationship: ONE org, can have MANY users
   user user[]

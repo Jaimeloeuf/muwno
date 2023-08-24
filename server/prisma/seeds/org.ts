@@ -6,7 +6,7 @@ export async function seedOrg(prisma: PrismaClient) {
       id: '__TEST_ORG_ID__',
       name: 'HB30',
       email: 'test@thepmftool.com',
-      plan: { connect: { id: 2 } },
+      plan: 'Standard',
     },
   });
 }

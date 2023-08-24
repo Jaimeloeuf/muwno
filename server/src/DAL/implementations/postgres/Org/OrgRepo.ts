@@ -17,14 +17,7 @@ export class OrgRepo implements IOrgRepo {
 
   async getOne(id: OrgID) {
     return this.db.org
-      .findUnique({
-        where: { id },
-        include: {
-          plan: {
-            select: { name: true },
-          },
-        },
-      })
+      .findUnique({ where: { id } })
       .then(runMapperIfNotNull(mapOrgModelToEntity));
   }
 
@@ -35,7 +28,7 @@ export class OrgRepo implements IOrgRepo {
           where: { id: userID },
 
           // Only load the user's Org details
-          select: { org: { include: { plan: { select: { name: true } } } } },
+          select: { org: true },
         })
         // user.org can be null/undefined so using optional chaining on it
         .then((user) => runMapperIfNotNull(mapOrgModelToEntity)(user?.org))
@@ -44,21 +37,7 @@ export class OrgRepo implements IOrgRepo {
 
   async createOne(createOneOrgDTO: CreateOneOrgDTO) {
     return this.db.org
-      .create({
-        data: {
-          ...createOneOrgDTO,
-
-          // @todo Fix the hardcoded plan on Org creation
-          planID: 1,
-        },
-
-        // Create and read data back immediately to return user
-        include: {
-          plan: {
-            select: { name: true },
-          },
-        },
-      })
+      .create({ data: createOneOrgDTO })
       .then(mapOrgModelToEntity);
   }
 }

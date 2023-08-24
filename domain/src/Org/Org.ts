@@ -1,4 +1,5 @@
 import type { ISODateTimeString } from "../utils/Timestamp.js";
+import type { SubscriptionPlan } from "../SubscriptionPlan/index.js";
 
 /**
  * Type to represent a single Org.
@@ -11,7 +12,7 @@ export type Org = {
   createdAt: ISODateTimeString;
   name: string;
   email: string;
-  plan: string;
+  plan: SubscriptionPlan | null;
 };
 
 /**

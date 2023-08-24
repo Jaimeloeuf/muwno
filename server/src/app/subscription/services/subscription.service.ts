@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { IPlanRepo, IOrgRepo } from '../../../DAL/index.js';
+import { IOrgRepo } from '../../../DAL/index.js';
 import { StripeService } from './stripe.service.js';
 
 // Entity Types
-import type { Plan, UserID, OrgID } from 'domain-model';
+import type { UserID, OrgID } from 'domain-model';
 
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
@@ -12,14 +12,9 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 @Injectable()
 export class SubscriptionService {
   constructor(
-    private readonly planRepo: IPlanRepo,
     private readonly orgRepo: IOrgRepo,
     private readonly stripeService: StripeService,
   ) {}
-
-  async getPlans(): Promise<Array<Plan>> {
-    return this.planRepo.getActive();
-  }
 
   /**
    * Create a new Stripe Checkout Session and get back the session's URL string

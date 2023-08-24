@@ -2,9 +2,8 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useOrg, useLoader } from "../../store";
-import {} from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
-import type { Org, ReadManyActivePlanDTO } from "@domain-model";
+import type { Org } from "@domain-model";
 
 const orgStore = useOrg();
 const loader = useLoader();
@@ -15,22 +14,6 @@ await orgStore.loadOrg();
 // Type cast here to ensure that the template types work
 // Since there will be runtime check to ensure that it will not be ran.
 const orgDetails = orgStore.orgDetails ?? ({} as Org);
-
-async function getPlans() {
-  const { res, err } = await sf
-    .useDefault()
-    .GET(`/subscription/plans`)
-    .useHeader(getAuthHeader)
-    .runJSON<ReadManyActivePlanDTO>();
-
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to get active plans: ${JSON.stringify(res)}`);
-
-  return res.data.plans;
-}
-
-const plans = await getPlans();
 
 async function goToBillingPortal() {
   loader.show();
@@ -50,28 +33,6 @@ async function goToBillingPortal() {
     throw new Error(
       `Failed to open Stripe Billing Portal ${JSON.stringify(res)}`
     );
-
-  // Open link in current tab / redirect there since after that is done, user
-  // will be redirected back to the portal.
-  window.location.href = res.data;
-}
-
-async function buyPlan(planID: number) {
-  loader.show();
-
-  const { res, err } = await sf
-    .useDefault()
-    .POST(`/subscription/stripe/create-checkout-session/${planID}`)
-    .useHeader(getAuthHeader)
-    .runText();
-
-  // Dont really need to hide since they are redirected away, but just in case
-  // something breaks they should not be stuck on the loading screen.
-  loader.hide();
-
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to Checkout with Stripe ${JSON.stringify(res)}`);
 
   // Open link in current tab / redirect there since after that is done, user
   // will be redirected back to the portal.
@@ -113,16 +74,7 @@ async function buyPlan(planID: number) {
     <div class="mx-6 mb-10 md:mx-12">
       <p class="mb-2 text-xl">Buy Subscription Plans</p>
 
-      <div class="grid grid-cols-3 gap-6">
-        <div
-          v-for="plan in plans"
-          :key="plan.id"
-          class="cursor-pointer rounded-lg bg-slate-50 p-4 px-8 shadow"
-          @click="buyPlan(plan.id)"
-        >
-          <p class="text-4xl font-light">{{ plan.name }}</p>
-        </div>
-      </div>
+      <!-- @todo -->
     </div>
   </div>
 </template>
