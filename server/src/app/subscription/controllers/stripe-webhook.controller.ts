@@ -54,7 +54,7 @@ export class StripeWebhookController {
     // Reference: https://stripe.com/docs/webhooks#webhook-endpoint-def
     // 'Quickly returns successful status code (2xx) prior to any complex logic
     // that could cause a timeout. For example, you must return a 200 response
-    // before updating a customer’s invoice as paid in your accounting system.'
+    // before updating a customer's invoice as paid in your accounting system.'
     setTimeout(() => this.handleEvent(rawRequestBody, stripeSignature));
   }
 
@@ -105,5 +105,163 @@ export class StripeWebhookController {
       `Processing '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
       StripeWebhookController.name,
     );
+
+    // Use the `eventHandlerMapping` to get the specific event handler based on
+    // `event.type`, in a dynamic dispatch style.
+    const eventHandler = this.eventHandlerMapping[event.type];
+
+    // If there is a event handler registered for the event.type, call the
+    // handler with the event object and await for completion before returning.
+    if (eventHandler !== undefined) {
+      await eventHandler(event);
+    }
+
+    // If no event handler is registered for the event.type but Stripe is
+    // configured to send a event of that event.type, log it out as a potential
+    // issue / warning. Configure what events to be sent to the Webhook endpoint
+    // in Stripe to ensure only required events are sent.
+    else {
+      this.logger.warn(
+        `Unhandled '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
+        StripeWebhookController.name,
+      );
+    }
   }
+
+  /**
+   * A mapping of `event.type` strings to event handler methods.
+   *
+   * To add a new mapping, make sure the event is sent by Stripe by configuring
+   * the webhook settings in Stripe dashboard.
+   *
+   * All the possible Webhook event types:
+   * https://stripe.com/docs/billing/subscriptions/webhooks
+   */
+  private readonly eventHandlerMapping: Record<
+    string,
+    (event: Stripe.Event) => void | Promise<void>
+  > = {
+    // ==================== Activate Subscription Events ====================
+
+    /**
+     * TLDR, user has paid for subscription, provision access to product.
+     *
+     * Event sent when invoice is paid, the system can provision access to the
+     * product once it receives this event and after checking to ensure that the
+     * subscription status is active.
+     *
+     * This event is sent both on the first time the subscription is paid for,
+     * and also after every subsequent successful payment, so system should
+     * continue to provision access to the product as payments continue to be
+     * made. Store the status in database and check when a user accesses your
+     * service to avoid hitting Stripe API rate limits.
+     */
+    'invoice.paid': async (event) => {
+    },
+
+    /**
+     * TLDR, user has paid for subscription the very first time, store their
+     * details and provision access to product.
+     *
+     * Event sent when Stripe Checkout Session is successfully completed, the
+     * event will include details like `customer.id` and `subscription.id` which
+     * should be stored in database for future reference and use. The system can
+     * start to provision access to the product.
+     */
+    'checkout.session.completed': async (event) => {
+    },
+
+    /**
+     * Event sent when a subscription previously in a paused status is resumed.
+     */
+    'customer.subscription.resumed': (event) => {
+      event;
+      this.subscriptionService.activateSubscription;
+    },
+
+    // ==================== Deactivate Subscription Events ====================
+
+    /**
+     * TLDR, subscription payment failed, stop provisioning access to product.
+     *
+     * Event sent when a payment for an invoice failed, either because the
+     * payment failed or the customer does not have a valid payment method.
+     * The subscription becomes past_due. Stripe suggests to notify customer and
+     * send them to the Stripe Customer Billing portal to update their payment
+     * information and revoke their access to the product
+     *
+     * If a payment fails, there are several possible actions to take:
+     * 1. Notify the customer, configure subscription settings to enable Smart
+     *    Retries and other revenue recovery features.
+     * 1. https://stripe.com/docs/billing/subscriptions/overview#settings
+     * 1. https://stripe.com/docs/billing/revenue-recovery/smart-retries
+     */
+    'invoice.payment_failed': (event) => {
+      event;
+      this.subscriptionService.deactivateSubscription;
+    },
+
+    /**
+     * TLDR, customer's subscription ended, stop provisioning access to product.
+     *
+     * Event sent when a customer's subscription ends.
+     */
+    'customer.subscription.deleted': (event) => {
+      event;
+      this.subscriptionService.deactivateSubscription;
+    },
+
+    /**
+     * TLDR, customer's subscription ended, stop provisioning access to product.
+     *
+     * Event sent when a subscription schedule is canceled, which also cancels
+     * any active associated subscription.
+     */
+    'subscription_schedule.canceled': (event) => {
+      event;
+      this.subscriptionService.deactivateSubscription;
+    },
+
+    /**
+     * TLDR, customer's subscription ended, stop provisioning access to product.
+     *
+     * Event sent when a subscription schedule is canceled because payment
+     * delinquency terminated the related subscription.
+     */
+    'subscription_schedule.aborted': (event) => {
+      event;
+      this.subscriptionService.deactivateSubscription;
+    },
+
+    /**
+     * TLDR, customer's subscription paused, stop provisioning access to product.
+     *
+     * Event sent when a subscription is configured to pause when a free trial
+     * ends without a payment method
+     */
+    'customer.subscription.paused': (event) => {
+      event;
+      this.subscriptionService.deactivateSubscription;
+    },
+
+    // =================== Other Subscription related Events ===================
+
+    /**
+     * TLDR, customer's subscription status updated.
+     *
+     * Event sent when a subscription starts or changes. For example, renewing a
+     * subscription, adding a coupon, applying a discount, adding an invoice
+     * item, and changing plans all trigger this event.
+     * https://stripe.com/docs/billing/subscriptions/change
+     */
+    'customer.subscription.updated': () => undefined,
+
+    /**
+     * TLDR, customer's subscription trial is .
+     *
+     * Event sent if product has a free trial period and the subscription trial
+     * is ending.
+     */
+    'customer.subscription.trial_will_end': () => undefined,
+  };
 }
