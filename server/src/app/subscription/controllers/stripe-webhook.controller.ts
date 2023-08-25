@@ -11,9 +11,18 @@ import {
 import { Request } from 'express';
 import type { Stripe } from 'stripe';
 
-import { IStripeWebhookEventRepo } from '../../../DAL/index.js';
+import {
+  IStripeWebhookEventRepo,
+  IStripeCustomerRepo,
+} from '../../../DAL/index.js';
 import { SubscriptionService } from '../services/subscription.service.js';
 import { StripeService } from '../services/stripe.service.js';
+
+// Entity Types
+import type {
+  InvoicePaidEventData,
+  CheckoutSessionEventData,
+} from '../../../types/index.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -26,6 +35,7 @@ export class StripeWebhookController {
   constructor(
     private readonly logger: Logger,
     private readonly stripeWebhookEventRepo: IStripeWebhookEventRepo,
+    private readonly stripeCustomerRepo: IStripeCustomerRepo,
     private readonly subscriptionService: SubscriptionService,
     private readonly stripeService: StripeService,
   ) {}
@@ -157,6 +167,26 @@ export class StripeWebhookController {
      * service to avoid hitting Stripe API rate limits.
      */
     'invoice.paid': async (event) => {
+      /**
+       * Stripe library does not define concrete type for this so it needs to be
+       * type casted manually. Type only includes data of what is needed.
+       */
+      const invoicePaidEventData = event.data.object as InvoicePaidEventData;
+
+      const stripeCustomer =
+        await this.stripeCustomerRepo.getCustomerWithStripeCustomerID(
+          invoicePaidEventData.customer,
+        );
+
+      // @todo Send admins details to investigate and manually recouncil this
+      if (stripeCustomer === null) {
+        throw new Error(
+          `${event.id}-${event.type}-${invoicePaidEventData.subscription}-${invoicePaidEventData.customer}-${invoicePaidEventData.customer_email}`,
+        );
+      }
+
+      // Provision access to the product
+      await this.subscriptionService.activateSubscription(stripeCustomer.orgID);
     },
 
     /**
@@ -169,6 +199,41 @@ export class StripeWebhookController {
      * start to provision access to the product.
      */
     'checkout.session.completed': async (event) => {
+      /**
+       * Stripe library does not define concrete type for this so it needs to be
+       * type casted manually. Type only includes data of what is needed.
+       */
+      const checkoutSessionEventData = event.data
+        .object as CheckoutSessionEventData;
+
+      /**
+       * `OrgID` is passed to Stripe for it to reflect back on successful
+       * checkout sessions in `StripeService.createCheckoutSession`.
+       */
+      const orgID = checkoutSessionEventData.client_reference_id;
+
+      // If `orgID` is somehow not passed to Stripe during createCheckoutSession
+      // this is an inconsistency that must be resolved manually by admins.
+      // @todo Send admins details to investigate and manually recouncil this
+      if (orgID === undefined) {
+        throw new Error(
+          `${event.id}-${event.type}-${checkoutSessionEventData.customer}-${checkoutSessionEventData.subscription}--${checkoutSessionEventData.customer_email}`,
+        );
+      }
+
+      // Create a new Stripe Customer record in Data Source.
+      await this.stripeCustomerRepo.createOne(
+        orgID,
+
+        // Stripe Customer ID
+        checkoutSessionEventData.customer,
+
+        // Stripe Subscription ID
+        checkoutSessionEventData.subscription,
+      );
+
+      // Provision access to the product
+      await this.subscriptionService.activateSubscription(orgID);
     },
 
     /**
