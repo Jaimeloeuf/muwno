@@ -44,6 +44,10 @@ export class OrgRepo implements IOrgRepo {
           // By default an Org is created before it can pay for a subscription
           // plan, therefore this is only set to true once paid.
           subscribed: false,
+
+          // By default an Org can be created without the need for any
+          // verification first since the team should verify them asynchronously.
+          verified: false,
         },
       })
       .then(mapOrgModelToEntity);

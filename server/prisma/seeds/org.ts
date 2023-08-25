@@ -8,6 +8,7 @@ export async function seedOrg(prisma: PrismaClient) {
       email: 'test@thepmftool.com',
       plan: 'Standard',
       subscribed: true,
+      verified: true,
     },
   });
 }

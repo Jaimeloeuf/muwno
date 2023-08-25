@@ -45,6 +45,9 @@ model org {
   name      String
   email     String
 
+  // Boolean flag to indicate if Org has been verified by `thepmftool` admins.
+  verified Boolean
+
   // Boolean flag to indicate if Org has an active subscription
   subscribed Boolean
 

@@ -13,6 +13,7 @@ export type Org = {
   name: string;
   email: string;
   plan: SubscriptionPlan | null;
+  verified: boolean;
 };
 
 /**

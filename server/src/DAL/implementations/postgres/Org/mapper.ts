@@ -7,4 +7,5 @@ export const mapOrgModelToEntity = (orgModel: OrgModel): Org => ({
   name: orgModel.name,
   email: orgModel.email,
   plan: orgModel.plan as SubscriptionPlan | null,
+  verified: orgModel.verified,
 });
