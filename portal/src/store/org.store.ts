@@ -11,7 +11,6 @@ import type {
   CreateOneOrgDTO,
   CreateOneProductDTO,
   ReadOneProductDTO,
-  SurveyMode,
 } from "@domain-model";
 
 import { useUserStore } from "./user.store";
@@ -112,15 +111,12 @@ export const useOrg = defineStore("org", {
     /**
      * Create a new Product
      */
-    async createNewProduct(
-      productName: Product["name"],
-      surveyMode: SurveyMode
-    ) {
+    async createNewProduct(productName: Product["name"]) {
       const { res, err } = await sf
         .useDefault()
         .POST(`/product/create`)
         .useHeader(getAuthHeader)
-        .bodyJSON<CreateOneProductDTO>({ name: productName, surveyMode })
+        .bodyJSON<CreateOneProductDTO>({ name: productName })
         .runJSON<ReadOneProductDTO>();
 
       if (err) throw err;

@@ -1,5 +1,5 @@
-import { type CreateOneProductDTO, SurveyMode } from 'domain-model';
-import { IsNotEmpty, IsString, MaxLength, IsEnum } from 'class-validator';
+import { type CreateOneProductDTO } from 'domain-model';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 /**
  * The TS not null assertion operator is used as these are supposed to be
@@ -10,8 +10,4 @@ export class ValidatedCreateOneProductDTO implements CreateOneProductDTO {
   @MaxLength(200)
   @IsNotEmpty()
   readonly name!: string;
-
-  @IsEnum(SurveyMode)
-  @IsNotEmpty()
-  readonly surveyMode!: SurveyMode;
 }

@@ -98,12 +98,9 @@ model product {
   iid Int @id @default(autoincrement())
 
   // Unique random string ID as the productID
-  id         String   @unique @default(cuid())
-  createdAt  DateTime @default(now())
-  name       String
-  // This is a surveyModeID but surveyMode is not stored in DB so using Int.
-  // See the `SurveyMode` enum type in domain/
-  surveyMode Int
+  id        String   @unique @default(cuid())
+  createdAt DateTime @default(now())
+  name      String
 
   // Relationship: MANY products, belong to ONE (the same) org
   org   org    @relation(fields: [orgID], references: [id])

@@ -12,21 +12,12 @@ export async function seedProduct(prisma: PrismaClient) {
       {
         orgID: '__TEST_ORG_ID__',
         createdAt: generateIsoDateTimeString(-246400000),
-        name: 'Superhuman',
-        surveyMode: 1,
+        name: 'Product X',
       },
       {
         orgID: '__TEST_ORG_ID__',
         createdAt: generateIsoDateTimeString(-246400000),
         name: 'thepmftool',
-        surveyMode: 1,
-      },
-
-      {
-        orgID: '__TEST_ORG_ID__',
-        createdAt: generateIsoDateTimeString(-246400000),
-        name: 'HAS',
-        surveyMode: 2,
       },
     ],
   });
