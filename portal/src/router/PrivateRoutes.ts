@@ -13,7 +13,7 @@ import { AuthType } from "./AuthType";
   it can be properly inferred for `PrivateRouteNames`.
 */
 
-/* ================================== Core Module Routes =============================== */
+/* ============================ Core Module Routes ========================= */
 
 export const OnboardingRoute = <const>{
   name: "onboarding",
@@ -29,7 +29,7 @@ export const ProfileRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
-/* ================================== Org Module Routes =============================== */
+/* ============================= Org Module Routes ========================== */
 
 export const OrgRoute = <const>{
   name: "org",
@@ -45,7 +45,7 @@ export const CreateOrgRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
-/* ================================== Product Module Routes =============================== */
+/* =========================== Product Module Routes ======================== */
 
 export const AllProductRoute = <const>{
   name: "product-all",
@@ -69,6 +69,8 @@ export const ProductRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ====================== Survey Method Module Routes ====================== */
+
 export const ImportCustomerRoute = <const>{
   name: "product-import-customer",
   path: "/product/:productID/customer/import",
@@ -77,7 +79,7 @@ export const ImportCustomerRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
-/* ================================== Team Module Routes =============================== */
+/* ============================ Team Module Routes ========================= */
 
 export const TeamRoute = <const>{
   name: "team",
@@ -100,7 +102,7 @@ export const PendingInvitationRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
-/* ================================== Subscription Module Routes =============================== */
+/* ======================== Subscription Module Routes ===================== */
 
 export const SubscriptionPlansRoute = <const>{
   name: "subscription-plans",

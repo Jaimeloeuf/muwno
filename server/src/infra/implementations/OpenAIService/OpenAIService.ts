@@ -13,6 +13,9 @@ import {
 
 /**
  * Implements `IAiService` using OpenAI APIs.
+ *
+ * @todo implement rate limiting fixes and batching
+ * https://platform.openai.com/docs/guides/rate-limits/overview
  */
 @Injectable()
 export class OpenAIService implements IAiService {
