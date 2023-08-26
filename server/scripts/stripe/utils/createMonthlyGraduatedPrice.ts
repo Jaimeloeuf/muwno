@@ -5,7 +5,7 @@ import type Stripe from 'stripe';
  */
 export function createMonthlyGraduatedPrice(
   stripe: Stripe,
-  idempotencyKey: string,
+  idempotencyKey: string | undefined,
   productID: string,
   nameAndLookupKey: string,
   tiers: Stripe.PriceCreateParams['tiers'],
@@ -33,6 +33,6 @@ export function createMonthlyGraduatedPrice(
       expand: ['tiers'],
     },
 
-    { idempotencyKey },
+    idempotencyKey ? { idempotencyKey } : {},
   );
 }

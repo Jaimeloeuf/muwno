@@ -10,6 +10,12 @@ export function getArgv() {
       `'env=' must be either 'development' or 'production'. Found ${nodeEnv}`,
     );
 
+  const noIkArgv = process.argv.some((argv) => new RegExp(/noik/g).test(argv));
+
+  // If user explicitly requests for no idempotency key to be used, return
+  // without parsing for ik key.
+  if (noIkArgv) return { nodeEnv, ik: undefined };
+
   const ikArgv =
     process.argv.find((argv) => new RegExp(/ik=\w+/g).test(argv)) ??
     'ik=cli-setup-idempotent-key';

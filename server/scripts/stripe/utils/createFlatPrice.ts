@@ -2,7 +2,7 @@ import type Stripe from 'stripe';
 
 export function createFlatPrice(
   stripe: Stripe,
-  idempotencyKey: string,
+  idempotencyKey: string | undefined,
   productID: string,
   nameAndLookupKey: string,
   unitAmount: number,
@@ -25,6 +25,6 @@ export function createFlatPrice(
       expand: ['tiers'],
     },
 
-    { idempotencyKey },
+    idempotencyKey ? { idempotencyKey } : {},
   );
 }

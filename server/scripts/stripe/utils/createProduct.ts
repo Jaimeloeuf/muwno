@@ -2,7 +2,7 @@ import type Stripe from 'stripe';
 
 export async function createProduct(
   stripe: Stripe,
-  idempotencyKey: string,
+  idempotencyKey: string | undefined,
   productName: string,
 ) {
   return stripe.products.create(
@@ -10,6 +10,6 @@ export async function createProduct(
       name: productName,
     },
 
-    { idempotencyKey },
+    idempotencyKey ? { idempotencyKey } : {},
   );
 }
