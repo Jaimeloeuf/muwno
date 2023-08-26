@@ -10,5 +10,14 @@ export function getArgv() {
       `'env=' must be either 'development' or 'production'. Found ${nodeEnv}`,
     );
 
-  return { nodeEnv };
+  const ikArgv =
+    process.argv.find((argv) => new RegExp(/ik=\w+/g).test(argv)) ??
+    'ik=cli-setup-idempotent-key';
+
+  const ik = ikArgv.split('=')[1];
+
+  if (ik === undefined)
+    throw new Error(`Internal Error: 'ik=' must be defined!`);
+
+  return { nodeEnv, ik };
 }

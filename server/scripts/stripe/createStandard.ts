@@ -2,13 +2,16 @@ import type Stripe from 'stripe';
 
 import { createProduct } from './utils/createProduct';
 import { createFlatPrice } from './utils/createFlatPrice';
-import { createIndempotentKey } from './utils/createIndempotentKey';
 import { dollarsToUnitAmount } from './utils/dollarsToUnitAmount';
+import type { CreateIndempotentKey } from './utils/createIndempotentKeyFF';
 
 /**
  * Create `Standard` product and prices
  */
-export async function createStandard(stripe: Stripe) {
+export async function createStandard(
+  stripe: Stripe,
+  createIndempotentKey: CreateIndempotentKey,
+) {
   // This is the one with the flat monthly fee
   const standard_product = await createProduct(
     stripe,

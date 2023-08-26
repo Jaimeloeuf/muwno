@@ -2,12 +2,15 @@ import type Stripe from 'stripe';
 
 import { createProduct } from './utils/createProduct';
 import { createMonthlyGraduatedPrice } from './utils/createMonthlyGraduatedPrice';
-import { createIndempotentKey } from './utils/createIndempotentKey';
+import type { CreateIndempotentKey } from './utils/createIndempotentKeyFF';
 
 /**
  * Create `Response` product and prices
  */
-export async function createResponse(stripe: Stripe) {
+export async function createResponse(
+  stripe: Stripe,
+  createIndempotentKey: CreateIndempotentKey,
+) {
   // Response is a product because it is something chargeable
   const response_product = await createProduct(
     stripe,
