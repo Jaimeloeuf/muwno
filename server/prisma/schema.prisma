@@ -190,8 +190,11 @@ model team_member_invitation {
 }
 
 model stripe_webhook_event {
+  // Autoincrementing Int ID needed for queries that require ordering
+  iid Int @id @default(autoincrement())
+
   // Use Stripe's unique event ID as the indempotency key
-  id        String   @id
+  id        String   @unique
   // Time of DB insertion, not time where Stripe created the event
   createdAt DateTime @default(now())
   type      String
@@ -200,8 +203,11 @@ model stripe_webhook_event {
 
 // Table to store Stripe specific details like its customer and subscription ID.
 model stripe_customer {
+  // Autoincrementing Int ID needed for queries that require ordering
+  iid Int @id @default(autoincrement())
+
   // Stripe's unique customer ID
-  id             String   @id
+  id             String   @unique
   createdAt      DateTime @default(now())
   subscriptionID String
 
