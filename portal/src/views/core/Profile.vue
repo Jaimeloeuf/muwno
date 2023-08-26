@@ -28,9 +28,17 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
 
       <div class="m-3 rounded-lg bg-slate-200 p-3">
         <p>Roles</p>
-        <p v-if="Array.isArray(userJWT?.claims?.roles)" class="text-xl">
-          {{ userJWT?.claims.roles.map((role: Role) => roleMapper[role]) }}
-        </p>
+        <ul
+          v-if="Array.isArray(userJWT?.claims?.roles)"
+          class="list-decimal px-5 text-xl"
+        >
+          <li
+            v-for="role in (userJWT?.claims.roles as Array<Role>)"
+            :key="role"
+          >
+            {{ roleMapper[role] }}
+          </li>
+        </ul>
         <p v-else class="text-xl">No Custom Claims</p>
       </div>
 
