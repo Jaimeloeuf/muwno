@@ -71,6 +71,14 @@ export const ProductRoute = <const>{
 
 /* ====================== Survey Method Module Routes ====================== */
 
+export const SurveyMethodsRoute = <const>{
+  name: "survey-methods",
+  path: "/survey/methods/:productID",
+  props: true,
+  component: () => import("../views/core/SurveyMethods.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const ImportCustomerRoute = <const>{
   name: "product-import-customer",
   path: "/product/:productID/customer/import",
@@ -135,6 +143,7 @@ const PrivateRoutes = [
   AllProductRoute,
   ProductRoute,
   AddProductRoute,
+  SurveyMethodsRoute,
   ImportCustomerRoute,
   TeamRoute,
   InviteMemberRoute,
