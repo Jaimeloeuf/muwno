@@ -19,6 +19,7 @@ import {
   NotFoundException,
   InvalidInputException,
   InvalidOperationException,
+  ForbiddenException,
 } from '../../../exceptions/index.js';
 
 // Utils
@@ -40,6 +41,28 @@ export class ProductService {
     if (!(await this.productRepo.productExists(productID)))
       throw new NotFoundException(
         `Product with ProductID '${productID}' does not exist.`,
+      );
+  }
+
+  /**
+   * Validate if a user have access permission to a product. Throws the common
+   * `ForbiddenException` if user does not have access.
+   *
+   * Expects given `productID` to be validated already, will treat a invalid
+   * `productID` the same as a Forbidden request.
+   */
+  async validateUserAccess(
+    userID: UserID,
+    productID: ProductID,
+  ): Promise<void> {
+    const canAccess = await this.productRepo.canUserAccessProduct(
+      userID,
+      productID,
+    );
+
+    if (!canAccess)
+      throw new ForbiddenException(
+        `User ${userID} does not have permission to access Product '${productID}'.`,
       );
   }
 

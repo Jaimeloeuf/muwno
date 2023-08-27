@@ -32,6 +32,28 @@ export class ProductRepo implements IProductRepo {
       .then((product) => product !== null);
   }
 
+  async canUserAccessProduct(userID: UserID, productID: ProductID) {
+    // Load all products that the user can access that has this product ID.
+    // Alternative method is to start search by product -> org -> user.
+    return this.db.user
+      .findUnique({
+        where: { id: userID },
+
+        select: {
+          org: {
+            select: {
+              product: {
+                where: { id: productID },
+                select: { id: true },
+              },
+            },
+          },
+        },
+      })
+      .then((user) => user?.org?.product)
+      .then((products) => products !== undefined);
+  }
+
   async getOrgProducts(orgID: OrgID) {
     return this.db.product
       .findMany({ where: { orgID }, orderBy: { createdAt: 'asc' } })

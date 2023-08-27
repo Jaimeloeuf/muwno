@@ -21,6 +21,14 @@ export abstract class IProductRepo {
   abstract productExists(productID: ProductID): Promise<boolean>;
 
   /**
+   * Check if user have access permission to this product.
+   */
+  abstract canUserAccessProduct(
+    userID: UserID,
+    productID: ProductID,
+  ): Promise<boolean>;
+
+  /**
    * Get all products of an Org.
    */
   abstract getOrgProducts(orgID: OrgID): Promise<Products>;
