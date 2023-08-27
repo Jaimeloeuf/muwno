@@ -4,6 +4,7 @@ import SideDrawer from "../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
 import TaskCard from "./KeyInfoCard/TaskCard.vue";
+import SurveyMethodsInUseCard from "./KeyInfoCard/SurveyMethodsInUseCard.vue";
 import SurveyLinkCard from "./KeyInfoCard/SurveyLinkCard.vue";
 import DownloadRawResponseButton from "./KeyInfoCard/DownloadRawResponseButton.vue";
 import type { ProductID } from "@domain-model";
@@ -31,6 +32,7 @@ setInterval(() => window.location.reload(), 8.64e7);
       <div class="mx-4 flex max-w-lg flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <PMFLiveScoreCard class="w-full" :productID="product.id" />
         <TaskCard :productID="product.id" />
+        <SurveyMethodsInUseCard :product="product" />
         <SurveyLinkCard :product="product" />
         <DownloadRawResponseButton :product="product" />
       </div>
