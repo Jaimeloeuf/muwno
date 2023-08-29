@@ -94,6 +94,9 @@ model user {
 
   // Relationship: ONE user, can invite MANY team members
   team_member_invitation team_member_invitation[]
+
+  // Relationship: ONE user, can create MANY api keys.
+  api_key api_key[]
 }
 
 model product {
@@ -117,6 +120,9 @@ model product {
 
   // Relationship: ONE product, can have MANY MITs
   mit mit[]
+
+  // Relationship: ONE product, can have MANY api keys
+  api_key api_key[]
 }
 
 model pmf_survey_responses {
@@ -214,4 +220,22 @@ model stripe_customer {
   // Relationship: ONE Stripe Customer, is created for ONE (each) paying Organisation
   org   org    @relation(fields: [orgID], references: [id])
   orgID String @unique
+}
+
+model api_key {
+  // Autoincrementing Int ID needed for queries that require ordering
+  iid Int @id @default(autoincrement())
+
+  // Unique random string ID as the apiKeyID
+  id        String   @unique @default(cuid())
+  key       String   @unique
+  createdAt DateTime @default(now())
+
+  // Relationship: MANY api keys, allows access to ONE (the same) product
+  product   product @relation(fields: [productID], references: [id])
+  productID String
+
+  // Relationship: MANY api keys, can be created by ONE (the same) user
+  createdBy user   @relation(fields: [userID], references: [id])
+  userID    String @unique
 }
