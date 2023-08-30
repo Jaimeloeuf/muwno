@@ -8,6 +8,7 @@ export * from './IProductRepo.js';
 export * from './IFeedbackRepo.js';
 export * from './ITeamRepo.js';
 export * from './ITaskRepo.js';
+export * from './IApiKeyRepo.js';
 export * from './ISubscriptionRepo.js';
 export * from './IStripeCustomerRepo.js';
 export * from './IStripeWebhookEventRepo.js';
