@@ -120,6 +120,16 @@ export const SubscriptionPlansRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ====================== API Key Module Routes ====================== */
+
+export const ApiKeyRoute = <const>{
+  name: "api-key",
+  path: "/api-key/:productID",
+  props: true,
+  component: () => import("../views/core/ApiKey.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /**
  * This array is only used internally for typechecking and type creation purposes
  * only, and is never used as a value anywhere, therefore there is no need to worry
@@ -149,6 +159,7 @@ const PrivateRoutes = [
   InviteMemberRoute,
   PendingInvitationRoute,
   SubscriptionPlansRoute,
+  ApiKeyRoute,
 ] satisfies Array<PrivateRoute>;
 
 /**
