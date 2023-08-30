@@ -228,8 +228,10 @@ model api_key {
 
   // Unique random string ID as the apiKeyID
   id        String   @unique @default(cuid())
-  key       String   @unique
   createdAt DateTime @default(now())
+  hash      String   @unique
+  prefix    String   @unique
+  // description String?
 
   // Relationship: MANY api keys, allows access to ONE (the same) product
   product   product @relation(fields: [productID], references: [id])
@@ -237,5 +239,5 @@ model api_key {
 
   // Relationship: MANY api keys, can be created by ONE (the same) user
   createdBy user   @relation(fields: [userID], references: [id])
-  userID    String @unique
+  userID    String
 }

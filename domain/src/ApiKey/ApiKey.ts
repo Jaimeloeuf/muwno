@@ -18,6 +18,11 @@ export type ApiKeyDetail = {
   prefix: string;
 
   /**
+   * Optional description for users to describe where the key is used.
+   */
+  // description: string | null;
+
+  /**
    * ID of the product this API key is made for.
    */
   productID: ProductID;
