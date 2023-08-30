@@ -9,6 +9,7 @@ import { ProductModule } from './product/product.module.js';
 import { TaskModule } from './task/task.module.js';
 import { TeamModule } from './team/team.module.js';
 import { SubscriptionModule } from './subscription/subscription.module.js';
+import { ApiKeyModule } from './apikey/apikey.module.js';
 import { LandingModule } from './landing/landing.module.js';
 
 /**
@@ -24,6 +25,7 @@ import { LandingModule } from './landing/landing.module.js';
     TaskModule,
     TeamModule,
     SubscriptionModule,
+    ApiKeyModule,
     LandingModule,
   ],
 })
