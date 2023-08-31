@@ -10,6 +10,6 @@ export async function createProduct(
       name: productName,
     },
 
-    idempotencyKey ? { idempotencyKey } : {},
+    idempotencyKey ? { idempotencyKey } : undefined,
   );
 }

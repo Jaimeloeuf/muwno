@@ -25,6 +25,6 @@ export function createFlatPrice(
       expand: ['tiers'],
     },
 
-    idempotencyKey ? { idempotencyKey } : {},
+    idempotencyKey ? { idempotencyKey } : undefined,
   );
 }

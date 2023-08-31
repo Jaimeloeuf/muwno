@@ -33,6 +33,6 @@ export function createMonthlyGraduatedPrice(
       expand: ['tiers'],
     },
 
-    idempotencyKey ? { idempotencyKey } : {},
+    idempotencyKey ? { idempotencyKey } : undefined,
   );
 }
