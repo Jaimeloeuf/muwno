@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../firebase";
-import { useOrg, useLoader } from "../../store";
-import SideDrawer from "../components/SideDrawer.vue";
+import { getAuthHeader } from "../../../firebase";
+import { useOrg, useLoader } from "../../../store";
+import SideDrawer from "../../components/SideDrawer.vue";
 import type { Org } from "@domain-model";
 
 const orgStore = useOrg();
@@ -44,7 +44,7 @@ async function goToBillingPortal() {
   <div>
     <div class="mb-6 flex flex-row border-b pb-4">
       <SideDrawer />
-      <span class="ml-4 text-4xl">Subscription Plan</span>
+      <span class="ml-4 text-4xl">Manage Subscription</span>
     </div>
 
     <div class="mx-6 mb-10 border-b border-gray-200 pb-10 md:mx-12">
@@ -71,10 +71,6 @@ async function goToBillingPortal() {
       </div>
     </div>
 
-    <div class="mx-6 mb-10 md:mx-12">
-      <p class="mb-2 text-xl">Buy Subscription Plans</p>
-
-      <!-- @todo -->
-    </div>
+    <!-- @todo Add in things that must be done manually due to Billing Portal limitations -->
   </div>
 </template>

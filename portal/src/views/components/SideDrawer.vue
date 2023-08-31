@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import {
   AllProductRoute,
   OrgRoute,
-  SubscriptionPlansRoute,
+  ManageSubscriptionRoute,
   ProfileRoute,
   TeamRoute,
 } from "../../router";
@@ -88,7 +88,7 @@ watch(showDrawer, (shown) => {
         </router-link>
 
         <router-link
-          :to="{ name: SubscriptionPlansRoute.name }"
+          :to="{ name: ManageSubscriptionRoute.name }"
           class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
           @click="showDrawer = !showDrawer"
         >

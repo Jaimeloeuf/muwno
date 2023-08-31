@@ -119,11 +119,11 @@ export const BuySubscriptionPlanRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
-export const SubscriptionPlansRoute = <const>{
-  name: "subscription-plans",
-  path: "/subscription/plans",
+export const ManageSubscriptionRoute = <const>{
+  name: "subscription-manage",
+  path: "/subscription/manage",
   props: (route: RouteLocationNormalized) => route.query,
-  component: () => import("../views/core/Subscription.vue"),
+  component: () => import("../views/core/Subscription/ManageSubscription.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
@@ -166,7 +166,7 @@ const PrivateRoutes = [
   InviteMemberRoute,
   PendingInvitationRoute,
   BuySubscriptionPlanRoute,
-  SubscriptionPlansRoute,
+  ManageSubscriptionRoute,
   ApiKeyRoute,
 ] satisfies Array<PrivateRoute>;
 
