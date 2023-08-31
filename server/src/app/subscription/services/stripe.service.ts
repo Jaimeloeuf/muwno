@@ -50,10 +50,9 @@ export class StripeService {
       infer: true,
     });
 
-    this.stripeCheckoutRedirectUrl = configService.get(
-      'STRIPE_CHECKOUT_REDIRECT_URL',
-      { infer: true },
-    );
+    this.stripeReturnUrl = configService.get('STRIPE_RETURN_URL', {
+      infer: true,
+    });
   }
 
   /**
@@ -67,9 +66,9 @@ export class StripeService {
   private readonly stripeWebhookSecret: string;
 
   /**
-   * Hold the `STRIPE_CHECKOUT_REDIRECT_URL` env var after reading it in constructor.
+   * Hold the `STRIPE_RETURN_URL` env var after reading it in constructor.
    */
-  private readonly stripeCheckoutRedirectUrl: string;
+  private readonly stripeReturnUrl: string;
 
   /**
    * Method to verify a Stripe webhook event by checking its signature before
@@ -103,7 +102,7 @@ export class StripeService {
 
       // This is the url to which the customer will be redirected when they are
       // done managing their billing with the portal.
-      return_url: this.stripeCheckoutRedirectUrl,
+      return_url: this.stripeReturnUrl,
     });
 
     if (portalSession.url === null)

@@ -52,10 +52,10 @@ export interface EnvironmentVariables {
   readonly STRIPE_WEBHOOK_SECRET: string;
 
   /**
-   * Base URL of portal for Stripe Checkout Session to redirect to on either
-   * payment success or cancellation.
+   * Base URL of portal for Stripe to redirect back to. Used mainly as the
+   * `return_url` for redirects to Stripe hosted pages.
    */
-  readonly STRIPE_CHECKOUT_REDIRECT_URL: string;
+  readonly STRIPE_RETURN_URL: string;
 
   /**
    * Telegram bot's token.
