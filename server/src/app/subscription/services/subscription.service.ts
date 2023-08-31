@@ -18,22 +18,6 @@ export class SubscriptionService {
   ) {}
 
   /**
-   * Create a new Stripe Checkout Session and get back the session's URL string
-   * for client to redirect to.
-   */
-  async createCheckoutSession(userID: UserID, planID: string): Promise<string> {
-    const org = await this.orgRepo.getUserOrg(userID);
-    if (org === null)
-      throw new InvalidInternalStateException(
-        `User '${userID}' cannot checkout as they do not have an Org`,
-      );
-
-    // @todo track the user's request using their ID
-
-    return this.stripeService.createCheckoutSession(planID, org);
-  }
-
-  /**
    * Create a new Stripe Billing Portal Session and get back the session's URL
    * string for client to redirect to.
    */

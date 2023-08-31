@@ -190,53 +190,6 @@ export class StripeWebhookController {
     },
 
     /**
-     * TLDR, user has paid for subscription the very first time, store their
-     * details and provision access to product.
-     *
-     * Event sent when Stripe Checkout Session is successfully completed, the
-     * event will include details like `customer.id` and `subscription.id` which
-     * should be stored in database for future reference and use. The system can
-     * start to provision access to the product.
-     */
-    'checkout.session.completed': async (event) => {
-      /**
-       * Stripe library does not define concrete type for this so it needs to be
-       * type casted manually. Type only includes data of what is needed.
-       */
-      const checkoutSessionEventData = event.data
-        .object as CheckoutSessionEventData;
-
-      /**
-       * `OrgID` is passed to Stripe for it to reflect back on successful
-       * checkout sessions in `StripeService.createCheckoutSession`.
-       */
-      const orgID = checkoutSessionEventData.client_reference_id;
-
-      // If `orgID` is somehow not passed to Stripe during createCheckoutSession
-      // this is an inconsistency that must be resolved manually by admins.
-      // @todo Send admins details to investigate and manually recouncil this
-      if (orgID === undefined) {
-        throw new Error(
-          `${event.id}-${event.type}-${checkoutSessionEventData.customer}-${checkoutSessionEventData.subscription}--${checkoutSessionEventData.customer_email}`,
-        );
-      }
-
-      // Create a new Stripe Customer record in Data Source.
-      await this.stripeCustomerRepo.createOne(
-        orgID,
-
-        // Stripe Customer ID
-        checkoutSessionEventData.customer,
-
-        // Stripe Subscription ID
-        checkoutSessionEventData.subscription,
-      );
-
-      // Provision access to the product
-      await this.subscriptionService.activateSubscription(orgID);
-    },
-
-    /**
      * Event sent when a subscription previously in a paused status is resumed.
      */
     'customer.subscription.resumed': (event) => {
