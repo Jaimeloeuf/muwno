@@ -1,11 +1,11 @@
 /**
  * FF for Utility function to create idempotency key with prefix for debugging.
  */
-export const createIndempotentKeyFF = (keyPrefix: string) => (key: string) =>
+export const createIdempotentKeyFF = (keyPrefix: string) => (key: string) =>
   `${keyPrefix}:${key}`;
 
 /**
- * A no-op function that conforms to the `CreateIndempotentKey` type when users
+ * A no-op function that conforms to the `CreateIdempotentKey` type when users
  * want to setup without using any indempotency key.
  */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -13,4 +13,4 @@ export const createIndempotentKeyFF = (keyPrefix: string) => (key: string) =>
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const noOp = (key: string) => undefined;
 
-export type CreateIndempotentKey = (key: string) => string | undefined;
+export type CreateIdempotentKey = (key: string) => string | undefined;

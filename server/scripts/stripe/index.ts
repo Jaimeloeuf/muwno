@@ -1,7 +1,7 @@
 import { getArgv } from './utils/getArgv';
 import { loadEnvVarFromFile } from './utils/loadEnvVarFromFile';
 import { createStripeClient } from './utils/createStripeClient';
-import { noOp, createIndempotentKeyFF } from './utils/createIndempotentKeyFF';
+import { noOp, createIdempotentKeyFF } from './utils/createIdempotentKeyFF';
 
 import { createStandard } from './createStandard';
 import { createResponse } from './createResponse';
@@ -15,13 +15,13 @@ async function main() {
   const stripe = await createStripeClient();
 
   // Create with utility function with factory function
-  const createIndempotentKey =
-    ik === undefined ? noOp : createIndempotentKeyFF(ik);
+  const createIdempotentKey =
+    ik === undefined ? noOp : createIdempotentKeyFF(ik);
 
   // Create the products and their prices one by one
-  await createStandard(stripe, createIndempotentKey);
-  await createResponse(stripe, createIndempotentKey);
-  await createEmail(stripe, createIndempotentKey);
+  await createStandard(stripe, createIdempotentKey);
+  await createResponse(stripe, createIdempotentKey);
+  await createEmail(stripe, createIdempotentKey);
 }
 
 main();

@@ -82,7 +82,7 @@ export class StripeWebhookController {
     );
 
     // Check with data persistence layer if the event has been processed before.
-    // Doing this because this method should be indempotent.
+    // Doing this because this method should be idempotent.
     // Reference: https://stripe.com/docs/webhooks#handle-duplicate-events
     const eventIsUnprocessed = await this.stripeWebhookEventRepo.isUnprocessed(
       event.id,

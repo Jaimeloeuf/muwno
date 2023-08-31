@@ -2,25 +2,25 @@ import type Stripe from 'stripe';
 
 import { createProduct } from './utils/createProduct';
 import { createMonthlyGraduatedPrice } from './utils/createMonthlyGraduatedPrice';
-import type { CreateIndempotentKey } from './utils/createIndempotentKeyFF';
+import type { CreateIdempotentKey } from './utils/createIdempotentKeyFF';
 
 /**
  * Create `Email` product and prices
  */
 export async function createEmail(
   stripe: Stripe,
-  createIndempotentKey: CreateIndempotentKey,
+  createIdempotentKey: CreateIdempotentKey,
 ) {
   // Email is a product because it is something chargeable
   const email_product = await createProduct(
     stripe,
-    createIndempotentKey('email_product'),
+    createIdempotentKey('email_product'),
     'Email',
   );
 
   await createMonthlyGraduatedPrice(
     stripe,
-    createIndempotentKey('email_product_usage_price'),
+    createIdempotentKey('email_product_usage_price'),
     email_product.id,
     'email-usage',
 
