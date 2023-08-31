@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useOrg, useUserStore, useLoader } from "../../store";
-import { OrgRoute } from "../../router";
+import { BuySubscriptionPlanRoute } from "../../router";
 
 const router = useRouter();
 const orgStore = useOrg();
@@ -29,7 +29,7 @@ async function createOrg() {
 
   loaderStore.hide();
 
-  router.push({ name: OrgRoute.name });
+  router.push({ name: BuySubscriptionPlanRoute.name });
 }
 </script>
 

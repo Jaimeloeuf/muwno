@@ -112,6 +112,13 @@ export const PendingInvitationRoute = <const>{
 
 /* ======================== Subscription Module Routes ===================== */
 
+export const BuySubscriptionPlanRoute = <const>{
+  name: "subscription-buy",
+  path: "/subscription/buy",
+  component: () => import("../views/core/Subscription/BuySubscription.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const SubscriptionPlansRoute = <const>{
   name: "subscription-plans",
   path: "/subscription/plans",
@@ -158,6 +165,7 @@ const PrivateRoutes = [
   TeamRoute,
   InviteMemberRoute,
   PendingInvitationRoute,
+  BuySubscriptionPlanRoute,
   SubscriptionPlansRoute,
   ApiKeyRoute,
 ] satisfies Array<PrivateRoute>;

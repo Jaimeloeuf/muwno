@@ -14,6 +14,7 @@ import {
   TeamRoute,
   InviteMemberRoute,
   PendingInvitationRoute,
+  BuySubscriptionPlanRoute,
   SubscriptionPlansRoute,
   ApiKeyRoute,
 } from "./PrivateRoutes";
@@ -40,6 +41,7 @@ export const Routes = (<const>[
   TeamRoute,
   InviteMemberRoute,
   PendingInvitationRoute,
+  BuySubscriptionPlanRoute,
   SubscriptionPlansRoute,
   ApiKeyRoute,
 
