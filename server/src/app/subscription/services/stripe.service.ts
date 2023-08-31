@@ -91,16 +91,44 @@ export class StripeService {
     // Lookup priceID from stripe using planID, so that frontend will be 'buying'
     // plan using planID from DB without having to save stripe specific priceID
     // for every new plan created in DB.
+    // const prices = await this.stripe.prices.list({
+    //   lookup_keys: [planID],
+    //   expand: ['data.product'],
+    // });
     const prices = await this.stripe.prices.list({
-      lookup_keys: [planID],
+      lookup_keys: [
+        // @todo Either
+        'standard-monthly',
+        // 'standard-yearly',
+
+        'response-usage',
+        'email-usage',
+      ],
       expand: ['data.product'],
     });
 
-    // There should only be 1 match
-    const priceID = prices.data[0]?.id;
+    // The returned prices are not ordered based on the lookup key, therefore
+    // it is transformed into an object with lookup key as the key so that they
+    // can be shown with the exact sequence required in line_items
+    const priceLookupKeyToIdMapping: Record<string, string> = {};
 
-    if (priceID === undefined)
-      throw new Error(`Plan ${planID} does not exist as price lookup key.`);
+    for (const price of prices.data) {
+      if (price.lookup_key === null)
+        throw new Error(
+          'invalid state since price definitely have lookup key as thats what we use to load it',
+        );
+
+      priceLookupKeyToIdMapping[price.lookup_key] = price.id;
+    }
+
+    // If any of the price is missing...
+    // @todo use Internal server error since its a server setup issue
+    if (priceLookupKeyToIdMapping['standard-monthly'] === undefined)
+      throw new Error(`Cannot get Price with lookup key 'standard-monthly'`);
+    if (priceLookupKeyToIdMapping['response-usage'] === undefined)
+      throw new Error(`Cannot get Price with lookup key 'response-usage'`);
+    if (priceLookupKeyToIdMapping['email-usage'] === undefined)
+      throw new Error(`Cannot get Price with lookup key 'email-usage'`);
 
     const session = await this.stripe.checkout.sessions.create({
       mode: 'subscription',
@@ -120,8 +148,11 @@ export class StripeService {
       allow_promotion_codes: true,
 
       line_items: [
+        { price: priceLookupKeyToIdMapping['standard-monthly'], quantity: 1 },
+
         // For metered billing, do not pass quantity
-        { price: priceID, quantity: 1 },
+        { price: priceLookupKeyToIdMapping['response-usage'] },
+        { price: priceLookupKeyToIdMapping['email-usage'] },
       ],
 
       // Stripe Docs: {CHECKOUT_SESSION_ID} is a string literal; do not change
