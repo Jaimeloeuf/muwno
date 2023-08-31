@@ -12,7 +12,7 @@ export type InvoicePaidEventData = {
   /**
    * Stripe Customer Email, this should be `Org['email']` unless customer
    * changes it manually in Stripe Customer Billing Portal, since this is set
-   * for them in `StripeService.createCheckoutSession`.
+   * for them when creating the Stripe Customer.
    */
   customer_email: string;
 

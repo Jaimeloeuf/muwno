@@ -19,10 +19,7 @@ import { SubscriptionService } from '../services/subscription.service.js';
 import { StripeService } from '../services/stripe.service.js';
 
 // Entity Types
-import type {
-  InvoicePaidEventData,
-  CheckoutSessionEventData,
-} from '../../../types/index.js';
+import type { InvoicePaidEventData } from '../../../types/index.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
