@@ -12,5 +12,8 @@ import { StripeWebhookController } from './controllers/stripe-webhook.controller
   providers: [StripeService, SubscriptionService],
 
   controllers: [SubscriptionController, StripeWebhookController],
+
+  // Export these services so other modules can use these
+  exports: [StripeService],
 })
 export class SubscriptionModule {}

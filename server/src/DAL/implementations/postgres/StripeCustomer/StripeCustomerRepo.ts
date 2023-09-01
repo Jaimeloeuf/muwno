@@ -40,15 +40,10 @@ export class StripeCustomerRepo implements IStripeCustomerRepo {
       .then(runMapperIfNotNull(({ id }) => id));
   }
 
-  async createOne(
-    orgID: OrgID,
-    stripeCustomerID: string,
-    stripeSubscriptionID: string,
-  ) {
+  async createOne(orgID: OrgID, stripeCustomerID: string) {
     await this.db.stripe_customer.create({
       data: {
         id: stripeCustomerID,
-        subscriptionID: stripeSubscriptionID,
         orgID,
       },
     });

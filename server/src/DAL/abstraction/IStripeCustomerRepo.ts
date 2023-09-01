@@ -31,6 +31,5 @@ export abstract class IStripeCustomerRepo {
   abstract createOne(
     orgID: OrgID,
     stripeCustomerID: StripeCustomer['id'],
-    stripeSubscriptionID: StripeCustomer['subscriptionID'],
   ): Promise<void>;
 }

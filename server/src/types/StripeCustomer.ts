@@ -18,7 +18,7 @@ export interface StripeCustomer {
   /**
    * Stripe's Subscription ID for subscription payments.
    */
-  subscriptionID: string;
+  subscriptionID: string | null;
 
   /**
    * `OrgID` since every `StripeCustomer` is a paying `Org`.

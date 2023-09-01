@@ -110,4 +110,27 @@ export class StripeService {
 
     return portalSession.url;
   }
+
+  /**
+   * Create a new Stripe Customer for the given `Org` and save its details.
+   */
+  async createCustomer(org: Org) {
+    // @todo check if org already has a stripe customer attached to it
+
+    const customer = await this.stripe.customers.create({
+      name: org.name,
+      email: org.email,
+
+      // @todo Add this once we start collecting their phone numbers
+      // phone: org.phone,
+
+      metadata: {
+        // Save org.id as metadata in case it needs to be retrieved during
+        // reconciliation processes between this system and Stripe.
+        orgID: org.id,
+      },
+    });
+
+    await this.stripeCustomerRepo.createOne(org.id, customer.id);
+  }
 }

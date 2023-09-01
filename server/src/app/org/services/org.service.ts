@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { IOrgRepo, IUserRepo } from '../../../DAL/index.js';
 import { IAuthService } from '../../../infra/index.js';
+import { StripeService } from '../../subscription/services/stripe.service.js';
 
 // Entity Types
 import type { Org, OrgID, UserID } from 'domain-model';
@@ -19,6 +20,7 @@ export class OrgService {
     private readonly orgRepo: IOrgRepo,
     private readonly userRepo: IUserRepo,
     private readonly authService: IAuthService,
+    private readonly stripeService: StripeService,
   ) {}
 
   /**
@@ -61,6 +63,9 @@ export class OrgService {
     // Set Org creator as the Org Owner
     await this.authService.setCustomClaims(userID, { roles: [Role.OrgOwner] });
 
+    // Create a new Stripe Customer on Org creation since every org is tied to
+    // a Stripe Customer, even if it is not subscribed yet.
+    await this.stripeService.createCustomer(org);
     return org;
   }
 }
