@@ -9,6 +9,14 @@ import type { UserID, OrgID } from 'domain-model';
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
 
+/**
+ * `SubscriptionService` handles all subscription related business logic.
+ *
+ * Although there are parts of subscription logic that relies on the external
+ * Stripe service, it should be fully encapsulated in the `StripeService` class
+ * and not pollute here with any Stripe specific logic. So even if it might be
+ * still highly dependent, the code itself should be well separated.
+ */
 @Injectable()
 export class SubscriptionService {
   constructor(

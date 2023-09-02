@@ -28,6 +28,7 @@ async function invite() {
   if (err) throw err;
   if (!res.ok) throw new Error(`Failed to invite user. ${JSON.stringify(res)}`);
 
+  // @todo Use notif store instead
   alert("Invite sent!");
 
   loaderStore.hide();
@@ -57,6 +58,8 @@ async function invite() {
           />
         </label>
       </div>
+
+      <!-- @todo Customise role type -->
 
       <div class="mb-10">
         <p class="text-3xl">What's next?</p>

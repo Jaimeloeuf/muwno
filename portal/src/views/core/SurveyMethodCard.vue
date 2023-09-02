@@ -3,6 +3,7 @@ import type { SurveyMethod } from "@domain-model";
 
 defineProps<{
   index: number;
+  productID: ProductID;
   surveyMethod: SurveyMethod;
   enabled: boolean;
 }>();
@@ -53,11 +54,12 @@ defineProps<{
       </ul>
     </div>
 
-    <div v-if="surveyMethod.unimplemented" class="text-center">
-      <p class="w-full rounded-lg bg-yellow-500 p-3 text-2xl text-slate-50">
-        coming soon!
-      </p>
-    </div>
+    <p
+      v-if="surveyMethod.unimplemented"
+      class="text-center text-3xl text-yellow-500"
+    >
+      Coming Soon
+    </p>
 
     <div v-else class="flex flex-col gap-3 sm:flex-row">
       <button

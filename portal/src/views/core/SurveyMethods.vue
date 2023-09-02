@@ -111,6 +111,7 @@ const filteredSurveyMethods = computed(() => {
           v-for="(surveyMethod, i) in filteredSurveyMethods"
           :key="surveyMethod.id"
           :index="i + 1"
+          :productID="productID"
           :surveyMethod="surveyMethod"
           :enabled="surveyMethodsStatus[surveyMethod.id] ?? false"
         />

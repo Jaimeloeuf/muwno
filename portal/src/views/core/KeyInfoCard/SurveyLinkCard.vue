@@ -24,7 +24,7 @@ async function generateQR() {
     <div
       class="mb-2 flex flex-row items-center justify-between border-b border-slate-300 pb-2"
     >
-      <p class="text-lg font-medium">Survey Link</p>
+      <p class="font-medium">Survey Link</p>
 
       <button
         v-if="imageDataUrl === ''"

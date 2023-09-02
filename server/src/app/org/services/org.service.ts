@@ -52,6 +52,9 @@ export class OrgService {
     userID: UserID,
     createOneOrgDTO: CreateOneOrgDTO,
   ): Promise<Org> {
+    // Ensure no leading or trailing spaces for Org names.
+    createOneOrgDTO.name = createOneOrgDTO.name.trim();
+
     const org = await this.orgRepo.createOne(createOneOrgDTO);
 
     // Update User Entity to add Role and OrgID
@@ -66,6 +69,9 @@ export class OrgService {
     // Create a new Stripe Customer on Org creation since every org is tied to
     // a Stripe Customer, even if it is not subscribed yet.
     await this.stripeService.createCustomer(org);
+
+    // @todo Send a fire and forget email to thank them for creating org
+
     return org;
   }
 }

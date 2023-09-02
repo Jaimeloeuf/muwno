@@ -11,6 +11,9 @@ import {
 import { Request } from 'express';
 import type { Stripe } from 'stripe';
 
+import { ConfigService } from '@nestjs/config';
+import type { EnvironmentVariables } from '../../../config/types.js';
+
 import {
   IStripeWebhookEventRepo,
   IStripeCustomerRepo,
@@ -35,10 +38,32 @@ export class StripeWebhookController {
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
     private readonly subscriptionService: SubscriptionService,
     private readonly stripeService: StripeService,
-  ) {}
+
+    configService: ConfigService<EnvironmentVariables, true>,
+  ) {
+    // Log all events that have event handlers attached conditionally to
+    // register them on Stripe dashboard's webhook endpoint setup.
+    // https://stripe.com/docs/webhooks#register-webhook
+    if (configService.get('NODE_ENV', { infer: true }) !== 'production')
+      logger.verbose(
+        `Listening to these Stripe Webhook Events`,
+        Object.keys(this.eventHandlerMapping),
+        StripeWebhookController.name,
+      );
+  }
 
   /**
    * URL --> $HOSTNAME/v1/subscription/stripe/webhook
+   *
+   * ### Event Ordering
+   * Stripe doesn’t guarantee delivery of events in the order in which they’re
+   * generated. For example, creating a subscription might generate events like
+   * 'customer.subscription.created', 'invoice.created', 'invoice.paid' and
+   * 'charge.created', and these are not guaranteed to be delivered in order so
+   * the handler needs to deal with this accordingly. Stripe suggests to call its
+   * API to load any missing objects as needed if the event first received does
+   * not have enough information to fulfil the request.
+   * Reference: https://stripe.com/docs/webhooks#even-ordering
    */
   @Post('stripe/webhook')
   @HttpCode(200) // Stripe needs this for receipt of event acknowledgement
@@ -132,6 +157,10 @@ export class StripeWebhookController {
         `Unhandled '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
         StripeWebhookController.name,
       );
+
+      // @todo
+      // Update DB to mark this event as unhandled, or perhaps set as unhandled
+      // by default then mark it as handled/processed after processing event.
     }
   }
 

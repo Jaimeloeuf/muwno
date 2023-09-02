@@ -72,5 +72,7 @@ async function goToBillingPortal() {
     </div>
 
     <!-- @todo Add in things that must be done manually due to Billing Portal limitations -->
+
+    <!-- @todo Cancel subscription -->
   </div>
 </template>

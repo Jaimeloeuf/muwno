@@ -29,21 +29,9 @@ const teamMembers = res.data.users;
       <span class="ml-4 text-4xl">{{ orgStore.orgDetails?.name }}</span>
     </div>
 
-    <div class="m-6 border-b border-gray-300 pb-10 md:mx-12">
-      <p class="mb-2 text-xl">Team Details</p>
-
-      <div class="flex flex-row gap-x-6">
-        <div class="inline-block w-max rounded-lg bg-slate-50 p-4 px-8 shadow">
-          <p class="text-sm">Plan</p>
-
-          <div class="text-right">
-            <p class="text-4xl font-light">
-              {{ orgStore.orgDetails?.plan }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- @todo -->
+    <!-- OrgOwner/OrgAdmin can see all active invites that have not been accepted -->
+    <!-- OrgOwner/OrgAdmin should be able to remove a team member -->
 
     <div class="mx-auto max-w-4xl">
       <div class="mx-6 flex flex-col items-center justify-between md:flex-row">

@@ -46,12 +46,15 @@ async function markTaskAsDone(mitID: MIT["id"]) {
     </div>
 
     <div v-if="MITs.length === 0" class="mt-3 text-2xl font-thin">
+      <!-- @todo Should also say all done if there are tasks jus all completed! -->
       This will be automatically generated once there are survey responses.
     </div>
 
     <div v-else>
+      <!-- @todo Improve the UI to make it obvious that it is clickable -->
       <!-- @todo this should be click to toggle done state -->
       <!-- @todo Only see all details if they click into all detals -->
+      <!-- @todo Add the 3 dot details button for them to click for more details -->
       <button
         v-for="(mit, i) in MITs"
         :key="mit.id"

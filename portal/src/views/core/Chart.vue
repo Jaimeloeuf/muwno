@@ -19,6 +19,14 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 const props = defineProps<{ product: Product; intervals: number }>();
 
+// @todo Use watchEffect so parent component does not need to manually reload.
+// watchEffect(async () => {
+//   const response = await fetch(
+//     `https://jsonplaceholder.typicode.com/todos/${todoId.value}`
+//   )
+//   data.value = await response.json()
+// })
+
 const { res, err } = await sf
   .useDefault()
   .GET(

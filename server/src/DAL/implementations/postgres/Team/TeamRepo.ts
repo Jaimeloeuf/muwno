@@ -57,6 +57,8 @@ export class TeamRepo implements ITeamRepo {
   }
 
   async getPendingInvites(inviteeEmail: User['email']) {
+    // Use of findMany is useless since a user can only join a single team now
+    // this is only useful after allowing multiple teams in a single Org.
     return this.db.team_member_invitation
       .findMany({
         where: { inviteeEmail },

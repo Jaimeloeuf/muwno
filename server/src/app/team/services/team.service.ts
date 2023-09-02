@@ -83,6 +83,8 @@ export class TeamService {
 
   /**
    * Get a user's pending team invitations.
+   *
+   * @todo Pending invites should expire after 5 days to prune DB regularly
    */
   async getPendingInvites(userID: UserID): Promise<Array<TeamInvitation>> {
     const user = await this.userRepo.getOne(userID);
