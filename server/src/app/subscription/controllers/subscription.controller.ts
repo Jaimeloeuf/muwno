@@ -31,6 +31,15 @@ export class SubscriptionController {
   }
 
   /**
+   * Create Stripe Setup Intent for client secret to setup payment method.
+   */
+  @Post('stripe/create-setup-intent')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  async createSetupIntent(@JWT_uid userID: FirebaseAuthUID) {
+    return this.subscriptionService.createSetupIntent(userID);
+  }
+
+  /**
    * Create a new Stripe Subscription for user to pay to activate their
    * subscription.
    */

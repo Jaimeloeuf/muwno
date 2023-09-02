@@ -34,6 +34,21 @@ export class SubscriptionService {
   }
 
   /**
+   * Wrapper around Stripe Service's `createSetupIntent` to load `Org` from the
+   * requestor's `UserID`.
+   */
+  async createSetupIntent(userID: UserID) {
+    // @todo track the user's request using their ID
+
+    const org = await this.orgRepo.getUserOrg(userID);
+    if (org === null)
+      throw new InvalidInternalStateException(
+        `User '${userID}' cannot setup payment method as they don't have an Org`,
+      );
+
+    return this.stripeService.createSetupIntent(org);
+  }
+  /**
    * Wrapper around Stripe Service to create a new Stripe Subscription for user
    * to pay to activate their subscription.
    */

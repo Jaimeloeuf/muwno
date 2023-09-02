@@ -237,4 +237,33 @@ export class StripeService {
       items,
     };
   }
+  /**
+   * Create a new Stripe Setup Intent to get back the setup intent client secret
+   * to confirm setup on frontend and create a new Stripe Payment Method using
+   * the collected payment info.
+   */
+  async createSetupIntent(org: Org) {
+    // @todo Or search from Stripe API using org.id meta data
+    const stripeCustomer = await this.stripeCustomerRepo.getCustomerWithOrgID(
+      org.id,
+    );
+
+    if (stripeCustomer === null)
+      throw new InvalidInternalStateException(
+        `Org '${org.id}' does not have a Stripe Customer created.`,
+      );
+
+    const { client_secret: clientSecret } =
+      await this.stripe.setupIntents.create({
+        customer: stripeCustomer.id,
+      });
+
+    if (clientSecret === null)
+      throw new Error(`Failed to get Stripe Setup Intent Client Secret.`);
+
+    return {
+      clientSecret,
+      orgEmail: org.email,
+    };
+  }
 }
