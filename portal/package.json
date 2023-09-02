@@ -13,6 +13,7 @@
     "build:full": "npm run typecheck && npm run build:delete && npm run build"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^2.1.0",
     "chart.js": "^4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "firebase": "^10.1.0",
