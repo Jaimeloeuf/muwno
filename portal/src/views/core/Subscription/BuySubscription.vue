@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useLoader, useStripe } from "../../../store";
-import { CollectPaymentInfoRoute } from "../../../router";
 import { PlanDetails } from "./PlanDetails";
 
 const loader = useLoader();
@@ -16,10 +15,6 @@ const moneyFormatter = Intl.NumberFormat("en-US", {
 
 async function buyPlan(paymentInterval: "yearly" | "monthly") {
   loader.show();
-
-  await stripeStore.createSubscription(paymentInterval);
-
-  router.push({ name: CollectPaymentInfoRoute.name });
 
   loader.hide();
 }

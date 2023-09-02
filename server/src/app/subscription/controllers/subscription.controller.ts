@@ -1,4 +1,4 @@
-import { Controller, Post, Param } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
@@ -7,9 +7,6 @@ import { GuardWithRBAC, JWT_uid, RolesRequired } from '../../../rbac/index.js';
 // Entity Types
 import { Role } from 'domain-model';
 import type { FirebaseAuthUID } from 'domain-model';
-
-// Exceptions
-import { InvalidInputException } from '../../../exceptions/index.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -37,23 +34,5 @@ export class SubscriptionController {
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createSetupIntent(@JWT_uid userID: FirebaseAuthUID) {
     return this.subscriptionService.createSetupIntent(userID);
-  }
-
-  /**
-   * Create a new Stripe Subscription for user to pay to activate their
-   * subscription.
-   */
-  @Post('stripe/create-subscription/:paymentInterval')
-  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
-  async createSubscription(
-    @JWT_uid userID: FirebaseAuthUID,
-    @Param('paymentInterval') paymentInterval: string,
-  ) {
-    if (paymentInterval !== 'yearly' && paymentInterval !== 'monthly')
-      throw new InvalidInputException(
-        `Invalid payment interval: ${paymentInterval}`,
-      );
-
-    return this.subscriptionService.createSubscription(userID, paymentInterval);
   }
 }

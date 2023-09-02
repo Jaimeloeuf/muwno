@@ -11,16 +11,6 @@ const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
  */
 interface State {
   stripe: Stripe;
-
-  paymentDetails: null | {
-    /**
-     */
-    paymentIntentClientSecret: string;
-
-    /**
-     */
-    orgEmail: string;
-  };
 }
 
 /**
@@ -30,40 +20,10 @@ export const useStripe = defineStore("stripe", {
   state: (): State => {
     if (stripe === null) throw new Error("Failed to initialise Stripe!");
 
-    return { stripe, paymentDetails: null };
+    return { stripe };
   },
 
   actions: {
-    /**
-     * Call API to create a new Stripe Subscription.
-     */
-    async createSubscription(paymentInterval: "yearly" | "monthly") {
-      const { res, err } = await sf
-        .useDefault()
-        .POST(`/subscription/stripe/create-subscription/${paymentInterval}`)
-        .useHeader(getAuthHeader)
-        .runJSON<{ paymentIntentClientSecret: string; orgEmail: string }>();
-
-      if (err) throw err;
-      if (!res.ok)
-        throw new Error(
-          `Failed to create Stripe Subscription ${JSON.stringify(res)}`
-        );
-
-      this.paymentDetails = res.data;
-    },
-
-    /**
-     * Get payment details after null check.
-     */
-    getPaymentDetails() {
-      if (this.paymentDetails === null)
-        throw new Error(
-          `Payment Details is not set, please restart payment flow`
-        );
-
-      return this.paymentDetails;
-    },
   },
 });
 

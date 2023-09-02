@@ -48,24 +48,6 @@ export class SubscriptionService {
 
     return this.stripeService.createSetupIntent(org);
   }
-  /**
-   * Wrapper around Stripe Service to create a new Stripe Subscription for user
-   * to pay to activate their subscription.
-   */
-  async createSubscription(
-    userID: UserID,
-    paymentInterval: 'yearly' | 'monthly',
-  ) {
-    // @todo track the user's request using their ID
-
-    const org = await this.orgRepo.getUserOrg(userID);
-    if (org === null)
-      throw new InvalidInternalStateException(
-        `User '${userID}' cannot access portal as they do not have an Org`,
-      );
-
-    return this.stripeService.createSubscription(org, paymentInterval);
-  }
 
   /**
    * Activate the `Org`'s subscription.
