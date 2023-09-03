@@ -37,37 +37,14 @@ export async function getStandardProductPrice(
 
 /**
  * Get subscription item array of all Usage Metered Products' Stripe Price.
+ *
+ * Returned objects do not have `quantity` value set since prices using metered
+ * usage billing should not have a fixed quantity set.
  */
-export async function getMeteredProductPrice(stripe: Stripe) {
-  const prices = await stripe.prices.list({
-    lookup_keys: ['response-usage', 'email-usage'],
-  });
-
-  // The returned prices are not ordered based on the lookup key, therefore
-  // it is transformed into an object with lookup key as the key so that they
-  // can be shown with the exact sequence when returned
-  const priceLookupKeyToIdMapping: Record<string, string> = {};
-
-  for (const price of prices.data) {
-    if (price.lookup_key === null)
-      throw new Error(
-        'invalid state since price definitely have lookup key as thats what we use to load it',
-      );
-
-    priceLookupKeyToIdMapping[price.lookup_key] = price.id;
-  }
-
-  if (priceLookupKeyToIdMapping['response-usage'] === undefined)
-    throw new Error(`Cannot get Price with lookup key 'response-usage'`);
-  if (priceLookupKeyToIdMapping['email-usage'] === undefined)
-    throw new Error(`Cannot get Price with lookup key 'email-usage'`);
-
-  // Do not set quantity value for prices using metered usage billing.
-  return [
-    { price: priceLookupKeyToIdMapping['response-usage'] },
-    { price: priceLookupKeyToIdMapping['email-usage'] },
-  ];
-}
+export const getMeteredProductPrice = (stripe: Stripe) =>
+  stripe.prices
+    .list({ lookup_keys: ['response-usage', 'email-usage'] })
+    .then(({ data }) => data.map((price) => ({ price: price.id })));
 
 /**
  * Thin wrapper around Stripe's create subscription method.
