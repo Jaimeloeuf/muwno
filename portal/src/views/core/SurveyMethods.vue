@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useOrg } from "../../store";
-import SideDrawer from "../components/SideDrawer.vue";
+import BackButton from "../components/BackButton.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
 import { type ProductID, SurveyMethodsArray } from "@domain-model";
 
@@ -48,8 +48,8 @@ const filteredSurveyMethods = computed(() => {
 
 <template>
   <div>
-    <div class="mb-6 border-b pb-4">
-      <SideDrawer />
+    <div class="mb-6 flex flex-row items-center border-b pb-4">
+      <BackButton />
       <span class="ml-4 text-4xl">
         <b>{{ product.name }}</b> <span class="font-light">Survey Methods</span>
       </span>

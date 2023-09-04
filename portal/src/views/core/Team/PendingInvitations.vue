@@ -9,6 +9,7 @@ import {
 } from "../../../store";
 import { OrgRoute } from "../../../router";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
+import BackButton from "../../components/BackButton.vue";
 
 const router = useRouter();
 const teamInvitationStore = useTeamInvitationStore();
@@ -61,7 +62,8 @@ async function rejectInvitation(invitationID: number) {
 
 <template>
   <div>
-    <div class="mb-6 border-b pb-4">
+    <div class="mb-6 flex flex-row items-center border-b pb-4">
+      <BackButton />
       <p class="ml-4 text-4xl">
         Pending Team Invitation<span
           v-if="teamInvitationStore.invitations.length > 1"
