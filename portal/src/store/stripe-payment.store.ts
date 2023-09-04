@@ -24,6 +24,25 @@ export const useStripe = defineStore("stripe", {
   },
 
   actions: {
+    /**
+     * Create a Stripe Payment Setup Intent and get back the client secret for
+     * the Stripe Elements' payment component.
+     */
+    async createSetupIntent() {
+      const { res, err } = await sf
+        .useDefault()
+        .POST(`/subscription/stripe/create-setup-intent`)
+        .useHeader(getAuthHeader)
+        .runJSON<{ clientSecret: string; orgEmail: string }>();
+
+      if (err) throw err;
+      if (!res.ok)
+        throw new Error(
+          `Failed to create Stripe Setup Intent ${JSON.stringify(res)}`
+        );
+
+      return res.data;
+    },
   },
 });
 
