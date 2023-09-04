@@ -20,9 +20,9 @@ export type SurveyMethod = {
   name: string;
 
   /**
-   * Name of the Product Type/Category that should be using this survey method.
+   * Product Types/Categories that suit this survey method.
    */
-  productType: string;
+  productTypes: Array<string>;
 
   /**
    * A list of well known products that belong in the specified product type /
@@ -43,3 +43,9 @@ export type SurveyMethod = {
    */
   descriptions: Array<string>;
 };
+
+/**
+ * Type alias for `SurveyMethod['id']` where all surveyMethodIDs will follow the
+ * same type.
+ */
+export type SurveyMethodID = SurveyMethod["id"];

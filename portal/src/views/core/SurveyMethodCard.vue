@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { SurveyMethod } from "@domain-model";
+import Accordion from "../components/Accordion.vue";
+import type { ProductID, SurveyMethod } from "@domain-model";
 
 defineProps<{
   index: number;
@@ -14,27 +15,13 @@ defineProps<{
     class="w-full max-w-lg rounded-lg border border-slate-300 p-6 font-light"
   >
     <p
-      class="mb-6 border-b border-gray-300 pb-3 text-3xl font-light text-gray-900"
+      class="mb-6 border-b border-gray-300 pb-3 text-2xl font-light text-gray-900"
     >
       {{ index }}. {{ surveyMethod.name }}
     </p>
 
-    <div class="mb-6 border-b border-gray-300 pb-6">
-      <p class="text-2xl">You should use this if your Product Type is</p>
-      <p class="mb-2 text-xl font-light text-yellow-700">
-        {{ surveyMethod.productType }}
-      </p>
-
-      <p class="mb-2">Examples of product in this category:</p>
-      <ul class="list-decimal px-5">
-        <li v-for="example in surveyMethod.productExamples" :key="example">
-          {{ example }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="mb-6 border-b border-gray-300 pb-6">
-      <p class="text-2xl">What is this survey mode used for?</p>
+    <div class="mb-6">
+      <p class="mb-2 text-xl">Use this if</p>
       <ul class="list-decimal px-5">
         <li v-for="usecase in surveyMethod.usecase" :key="usecase">
           {{ usecase }}
@@ -42,17 +29,43 @@ defineProps<{
       </ul>
     </div>
 
-    <div class="mb-6">
-      <p class="text-2xl">How does this mode work?</p>
-      <ul class="list-decimal px-5">
-        <li
-          v-for="modeDescriptionPoint in surveyMethod.descriptions"
-          :key="modeDescriptionPoint"
-        >
-          {{ modeDescriptionPoint }}
-        </li>
-      </ul>
-    </div>
+    <Accordion>
+      <template #summary>
+        <p class="text-xl">Useful for these Product Types</p>
+      </template>
+
+      <template #content>
+        <ul class="mb-2 list-decimal px-5 text-lg font-light text-yellow-700">
+          <li
+            v-for="productType in surveyMethod.productTypes"
+            :key="productType"
+          >
+            {{ productType }}
+          </li>
+        </ul>
+
+        <p class="mb-2">
+          For example, <i>{{ surveyMethod.productExamples.join(", ") }}</i>
+        </p>
+      </template>
+    </Accordion>
+
+    <Accordion class="mb-12">
+      <template #summary>
+        <p class="text-xl">How does this method work?</p>
+      </template>
+
+      <template #content>
+        <ul class="list-decimal px-5">
+          <li
+            v-for="modeDescriptionPoint in surveyMethod.descriptions"
+            :key="modeDescriptionPoint"
+          >
+            {{ modeDescriptionPoint }}
+          </li>
+        </ul>
+      </template>
+    </Accordion>
 
     <p
       v-if="surveyMethod.unimplemented"

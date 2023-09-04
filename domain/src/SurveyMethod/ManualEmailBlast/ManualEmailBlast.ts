@@ -3,10 +3,11 @@ import type { SurveyMethod } from "../SurveyMethod.js";
 export const ManualEmailBlast: SurveyMethod = {
   id: 1,
   name: "Manual Email Blasts",
-  productType: "Software as a Service (SaaS)",
+  productTypes: ["Software as a Service (SaaS)", "Physical Product or Service"],
   productExamples: ["Spotify", "Netflix", "Instagram"],
   usecase: [
-    "If you do have your customer's emails but do not want to automatically survey them, you can also use this to do one-off survey blasts by manually uploading your customers' email.",
+    "You want to do one off email blasts.",
+    "You have your customers' emails but do not want to automatically and recurringly survey them.",
   ],
   descriptions: [
     "You can do one-off email survey blasts by manually uploading your customers' email.",
