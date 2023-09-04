@@ -163,4 +163,69 @@ export class StripeService {
       orgEmail: org.email,
     };
   }
+  async buySubscription(
+    stripeCustomerID: string,
+    paymentInterval: 'yearly' | 'monthly',
+  ) {
+    const standardProductPrice = await getStandardProductPrice(
+      this.stripe,
+      paymentInterval,
+    );
+    const meteredProductPrice = await getMeteredProductPrice(this.stripe);
+
+    if (paymentInterval === 'monthly') {
+      // Create a single subscription since everything uses the same billing interval
+      const subscription = await createSubsciption(
+        this.stripe,
+        stripeCustomerID,
+        [standardProductPrice, ...meteredProductPrice],
+      );
+
+      // @todo This might happen if 3DS requires user action and subscription becomes incomplete
+      if (subscription.status !== 'active')
+        throw new Error(
+          `Subscription '${subscription.id}' did not succeed: '${subscription.status}'`,
+        );
+
+      // @todo Save to Subscriptions table as Orgs can have more than 1 subscription
+      subscription.id;
+    }
+
+    // Create 2 subscriptions since the billing interval used is different
+    else {
+      // Create the subscription using an annual billing interval
+      const annualSubscription = await createSubsciption(
+        this.stripe,
+        stripeCustomerID,
+        [standardProductPrice],
+      );
+
+      // @todo This might happen if 3DS requires user action and subscription becomes incomplete
+      if (annualSubscription.status !== 'active')
+        throw new Error(
+          `Subscription '${annualSubscription.id}' did not succeed: '${annualSubscription.status}'`,
+        );
+
+      // @todo Save to Subscriptions table as Orgs can have more than 1 subscription
+      annualSubscription.id;
+
+      /* ================================================================= */
+
+      // Create the subscription using a monthly billing interval
+      const monthlySubscription = await createSubsciption(
+        this.stripe,
+        stripeCustomerID,
+        meteredProductPrice,
+      );
+
+      // @todo This might happen if 3DS requires user action and subscription becomes incomplete
+      if (monthlySubscription.status !== 'active')
+        throw new Error(
+          `Subscription '${monthlySubscription.id}' did not succeed: '${monthlySubscription.status}'`,
+        );
+
+      // @todo Save to Subscriptions table as Orgs can have more than 1 subscription
+      monthlySubscription.id;
+    }
+  }
 }
