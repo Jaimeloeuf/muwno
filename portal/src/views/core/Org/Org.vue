@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useOrg } from "../../store";
-import { CreateOrgRoute } from "../../router";
-import SideDrawer from "../components/SideDrawer.vue";
+import { useOrg } from "../../../store";
+import { CreateOrgRoute } from "../../../router";
+import SideDrawer from "../../components/SideDrawer.vue";
 import type { Org } from "@domain-model";
 
 const router = useRouter();

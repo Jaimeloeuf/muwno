@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
-import { downloadFile } from "../../../utils/downloadFile";
+import { getAuthHeader } from "../../../../../firebase";
+import { downloadFile } from "../../../../../utils/downloadFile";
 import type { Product } from "@domain-model";
 
 const props = defineProps<{ product: Product }>();

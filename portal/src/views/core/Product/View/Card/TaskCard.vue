@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
+import { getAuthHeader } from "../../../../../firebase";
 import type { ProductID, ReadManyTaskDTO, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();

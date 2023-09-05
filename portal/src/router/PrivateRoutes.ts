@@ -34,14 +34,14 @@ export const ProfileRoute = <const>{
 export const OrgRoute = <const>{
   name: "org",
   path: "/org",
-  component: () => import("../views/core/Org.vue"),
+  component: () => import("../views/core/Org/Org.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
 export const CreateOrgRoute = <const>{
   name: "org-create",
   path: "/org/create",
-  component: () => import("../views/core/CreateOrg.vue"),
+  component: () => import("../views/core/Org/CreateOrg.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
@@ -50,22 +50,22 @@ export const CreateOrgRoute = <const>{
 export const AllProductRoute = <const>{
   name: "product-all",
   path: "/product/all",
-  component: () => import("../views/core/AllProduct.vue"),
+  component: () => import("../views/core/Product/AllProduct.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
 export const AddProductRoute = <const>{
   name: "product-add",
   path: "/product/add",
-  component: () => import("../views/core/AddProduct.vue"),
+  component: () => import("../views/core/Product/AddProduct.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
 export const ProductRoute = <const>{
   name: "product-view",
-  path: "/product/:productID/view",
+  path: "/product/view/:productID",
   props: true,
-  component: () => import("../views/core/Product.vue"),
+  component: () => import("../views/core/Product/View/Product.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
@@ -75,7 +75,7 @@ export const SurveyMethodsRoute = <const>{
   name: "survey-methods",
   path: "/survey/methods/:productID",
   props: true,
-  component: () => import("../views/core/SurveyMethods.vue"),
+  component: () => import("../views/core/SurveyMethod/SurveyMethods.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useOrg, useUserStore, useLoader } from "../../store";
-import { BuySubscriptionPlanRoute } from "../../router";
+import { useOrg, useUserStore, useLoader } from "../../../store";
+import { BuySubscriptionPlanRoute } from "../../../router";
 
 const router = useRouter();
 const orgStore = useOrg();

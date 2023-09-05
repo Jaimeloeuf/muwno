@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Accordion from "../components/Accordion.vue";
+import Accordion from "../../components/Accordion.vue";
 import type { ProductID, SurveyMethod } from "@domain-model";
 
 defineProps<{

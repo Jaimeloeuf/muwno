@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useOrg } from "../../store";
-import BackButton from "../components/BackButton.vue";
+import { useOrg } from "../../../store";
+import BackButton from "../../components/BackButton.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
 import { type ProductID, SurveyMethodsArray } from "@domain-model";
 

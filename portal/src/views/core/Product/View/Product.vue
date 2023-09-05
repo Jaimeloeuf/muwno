@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { useOrg } from "../../store";
-import SideDrawer from "../components/SideDrawer.vue";
+import { useOrg } from "../../../../store";
+import SideDrawer from "../../../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
-import PMFLiveScoreCard from "./KeyInfoCard/PMFLiveScoreCard.vue";
-import TaskCard from "./KeyInfoCard/TaskCard.vue";
-import SurveyMethodsInUseCard from "./KeyInfoCard/SurveyMethodsInUseCard.vue";
-import SurveyLinkCard from "./KeyInfoCard/SurveyLinkCard.vue";
-import DownloadRawResponseButton from "./KeyInfoCard/DownloadRawResponseButton.vue";
+import PMFLiveScoreCard from "../../KeyInfoCard/PMFLiveScoreCard.vue";
+import TaskCard from "./Card/TaskCard.vue";
+// import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
+import CustomerAndSurveyMethodButtonsCard from "./Card/CustomerAndSurveyMethodButtonsCard.vue";
+import SurveyLinkCard from "./Card/SurveyLinkCard.vue";
+import DownloadRawResponseButton from "./Card/DownloadRawResponseButton.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -32,7 +33,8 @@ setInterval(() => window.location.reload(), 8.64e7);
       <div class="mx-4 flex max-w-lg flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <PMFLiveScoreCard class="w-full" :productID="product.id" />
         <TaskCard :productID="product.id" />
-        <SurveyMethodsInUseCard :product="product" />
+        <!-- <SurveyStatsCard :product="product" /> -->
+        <CustomerAndSurveyMethodButtonsCard :product="product" />
         <SurveyLinkCard :product="product" />
         <DownloadRawResponseButton :product="product" />
       </div>

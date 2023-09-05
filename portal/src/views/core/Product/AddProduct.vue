@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useOrg, useLoader } from "../../store";
-import { ProductRoute } from "../../router";
-import SideDrawer from "../components/SideDrawer.vue";
+import { useOrg, useLoader } from "../../../store";
+import { ProductRoute } from "../../../router";
+import SideDrawer from "../../components/SideDrawer.vue";
 
 const router = useRouter();
 const orgStore = useOrg();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../firebase";
+import { getAuthHeader } from "../../../../firebase";
 import type { Product, ReadManyPMFScoreDTO } from "@domain-model";
 
 import { Line } from "vue-chartjs";
@@ -77,6 +77,9 @@ const chartData = {
     {
       label: "PMF Percentage",
 
+      // @todo
+      // Highlight current time period's PMF score to say that it is not
+      // confirmed until the time period ends!
       data: res.data.score.map((a) => a.score),
 
       pointRadius: 4,

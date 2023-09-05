@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SurveyMethodsRoute } from "../../../router";
+import { SurveyMethodsRoute } from "../../../../../router";
 import type { Product } from "@domain-model";
 
 defineProps<{ product: Product }>();
