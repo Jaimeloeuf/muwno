@@ -1,46 +1,62 @@
 <script setup lang="ts">
 import { SurveyMethodsRoute } from "../../../router";
-import { type Product, type SurveyMethod, SurveyMethods } from "@domain-model";
+import type { Product } from "@domain-model";
 
-const props = defineProps<{ product: Product }>();
-
-// @todo Load survey methods used, get them back sorted by latest enabled first
-props.product.id;
-const surveyMethods: Array<SurveyMethod["id"]> = [];
+defineProps<{ product: Product }>();
 </script>
 
 <template>
-  <div class="w-full rounded-lg bg-slate-50 p-4 shadow">
-    <div
-      class="mb-2 flex flex-row items-center justify-between border-b border-slate-300 pb-2"
+  <div class="flex flex-row justify-between gap-6">
+    <!-- @todo fix link -->
+    <router-link
+      :to="{
+        params: { productID: product.id },
+      }"
+      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg bg-slate-50 p-4 text-left shadow hover:border hover:border-slate-300 hover:bg-white hover:shadow-lg"
     >
-      <p class="font-medium">Survey Methods</p>
+      Manage Customers
 
-      <router-link
-        :to="{
-          name: SurveyMethodsRoute.name,
-          params: { productID: product.id },
-        }"
-        class="rounded-lg bg-slate-400 px-6 text-center text-white shadow-lg"
+      <svg
+        class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 10 6"
       >
-        Manage
-      </router-link>
-    </div>
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5 5 1 1 5"
+        />
+      </svg>
+    </router-link>
 
-    <div v-if="surveyMethods.length === 0" class="text-2xl font-thin">
-      Not using any, click to add Survey Methods.
-    </div>
+    <router-link
+      :to="{
+        name: SurveyMethodsRoute.name,
+        params: { productID: product.id },
+      }"
+      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg bg-slate-50 p-4 text-left shadow hover:border hover:border-slate-300 hover:bg-white hover:shadow-lg"
+    >
+      Survey Methods
 
-    <div v-else>
-      <!-- @todo Click to edit the selected survey method -->
-      <button
-        v-for="(surveyMethod, i) in surveyMethods"
-        :key="surveyMethod"
-        class="mt-3 block w-full rounded-lg border border-slate-300 p-2 text-left text-xl font-light hover:bg-white hover:shadow-xl"
+      <svg
+        class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 10 6"
       >
-        <span class="mr-2">{{ i + 1 }}.</span>
-        {{ SurveyMethods[surveyMethod]?.name }}
-      </button>
-    </div>
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5 5 1 1 5"
+        />
+      </svg>
+    </router-link>
   </div>
 </template>

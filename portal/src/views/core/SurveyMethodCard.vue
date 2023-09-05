@@ -6,7 +6,6 @@ defineProps<{
   index: number;
   productID: ProductID;
   surveyMethod: SurveyMethod;
-  enabled: boolean;
 }>();
 </script>
 
@@ -14,11 +13,23 @@ defineProps<{
   <div
     class="w-full max-w-lg rounded-lg border border-slate-300 p-6 font-light"
   >
-    <p
-      class="mb-6 border-b border-gray-300 pb-3 text-2xl font-light text-gray-900"
+    <div
+      class="mb-6 flex flex-row items-center justify-between border-b border-gray-300 pb-3"
     >
-      {{ index }}. {{ surveyMethod.name }}
-    </p>
+      <p class="text-2xl font-light text-gray-900">
+        {{ index }}. {{ surveyMethod.name }}
+      </p>
+
+      <p v-if="surveyMethod.unimplemented" class="text-lg text-yellow-500">
+        Coming Soon
+      </p>
+      <button
+        v-else
+        class="rounded-lg bg-green-600 px-6 py-0.5 text-lg text-white"
+      >
+        Use
+      </button>
+    </div>
 
     <div class="mb-6">
       <p class="mb-2 text-xl">Use this if</p>
@@ -31,7 +42,7 @@ defineProps<{
 
     <Accordion>
       <template #summary>
-        <p class="text-xl">Useful for these Product Types</p>
+        <p class="text-left text-xl">Useful for these Product Types</p>
       </template>
 
       <template #content>
@@ -50,9 +61,9 @@ defineProps<{
       </template>
     </Accordion>
 
-    <Accordion class="mb-12">
+    <Accordion>
       <template #summary>
-        <p class="text-xl">How does this method work?</p>
+        <p class="text-left text-xl">How does this method work?</p>
       </template>
 
       <template #content>
@@ -66,47 +77,5 @@ defineProps<{
         </ul>
       </template>
     </Accordion>
-
-    <p
-      v-if="surveyMethod.unimplemented"
-      class="text-center text-3xl text-yellow-500"
-    >
-      Coming Soon
-    </p>
-
-    <div v-else class="flex flex-col gap-3 sm:flex-row">
-      <button
-        v-if="enabled"
-        class="w-full rounded-lg bg-red-600 p-3 text-2xl text-white"
-      >
-        disable
-      </button>
-      <button
-        v-else
-        class="w-full rounded-lg bg-green-600 p-3 text-2xl text-white"
-      >
-        enable
-      </button>
-
-      <button v-if="enabled" class="w-full rounded-lg bg-slate-200 p-3">
-        <span class="mr-3 text-lg font-medium text-gray-800">edit</span>
-
-        <svg
-          class="inline-block h-6 w-6 text-gray-700"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 16 12"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-            d="M1 5h12m0 0L9 1m4 4L9 9"
-          />
-        </svg>
-      </button>
-    </div>
   </div>
 </template>
