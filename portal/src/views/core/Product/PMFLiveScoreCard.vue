@@ -26,6 +26,12 @@ const PMFScore = res.data.score;
       <p class="text-xs font-extralight">
         Your live score across the last 7 days
       </p>
+
+      <!-- @todo
+        live responses is only for past X days which means if u dont have new
+        survey responses, it cant calculate the score, which is why there might
+        be a need for an 'All time score' card.
+      -->
     </div>
 
     <template v-if="PMFScore.score === null">

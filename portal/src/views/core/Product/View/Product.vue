@@ -2,7 +2,7 @@
 import { useOrg } from "../../../../store";
 import SideDrawer from "../../../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
-import PMFLiveScoreCard from "../../KeyInfoCard/PMFLiveScoreCard.vue";
+import PMFLiveScoreCard from "../PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
 // import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
 import CustomerAndSurveyMethodButtonsCard from "./Card/CustomerAndSurveyMethodButtonsCard.vue";

@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { useOrg } from "../../../store";
 import { CreateOrgRoute, ProductRoute, AddProductRoute } from "../../../router";
 import SideDrawer from "../../components/SideDrawer.vue";
-import PMFLiveScoreCard from "../KeyInfoCard/PMFLiveScoreCard.vue";
+import PMFLiveScoreCard from "./PMFLiveScoreCard.vue";
 import type { Org } from "@domain-model";
 
 const router = useRouter();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OrgRoute } from "../router";
+import { AllProductRoute } from "../router";
 </script>
 
 <template>
@@ -25,7 +25,7 @@ import { OrgRoute } from "../router";
         </p>
 
         <router-link
-          :to="{ name: OrgRoute.name }"
+          :to="{ name: AllProductRoute.name }"
           class="my-4 inline-flex text-center font-medium text-gray-500 underline"
         >
           Home
