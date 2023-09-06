@@ -4,7 +4,6 @@ import type {
   Products,
   ProductID,
   Product,
-  MIT,
   PMFScore,
   ISODateTimeString,
   CreateOneProductDTO,
@@ -54,14 +53,4 @@ export abstract class IProductRepo {
     start: ISODateTimeString,
     end: ISODateTimeString,
   ): Promise<PMFScore>;
-
-  /**
-   * Get MITs of the given product's rolling window
-   */
-  abstract currentMIT(productID: ProductID): Promise<Array<MIT>>;
-
-  /**
-   * Mark a single 'MIT' task as done.
-   */
-  abstract markTaskAsDone(mitID: MIT['id']): Promise<Array<MIT>>;
 }

@@ -3,4 +3,3 @@
  */
 
 export * from "./Product.js";
-export * from "./MIT.js";

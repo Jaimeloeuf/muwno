@@ -19,8 +19,6 @@ export * from "./ReadOneProductDTO.js";
 export * from "./ReadManyProductDTO.js";
 export * from "./CreateOneProductDTO.js";
 
-export * from "./ReadManyMITDTO.js";
-
 export * from "./ReadManyTaskDTO.js";
 
 export * from "./ReadOnePMFScoreDTO.js";

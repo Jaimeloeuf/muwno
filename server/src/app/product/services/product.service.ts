@@ -9,7 +9,6 @@ import type {
   Product,
   ProductID,
   Products,
-  MIT,
   PMFScore,
   CreateOneProductDTO,
 } from 'domain-model';
@@ -148,23 +147,5 @@ export class ProductService {
     }
 
     return Promise.all(scores);
-  }
-
-  /**
-   * Get a list of MITs that the team should work on
-   */
-  async getCurrentMIT(productID: ProductID): Promise<Array<MIT>> {
-    await this.validateProductID(productID);
-
-    return this.productRepo.currentMIT(productID);
-  }
-
-  /**
-   * Mark a single 'MIT' task as done.
-   */
-  async markTaskAsDone(mitID: MIT['id']): Promise<Array<MIT>> {
-    // @todo Validate mitID
-
-    return this.productRepo.markTaskAsDone(mitID);
   }
 }

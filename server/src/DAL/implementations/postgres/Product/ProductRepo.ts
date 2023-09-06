@@ -8,16 +8,11 @@ import type {
   UserID,
   ProductID,
   CreateOneProductDTO,
-  MIT,
   PMFScore,
 } from 'domain-model';
 
 // Mappers
-import {
-  mapProductModelToEntity,
-  mapProductModelsToEntity,
-  mapMITModelsToEntity,
-} from './mapper.js';
+import { mapProductModelToEntity, mapProductModelsToEntity } from './mapper.js';
 
 @Injectable()
 export class ProductRepo implements IProductRepo {
@@ -146,31 +141,5 @@ export class ProductRepo implements IProductRepo {
           ? null
           : Math.trunc((votesByCategory[3] / totalResponses) * 100),
     };
-  }
-
-  async currentMIT(productID: ProductID) {
-    return this.db.mit
-      .findMany({
-        where: {
-          productID,
-          done: false,
-        },
-        // @todo Sort by points system too
-        orderBy: { createdAt: 'desc' },
-        take: 3,
-      })
-      .then(mapMITModelsToEntity);
-  }
-
-  async markTaskAsDone(mitID: MIT['id']) {
-    const { productID } = await this.db.mit.update({
-      where: { id: mitID },
-      data: { done: true },
-
-      // Get the productID back to return back a new list of current MITs
-      select: { productID: true },
-    });
-
-    return this.currentMIT(productID);
   }
 }

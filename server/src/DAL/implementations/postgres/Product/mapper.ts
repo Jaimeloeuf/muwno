@@ -1,5 +1,5 @@
-import type { product as ProductModel, mit as MITModel } from '@prisma/client';
-import type { Product, Products, MIT } from 'domain-model';
+import type { product as ProductModel } from '@prisma/client';
+import type { Product, Products } from 'domain-model';
 
 export const mapProductModelToEntity = (
   productModel: ProductModel,
@@ -19,9 +19,3 @@ export function mapProductModelsToEntity(
 
   return products;
 }
-
-export const mapMITModelsToEntity = (mitModels: Array<MITModel>): Array<MIT> =>
-  mitModels.map((mitModel) => ({
-    ...mitModel,
-    createdAt: mitModel.createdAt.toISOString(),
-  }));

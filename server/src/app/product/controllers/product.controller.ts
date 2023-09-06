@@ -13,7 +13,7 @@ import { ProductService } from '../services/product.service.js';
 import { GuardWithRBAC, AllowAllRoles, JWT_uid } from '../../../rbac/index.js';
 
 // Entity Types
-import type { FirebaseAuthUID, ProductID, MIT } from 'domain-model';
+import type { FirebaseAuthUID, ProductID } from 'domain-model';
 
 // DTO Types
 import type {
@@ -21,7 +21,6 @@ import type {
   ReadManyProductDTO,
   ReadOnePMFScoreDTO,
   ReadManyPMFScoreDTO,
-  ReadManyMITDTO,
 } from 'domain-model';
 
 // DTO Validators
@@ -93,29 +92,5 @@ export class ProductController {
     return this.productService
       .getPMFScoresOfSelectedRange(productID, intervals, intervalType)
       .then((score) => ({ score }));
-  }
-
-  /**
-   * Get a list of MITs that the team should work on
-   */
-  @Get('MIT/current/:productID')
-  @AllowAllRoles
-  async getCurrentMIT(
-    @Param('productID') productID: ProductID,
-  ): Promise<ReadManyMITDTO> {
-    return this.productService
-      .getCurrentMIT(productID)
-      .then((mits) => ({ mits }));
-  }
-
-  /**
-   * Mark a single 'MIT' task as done.
-   */
-  @Post('MIT/done/:mitID')
-  @AllowAllRoles
-  async markTaskAsDone(
-    @Param('mitID') mitID: MIT['id'],
-  ): Promise<ReadManyMITDTO> {
-    return this.productService.markTaskAsDone(mitID).then((mits) => ({ mits }));
   }
 }

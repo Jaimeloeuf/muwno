@@ -22,7 +22,7 @@ async function getTasks() {
 async function markTaskAsDone(taskID: TaskID) {
   const { res, err } = await sf
     .useDefault()
-    .POST(`/product/MIT/done/${taskID}`)
+    .POST(`/task/done/${taskID}`)
     .useHeader(getAuthHeader)
     .runVoid((res) => res.json());
 
