@@ -37,29 +37,16 @@ if (orgDetails === undefined) router.push({ name: CreateOrgRoute.name });
     <div class="md:mx-6">
       <div class="grid grid-cols-1 lg:grid-cols-2">
         <router-link
-          v-for="product in orgStore.productsArray"
-          :key="product.id"
-          :to="{ name: ProductRoute.name, params: { productID: product.id } }"
-          class="m-6 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
-        >
-          <p class="mb-2 text-4xl">{{ product.name }}</p>
-
-          <div class="text-right">
-            <PMFLiveScoreCard class="bg-white" :productID="product.id" />
-          </div>
-        </router-link>
-
-        <!-- Create product card button -->
-        <router-link
           :to="{ name: AddProductRoute.name }"
           class="m-6 inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 p-8"
           :class="{
-            'bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-600':
+            'bg-white text-green-600 hover:bg-gray-100':
               orgStore.productsArray.length !== 0,
             'bg-green-600 text-white': orgStore.productsArray.length === 0,
           }"
         >
-          <div class="text-2xl">Add a Product</div>
+          <p class="text-4xl">Add a Product</p>
+
           <svg
             class="h-8 w-8"
             aria-hidden="true"
@@ -75,6 +62,19 @@ if (orgDetails === undefined) router.push({ name: CreateOrgRoute.name });
               d="M1 5h12m0 0L9 1m4 4L9 9"
             />
           </svg>
+        </router-link>
+
+        <router-link
+          v-for="product in orgStore.productsArray"
+          :key="product.id"
+          :to="{ name: ProductRoute.name, params: { productID: product.id } }"
+          class="m-6 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
+        >
+          <p class="mb-2 text-4xl">{{ product.name }}</p>
+
+          <div class="text-right">
+            <PMFLiveScoreCard class="bg-white" :productID="product.id" />
+          </div>
         </router-link>
       </div>
     </div>

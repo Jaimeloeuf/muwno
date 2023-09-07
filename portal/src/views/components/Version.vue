@@ -5,7 +5,7 @@ import { getDateTimeString } from "../../utils/date-formatting/getDateTimeString
 
 const buildTime = getDateTimeString(__vite_inject.buildTime);
 
-// Calculate the version using git branch and commit hash
+// Version is git branch and commit hash
 const version =
   __vite_inject.gitBranch +
   " " +
@@ -13,8 +13,7 @@ const version =
 </script>
 
 <template>
-  <!-- Fixed styles to ensure that the build time string it not too long and extend pass the mobile components -->
-  <div style="font-size: 0.7em; max-width: 30em">
+  <div class="max-w-lg text-xs font-extralight">
     Version: {{ version }}
     <br />
     Build Time: {{ buildTime }}

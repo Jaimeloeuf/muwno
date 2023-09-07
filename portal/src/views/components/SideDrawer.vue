@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import {
   AllProductRoute,
   OrgRoute,
@@ -11,12 +11,6 @@ import { logout } from "../../utils/logout";
 import Version from "./Version.vue";
 
 const showDrawer = ref<boolean>(false);
-// const showProducts = ref<boolean>(true);
-
-const showVersionCount = ref<number>(0);
-watch(showDrawer, (shown) => {
-  if (!shown) showVersionCount.value = 0;
-});
 </script>
 
 <template>
@@ -57,10 +51,13 @@ watch(showDrawer, (shown) => {
     <div
       class="flex h-full flex-col items-start justify-between space-y-2 bg-gray-50 p-4 font-medium"
     >
-      <p class="p-2 text-gray-900" @click="showDrawer = false">
+      <button
+        class="w-full border-b border-gray-200 p-2 text-gray-900"
+        @click="showDrawer = false"
+      >
         <span class="text-2xl">Product Market Fit</span>
-        <span class="ml-3 text-3xl">📈📈📈</span>
-      </p>
+        <span class="ml-3 text-2xl">📈</span>
+      </button>
 
       <div class="w-full">
         <router-link
@@ -88,68 +85,6 @@ watch(showDrawer, (shown) => {
         </router-link>
 
         <router-link
-          :to="{ name: ManageSubscriptionRoute.name }"
-          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
-          @click="showDrawer = !showDrawer"
-        >
-          <!-- @todo Change the icon -->
-          <img
-            src="../../assets/SideDrawerIcon/Org.svg"
-            class="h-6 w-6 text-gray-500"
-          />
-          <span class="ml-3 flex-1 text-left">Subscription</span>
-        </router-link>
-
-        <!--
-          Original Products drawer item that can be shown/hidden. Issue with
-          this is that with too many products it prevent the side drawer from
-          scrolling properly. So it is no longer used but kept here for reference.
-        -->
-        <!-- <button
-          type="button"
-          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
-          @click="showProducts = !showProducts"
-        >
-          <img
-            src="../../assets/SideDrawerIcon/Product.svg"
-            class="h-6 w-6 text-gray-500"
-          />
-          <span class="ml-3 flex-1 text-left">Products</span>
-          <svg
-            class="h-6 w-6"
-            :class="{ '-rotate-90': !showProducts }"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-
-        <div class="mt-2 space-y-2" :class="{ hidden: !showProducts }">
-          <div
-            v-for="(product, i) in orgStore.productsArray"
-            :key="i"
-            class="flex flex-row"
-          >
-            <router-link
-              :to="{
-                name: ProductRoute.name,
-                params: { productID: product.id },
-              }"
-              class="inline-flex grow rounded-lg p-2 pl-7 pr-4 text-gray-900 transition duration-75"
-              @click="showDrawer = !showDrawer"
-            >
-              {{ i + 1 }}. {{ product.name }}
-            </router-link>
-          </div>
-        </div> -->
-
-        <router-link
           :to="{ name: TeamRoute.name }"
           class="flex w-full p-2 text-start text-gray-900"
           @click="showDrawer = !showDrawer"
@@ -169,6 +104,18 @@ watch(showDrawer, (shown) => {
           </svg>
 
           <span class="ml-3 flex-1">Team</span>
+        </router-link>
+
+        <router-link
+          :to="{ name: ManageSubscriptionRoute.name }"
+          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
+          @click="showDrawer = !showDrawer"
+        >
+          <img
+            src="../../assets/SideDrawerIcon/Subscription.svg"
+            class="h-6 w-6 text-gray-500"
+          />
+          <span class="ml-3 flex-1 text-left">Subscription</span>
         </router-link>
       </div>
 
@@ -196,9 +143,9 @@ watch(showDrawer, (shown) => {
         <span class="ml-3 flex-1">Profile</span>
       </router-link>
 
-      <button
+      <router-link
+        :to="{}"
         class="flex w-full p-2 pb-0 text-start text-gray-700"
-        @click="showVersionCount++"
       >
         <svg
           class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
@@ -217,8 +164,9 @@ watch(showDrawer, (shown) => {
         </svg>
 
         <span class="ml-3 flex-1">Settings</span>
-      </button>
+      </router-link>
 
+      <!-- @todo Create link -->
       <a class="flex w-full p-2 pb-0 text-start text-gray-700" target="_blank">
         <svg
           class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
@@ -236,7 +184,7 @@ watch(showDrawer, (shown) => {
       </a>
 
       <button
-        class="flex w-full p-2 pb-0 text-start text-gray-700"
+        class="flex w-full p-2 text-start text-gray-700"
         @click="logout(true)"
       >
         <svg
@@ -264,9 +212,7 @@ watch(showDrawer, (shown) => {
         <span class="ml-3 flex-1">Logout</span>
       </button>
 
-      <br />
-
-      <Version v-if="showVersionCount > 2" />
+      <Version />
     </div>
   </aside>
 </template>
