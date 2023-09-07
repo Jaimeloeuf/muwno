@@ -119,6 +119,22 @@ export const BuySubscriptionPlanRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const SetupPaymentMethodRoute = <const>{
+  name: "subscription-setup-payment-method",
+  path: "/subscription/setup-payment-method",
+  component: () =>
+    import("../views/core/Subscription/Stripe/SetupPaymentMethod.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
+export const SetupSuccessPaymentRoute = <const>{
+  name: "subscription-setup-payment-success",
+  path: "/subscription/setup-payment-success",
+  component: () =>
+    import("../views/core/Subscription/Stripe/SetupPaymentSuccess.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const ManageSubscriptionRoute = <const>{
   name: "subscription-manage",
   path: "/subscription/manage",
@@ -166,6 +182,8 @@ const PrivateRoutes = [
   InviteMemberRoute,
   PendingInvitationRoute,
   BuySubscriptionPlanRoute,
+  SetupPaymentMethodRoute,
+  SetupSuccessPaymentRoute,
   ManageSubscriptionRoute,
   ApiKeyRoute,
 ] satisfies Array<PrivateRoute>;

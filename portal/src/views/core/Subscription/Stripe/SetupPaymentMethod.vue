@@ -4,6 +4,8 @@ import { useRouter } from "vue-router";
 import type { StripeElements } from "@stripe/stripe-js";
 import { sf } from "simpler-fetch";
 import { useStripe } from "../../../../store";
+import { SetupSuccessPaymentRoute } from "../../../../router";
+import { getAbsoluteUrlFromRoute } from "../../../../utils/getAbsoluteUrlFromRoute";
 
 const router = useRouter();
 const stripeStore = useStripe();
@@ -59,6 +61,11 @@ async function pay() {
   // Create the SetupIntent and obtain clientSecret
   const { clientSecret } = await stripeStore.createSetupIntent();
 
+  /** Redirect to this route on setup success */
+  const redirectTo = encodeURIComponent(
+    getAbsoluteUrlFromRoute(SetupSuccessPaymentRoute.name)
+  );
+
   // Confirm the SetupIntent using the details collected by the Payment Element
   const { error } = await stripe.confirmSetup({
     elements: elements.value,
@@ -67,7 +74,9 @@ async function pay() {
       // User's browser will make a GET request here, which will trigger next steps
       return_url: sf
         .useDefault()
-        .POST(`/subscription/stripe/redirect/setup-intent-confirmed`)
+        .GET(
+          `/subscription/stripe/redirect/setup-intent-confirmed?redirectTo=${redirectTo}`
+        )
         .getURL(),
     },
   });

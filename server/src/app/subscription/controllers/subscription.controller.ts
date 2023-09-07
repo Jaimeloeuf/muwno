@@ -1,4 +1,12 @@
-import { Controller, Post } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Param,
+  Body,
+  Get,
+  Redirect,
+  Query,
+} from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
@@ -34,5 +42,33 @@ export class SubscriptionController {
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createSetupIntent(@JWT_uid userID: FirebaseAuthUID) {
     return this.subscriptionService.createSetupIntent(userID);
+  }
+
+  /**
+   * API to reflect a redirect back to client portal from Stripe API, since
+   * Stripe's confirmSetupIntent method's return_url does not support URL's
+   * using hash based routing, therefore this is needed to redirect to a
+   * specific page on portal using hash based routing.
+   */
+  @Get('stripe/redirect/setup-intent-confirmed')
+  // Default redirect if nothing returned to override it.
+  // Make sure to always return a Nest redirect object to change this.
+  @Redirect('/', 301)
+  async redirectOnSetupIntentConfirmed(
+    @Query('redirect_status') redirectStatus: string,
+    @Query('setup_intent') setupIntentID: string,
+
+    /**
+     * Required, but allow undefined here to ensure type is checked before using
+     */
+    @Query('redirectTo') redirectTo: string | undefined,
+  ): Promise<{ url: string }> {
+    if (redirectTo === undefined)
+      throw new InvalidInputException(`Missing 'redirectTo' query param.`);
+
+    return {
+      // @todo add redirectStatus from stripe as query param for frontend to show user
+      url: decodeURIComponent(redirectTo),
+    };
   }
 }
