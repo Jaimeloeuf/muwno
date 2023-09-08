@@ -22,7 +22,10 @@ import { SubscriptionService } from '../services/subscription.service.js';
 import { StripeService } from '../services/stripe.service.js';
 
 // Entity Types
-import type { InvoicePaidEventData } from '../../../types/index.js';
+import type {
+  InvoicePaidEventData,
+  SetupIntentSucceededEventData,
+} from '../../../types/index.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -177,7 +180,14 @@ export class StripeWebhookController {
     string,
     (event: Stripe.Event) => void | Promise<void>
   > = {
-    // ==================== Activate Subscription Events ====================
+    // ======================== Payment related Events ========================
+
+    'setup_intent.succeeded': async (event) => {
+      const setupIntentSucceededEvent = event.data
+        .object as SetupIntentSucceededEventData;
+    },
+
+    // ===================== Activate Subscription Events =====================
 
     /**
      * TLDR, user has paid for subscription, provision access to product.
