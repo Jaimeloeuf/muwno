@@ -7,6 +7,9 @@ import { PrismaService } from '../prisma.service.js';
 // Entity Types
 import type { StripeSetupNext } from 'domain-model';
 
+// Utils
+import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
+
 @Injectable()
 export class StripeSetupNextRepo implements IStripeSetupNextRepo {
   constructor(private readonly db: PrismaService) {}
@@ -18,5 +21,17 @@ export class StripeSetupNextRepo implements IStripeSetupNextRepo {
         next: next as unknown as Prisma.JsonObject,
       },
     });
+  }
+
+  async getOne(setupIntentID: string) {
+    return this.db.stripe_setup_next
+      .findUnique({ where: { id: setupIntentID } })
+      .then(
+        runMapperIfNotNull(({ next }) => next as unknown as StripeSetupNext),
+      );
+  }
+
+  async deleteOne(id: number) {
+    await this.db.stripe_setup_next.delete({ where: { iid: id } });
   }
 }

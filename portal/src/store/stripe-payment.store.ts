@@ -17,7 +17,7 @@ const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
 interface State {
   stripe: Stripe;
 
-  next: StripeSetupNext;
+  next: null | StripeSetupNext;
 }
 
 /**
