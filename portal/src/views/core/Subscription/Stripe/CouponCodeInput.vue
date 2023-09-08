@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
 
@@ -9,10 +9,13 @@ const couponCode = ref<string>("");
 const checked = ref<boolean>(false);
 const isValid = ref<boolean>(false);
 
+// Reset the checked state everytime the coupon code is changed.
+watch(couponCode, () => (checked.value = false));
+
 async function useCouponCode() {
   const { res, err } = await sf
     .useDefault()
-    .GET(`/subscription/coupon/check-validity/${couponCode.value}`)
+    .GET(`/subscription/stripe/coupon/check-validity/${couponCode.value}`)
     .useHeader(getAuthHeader)
     .runJSON<{ valid: boolean }>();
 

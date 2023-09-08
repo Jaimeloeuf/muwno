@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Redirect, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Redirect,
+  Query,
+} from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
@@ -36,6 +44,17 @@ export class SubscriptionController {
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createPortalSession(@JWT_uid userID: FirebaseAuthUID): Promise<string> {
     return this.subscriptionService.createPortalSession(userID);
+  }
+
+  /**
+   * Check if a given Stripe coupon is valid.
+   */
+  @Get('stripe/coupon/check-validity/:couponID')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  async checkCouponValidity(
+    @Param('couponID') couponID: string,
+  ): Promise<{ valid: boolean }> {
+    return this.subscriptionService.checkCouponValidity(couponID);
   }
 
   /**
