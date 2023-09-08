@@ -220,6 +220,18 @@ model stripe_customer {
   // Relationship: ONE Stripe Customer, is created for ONE (each) paying Organisation
   org   org    @relation(fields: [orgID], references: [id])
   orgID String @unique
+// Table for next actions to execute on Stripe SetupIntent completing successfully.
+model stripe_setup_next {
+  // Autoincrementing Int ID needed for queries that require ordering
+  iid Int @id @default(autoincrement())
+
+  // Stripe's unique SetupIntent ID
+  id        String   @unique
+  createdAt DateTime @default(now())
+
+  // Next action is stored as a JSON object since different next actions can be
+  // structured differently.
+  next Json
 }
 
 model api_key {

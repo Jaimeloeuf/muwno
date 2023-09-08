@@ -12,3 +12,4 @@ export * from './IApiKeyRepo.js';
 export * from './ISubscriptionRepo.js';
 export * from './IStripeCustomerRepo.js';
 export * from './IStripeWebhookEventRepo.js';
+export * from './IStripeSetupNextRepo.js';

@@ -26,3 +26,5 @@ export * from "./ReadManyPMFScoreDTO.js";
 
 export * from "./ReadOneApiKeyDTO.js";
 export * from "./ReadManyApiKeyDTO.js";
+
+export * from "./CreateOneStripeSetupNextDTO.js";

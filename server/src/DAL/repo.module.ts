@@ -15,6 +15,7 @@ import {
   ISubscriptionRepo,
   IStripeCustomerRepo,
   IStripeWebhookEventRepo,
+  IStripeSetupNextRepo,
 } from './abstraction/index.js';
 
 /* Implementations */
@@ -29,6 +30,7 @@ import {
   SubscriptionRepo,
   StripeCustomerRepo,
   StripeWebhookEventRepo,
+  StripeSetupNextRepo,
 } from './implementations/postgres/index.js';
 
 /**
@@ -60,6 +62,7 @@ import {
     { provide: ISubscriptionRepo, useClass: SubscriptionRepo },
     { provide: IStripeCustomerRepo, useClass: StripeCustomerRepo },
     { provide: IStripeWebhookEventRepo, useClass: StripeWebhookEventRepo },
+    { provide: IStripeSetupNextRepo, useClass: StripeSetupNextRepo },
   ],
 
   exports: [
@@ -74,6 +77,7 @@ import {
     ISubscriptionRepo,
     IStripeCustomerRepo,
     IStripeWebhookEventRepo,
+    IStripeSetupNextRepo,
   ],
 })
 export class RepoModule {}

@@ -12,3 +12,4 @@ export * from './ApiKey/ApiKeyRepo.js';
 export * from './Subscription/SubscriptionRepo.js';
 export * from './StripeCustomer/StripeCustomerRepo.js';
 export * from './StripeWebhookEvent/StripeWebhookEventRepo.js';
+export * from './StripeSetupNext/StripeSetupNextRepo.js';

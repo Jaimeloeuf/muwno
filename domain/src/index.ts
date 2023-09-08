@@ -13,6 +13,7 @@ export * from "./Role/index.js";
 export * from "./SurveyMethod/index.js";
 export * from "./SubscriptionPlan/index.js";
 export * from "./ApiKey/index.js";
+export * from "./Stripe/StripeSetupNext.js";
 
 /* HTTP DTOs */
 export * from "./HttpDTOs/index.js";
