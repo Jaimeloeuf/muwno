@@ -17,6 +17,7 @@ import { ROLES_KEY } from './roles.decorator.js';
 import { STRICT_RBAC_KEY } from './rbac-strictness.decorator.js';
 import { isRoles } from './roles.utils.js';
 import { RequestJwtKey } from './express-req-extension.js';
+import { ALLOW_UNAUTHENTICATED_REQ__KEY } from './auth.decorator.js';
 
 /**
  * Decorator for Controller classes to protect API routes with RBAC. Any
@@ -69,9 +70,27 @@ class RolesGuard implements CanActivate {
       undefined | Array<Role>
     >(ROLES_KEY, [context.getHandler(), context.getClass()]);
 
-    // Check against undefined here, to throw an error as all routes need to
-    // have a role requirement explicitly set.
+    // Check if `requiredRoles` is set.
     if (requiredRoles === undefined) {
+      // Check for an explicitly set publicly accessible property. If it is set,
+      // treat the route as publicly accessible and allow all requests to access
+      // it by returning true here.
+      //
+      // This checks for any roles specified on both the route method itself and
+      // its parent controller class. If it is specified on both the route
+      // method and the parent controller, the value set on the route method
+      // will take precedence.
+      if (
+        this.reflector.getAllAndOverride<undefined | true>(
+          ALLOW_UNAUTHENTICATED_REQ__KEY,
+          [context.getHandler(), context.getClass()],
+        )
+      )
+        return true;
+
+      // If `requiredRoles` is not set and the route is not explicitly labelled
+      // to be publicly accessible, then throw an error as all routes need to
+      // have role requirements or publicly accessible property set explicitly.
       this.logger.error(
         `INTERNAL ERROR: Missing Authz Role for ${context.getClass().name}'s ${
           context.getHandler().name

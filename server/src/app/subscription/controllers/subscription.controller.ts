@@ -10,7 +10,12 @@ import {
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
-import { GuardWithRBAC, JWT_uid, RolesRequired } from '../../../rbac/index.js';
+import {
+  GuardWithRBAC,
+  JWT_uid,
+  RolesRequired,
+  AllowUnauthenticatedRequest,
+} from '../../../rbac/index.js';
 
 // Entity Types
 import { Role } from 'domain-model';
@@ -18,6 +23,9 @@ import type { FirebaseAuthUID } from 'domain-model';
 
 // DTO Types
 import type { CreateOneStripeSetupNextDTO } from 'domain-model';
+
+// Exceptions
+import { InvalidInputException } from '../../../exceptions/index.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -69,6 +77,9 @@ export class SubscriptionController {
   // Default redirect if nothing returned to override it.
   // Make sure to always return a Nest redirect object to change this.
   @Redirect('/', 301)
+  // Allow unauthenticated requests since this is a redirect end point and no
+  // protection needed as no sensitive business logic is called.
+  @AllowUnauthenticatedRequest
   async redirectOnSetupIntentConfirmed(
     @Query('redirect_status') redirectStatus: string,
     @Query('setup_intent') setupIntentID: string,
