@@ -18,6 +18,7 @@ export interface StripeSetupNext_CreateSubscription
   success: {
     intent: "create-subscription";
     paymentInterval: "yearly" | "monthly";
+    coupon: null | string;
   };
 }
 

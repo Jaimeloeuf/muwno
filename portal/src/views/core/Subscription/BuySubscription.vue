@@ -1,12 +1,17 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLoader, useStripe } from "../../../store";
 import { SetupPaymentMethodRoute } from "../../../router";
 import { PlanDetails } from "./PlanDetails";
+import CouponCodeInput from "./Stripe/CouponCodeInput.vue";
 
 const loader = useLoader();
 const router = useRouter();
 const stripeStore = useStripe();
+
+const coupon = ref<null | string>(null);
+const useCoupon = (newCoupon: null | string) => (coupon.value = newCoupon);
 
 const numberFormatter = Intl.NumberFormat().format;
 const moneyFormatter = Intl.NumberFormat("en-US", {
@@ -22,6 +27,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
     success: {
       intent: "create-subscription",
       paymentInterval,
+      coupon: coupon.value,
     },
   });
 
@@ -105,6 +111,8 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
 
       <div class="w-full basis-1/2">
         <div class="flex flex-col gap-6 font-light">
+          <CouponCodeInput @coupon-used="useCoupon" />
+
           <div
             class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-green-600 p-6 hover:shadow-2xl"
             @click="buyPlan('yearly')"

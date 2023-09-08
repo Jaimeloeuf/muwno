@@ -57,6 +57,7 @@ export async function createSubsciption(
   stripe: Stripe,
   stripeCustomerID: string,
   items: Stripe.SubscriptionCreateParams.Item[],
+  coupon: null | string,
 ) {
   return stripe.subscriptions.create({
     // Subscription will be paid with customer's default payment method,
@@ -67,5 +68,9 @@ export async function createSubsciption(
     off_session: true,
 
     items,
+
+    // @todo Fix this type gymnastics
+    // Cannot be null so convert to undefined first
+    coupon: (coupon ?? undefined) as string,
   });
 }

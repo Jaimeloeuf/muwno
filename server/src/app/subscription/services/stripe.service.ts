@@ -211,10 +211,10 @@ export class StripeService {
 
     // If user requested for Standard Plan subscription to be created
     else if (stripeSetupNextAction.success.intent === 'create-subscription') {
-      // @todo should have a optional coupon code too
       await this.buySubscription(
         setupIntent.customer,
         stripeSetupNextAction.success.paymentInterval,
+        stripeSetupNextAction.success.coupon,
       );
     }
 
@@ -229,6 +229,7 @@ export class StripeService {
   async buySubscription(
     stripeCustomerID: string,
     paymentInterval: 'yearly' | 'monthly',
+    coupon: null | string,
   ) {
     const standardProductPrice = await getStandardProductPrice(
       this.stripe,
@@ -242,6 +243,7 @@ export class StripeService {
         this.stripe,
         stripeCustomerID,
         [standardProductPrice, ...meteredProductPrice],
+        coupon,
       );
 
       // @todo This might happen if 3DS requires user action and subscription becomes incomplete
@@ -261,6 +263,7 @@ export class StripeService {
         this.stripe,
         stripeCustomerID,
         [standardProductPrice],
+        coupon,
       );
 
       // @todo This might happen if 3DS requires user action and subscription becomes incomplete
@@ -279,6 +282,9 @@ export class StripeService {
         this.stripe,
         stripeCustomerID,
         meteredProductPrice,
+
+        // Coupon only applies to the 'Standard' product so this is always null
+        null,
       );
 
       // @todo This might happen if 3DS requires user action and subscription becomes incomplete
