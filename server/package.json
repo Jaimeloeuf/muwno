@@ -22,6 +22,7 @@
     "docker:push": "docker push asia.gcr.io/thepmftool/api",
     "deploy": "npm run docker:build && npm run docker:push",
     "stripe:setup": "npx ts-node ./scripts/stripe/index.ts",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/v1/subscription/stripe/webhook",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch",
     "test:coverage": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
