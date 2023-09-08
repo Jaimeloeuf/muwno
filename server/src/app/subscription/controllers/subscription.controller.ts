@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Post,
-  Param,
-  Body,
-  Get,
-  Redirect,
-  Query,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Redirect, Query } from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
@@ -47,7 +39,10 @@ export class SubscriptionController {
   }
 
   /**
-   * Create Stripe Setup Intent for client secret to setup payment method.
+   * Create Stripe Setup Intent for client secret to setup payment method, and
+   * optionally receives a StripeSetupNext Action object to describe the next
+   * action the API service should take once the setup intent is successfully
+   * completed and Stripe notifies the service via a webhook call.
    */
   @Post('stripe/create-setup-intent')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
