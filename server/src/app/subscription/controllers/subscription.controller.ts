@@ -55,7 +55,7 @@ export class SubscriptionController {
   ): Promise<{ id: string; clientSecret: string; orgEmail: string }> {
     return this.subscriptionService.createSetupIntent(
       userID,
-      createOneStripeSetupNextDTO.next,
+      createOneStripeSetupNextDTO,
     );
   }
 

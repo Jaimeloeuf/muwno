@@ -10,7 +10,10 @@ import {
 } from '../../../DAL/index.js';
 
 // Entity Types
-import type { Org, OrgID, StripeSetupNext } from 'domain-model';
+import type { Org, OrgID } from 'domain-model';
+
+// DTO Types
+import type { CreateOneStripeSetupNextDTO } from 'domain-model';
 
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
@@ -150,7 +153,10 @@ export class StripeService {
    * to confirm setup on frontend and create a new Stripe Payment Method using
    * the collected payment info.
    */
-  async createSetupIntent(org: Org, stripeSetupNext: StripeSetupNext) {
+  async createSetupIntent(
+    org: Org,
+    createOneStripeSetupNextDTO: CreateOneStripeSetupNextDTO,
+  ) {
     // @todo Or search from Stripe API using org.id meta data
     const stripeCustomer = await this.stripeCustomerRepo.getCustomerWithOrgID(
       org.id,
@@ -170,8 +176,11 @@ export class StripeService {
       throw new Error(`Failed to get Stripe Setup Intent Client Secret.`);
 
     // If user requested for a next action, save to DB.
-    if (stripeSetupNext !== null)
-      await this.stripeSetupNextRepo.saveOne(id, stripeSetupNext);
+    if (createOneStripeSetupNextDTO.next !== null)
+      await this.stripeSetupNextRepo.saveOne(
+        id,
+        createOneStripeSetupNextDTO.next,
+      );
 
     return {
       id,
@@ -179,6 +188,7 @@ export class StripeService {
       orgEmail: org.email,
     };
   }
+
   async buySubscription(
     stripeCustomerID: string,
     paymentInterval: 'yearly' | 'monthly',

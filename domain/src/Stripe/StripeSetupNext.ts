@@ -23,7 +23,5 @@ export interface StripeSetupNext_CreateSubscription
 
 /**
  * Union type of all possible next actions the service can do.
- *
- * Can be null to indicate it does not need to take any action.
  */
-export type StripeSetupNext = null | StripeSetupNext_CreateSubscription;
+export type StripeSetupNext = StripeSetupNext_CreateSubscription;

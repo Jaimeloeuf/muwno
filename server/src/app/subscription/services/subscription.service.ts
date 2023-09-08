@@ -6,6 +6,9 @@ import { StripeService } from './stripe.service.js';
 // Entity Types
 import type { UserID, OrgID } from 'domain-model';
 
+// DTO Types
+import type { CreateOneStripeSetupNextDTO } from 'domain-model';
+
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
 
@@ -45,7 +48,10 @@ export class SubscriptionService {
    * Wrapper around Stripe Service's `createSetupIntent` to load `Org` from the
    * requestor's `UserID`.
    */
-  async createSetupIntent(userID: UserID, stripeSetupNext: StripeSetupNext) {
+  async createSetupIntent(
+    userID: UserID,
+    createOneStripeSetupNextDTO: CreateOneStripeSetupNextDTO,
+  ) {
     // @todo track the user's request using their ID
 
     const org = await this.orgRepo.getUserOrg(userID);
@@ -54,7 +60,10 @@ export class SubscriptionService {
         `User '${userID}' cannot setup payment method as they don't have an Org`,
       );
 
-    return this.stripeService.createSetupIntent(org, stripeSetupNext);
+    return this.stripeService.createSetupIntent(
+      org,
+      createOneStripeSetupNextDTO,
+    );
   }
 
   /**
