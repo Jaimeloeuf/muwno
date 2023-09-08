@@ -27,7 +27,10 @@ export class StripeSetupNextRepo implements IStripeSetupNextRepo {
     return this.db.stripe_setup_next
       .findUnique({ where: { id: setupIntentID } })
       .then(
-        runMapperIfNotNull(({ next }) => next as unknown as StripeSetupNext),
+        runMapperIfNotNull(({ iid, next }) => ({
+          id: iid,
+          ...(next as unknown as StripeSetupNext),
+        })),
       );
   }
 

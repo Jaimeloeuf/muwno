@@ -16,7 +16,10 @@ export abstract class IStripeSetupNextRepo {
   /**
    * Get one from the database
    */
-  abstract getOne(setupIntentID: string): Promise<StripeSetupNext | null>;
+  abstract getOne(setupIntentID: string): Promise<
+    // Returns the DB id too for users to use it to delete from DB once done.
+    (StripeSetupNext & { id: number }) | null
+  >;
 
   /**
    * Delete one from the database

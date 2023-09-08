@@ -244,6 +244,9 @@ export class StripeService {
         `Invalid StripeSetupNext success intent: ${stripeSetupNextAction.success.intent}`,
       );
     }
+
+    // Delete stored `StripeSetupNext` once it has successfully executed.
+    await this.stripeSetupNextRepo.deleteOne(stripeSetupNextAction.id);
   }
 
   async buySubscription(
