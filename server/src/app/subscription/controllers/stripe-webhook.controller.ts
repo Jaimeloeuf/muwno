@@ -185,6 +185,11 @@ export class StripeWebhookController {
     'setup_intent.succeeded': async (event) => {
       const setupIntentSucceededEvent = event.data
         .object as SetupIntentSucceededEventData;
+
+      // @todo Alternative, reflect next action with Stripe instead of storing it
+      // setupIntentSucceededEvent.metadata;
+
+      await this.stripeService.onSetupIntentSuccess(setupIntentSucceededEvent);
     },
 
     // ===================== Activate Subscription Events =====================

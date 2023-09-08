@@ -11,6 +11,7 @@ import {
 
 // Entity Types
 import type { Org, OrgID } from 'domain-model';
+import type { SetupIntentSucceededEventData } from '../../../types/index.js';
 
 // DTO Types
 import type { CreateOneStripeSetupNextDTO } from 'domain-model';
@@ -187,6 +188,42 @@ export class StripeService {
       clientSecret,
       orgEmail: org.email,
     };
+  }
+
+  async onSetupIntentSuccess(setupIntent: SetupIntentSucceededEventData) {
+    // Attach payment method as customer's default payment method, so that when
+    // creating subscriptions for them, it will automatically use this payment
+    // method instead of having to explicitly pass in a payment method.
+    await this.stripe.customers.update(setupIntent.customer, {
+      invoice_settings: { default_payment_method: setupIntent.payment_method },
+    });
+
+    // Read from DB to see if user requested for any Next actions to be executed
+    // on Stripe Setup Intent successfully completing.
+    const stripeSetupNextAction = await this.stripeSetupNextRepo.getOne(
+      setupIntent.id,
+    );
+
+    // If no StripeSetupNext action requested by user, end this method.
+    if (stripeSetupNextAction === null) {
+      return;
+    }
+
+    // If user requested for Standard Plan subscription to be created
+    else if (stripeSetupNextAction.success.intent === 'create-subscription') {
+      // @todo should have a optional coupon code too
+      await this.buySubscription(
+        setupIntent.customer,
+        stripeSetupNextAction.success.paymentInterval,
+      );
+    }
+
+    // This should not happen since all Next action types must be accounted for.
+    else {
+      throw new Error(
+        `Invalid StripeSetupNext success intent: ${stripeSetupNextAction.success.intent}`,
+      );
+    }
   }
 
   async buySubscription(
