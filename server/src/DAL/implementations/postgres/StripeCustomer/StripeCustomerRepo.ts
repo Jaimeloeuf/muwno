@@ -25,11 +25,11 @@ export class StripeCustomerRepo implements IStripeCustomerRepo {
       .then(runMapperIfNotNull(mapStripeCustomerModelToEntity));
   }
 
-  // async getCustomerWithOrgID(orgID: OrgID) {
-  //   return this.db.stripe_customer
-  //     .findUnique({ where: { orgID } })
-  //     .then(runMapperIfNotNull(mapStripeCustomerModelToEntity));
-  // }
+  async getCustomerWithOrgID(orgID: OrgID) {
+    return this.db.stripe_customer
+      .findUnique({ where: { orgID } })
+      .then(runMapperIfNotNull(mapStripeCustomerModelToEntity));
+  }
 
   async getCustomerIDWithOrgID(orgID: OrgID) {
     return this.db.stripe_customer

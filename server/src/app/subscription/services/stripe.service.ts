@@ -186,9 +186,7 @@ export class StripeService {
       );
 
     const { id, client_secret: clientSecret } =
-      await this.stripe.setupIntents.create({
-        customer: stripeCustomer.id,
-      });
+      await this.stripe.setupIntents.create({ customer: stripeCustomer.id });
 
     if (clientSecret === null)
       throw new Error(`Failed to get Stripe Setup Intent Client Secret.`);
@@ -207,6 +205,11 @@ export class StripeService {
     };
   }
 
+  /**
+   * Handle SetupIntent success webhook event by attaching the newly created
+   * payment method as the customer's default payment method and executing any
+   * `StripeSetupNext` actions stored by the user during `createSetupIntent`.
+   */
   async onSetupIntentSuccess(setupIntent: SetupIntentSucceededEventData) {
     // Attach payment method as customer's default payment method, so that when
     // creating subscriptions for them, it will automatically use this payment

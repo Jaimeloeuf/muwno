@@ -1,4 +1,4 @@
-import { type CreateOneProductDTO } from 'domain-model';
+import type { CreateOneProductDTO } from 'domain-model';
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 /**

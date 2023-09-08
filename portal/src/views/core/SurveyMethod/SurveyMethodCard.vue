@@ -16,16 +16,16 @@ defineProps<{
     <div
       class="mb-6 flex flex-row items-center justify-between border-b border-gray-300 pb-3"
     >
-      <p class="text-2xl font-light text-gray-900">
+      <p class="mr-2 text-2xl font-light text-gray-900">
         {{ index }}. {{ surveyMethod.name }}
       </p>
 
-      <p v-if="surveyMethod.unimplemented" class="text-lg text-yellow-500">
+      <p v-if="surveyMethod.unimplemented" class="text-xl text-yellow-500">
         Coming Soon
       </p>
       <button
         v-else
-        class="rounded-lg bg-green-600 px-6 py-0.5 text-lg text-white"
+        class="rounded-lg bg-green-600 px-8 py-0.5 text-xl text-white"
       >
         Use
       </button>
