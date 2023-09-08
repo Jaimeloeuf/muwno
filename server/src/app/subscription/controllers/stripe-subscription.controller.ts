@@ -30,17 +30,17 @@ import { InvalidInputException } from '../../../exceptions/index.js';
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
-@Controller('subscription')
+@Controller('subscription/stripe')
 @GuardWithRBAC()
 @UseHttpControllerFilters
-export class SubscriptionController {
+export class StripeSubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
   /**
    * Create a new Stripe Billing Portal Session and get back the session's URL
    * string for client to redirect to.
    */
-  @Post('stripe/create-portal-session')
+  @Post('create-portal-session')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createPortalSession(@JWT_uid userID: FirebaseAuthUID): Promise<string> {
     return this.subscriptionService.createPortalSession(userID);
@@ -49,7 +49,7 @@ export class SubscriptionController {
   /**
    * Check if a given Stripe coupon is valid.
    */
-  @Get('stripe/coupon/check-validity/:couponID')
+  @Get('coupon/check-validity/:couponID')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async checkCouponValidity(
     @Param('couponID') couponID: string,
@@ -63,7 +63,7 @@ export class SubscriptionController {
    * action the API service should take once the setup intent is successfully
    * completed and Stripe notifies the service via a webhook call.
    */
-  @Post('stripe/create-setup-intent')
+  @Post('create-setup-intent')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createSetupIntent(
     @JWT_uid userID: FirebaseAuthUID,
@@ -87,7 +87,7 @@ export class SubscriptionController {
    * using hash based routing, therefore this is needed to redirect to a
    * specific page on portal using hash based routing.
    */
-  @Get('stripe/redirect/setup-intent-confirmed')
+  @Get('redirect/setup-intent-confirmed')
   // Default redirect if nothing returned to override it.
   // Make sure to always return a Nest redirect object to change this.
   @Redirect('/', 301)
