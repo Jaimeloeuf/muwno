@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useLoader, useStripe } from "../../../store";
+import { SetupPaymentMethodRoute } from "../../../router";
 import { PlanDetails } from "./PlanDetails";
 
 const loader = useLoader();
@@ -15,6 +16,16 @@ const moneyFormatter = Intl.NumberFormat("en-US", {
 
 async function buyPlan(paymentInterval: "yearly" | "monthly") {
   loader.show();
+
+  // Create subscription after payment method has been successfully setup.
+  stripeStore.setStripeSetupNext({
+    success: {
+      intent: "create-subscription",
+      paymentInterval,
+    },
+  });
+
+  router.push({ name: SetupPaymentMethodRoute.name });
 
   loader.hide();
 }
@@ -45,11 +56,11 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
             <ul class="list-decimal px-5 text-lg">
               <li>
                 <b>{{ numberFormatter(PlanDetails.included.responses) }}</b>
-                Responses
+                Survey responses
               </li>
               <li>
                 <b>{{ numberFormatter(PlanDetails.included.emails) }}</b>
-                Emails
+                Emails sent
               </li>
             </ul>
           </div>
@@ -62,11 +73,12 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
               <li>
                 {{ moneyFormatter(PlanDetails.overagePrice.responses) }} /
                 {{ numberFormatter(PlanDetails.overageUnit.responses) }}
-                responses
+                Survey responses
               </li>
               <li>
                 {{ moneyFormatter(PlanDetails.overagePrice.emails) }} /
-                {{ numberFormatter(PlanDetails.overageUnit.emails) }} emails
+                {{ numberFormatter(PlanDetails.overageUnit.emails) }} Emails
+                sent
               </li>
             </ul>
             <p class="text-sm font-extralight italic">

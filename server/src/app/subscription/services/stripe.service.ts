@@ -4,13 +4,23 @@ import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import type { EnvironmentVariables } from '../../../config/types.js';
 
-import { IStripeCustomerRepo } from '../../../DAL/index.js';
+import {
+  IStripeCustomerRepo,
+  IStripeSetupNextRepo,
+} from '../../../DAL/index.js';
 
 // Entity Types
-import type { Org, OrgID } from 'domain-model';
+import type { Org, OrgID, StripeSetupNext } from 'domain-model';
 
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
+
+// Stripe Subscription Utils
+import {
+  getStandardProductPrice,
+  getMeteredProductPrice,
+  createSubsciption,
+} from './stripe.service.utils.js';
 
 /**
  * Implements a Payment Service using Stripe.
@@ -24,6 +34,7 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 export class StripeService {
   constructor(
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
+    private readonly stripeSetupNextRepo: IStripeSetupNextRepo,
     configService: ConfigService<EnvironmentVariables, true>,
   ) {
     const nodeEnv = configService.get('NODE_ENV', { infer: true });
@@ -139,7 +150,7 @@ export class StripeService {
    * to confirm setup on frontend and create a new Stripe Payment Method using
    * the collected payment info.
    */
-  async createSetupIntent(org: Org) {
+  async createSetupIntent(org: Org, stripeSetupNext: StripeSetupNext) {
     // @todo Or search from Stripe API using org.id meta data
     const stripeCustomer = await this.stripeCustomerRepo.getCustomerWithOrgID(
       org.id,
@@ -150,7 +161,7 @@ export class StripeService {
         `Org '${org.id}' does not have a Stripe Customer created.`,
       );
 
-    const { client_secret: clientSecret } =
+    const { id, client_secret: clientSecret } =
       await this.stripe.setupIntents.create({
         customer: stripeCustomer.id,
       });
@@ -158,7 +169,12 @@ export class StripeService {
     if (clientSecret === null)
       throw new Error(`Failed to get Stripe Setup Intent Client Secret.`);
 
+    // If user requested for a next action, save to DB.
+    if (stripeSetupNext !== null)
+      await this.stripeSetupNextRepo.saveOne(id, stripeSetupNext);
+
     return {
+      id,
       clientSecret,
       orgEmail: org.email,
     };

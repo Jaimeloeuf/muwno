@@ -45,7 +45,7 @@ export class SubscriptionService {
    * Wrapper around Stripe Service's `createSetupIntent` to load `Org` from the
    * requestor's `UserID`.
    */
-  async createSetupIntent(userID: UserID) {
+  async createSetupIntent(userID: UserID, stripeSetupNext: StripeSetupNext) {
     // @todo track the user's request using their ID
 
     const org = await this.orgRepo.getUserOrg(userID);
@@ -54,7 +54,7 @@ export class SubscriptionService {
         `User '${userID}' cannot setup payment method as they don't have an Org`,
       );
 
-    return this.stripeService.createSetupIntent(org);
+    return this.stripeService.createSetupIntent(org, stripeSetupNext);
   }
 
   /**

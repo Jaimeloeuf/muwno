@@ -16,6 +16,9 @@ import { GuardWithRBAC, JWT_uid, RolesRequired } from '../../../rbac/index.js';
 import { Role } from 'domain-model';
 import type { FirebaseAuthUID } from 'domain-model';
 
+// DTO Types
+import type { CreateOneStripeSetupNextDTO } from 'domain-model';
+
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -40,8 +43,20 @@ export class SubscriptionController {
    */
   @Post('stripe/create-setup-intent')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
-  async createSetupIntent(@JWT_uid userID: FirebaseAuthUID) {
-    return this.subscriptionService.createSetupIntent(userID);
+  async createSetupIntent(
+    @JWT_uid userID: FirebaseAuthUID,
+
+    /**
+     * @todo
+     * Not doing DTO validation for now since this is an internal endpoint and
+     * is too troublesome to validate this nested union type.
+     */
+    @Body() createOneStripeSetupNextDTO: CreateOneStripeSetupNextDTO,
+  ): Promise<{ id: string; clientSecret: string; orgEmail: string }> {
+    return this.subscriptionService.createSetupIntent(
+      userID,
+      createOneStripeSetupNextDTO.next,
+    );
   }
 
   /**
