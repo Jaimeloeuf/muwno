@@ -20,6 +20,7 @@ import {
 } from '../../../DAL/index.js';
 import { SubscriptionService } from '../services/subscription.service.js';
 import { StripeService } from '../services/stripe.service.js';
+import { StripeSetupintentService } from '../services/stripe-setupintent.service.js';
 
 // Entity Types
 import type {
@@ -41,6 +42,7 @@ export class StripeWebhookController {
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
     private readonly subscriptionService: SubscriptionService,
     private readonly stripeService: StripeService,
+    private readonly stripeSetupintentService: StripeSetupintentService,
 
     configService: ConfigService<EnvironmentVariables, true>,
   ) {
@@ -189,7 +191,9 @@ export class StripeWebhookController {
       // @todo Alternative, reflect next action with Stripe instead of storing it
       // setupIntentSucceededEvent.metadata;
 
-      await this.stripeService.onSetupIntentSuccess(setupIntentSucceededEvent);
+      await this.stripeSetupintentService.onSetupIntentSuccess(
+        setupIntentSucceededEvent,
+      );
     },
 
     // ===================== Activate Subscription Events =====================
