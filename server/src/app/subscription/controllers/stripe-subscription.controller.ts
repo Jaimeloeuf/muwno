@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
+import { StripeService } from '../services/stripe.service.js';
 
 import {
   GuardWithRBAC,
@@ -34,7 +35,10 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 @GuardWithRBAC()
 @UseHttpControllerFilters
 export class StripeSubscriptionController {
-  constructor(private readonly subscriptionService: SubscriptionService) {}
+  constructor(
+    private readonly subscriptionService: SubscriptionService,
+    private readonly stripeService: StripeService,
+  ) {}
 
   /**
    * Create a new Stripe Billing Portal Session and get back the session's URL
@@ -54,7 +58,7 @@ export class StripeSubscriptionController {
   async checkCouponValidity(
     @Param('couponID') couponID: string,
   ): Promise<{ valid: boolean }> {
-    return this.subscriptionService.checkCouponValidity(couponID);
+    return this.stripeService.checkCouponValidity(couponID);
   }
 
   /**

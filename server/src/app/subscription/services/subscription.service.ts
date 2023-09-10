@@ -45,13 +45,6 @@ export class SubscriptionService {
   }
 
   /**
-   * Check if a given Stripe coupon is valid.
-   */
-  async checkCouponValidity(couponID: string) {
-    return this.stripeService.checkCouponValidity(couponID);
-  }
-
-  /**
    * Wrapper around Stripe Service's `createSetupIntent` to load `Org` from the
    * requestor's `UserID`.
    */
