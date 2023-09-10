@@ -30,21 +30,12 @@ export class StripeService {
     this.stripeWebhookSecret = configService.get('STRIPE_WEBHOOK_SECRET', {
       infer: true,
     });
-
-    this.stripeReturnUrl = configService.get('STRIPE_RETURN_URL', {
-      infer: true,
-    });
   }
 
   /**
    * Hold the `STRIPE_WEBHOOK_SECRET` env var after reading it in constructor.
    */
   private readonly stripeWebhookSecret: string;
-
-  /**
-   * Hold the `STRIPE_RETURN_URL` env var after reading it in constructor.
-   */
-  private readonly stripeReturnUrl: string;
 
   /**
    * Method to verify a Stripe webhook event by checking its signature before
@@ -64,7 +55,7 @@ export class StripeService {
    *
    * https://stripe.com/docs/customer-management/integrate-customer-portal
    */
-  async createPortalSession(orgID: OrgID) {
+  async createPortalSession(orgID: OrgID, returnUrl: string) {
     const stripeCustomerID =
       await this.stripeCustomerRepo.getCustomerIDWithOrgID(orgID);
 
@@ -77,8 +68,9 @@ export class StripeService {
       customer: stripeCustomerID,
 
       // This is the url to which the customer will be redirected when they are
-      // done managing their billing with the portal.
-      return_url: this.stripeReturnUrl,
+      // done managing their billing with the portal. This URL is passed from
+      // the frontend.
+      return_url: returnUrl,
     });
 
     if (portalSession.url === null)

@@ -46,8 +46,18 @@ export class StripeSubscriptionController {
    */
   @Post('create-portal-session')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
-  async createPortalSession(@JWT_uid userID: FirebaseAuthUID): Promise<string> {
-    return this.subscriptionService.createPortalSession(userID);
+  async createPortalSession(
+    @JWT_uid userID: FirebaseAuthUID,
+
+    /**
+     * Required, but allow undefined here to ensure type is checked before using
+     */
+    @Query('returnUrl') returnUrl: string | undefined,
+  ): Promise<string> {
+    if (returnUrl === undefined)
+      throw new InvalidInputException(`Missing 'returnUrl' query param.`);
+
+    return this.subscriptionService.createPortalSession(userID, returnUrl);
   }
 
   /**

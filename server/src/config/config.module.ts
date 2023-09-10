@@ -72,12 +72,6 @@ export const ConfigModule = _ConfigModule.forRoot({
     STRIPE_WEBHOOK_SECRET: Joi.string().required(),
 
     /**
-     * Expects a base URL of portal for Stripe to redirect back to. Used mainly
-     * as the `return_url` for redirects to Stripe hosted pages.
-     */
-    STRIPE_RETURN_URL: Joi.string().required(),
-
-    /**
      * Expects the telegram bot's token.
      */
     TELE_BOT_TOKEN: Joi.string().required(),

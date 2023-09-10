@@ -2,7 +2,9 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useLoader } from "../../../store";
+import { ManageSubscriptionRoute } from "../../../router";
 import SideDrawer from "../../components/SideDrawer.vue";
+import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
 import type { Org } from "@domain-model";
 
 const orgStore = useOrg();
@@ -18,9 +20,14 @@ const orgDetails = orgStore.orgDetails ?? ({} as Org);
 async function goToBillingPortal() {
   loader.show();
 
+  /** Redirect to this route on setup success */
+  const returnUrl = encodeURIComponent(
+    getAbsoluteUrlFromRoute(ManageSubscriptionRoute.name)
+  );
+
   const { res, err } = await sf
     .useDefault()
-    .POST(`/subscription/stripe/create-portal-session`)
+    .POST(`/subscription/stripe/create-portal-session?returnUrl=${returnUrl}`)
     .useHeader(getAuthHeader)
     .runText();
 

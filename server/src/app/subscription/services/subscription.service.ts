@@ -34,7 +34,10 @@ export class SubscriptionService {
    * Create a new Stripe Billing Portal Session and get back the session's URL
    * string for client to redirect to.
    */
-  async createPortalSession(userID: UserID): Promise<string> {
+  async createPortalSession(
+    userID: UserID,
+    returnUrl: string,
+  ): Promise<string> {
     const org = await this.orgRepo.getUserOrg(userID);
     if (org === null)
       throw new InvalidInternalStateException(
@@ -43,7 +46,7 @@ export class SubscriptionService {
 
     // @todo track the user's request using their ID
 
-    return this.stripeService.createPortalSession(org.id);
+    return this.stripeService.createPortalSession(org.id, returnUrl);
   }
 
   /**

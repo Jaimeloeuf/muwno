@@ -52,12 +52,6 @@ export interface EnvironmentVariables {
   readonly STRIPE_WEBHOOK_SECRET: string;
 
   /**
-   * Base URL of portal for Stripe to redirect back to. Used mainly as the
-   * `return_url` for redirects to Stripe hosted pages.
-   */
-  readonly STRIPE_RETURN_URL: string;
-
-  /**
    * Telegram bot's token.
    */
   readonly TELE_BOT_TOKEN: string;
