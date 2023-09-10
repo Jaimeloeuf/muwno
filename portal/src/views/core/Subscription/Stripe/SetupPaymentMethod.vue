@@ -15,6 +15,7 @@ const stripe = stripeStore.stripe;
 // Create ref to hold element reference, name must match template ref value
 const paymentElement = ref<HTMLInputElement | null>(null);
 const elements = ref<StripeElements | null>(null);
+const hideForm = ref<boolean>(false);
 
 // Mount the Stripe Payment Form after the vue component is mounted.
 onMounted(async function mountStripePaymentForm() {
@@ -45,11 +46,11 @@ onMounted(async function mountStripePaymentForm() {
 });
 
 async function pay() {
-  // @todo Show loader as stripe advises to disable form to prevent resubmission
-  // @todo Disable the pay button too
-
   if (elements.value === null)
-    throw new Error("Stripe Elements is not saved and cannot be used.");
+    throw new Error("Stripe Elements is not setup and cannot be used.");
+
+  // Hide form to prevent resubmission
+  hideForm.value = true;
 
   // Trigger form validation and wallet collection
   const { error: submitError } = await elements.value.submit();
@@ -81,6 +82,8 @@ async function pay() {
     },
   });
 
+  hideForm.value = false;
+
   // This point will only be reached if there is an immediate error when
   // confirming the payment. Otherwise, your customer will be redirected to
   // `return_url` set in `confirmPayment` method. For some payment methods like
@@ -108,7 +111,12 @@ async function pay() {
 </script>
 
 <template>
-  <div class="mx-auto max-w-lg">
+  <div v-if="hideForm" class="text-4xl">
+    <p class="mb-2 text-red-700">Do not close this window!</p>
+    <p>Waiting for Stripe to verify and confirm your payment details!</p>
+  </div>
+
+  <div class="mx-auto max-w-lg" :class="{ hidden: hideForm }">
     <div class="mb-6 flex flex-row items-center justify-between">
       <div>
         <p class="text-4xl font-light">Payment</p>
