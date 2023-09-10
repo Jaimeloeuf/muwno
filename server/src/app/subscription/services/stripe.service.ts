@@ -1,30 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import Stripe from 'stripe';
 
 import { ConfigService } from '@nestjs/config';
 import type { EnvironmentVariables } from '../../../config/types.js';
 
-import {
-  IStripeCustomerRepo,
-  IStripeSetupNextRepo,
-} from '../../../DAL/index.js';
+import { Stripe } from '../infra/stripe.infra.js';
+import { IStripeCustomerRepo } from '../../../DAL/index.js';
 
 // Entity Types
 import type { Org, OrgID } from 'domain-model';
-import type { SetupIntentSucceededEventData } from '../../../types/index.js';
-
-// DTO Types
-import type { CreateOneStripeSetupNextDTO } from 'domain-model';
 
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
-
-// Stripe Subscription Utils
-import {
-  getStandardProductPrice,
-  getMeteredProductPrice,
-  createSubsciption,
-} from './stripe.service.utils.js';
 
 /**
  * Implements a Payment Service using Stripe.
@@ -37,30 +23,10 @@ import {
 @Injectable()
 export class StripeService {
   constructor(
+    private readonly stripe: Stripe,
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
-    private readonly stripeSetupNextRepo: IStripeSetupNextRepo,
     configService: ConfigService<EnvironmentVariables, true>,
   ) {
-    const nodeEnv = configService.get('NODE_ENV', { infer: true });
-    const version = configService.get('version', { infer: true });
-
-    this.stripe = new Stripe(
-      configService.get('STRIPE_SECRET_KEY', { infer: true }),
-
-      {
-        // API Version is hardcoded as updating this will usually require code
-        // update and is not just a configuration change.
-        apiVersion: '2023-08-16',
-
-        // For support and debugging (not required for production)
-        appInfo: {
-          name: `thepmftool-${nodeEnv}-${version}`,
-          version,
-          url: 'https://thepmftool.com',
-        },
-      },
-    );
-
     this.stripeWebhookSecret = configService.get('STRIPE_WEBHOOK_SECRET', {
       infer: true,
     });
@@ -69,11 +35,6 @@ export class StripeService {
       infer: true,
     });
   }
-
-  /**
-   * Hold the `Stripe` instance after creating it in constructor.
-   */
-  private readonly stripe: Stripe;
 
   /**
    * Hold the `STRIPE_WEBHOOK_SECRET` env var after reading it in constructor.
@@ -164,164 +125,5 @@ export class StripeService {
     });
 
     await this.stripeCustomerRepo.createOne(org.id, customer.id);
-  }
-
-  /**
-   * Create a new Stripe Setup Intent to get back the setup intent client secret
-   * to confirm setup on frontend and create a new Stripe Payment Method using
-   * the collected payment info.
-   */
-  async createSetupIntent(
-    org: Org,
-    createOneStripeSetupNextDTO: CreateOneStripeSetupNextDTO,
-  ) {
-    // @todo Or search from Stripe API using org.id meta data
-    const stripeCustomer = await this.stripeCustomerRepo.getCustomerWithOrgID(
-      org.id,
-    );
-
-    if (stripeCustomer === null)
-      throw new InvalidInternalStateException(
-        `Org '${org.id}' does not have a Stripe Customer created.`,
-      );
-
-    const { id, client_secret: clientSecret } =
-      await this.stripe.setupIntents.create({ customer: stripeCustomer.id });
-
-    if (clientSecret === null)
-      throw new Error(`Failed to get Stripe Setup Intent Client Secret.`);
-
-    // If user requested for a next action, save to DB.
-    if (createOneStripeSetupNextDTO.next !== null)
-      await this.stripeSetupNextRepo.saveOne(
-        id,
-        createOneStripeSetupNextDTO.next,
-      );
-
-    return {
-      id,
-      clientSecret,
-      orgEmail: org.email,
-    };
-  }
-
-  /**
-   * Handle SetupIntent success webhook event by attaching the newly created
-   * payment method as the customer's default payment method and executing any
-   * `StripeSetupNext` actions stored by the user during `createSetupIntent`.
-   */
-  async onSetupIntentSuccess(setupIntent: SetupIntentSucceededEventData) {
-    // Attach payment method as customer's default payment method, so that when
-    // creating subscriptions for them, it will automatically use this payment
-    // method instead of having to explicitly pass in a payment method.
-    await this.stripe.customers.update(setupIntent.customer, {
-      invoice_settings: { default_payment_method: setupIntent.payment_method },
-    });
-
-    // Read from DB to see if user requested for any Next actions to be executed
-    // on Stripe Setup Intent successfully completing.
-    const stripeSetupNextAction = await this.stripeSetupNextRepo.getOne(
-      setupIntent.id,
-    );
-
-    // If no StripeSetupNext action requested by user, end this method.
-    if (stripeSetupNextAction === null) {
-      return;
-    }
-
-    // If user requested for Standard Plan subscription to be created
-    else if (stripeSetupNextAction.success.intent === 'create-subscription') {
-      await this.buySubscription(
-        setupIntent.customer,
-        stripeSetupNextAction.success.paymentInterval,
-        stripeSetupNextAction.success.coupon,
-      );
-    }
-
-    // This should not happen since all Next action types must be accounted for.
-    else {
-      throw new Error(
-        `Invalid StripeSetupNext success intent: ${stripeSetupNextAction.success.intent}`,
-      );
-    }
-
-    // Delete stored `StripeSetupNext` once it has successfully executed.
-    await this.stripeSetupNextRepo.deleteOne(stripeSetupNextAction.id);
-  }
-
-  /**
-   * Buy subscription plans for new customer using their default payment method.
-   */
-  async buySubscription(
-    stripeCustomerID: string,
-    paymentInterval: 'yearly' | 'monthly',
-    coupon: null | string,
-  ) {
-    await this.buyStandardSubscription(
-      stripeCustomerID,
-      paymentInterval,
-      coupon,
-    );
-
-    await this.buyMeteredSubscription(stripeCustomerID);
-  }
-
-  private async buyStandardSubscription(
-    stripeCustomerID: string,
-    paymentInterval: 'yearly' | 'monthly',
-    coupon: null | string,
-  ) {
-    const standardProductPrice = await getStandardProductPrice(
-      this.stripe,
-      paymentInterval,
-    );
-
-    const standardProductSubscription = await createSubsciption(
-      this.stripe,
-      stripeCustomerID,
-      [standardProductPrice],
-      coupon,
-    );
-
-    // @todo This might happen if 3DS requires user action and subscription becomes incomplete
-    if (standardProductSubscription.status !== 'active')
-      throw new Error(
-        `Subscription '${standardProductSubscription.id}' did not succeed: '${standardProductSubscription.status}'`,
-      );
-
-    console.log(
-      'Standard Product Subscription Created',
-      standardProductSubscription,
-    );
-
-    // @todo Save to Subscriptions table as Orgs can have more than 1 subscription
-    standardProductSubscription.id;
-  }
-
-  private async buyMeteredSubscription(stripeCustomerID: string) {
-    const meteredProductPrice = await getMeteredProductPrice(this.stripe);
-
-    const meteredProductSubscription = await createSubsciption(
-      this.stripe,
-      stripeCustomerID,
-      meteredProductPrice,
-
-      // Coupon only applies to the 'Standard' product so this is always null
-      null,
-    );
-
-    // @todo This might happen if 3DS requires user action and subscription becomes incomplete
-    if (meteredProductSubscription.status !== 'active')
-      throw new Error(
-        `Subscription '${meteredProductSubscription.id}' did not succeed: '${meteredProductSubscription.status}'`,
-      );
-
-    console.log(
-      'Metered Product Subscription Created',
-      meteredProductSubscription,
-    );
-
-    // @todo Save to Subscriptions table as Orgs can have more than 1 subscription
-    meteredProductSubscription.id;
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { IOrgRepo, ISubscriptionRepo } from '../../../DAL/index.js';
 import { StripeService } from './stripe.service.js';
+import { StripeSetupintentService } from './stripe-setupintent.service.js';
 
 // Entity Types
 import type { UserID, OrgID } from 'domain-model';
@@ -26,6 +27,7 @@ export class SubscriptionService {
     private readonly orgRepo: IOrgRepo,
     private readonly subscriptionRepo: ISubscriptionRepo,
     private readonly stripeService: StripeService,
+    private readonly stripeSetupintentService: StripeSetupintentService,
   ) {}
 
   /**
@@ -60,7 +62,7 @@ export class SubscriptionService {
         `User '${userID}' cannot setup payment method as they don't have an Org`,
       );
 
-    return this.stripeService.createSetupIntent(
+    return this.stripeSetupintentService.createSetupIntent(
       org,
       createOneStripeSetupNextDTO,
     );
