@@ -10,6 +10,7 @@ import { StripeSubscriptionService } from './services/stripe-subscription.servic
 import { StripeService } from './services/stripe.service.js';
 
 // Controllers
+import { SubscriptionController } from './controllers/subscription.controller.js';
 import { StripeSubscriptionController } from './controllers/stripe-subscription.controller.js';
 import { StripeWebhookController } from './controllers/stripe-webhook.controller.js';
 
@@ -22,7 +23,11 @@ import { StripeWebhookController } from './controllers/stripe-webhook.controller
     SubscriptionService,
   ],
 
-  controllers: [StripeSubscriptionController, StripeWebhookController],
+  controllers: [
+    SubscriptionController,
+    StripeSubscriptionController,
+    StripeWebhookController,
+  ],
 
   // Export these services so other modules can use these
   exports: [StripeService],

@@ -10,6 +10,15 @@ import type { OrgID } from 'domain-model';
 export class SubscriptionRepo implements ISubscriptionRepo {
   constructor(private readonly db: PrismaService) {}
 
+  async isSubscribed(orgID: OrgID) {
+    return this.db.org
+      .findUnique({
+        where: { id: orgID },
+        select: { subscribed: true },
+      })
+      .then((org) => org?.subscribed ?? false);
+  }
+
   async activateSubscription(orgID: OrgID) {
     await this.db.org.update({
       where: { id: orgID },

@@ -72,6 +72,13 @@ export class SubscriptionService {
   }
 
   /**
+   * Check if the `Org` is subscribed.
+   */
+  async isSubscribed(orgID: OrgID) {
+    return this.subscriptionRepo.isSubscribed(orgID);
+  }
+
+  /**
    * Activate the `Org`'s subscription.
    */
   async activateSubscription(orgID: OrgID): Promise<void> {
