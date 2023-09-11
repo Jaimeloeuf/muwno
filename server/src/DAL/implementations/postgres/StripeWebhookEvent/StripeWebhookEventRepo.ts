@@ -14,7 +14,7 @@ export class StripeWebhookEventRepo implements IStripeWebhookEventRepo {
   async isUnprocessed(id: string, type: string, livemode: boolean) {
     return (
       this.db.stripe_webhook_event
-        .create({ data: { id, type, livemode } })
+        .create({ data: { id, type, livemode, processed: false } })
 
         // Cast to true on success to indicate that the event is unprocessed.
         .then(() => true)
@@ -35,5 +35,12 @@ export class StripeWebhookEventRepo implements IStripeWebhookEventRepo {
           throw err;
         })
     );
+  }
+
+  async markAsProcessed(id: string) {
+    await this.db.stripe_webhook_event.update({
+      where: { id },
+      data: { processed: true },
+    });
   }
 }

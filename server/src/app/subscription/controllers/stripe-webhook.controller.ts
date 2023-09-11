@@ -151,6 +151,10 @@ export class StripeWebhookController {
     // handler with the event object and await for completion before returning.
     if (eventHandler !== undefined) {
       await eventHandler(event);
+
+      // Once event handler exits and did not throw, event is assumed to be
+      // fully handled/processed, mark it in the DB for diagnostics.
+      await this.stripeWebhookEventRepo.markAsProcessed(event.id);
     }
 
     // If no event handler is registered for the event.type but Stripe is
@@ -162,10 +166,6 @@ export class StripeWebhookController {
         `Unhandled '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
         StripeWebhookController.name,
       );
-
-      // @todo
-      // Update DB to mark this event as unhandled, or perhaps set as unhandled
-      // by default then mark it as handled/processed after processing event.
     }
   }
 

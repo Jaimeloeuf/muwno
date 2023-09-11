@@ -12,4 +12,9 @@ export abstract class IStripeWebhookEventRepo {
     type: string,
     livemode: boolean,
   ): Promise<boolean>;
+
+  /**
+   * Mark a given Stripe Webhook Event as processed.
+   */
+  abstract markAsProcessed(id: string): Promise<void>;
 }
