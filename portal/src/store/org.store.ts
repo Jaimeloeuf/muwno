@@ -46,9 +46,16 @@ export const useOrg = defineStore("org", {
 
   actions: {
     /**
-     * Load Org Details of the org the currently logged in user belongs to.
+     * Get Org Details of the org the currently logged in user belongs to. Org
+     * details will be cached for the current session till a refresh or if force
+     * reload flag passed in.
      */
-    async loadOrg() {
+    async getOrg(forceRefresh = false) {
+      // If user did not ask for a forced refresh, and `orgDetails` is already
+      // cached, return it immediately.
+      if (!forceRefresh && this.orgDetails !== undefined)
+        return this.orgDetails;
+
       const { res, err } = await sf
         .useDefault()
         .GET("/org/self")
@@ -59,6 +66,8 @@ export const useOrg = defineStore("org", {
       if (!res.ok) throw new Error("Failed to load Org data");
 
       this.orgDetails = res.data.org;
+
+      return res.data.org;
     },
 
     /**

@@ -2,19 +2,21 @@
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
-import { useOrg } from "../../../../store";
+import { useStripe, useOrg } from "../../../../store";
 import { AllProductRoute } from "../../../../router";
 
 const router = useRouter();
 const orgStore = useOrg();
 
 async function isSubscribed() {
-  if (orgStore.orgDetails?.id === undefined)
+  const orgDetails = await orgStore.getOrg();
+
+  if (orgDetails.id === undefined)
     throw new Error(`Cannot check subscription status as Org cant be loaded`);
 
   const { res, err } = await sf
     .useDefault()
-    .GET(`/subscription/status/${orgStore.orgDetails?.id}`)
+    .GET(`/subscription/status/${orgDetails.id}`)
     .useHeader(getAuthHeader)
     .runJSON<{ subscribed: boolean }>();
 

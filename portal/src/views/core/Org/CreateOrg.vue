@@ -12,9 +12,6 @@ const loaderStore = useLoader();
 const name = ref("");
 const orgEmail = ref(userStore.user.email); // Defaults to the Org Owner's email
 
-// If user already have an organisation redirect to Org home view.
-if (orgStore.orgDetails !== undefined) router.push({ name: OrgRoute.name });
-
 async function createOrg() {
   // Check inputs
   if (name.value === "")

@@ -1,5 +1,3 @@
-import { useOrg } from "./org.store";
-
 /**
  * Use this function to initialize all stores that needs
  * to run their init method after login is successful.
@@ -8,7 +6,7 @@ export async function initStoresOnLoginSuccess(): Promise<void> {
   console.log(`Running initStoresOnLoginSuccess`);
 
   // Run all of these initializations without any particular order
-  await Promise.all([useOrg().loadOrg(), useOrg().loadProducts()]);
+  await Promise.all([]);
 }
 
 /**
@@ -21,5 +19,5 @@ export async function initStoresOnAppStartIfLoggedIn(): Promise<void> {
   console.log(`Running initStoresOnAppStartIfLoggedIn`);
 
   // Run all of these initializations without any particular order
-  await Promise.all([useOrg().loadOrg(), useOrg().loadProducts()]);
+  await Promise.all([]);
 }

@@ -5,17 +5,11 @@ import { useOrg, useLoader } from "../../../store";
 import { ManageSubscriptionRoute } from "../../../router";
 import SideDrawer from "../../components/SideDrawer.vue";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
-import type { Org } from "@domain-model";
 
 const orgStore = useOrg();
 const loader = useLoader();
 
-// Load details just in case it doesnt exist to prevent this from breaking.
-await orgStore.loadOrg();
-
-// Type cast here to ensure that the template types work
-// Since there will be runtime check to ensure that it will not be ran.
-const orgDetails = orgStore.orgDetails ?? ({} as Org);
+const orgDetails = await orgStore.getOrg();
 
 async function goToBillingPortal() {
   loader.show();

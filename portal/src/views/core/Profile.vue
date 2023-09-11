@@ -6,8 +6,7 @@ import { type Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();
 
-const orgDetails = orgStore.orgDetails;
-
+const orgDetails = await orgStore.getOrg();
 const userJWT = await auth.currentUser?.getIdTokenResult();
 </script>
 
