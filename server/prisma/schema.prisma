@@ -213,9 +213,8 @@ model stripe_customer {
   iid Int @id @default(autoincrement())
 
   // Stripe's unique customer ID
-  id             String   @unique
-  createdAt      DateTime @default(now())
-  subscriptionID String?
+  id        String   @unique
+  createdAt DateTime @default(now())
 
   // Relationship: ONE Stripe Customer, is created for ONE (each) paying Organisation
   org   org    @relation(fields: [orgID], references: [id])
