@@ -26,7 +26,7 @@ interface State {
   orgDetails: Org | undefined;
 
   /**
-   * A mapping of all products of the user's org
+   * A map used to cache Product Entity objects once they are loaded.
    */
   products: Products;
 }
@@ -39,10 +39,6 @@ export const useOrg = defineStore("org", {
     orgDetails: undefined,
     products: {},
   }),
-
-  getters: {
-    productsArray: (state) => Object.values(state.products),
-  },
 
   actions: {
     /**
@@ -90,9 +86,9 @@ export const useOrg = defineStore("org", {
     },
 
     /**
-     * Load all the Products of the user's org
+     * Get all Products of the user's org
      */
-    async loadProducts() {
+    async getAllProducts() {
       const { res, err } = await sf
         .useDefault()
         .GET(`/product/all/self`)
@@ -102,7 +98,10 @@ export const useOrg = defineStore("org", {
       if (err) throw err;
       if (!res.ok) throw new Error("Failed to load Org data");
 
+      // Also caches this fully as a nice side effect
       this.products = res.data.products;
+
+      return Object.values(res.data.products);
     },
 
     /**

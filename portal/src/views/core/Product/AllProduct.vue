@@ -7,7 +7,7 @@ import PMFLiveScoreCard from "./PMFLiveScoreCard.vue";
 const orgStore = useOrg();
 
 const orgDetails = await orgStore.getOrg();
-await orgStore.loadProducts();
+const products = await orgStore.getAllProducts();
 </script>
 
 <template>
@@ -16,9 +16,7 @@ await orgStore.loadProducts();
       <SideDrawer />
       <span class="ml-4 text-4xl">
         Products
-        <span class="font-extralight">
-          ({{ orgStore.productsArray.length }})
-        </span>
+        <span class="font-extralight"> ({{ products.length }}) </span>
         of <span class="font-medium">{{ orgDetails.name }}</span>
       </span>
     </div>
@@ -29,9 +27,8 @@ await orgStore.loadProducts();
           :to="{ name: AddProductRoute.name }"
           class="m-6 inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 p-8"
           :class="{
-            'bg-white text-green-600 hover:bg-gray-100':
-              orgStore.productsArray.length !== 0,
-            'bg-green-600 text-white': orgStore.productsArray.length === 0,
+            'bg-white text-green-600 hover:bg-gray-100': products.length !== 0,
+            'bg-green-600 text-white': products.length === 0,
           }"
         >
           <p class="text-4xl">Add a Product</p>
@@ -54,7 +51,7 @@ await orgStore.loadProducts();
         </router-link>
 
         <router-link
-          v-for="product in orgStore.productsArray"
+          v-for="product in products"
           :key="product.id"
           :to="{ name: ProductRoute.name, params: { productID: product.id } }"
           class="m-6 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
