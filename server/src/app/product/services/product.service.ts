@@ -66,6 +66,19 @@ export class ProductService {
   }
 
   /**
+   * Get a single product the user can access.
+   */
+  async getProduct(userID: UserID, productID: ProductID): Promise<Product> {
+    const product = await this.productRepo.getProduct(userID, productID);
+    if (product === null)
+      throw new NotFoundException(
+        `Product with ProductID '${productID}' does not exist.`,
+      );
+
+    return product;
+  }
+
+  /**
    * Get all products of an Org.
    */
   async getOrgProducts(orgID: OrgID): Promise<Products> {

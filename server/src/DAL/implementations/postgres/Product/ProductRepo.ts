@@ -14,6 +14,9 @@ import type {
 // Mappers
 import { mapProductModelToEntity, mapProductModelsToEntity } from './mapper.js';
 
+// Utils
+import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
+
 @Injectable()
 export class ProductRepo implements IProductRepo {
   constructor(private readonly db: PrismaService) {}
@@ -47,6 +50,27 @@ export class ProductRepo implements IProductRepo {
       })
       .then((user) => user?.org?.product)
       .then((products) => products !== undefined);
+  }
+
+  async getProduct(userID: UserID, productID: ProductID) {
+    // Load product with productID only if user can access it.
+    return this.db.user
+      .findUnique({
+        where: { id: userID },
+
+        select: {
+          org: {
+            select: {
+              product: {
+                where: { id: productID },
+              },
+            },
+          },
+        },
+      })
+      .then((user) => user?.org?.product)
+      .then(runMapperIfNotNull((products) => products[0]))
+      .then(runMapperIfNotNull(mapProductModelToEntity));
   }
 
   async getOrgProducts(orgID: OrgID) {

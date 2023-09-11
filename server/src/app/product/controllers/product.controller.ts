@@ -39,6 +39,20 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   /**
+   * Get a single product the user can access.
+   */
+  @Get(':productID')
+  @AllowAllRoles
+  async getProduct(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Param('productID') productID: ProductID,
+  ): Promise<ReadOneProductDTO> {
+    return this.productService
+      .getProduct(userID, productID)
+      .then((product) => ({ product }));
+  }
+
+  /**
    * Get all products of the user's org
    */
   @Get('all/self')

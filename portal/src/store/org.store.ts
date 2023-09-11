@@ -106,15 +106,28 @@ export const useOrg = defineStore("org", {
     },
 
     /**
-     * Get Product object of given `ProductID`
+     * Get Product, it will be cached for the current session till a refresh or
+     * if force reload flag passed in.
      */
-    getProduct(ProductID: ProductID) {
-      const Product = this.products[ProductID];
+    async getProduct(productID: ProductID, forceRefresh = false) {
+      const product = this.products[productID];
 
-      if (Product === undefined)
-        throw new Error("Invalid Product ID used while loading product");
+      // If user did not ask for a forced refresh, and `product` is already
+      // cached, return it immediately.
+      if (!forceRefresh && product !== undefined) return product;
 
-      return Product;
+      const { res, err } = await sf
+        .useDefault()
+        .GET(`/product/${productID}`)
+        .useHeader(getAuthHeader)
+        .runJSON<ReadOneProductDTO>();
+
+      if (err) throw err;
+      if (!res.ok) throw new Error("Failed to load Org data");
+
+      this.products[productID] = res.data.product;
+
+      return res.data.product;
     },
 
     /**

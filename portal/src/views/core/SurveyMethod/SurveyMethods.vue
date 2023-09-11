@@ -8,7 +8,7 @@ const props = defineProps<{ productID: ProductID }>();
 
 const orgStore = useOrg();
 
-const product = orgStore.getProduct(props.productID);
+const product = await orgStore.getProduct(props.productID);
 </script>
 
 <template>

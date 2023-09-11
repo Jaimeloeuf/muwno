@@ -28,6 +28,14 @@ export abstract class IProductRepo {
   ): Promise<boolean>;
 
   /**
+   * Get a single product the user can access.
+   */
+  abstract getProduct(
+    userID: UserID,
+    productID: ProductID,
+  ): Promise<null | Product>;
+
+  /**
    * Get all products of an Org.
    */
   abstract getOrgProducts(orgID: OrgID): Promise<Products>;
