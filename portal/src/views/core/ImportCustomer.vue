@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useOrg } from "../../store";
 import { ProductRoute } from "../../router";
 import SideDrawer from "../components/SideDrawer.vue";
 import type { ProductID } from "@domain-model";
@@ -8,7 +7,6 @@ import type { ProductID } from "@domain-model";
 const props = defineProps<{ productID: ProductID }>();
 
 const router = useRouter();
-const orgStore = useOrg();
 
 // Generate relative CSV url as cannot load from the URL directly in template.
 const customerTemplateUrl = new URL(
@@ -23,10 +21,6 @@ const goProductView = () =>
   });
 
 async function parseUsers() {
-  // @todo Call store method
-  // orgStore.importUsers()
-  orgStore;
-
   goProductView();
 }
 </script>

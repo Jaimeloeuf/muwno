@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useOrg, useLoader } from "../../../store";
+import { useProduct, useLoader } from "../../../store";
 import { ProductRoute } from "../../../router";
 import SideDrawer from "../../components/SideDrawer.vue";
 
 const router = useRouter();
-const orgStore = useOrg();
+const productStore = useProduct();
 const loaderStore = useLoader();
 
 const name = ref<string>("");
@@ -16,7 +16,7 @@ async function addProduct() {
 
   loaderStore.show();
 
-  const { id } = await orgStore.createNewProduct(name.value);
+  const { id } = await productStore.createNewProduct(name.value);
 
   router.push({ name: ProductRoute.name, params: { productID: id } });
 

@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useOrg } from "../../store";
+import { useProduct } from "../../store";
 import SideDrawer from "../components/SideDrawer.vue";
 import { getDateString } from "../../utils/date-formatting/getDateString";
 import type {
@@ -14,9 +14,9 @@ import type {
 
 const props = defineProps<{ productID: ProductID }>();
 
-const orgStore = useOrg();
+const productStore = useProduct();
 
-const product = await orgStore.getProduct(props.productID);
+const product = await productStore.getProduct(props.productID);
 
 async function getApiKeyDetails() {
   const { res, err } = await sf

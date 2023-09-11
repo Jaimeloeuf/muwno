@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { useOrg } from "../../../store";
+import { useOrg, useProduct } from "../../../store";
 import { ProductRoute, AddProductRoute } from "../../../router";
 import SideDrawer from "../../components/SideDrawer.vue";
 import PMFLiveScoreCard from "./PMFLiveScoreCard.vue";
 
 const orgStore = useOrg();
+const productStore = useProduct();
 
 const orgDetails = await orgStore.getOrg();
-const products = await orgStore.getAllProducts();
+const products = await productStore.getAllProducts();
 </script>
 
 <template>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useOrg } from "../../../store";
+import { useProduct } from "../../../store";
 import BackButton from "../../components/BackButton.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
 import { type ProductID, SurveyMethodsArray } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 
-const orgStore = useOrg();
+const productStore = useProduct();
 
-const product = await orgStore.getProduct(props.productID);
+const product = await productStore.getProduct(props.productID);
 </script>
 
 <template>

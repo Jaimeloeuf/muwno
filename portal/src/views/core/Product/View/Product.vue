@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useOrg } from "../../../../store";
+import { useProduct } from "../../../../store";
 import SideDrawer from "../../../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "../PMFLiveScoreCard.vue";
@@ -12,8 +12,8 @@ import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 
-const orgStore = useOrg();
-const product = await orgStore.getProduct(props.productID);
+const productStore = useProduct();
+const product = await productStore.getProduct(props.productID);
 
 // Auto refresh runs once every 24 hours.
 // This is a quick and easy but ugly way to do it by reloading the entire page.
