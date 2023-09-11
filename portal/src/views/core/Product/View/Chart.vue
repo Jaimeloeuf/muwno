@@ -30,7 +30,7 @@ const props = defineProps<{ product: Product; intervals: number }>();
 const { res, err } = await sf
   .useDefault()
   .GET(
-    `/product/PMF/range/${props.product.id}/?intervals=${
+    `/pmf/range/${props.product.id}/?intervals=${
       props.intervals
     }&intervalType=${"week"}`
   )

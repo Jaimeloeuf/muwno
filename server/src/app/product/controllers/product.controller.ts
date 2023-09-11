@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Query,
-  ParseIntPipe,
-  Post,
-  Body,
-} from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
@@ -16,12 +8,7 @@ import { GuardWithRBAC, AllowAllRoles, JWT_uid } from '../../../rbac/index.js';
 import type { FirebaseAuthUID, ProductID } from 'domain-model';
 
 // DTO Types
-import type {
-  ReadOneProductDTO,
-  ReadManyProductDTO,
-  ReadOnePMFScoreDTO,
-  ReadManyPMFScoreDTO,
-} from 'domain-model';
+import type { ReadOneProductDTO, ReadManyProductDTO } from 'domain-model';
 
 // DTO Validators
 import { ValidatedCreateOneProductDTO } from '../dto-validation/ValidatedCreateOneProductDTO.js';
@@ -77,34 +64,5 @@ export class ProductController {
     return this.productService
       .createProduct(userID, createOneProductDTO)
       .then((product) => ({ product }));
-  }
-
-  /**
-   * Get the live PMF score of a rolling time window.
-   */
-  @Get('PMF/live/:productID')
-  @AllowAllRoles
-  async getPMFLiveScore(
-    @Param('productID') productID: ProductID,
-  ): Promise<ReadOnePMFScoreDTO> {
-    return this.productService
-      .getPMFLiveScore(productID)
-      .then((score) => ({ score }));
-  }
-
-  /**
-   * Get PMF score of all time periods within the selected time range.
-   */
-  @Get('PMF/range/:productID')
-  @AllowAllRoles
-  async getPMFScoresOfSelectedRange(
-    @Param('productID') productID: ProductID,
-
-    @Query('intervals', ParseIntPipe) intervals: number,
-    @Query('intervalType') intervalType: string,
-  ): Promise<ReadManyPMFScoreDTO> {
-    return this.productService
-      .getPMFScoresOfSelectedRange(productID, intervals, intervalType)
-      .then((score) => ({ score }));
   }
 }

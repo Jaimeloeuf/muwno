@@ -7,7 +7,7 @@ const props = defineProps<{ productID: ProductID }>();
 
 const { res, err } = await sf
   .useDefault()
-  .GET(`/product/PMF/live/${props.productID}`)
+  .GET(`/pmf/live/${props.productID}`)
   .useHeader(getAuthHeader)
   .runJSON<ReadOnePMFScoreDTO>();
 
