@@ -1,5 +1,5 @@
 import { createNewRouter } from "./CreateNewRouter";
-import { LoginRoute, OrgRoute } from "./index";
+import { LoginRoute, AllProductRoute } from "./index";
 import { auth } from "../firebase";
 
 /**
@@ -13,6 +13,6 @@ const firebaseAuthPredicate = () => auth.currentUser !== null;
  */
 export const router = createNewRouter(
   LoginRoute.name,
-  OrgRoute.name,
+  AllProductRoute.name,
   firebaseAuthPredicate
 );

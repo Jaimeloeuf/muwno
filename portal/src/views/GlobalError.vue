@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OrgRoute } from "../router";
+import { AllProductRoute } from "../router";
 
 defineProps<{ globalError: Error }>();
 
@@ -50,7 +50,7 @@ defineEmits(["acknowledged"]);
           </button>
 
           <router-link
-            :to="{ name: OrgRoute.name }"
+            :to="{ name: AllProductRoute.name }"
             class="rounded-lg bg-slate-200 px-6 py-2 text-xl text-gray-500"
           >
             Home

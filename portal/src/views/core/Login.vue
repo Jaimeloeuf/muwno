@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLoader, useUserStore } from "../../store";
-import { OrgRoute, OnboardingRoute, SignupRoute } from "../../router";
+import { AllProductRoute, OnboardingRoute, SignupRoute } from "../../router";
 
 const router = useRouter();
 const loader = useLoader();
@@ -27,7 +27,7 @@ async function login() {
     // If user does not have an Org, means they did not complete onboarding flow,
     // route them to continue with onboarding, else route them to Org home page.
     if (user.orgID === undefined) router.push({ name: OnboardingRoute.name });
-    else router.push({ name: OrgRoute.name });
+    else router.push({ name: AllProductRoute.name });
   } catch (error: any) {
     // If Login succeeded but initialisation failed, user should be logged out
     // instead of allowing them to access the UI on refreshing the app since the
