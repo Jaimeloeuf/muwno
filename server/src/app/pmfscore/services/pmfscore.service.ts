@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { IProductRepo } from '../../../DAL/index.js';
+import { IPmfscoreRepo } from '../../../DAL/index.js';
 import { ProductService } from '../../product/services/product.service.js';
 
 // Entity Types
@@ -16,7 +16,7 @@ import { isValidIntervalType } from 'domain-model';
 @Injectable()
 export class PmfscoreService {
   constructor(
-    private readonly productRepo: IProductRepo,
+    private readonly pmfscoreRepo: IPmfscoreRepo,
     private readonly productService: ProductService,
   ) {}
 
@@ -36,7 +36,7 @@ export class PmfscoreService {
     // End is just right now since it is a rolling window
     const end = new Date().toISOString();
 
-    return this.productRepo.PMFScoreOfPeriod(
+    return this.pmfscoreRepo.PMFScoreOfPeriod(
       productID,
       startOfRollingWindow,
       end,
@@ -68,7 +68,7 @@ export class PmfscoreService {
     // -1 to prevent having 1 more interval since this counts down to 0
     for (let i = intervals - 1; i >= 0; i--) {
       const { start, end } = intervalDates(i, intervalType);
-      scores.push(this.productRepo.PMFScoreOfPeriod(productID, start, end));
+      scores.push(this.pmfscoreRepo.PMFScoreOfPeriod(productID, start, end));
     }
 
     return Promise.all(scores);

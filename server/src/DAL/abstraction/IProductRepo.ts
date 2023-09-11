@@ -4,8 +4,6 @@ import type {
   Products,
   ProductID,
   Product,
-  PMFScore,
-  ISODateTimeString,
   CreateOneProductDTO,
 } from 'domain-model';
 
@@ -52,13 +50,4 @@ export abstract class IProductRepo {
     orgID: OrgID,
     createOneProductDTO: CreateOneProductDTO,
   ): Promise<Product>;
-
-  /**
-   * Get PMF score of the given time period.
-   */
-  abstract PMFScoreOfPeriod(
-    productID: ProductID,
-    start: ISODateTimeString,
-    end: ISODateTimeString,
-  ): Promise<PMFScore>;
 }
