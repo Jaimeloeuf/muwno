@@ -76,8 +76,7 @@ export class FeedbackService {
       // Use 1 indexed serial ID
       id: index + 1,
       'Survey Response Time': response.createdAt.toISOString(),
-      // Type casting is safe here since it is validated before writing to DB
-      [q1Header]: a1WordMapping[response.a1 as keyof typeof a1WordMapping],
+      [q1Header]: a1WordMapping[response.a1],
       [q2Header]: response.a2,
       [q3Header]: response.a3,
       [q4Header]: response.a4,

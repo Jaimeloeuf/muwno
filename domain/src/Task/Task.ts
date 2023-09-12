@@ -13,6 +13,7 @@ export type Task = {
   productID: ProductID;
   responseID: FeedbackResponseID;
   createdAt: ISODateTimeString;
+  score: 1 | 2 | 3;
   task: string;
   done: boolean;
 };

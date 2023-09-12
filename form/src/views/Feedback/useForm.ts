@@ -48,7 +48,7 @@ export async function useForm(formID: string) {
         // Type cast here is safe because the caller should do input validation
         // for `a1` before calling this function since this function will not be
         // awaited for by the caller so it cannot rely on this function to check.
-        a1: a1.value as number,
+        a1: a1.value as 1 | 2 | 3,
         a2: a2.value,
         a3: a3.value,
         a4: a4.value,

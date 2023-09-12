@@ -6,7 +6,7 @@ import type {
   FeedbackResponseID,
 } from 'domain-model';
 
-type DBFeedbackResponse = Omit<
+export type DBFeedbackResponse = Omit<
   FeedbackResponse,
   'id' | 'productID' | 'createdAt'
 > & { createdAt: Date };

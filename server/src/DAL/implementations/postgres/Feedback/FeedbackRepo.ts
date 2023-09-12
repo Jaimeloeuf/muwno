@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import type { IFeedbackRepo } from '../../../abstraction/index.js';
+import type {
+  IFeedbackRepo,
+  DBFeedbackResponse,
+} from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
 import type { CreateOneFeedbackResponseDTO, ProductID } from 'domain-model';
@@ -26,14 +29,17 @@ export class FeedbackRepo implements IFeedbackRepo {
 
   async getResponses(productID: ProductID) {
     return this.db.pmf_survey_responses.findMany({
-      select: { a1: true, a2: true, a3: true, createdAt: true, a4: true },
+      select: { createdAt: true, a1: true, a2: true, a3: true, a4: true },
       where: {
         productID,
       },
 
       // Limit up to 10 thousand rows each time
       take: 10000,
-    });
+
+      // Type casting here is safe since only type casting a1's value from
+      // number to the specific values 1, 2, 3.
+    }) as Promise<Array<DBFeedbackResponse>>;
   }
 
   async saveOneResponse(

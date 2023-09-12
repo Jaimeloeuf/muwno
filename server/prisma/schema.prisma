@@ -153,6 +153,7 @@ model task {
   // Unique random string ID as the taskID
   id        String   @unique @default(cuid())
   createdAt DateTime @default(now())
+  score     Int
   task      String
   done      Boolean  @default(false)
 

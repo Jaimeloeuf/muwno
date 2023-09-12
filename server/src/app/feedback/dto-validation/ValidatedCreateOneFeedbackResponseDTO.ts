@@ -19,7 +19,7 @@ export class ValidatedCreateOneFeedbackResponseDTO
   @IsNumber()
   @IsIn([1, 2, 3])
   @IsNotEmpty()
-  readonly a1!: number;
+  readonly a1!: 1 | 2 | 3;
 
   @IsString()
   @MaxLength(500)

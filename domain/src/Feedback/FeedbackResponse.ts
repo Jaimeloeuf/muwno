@@ -7,7 +7,7 @@ export interface FeedbackResponse {
   id: number;
   createdAt: ISODateTimeString;
   productID: string;
-  a1: number;
+  a1: 1 | 2 | 3;
   a2: string;
   a3: string;
   a4: string;

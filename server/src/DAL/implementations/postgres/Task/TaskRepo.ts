@@ -31,9 +31,14 @@ export class TaskRepo implements ITaskRepo {
           done: false,
         },
 
-        // Get the oldest task first, so the task list will not keep changing
-        // unless the user actually marks the oldest task as done.
-        orderBy: { createdAt: 'asc' },
+        orderBy: {
+          // Get the oldest task first, so the task list will not keep changing
+          // unless the user actually marks the oldest task as done.
+          createdAt: 'asc',
+
+          // Sort by task with highest score first.
+          score: 'desc',
+        },
 
         take: count,
       })

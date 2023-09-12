@@ -41,7 +41,12 @@ export class TaskService {
 
     const taskString = await this.aiService.getActionableTask(customerFeedback);
 
-    return this.taskRepo.createOne({ productID, responseID, task: taskString });
+    return this.taskRepo.createOne({
+      productID,
+      responseID,
+      task: taskString,
+      score: response.a1,
+    });
   }
 
   /**
