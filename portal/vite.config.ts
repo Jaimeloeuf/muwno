@@ -24,6 +24,11 @@ export default defineConfig(({ mode }) => ({
     },
   },
 
+  build: {
+    // Need to be at least es2022 to support top level await used for stripe.
+    target: "es2022",
+  },
+
   plugins: [
     vue(),
 
