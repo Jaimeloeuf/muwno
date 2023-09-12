@@ -4,12 +4,7 @@
 import { getDateTimeString } from "../../utils/getDateTimeString";
 
 const buildTime = getDateTimeString(__vite_inject.buildTime);
-
-// Calculate the version using git branch and commit hash
-const version =
-  __vite_inject.gitBranch +
-  " " +
-  __vite_inject.commitHash.slice(0, 6).toString();
+const version = __vite_inject.version;
 </script>
 
 <template>

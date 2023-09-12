@@ -56,7 +56,6 @@ module.exports = {
   // https://eslint.org/docs/latest/user-guide/configuring/language-options#using-configuration-files-1
   globals: {
     buildTime: "readonly",
-    commitHash: "readonly",
-    gitBranch: "readonly",
+    version: "readonly",
   },
 };

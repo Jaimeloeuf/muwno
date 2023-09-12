@@ -5,13 +5,11 @@ import basicSSL from "@vitejs/plugin-basic-ssl";
 
 import childProcess from "child_process";
 
-// Get git values to be use in the vue app
-const gitValues = {
-  commitHash: childProcess.execSync("git rev-parse HEAD").toString(),
-  gitBranch: childProcess
-    .execSync("git rev-parse --abbrev-ref HEAD")
-    .toString(),
-};
+// Create a version string using the git branch and hash
+const gitVersion =
+  childProcess.execSync("git rev-parse HEAD").toString() +
+  " " +
+  childProcess.execSync("git rev-parse --abbrev-ref HEAD").toString();
 
 // https://vitejs.dev/config/
 // https://vitejs.dev/config/#conditional-config
@@ -30,7 +28,6 @@ export default defineConfig({
   define: {
     // CI/CD build server might not be in SG, so store date as ISO string, to create a new Date object when viewing to show time in user's locale
     "__vite_inject.buildTime": JSON.stringify(new Date()),
-    "__vite_inject.commitHash": JSON.stringify(gitValues.commitHash),
-    "__vite_inject.gitBranch": JSON.stringify(gitValues.gitBranch),
+    "__vite_inject.version": JSON.stringify(gitVersion),
   },
 });

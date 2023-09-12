@@ -1,4 +1,5 @@
-// For Mono repos like this, vetur needs a config file at project root in order to find the package.json file of the vue app
+// For Monorepos, vetur needs a config file at project root in order to find the
+// package.json file of the different vue apps.
 // https://vuejs.github.io/vetur/guide/setup.html#advanced
 
 /** @type {import('vls').VeturConfig} */
@@ -15,15 +16,18 @@ module.exports = {
   projects: [
     {
       // **required**
-      // Where is your project?
-      // It is relative to `vetur.config.js`.
+      // Where is your project relative to `vetur.config.js`?
       root: "./portal",
     },
     {
       // **required**
-      // Where is your project?
-      // It is relative to `vetur.config.js`.
+      // Where is your project relative to `vetur.config.js`?
       root: "./form",
+    },
+    {
+      // **required**
+      // Where is your project relative to `vetur.config.js`?
+      root: "./landing",
     },
   ],
 };
