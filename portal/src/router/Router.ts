@@ -1,5 +1,6 @@
 import { createNewRouter } from "./CreateNewRouter";
-import { LoginRoute, AllProductRoute } from "./index";
+import { LoginRoute } from "./PublicRoutes";
+import { AllProductRoute } from "./PrivateRoutes";
 import { auth } from "../firebase";
 
 /**

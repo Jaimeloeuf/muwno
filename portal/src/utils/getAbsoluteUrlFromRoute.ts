@@ -1,8 +1,5 @@
-import {
-  router,
-  type PublicRouteNames,
-  type PrivateRouteNames,
-} from "../router";
+import { router } from "../router";
+import type { PublicRouteNames, PrivateRouteNames } from "../router";
 
 /**
  * Get an Absolute URL of the given Route object based on the current relative
