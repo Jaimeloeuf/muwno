@@ -10,12 +10,12 @@ withDefaults(defineProps<{ show?: boolean }>(), { show: true });
   <slot v-if="show" name="loaderUI">
     <!-- Default loader UI -->
     <div
-      class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center text-center"
+      class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-slate-50 bg-opacity-90 text-center"
     >
       <div>
         <svg
           aria-hidden="true"
-          class="inline h-16 w-16 animate-spin fill-lime-400 text-slate-200"
+          class="inline h-24 w-24 animate-spin fill-green-600 text-slate-200"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,9 @@ withDefaults(defineProps<{ show?: boolean }>(), { show: true });
           />
         </svg>
 
-        <p class="mt-2 text-xl font-medium">... loading ...</p>
+        <p class="mt-12 bg-slate-50 p-2 text-4xl font-medium">
+          ... loading ...
+        </p>
       </div>
     </div>
   </slot>

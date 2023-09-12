@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
+import { useLoader } from "../../../../../store";
 import { getAuthHeader } from "../../../../../firebase";
 import { downloadFile } from "../../../../../utils/downloadFile";
 import type { Product } from "@domain-model";
 
 const props = defineProps<{ product: Product }>();
 
+const loader = useLoader();
+
 async function downloadRawResponseCSV() {
+  loader.show();
+
   const { res, err } = await sf
     .useDefault()
     // @todo Use URL query params to specify what to download, i.e. date range, number of records etc etc...
@@ -16,6 +21,8 @@ async function downloadRawResponseCSV() {
 
   if (err) throw err;
   if (!res.ok) throw new Error(`Fail to download ${JSON.stringify(res)}`);
+
+  loader.hide();
 
   downloadFile(
     // @todo urlencode name to ensure it can be saved by removing special characters

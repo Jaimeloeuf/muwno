@@ -9,8 +9,10 @@ import Loader from "./views/components/Loader.vue";
 const router = useRouter();
 const loader = useLoader();
 
-const globalError = ref<Error | undefined>(undefined);
-onErrorCaptured((e) => (globalError.value = e as any));
+const globalError = ref<Error | null>(null);
+onErrorCaptured((e) => {
+  globalError.value = e;
+});
 
 /**
  * Clear the global error flag and navigate to the last working page.
@@ -32,13 +34,13 @@ function clearError() {
   // The 100 milliseconds timeout value is arbitrary, it needs to be long
   // enough for the router-back update to take effect but not too long that it
   // seems like the clear error action froze, and 100ms is a good in between.
-  setTimeout(() => (globalError.value = undefined), 100);
+  setTimeout(() => (globalError.value = null), 100);
 }
 </script>
 
 <template>
   <GlobalErrorView
-    v-if="globalError"
+    v-if="globalError !== null"
     :global-error="globalError"
     @acknowledged="clearError"
   />
@@ -77,9 +79,10 @@ function clearError() {
           https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
           https://caniuse.com/css-display-contents
         -->
+        <!-- Ensure UI always centered and limited to a width even in desktop mode -->
         <div class="mx-auto max-w-screen-sm">
           <Loader v-if="loader.showLoader" />
-          <component :is="Component" v-else />
+          <component :is="Component" />
         </div>
 
         <!-- loading UI -->
