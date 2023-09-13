@@ -69,6 +69,14 @@ export const ProductRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const MoreProductFeatureRoute = <const>{
+  name: "product-more",
+  path: "/product/view/:productID/more",
+  props: true,
+  component: () => import("../views/core/Product/View/MoreProductFeatures.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /* ====================== Survey Method Module Routes ====================== */
 
 export const SurveyMethodsRoute = <const>{
@@ -175,6 +183,7 @@ const PrivateRoutes = [
   CreateOrgRoute,
   AllProductRoute,
   ProductRoute,
+  MoreProductFeatureRoute,
   AddProductRoute,
   SurveyMethodsRoute,
   ImportCustomerRoute,

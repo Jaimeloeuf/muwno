@@ -7,6 +7,7 @@ import TaskCard from "./Card/TaskCard.vue";
 // import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
 import SurveyLinkCard from "./Card/SurveyLinkCard.vue";
 import CustomerAndSurveyMethodButtonsCard from "./Card/CustomerAndSurveyMethodButtonsCard.vue";
+import MoreButton from "./Card/MoreButton.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -35,6 +36,7 @@ setInterval(() => window.location.reload(), 8.64e7);
         <SurveyLinkCard :product="product" />
         <!-- <SurveyStatsCard :product="product" /> -->
         <CustomerAndSurveyMethodButtonsCard :productID="product.id" />
+        <MoreButton :productID="product.id" />
       </div>
     </div>
   </div>
