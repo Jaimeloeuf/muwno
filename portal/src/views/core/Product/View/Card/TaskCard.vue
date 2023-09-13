@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../../firebase";
+import { useNotif } from "../../../../../store";
 import type { ProductID, ReadManyTaskDTO, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
+const notif = useNotif();
 
 async function getTasks() {
   const { res, err } = await sf
@@ -29,6 +31,8 @@ async function markTaskAsDone(taskID: TaskID) {
   if (err) throw err;
   if (!res.ok)
     throw new Error(`Failed to mark Task as done. ${JSON.stringify(res)}`);
+
+  notif.setSnackbar("Task completed! Updating task list ...");
 
   // Update list of tasks
   tasks.value = await getTasks();

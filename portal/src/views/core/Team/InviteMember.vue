@@ -3,20 +3,21 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useLoader } from "../../../store";
+import { useLoader, useNotif } from "../../../store";
 import { TeamRoute } from "../../../router";
 import SideDrawer from "../../components/SideDrawer.vue";
 import type { CreateOneTeamMemberInvitationDTO } from "@domain-model";
 
 const router = useRouter();
-const loaderStore = useLoader();
+const loader = useLoader();
+const notif = useNotif();
 
 const email = ref<string>("");
 
 async function invite() {
   if (email.value === "") return alert("Email cannot be empty!");
 
-  loaderStore.show();
+  loader.show();
 
   const { res, err } = await sf
     .useDefault()
@@ -28,10 +29,9 @@ async function invite() {
   if (err) throw err;
   if (!res.ok) throw new Error(`Failed to invite user. ${JSON.stringify(res)}`);
 
-  // @todo Use notif store instead
-  alert("Invite sent!");
+  loader.hide();
 
-  loaderStore.hide();
+  notif.setSnackbar("Invite sent!");
 
   router.push({ name: TeamRoute.name });
 }

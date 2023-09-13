@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useSlots } from "vue";
-// import { useNotif } from "../../store";
-// const notifStore = useNotif()
+import { useNotif } from "../../store";
+
+const notif = useNotif();
 
 const slots = useSlots();
 const props = defineProps<{
@@ -22,13 +23,10 @@ async function copy() {
 
   if (!copyString) alert("RUNTIME ERR: CopyOnClick copy string is empty!");
 
-  await navigator.clipboard.writeText(copyString || "").catch(function () {
-    // Notify user on failed copy
-    // notif.showNotif("Failed to copy!");
-  });
-
-  // Notify user on successful copy
-  // notif.showNotif("Copied!");
+  await navigator.clipboard
+    .writeText(copyString || "")
+    .then(() => notif.setSnackbar("Copied!"))
+    .catch(() => notif.setSnackbar("Failed to copy!"));
 }
 </script>
 

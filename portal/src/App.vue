@@ -2,12 +2,14 @@
 import { ref, onErrorCaptured } from "vue";
 import { useRouter } from "vue-router";
 
-import { useLoader } from "./store";
+import { useLoader, useNotif } from "./store";
 import GlobalErrorView from "./views/GlobalError.vue";
 import Loader from "./views/components/Loader.vue";
+import Snackbar from "./views/components/Snackbar.vue";
 
 const router = useRouter();
 const loader = useLoader();
+const notif = useNotif();
 
 const globalError = ref<Error | null>(null);
 onErrorCaptured((e) => {
@@ -86,6 +88,8 @@ function clearError() {
         <div class="m-6">
           <Loader v-if="loader.showLoader" />
           <component :is="Component" />
+
+          <Snackbar v-if="notif.showSnackbar" />
         </div>
 
         <!-- loading UI -->

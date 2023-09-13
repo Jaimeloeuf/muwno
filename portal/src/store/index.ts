@@ -5,6 +5,7 @@
 export * from "./init";
 
 export * from "./loader.store";
+export * from "./notif.store";
 export * from "./user.store";
 export * from "./org.store";
 export * from "./product.store";

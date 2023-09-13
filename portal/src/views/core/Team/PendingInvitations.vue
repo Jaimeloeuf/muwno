@@ -6,6 +6,7 @@ import {
   useTeamInvitationStore,
   useUserStore,
   useLoader,
+  useNotif,
 } from "../../../store";
 import { OrgRoute } from "../../../router";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
@@ -15,6 +16,7 @@ const router = useRouter();
 const teamInvitationStore = useTeamInvitationStore();
 const userStore = useUserStore();
 const loader = useLoader();
+const notif = useNotif();
 
 async function acceptInvitation(invitationID: number) {
   loader.show();
@@ -53,8 +55,7 @@ async function rejectInvitation(invitationID: number) {
 
   await teamInvitationStore.removeInvitation(invitationID);
 
-  // @todo Use notif store instead
-  alert("Invitation rejected");
+  notif.setSnackbar("Invitation rejected");
 
   loader.hide();
 }
