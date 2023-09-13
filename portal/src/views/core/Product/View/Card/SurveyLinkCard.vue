@@ -20,7 +20,7 @@ async function generateQR() {
 </script>
 
 <template>
-  <div class="w-full rounded-lg bg-slate-50 p-4 shadow">
+  <div class="w-full rounded-lg border border-slate-200 p-4">
     <div
       class="mb-2 flex flex-row items-center justify-between border-b border-slate-300 pb-2"
     >
@@ -28,14 +28,14 @@ async function generateQR() {
 
       <button
         v-if="imageDataUrl === ''"
-        class="rounded-lg bg-slate-400 px-3 text-center text-white shadow-lg"
+        class="rounded-lg bg-zinc-100 px-3 text-center font-light"
         @click="generateQR()"
       >
         Show QR Code
       </button>
       <button
         v-else
-        class="rounded-lg bg-slate-400 px-3 text-center text-white shadow-lg"
+        class="rounded-lg bg-zinc-100 px-3 text-center font-light"
         @click="imageDataUrl = ''"
       >
         Hide QR Code
@@ -52,24 +52,24 @@ async function generateQR() {
     </div>
 
     <div v-if="imageDataUrl !== ''" class="mt-4">
-      <img class="mb-4" :src="imageDataUrl" />
+      <img :src="imageDataUrl" />
 
-      <div class="flex flex-row space-x-6">
-        <a
-          target="_blank"
-          :href="imageDataUrl"
-          :download="`Survey QR Code for ${product.name}`"
-          class="w-full rounded-lg bg-yellow-500 px-3 py-1 text-center text-white shadow-lg"
-        >
-          Download
-        </a>
-
+      <div class="flex flex-row gap-6">
         <button
-          class="w-full rounded-lg bg-slate-400 px-3 py-1 text-center text-white shadow-lg"
+          class="w-full rounded-lg border border-zinc-200 py-1 text-center font-light text-zinc-900"
           @click="imageDataUrl = ''"
         >
           Close
         </button>
+
+        <a
+          target="_blank"
+          :href="imageDataUrl"
+          :download="`Survey QR Code for ${product.name}`"
+          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-1 text-center"
+        >
+          Download
+        </a>
       </div>
     </div>
   </div>

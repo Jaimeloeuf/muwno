@@ -37,51 +37,46 @@ const teamMembers = res.data.users;
 
     <div class="mx-auto max-w-4xl">
       <div class="mx-6 flex flex-col items-center justify-between md:flex-row">
-        <p class="mr-2 text-3xl md:mr-12">
+        <p class="mr-2 w-full text-3xl md:mr-12">
           Team Members ({{ teamMembers.length }})
         </p>
 
-        <div
+        <router-link
           v-if="
             userStore.user.role === Role.OrgOwner ||
             userStore.user.role === Role.OrgAdmin
           "
-          class="w-full flex-grow md:w-max"
+          :to="{ name: InviteMemberRoute.name }"
+          class="inline-flex w-full items-center justify-between rounded-lg border px-8 py-2"
+          :class="{
+            'border-gray-200 text-gray-500': teamMembers.length > 1,
+            'border-green-600 text-green-600': teamMembers.length === 1,
+          }"
         >
-          <router-link
-            :to="{ name: InviteMemberRoute.name }"
-            class="my-6 inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 p-8"
-            :class="{
-              'bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-600':
-                teamMembers.length > 1,
-              'bg-green-600 text-white': teamMembers.length === 1,
-            }"
+          <div class="text-2xl">Invite Team Member</div>
+          <svg
+            class="h-8 w-8"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 10"
           >
-            <div class="text-2xl">Invite Team Member</div>
-            <svg
-              class="h-8 w-8"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </router-link>
-        </div>
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+              d="M1 5h12m0 0L9 1m4 4L9 9"
+            />
+          </svg>
+        </router-link>
       </div>
 
       <div class="mx-6 flex flex-col">
         <div
           v-for="(teamMember, index) in teamMembers"
           :key="teamMember.id"
-          class="my-3 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
+          class="my-3 rounded-lg border border-zinc-200 p-6 text-gray-900"
         >
           <div class="flex flex-row items-center">
             <p class="pr-3 text-2xl">

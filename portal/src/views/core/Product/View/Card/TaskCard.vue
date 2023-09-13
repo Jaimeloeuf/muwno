@@ -42,16 +42,20 @@ const tasks = ref(await getTasks());
 </script>
 
 <template>
-  <div class="inline-block w-full rounded-lg bg-slate-50 p-4 shadow">
+  <div class="inline-block w-full pb-2">
     <div class="flex flex-row items-center justify-between">
-      <p class="text-sm font-semibold">Top 3 Tasks</p>
-      <router-link
+      <p class="text-sm font-semibold">Top Tasks</p>
+      <!--
+        Might not use this since we do not want to encourage users to use that
+        and try to choose / priortize tasks themselves.
+      -->
+      <!-- <router-link
         v-if="tasks.length !== 0"
         :to="{}"
-        class="rounded-lg bg-slate-400 p-1 px-3 text-sm font-semibold text-white"
+        class="rounded-lg bg-zinc-200 p-1 px-3 text-sm font-semibold text-white"
       >
         See All
-      </router-link>
+      </router-link> -->
     </div>
 
     <div v-if="tasks.length === 0" class="text-2xl font-thin">
@@ -60,20 +64,36 @@ const tasks = ref(await getTasks());
     </div>
 
     <div v-else>
-      <!-- @todo Improve the UI to make it obvious that it is clickable -->
-      <!-- @todo this should be click to toggle done state -->
-      <!-- @todo Only see all details if they click into all detals -->
-
-      <!-- @todo Add a 3 dot kinda details button thingy for them to click to see more details if not click to mark as complete -->
-      <button
+      <div
         v-for="(task, i) in tasks"
         :key="task.id"
-        class="mt-3 block w-full rounded-lg border border-slate-300 p-2 text-left text-xl font-light hover:bg-white hover:shadow-xl"
-        @click="markTaskAsDone(task.id)"
+        class="mt-3 w-full rounded-lg border border-zinc-200 p-3"
       >
-        <span class="mr-2">{{ i + 1 }}.</span>
-        {{ task.task }}
-      </button>
+        <div
+          class="mb-2 flex flex-row items-center justify-between gap-3 border-b border-zinc-200 pb-2"
+        >
+          <p class="w-full">Priority {{ i + 1 }}</p>
+
+          <!-- @todo -->
+          <router-link
+            :to="{}"
+            class="rounded-lg border border-zinc-200 px-3 text-center font-light text-zinc-900"
+          >
+            Details
+          </router-link>
+
+          <button
+            class="w-full rounded-lg bg-zinc-100 font-light text-zinc-900"
+            @click="markTaskAsDone(task.id)"
+          >
+            Done
+          </button>
+        </div>
+
+        <p class="text-lg font-light">
+          {{ task.task }}
+        </p>
+      </div>
     </div>
   </div>
 </template>

@@ -52,7 +52,7 @@ async function goToBillingPortal() {
       <p class="mb-2 text-xl">Org Details</p>
 
       <div class="flex flex-row gap-x-6">
-        <div class="inline-block w-max rounded-lg bg-slate-50 p-4 px-8 shadow">
+        <div class="inline-block w-max rounded-lg bg-slate-50 p-6">
           <p class="text-sm">Plan</p>
 
           <div class="text-right">
@@ -63,7 +63,7 @@ async function goToBillingPortal() {
         </div>
 
         <div
-          class="inline-block w-max cursor-pointer rounded-lg bg-slate-50 p-4 px-8 shadow"
+          class="inline-block w-max cursor-pointer rounded-lg bg-slate-50 p-4 px-8"
           @click="goToBillingPortal"
         >
           <p class="text-sm">Manage your billing information</p>

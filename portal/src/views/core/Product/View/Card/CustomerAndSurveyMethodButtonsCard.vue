@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { SurveyMethodsRoute } from "../../../../../router";
-import type { Product } from "@domain-model";
+import type { ProductID } from "@domain-model";
 
-defineProps<{ product: Product }>();
+defineProps<{ productID: ProductID }>();
 </script>
 
 <template>
@@ -10,9 +10,9 @@ defineProps<{ product: Product }>();
     <!-- @todo fix link -->
     <router-link
       :to="{
-        params: { productID: product.id },
+        params: { productID },
       }"
-      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg bg-slate-50 p-4 text-left shadow hover:border hover:border-slate-300 hover:bg-white hover:shadow-lg"
+      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
     >
       Manage Customers
 
@@ -36,9 +36,9 @@ defineProps<{ product: Product }>();
     <router-link
       :to="{
         name: SurveyMethodsRoute.name,
-        params: { productID: product.id },
+        params: { productID },
       }"
-      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg bg-slate-50 p-4 text-left shadow hover:border hover:border-slate-300 hover:bg-white hover:shadow-lg"
+      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
     >
       Survey Methods
 

@@ -13,17 +13,14 @@ defineProps<{ product: Product }>();
 
 <template>
   <!-- @todo On click this will go to page with more in depth analytics -->
-  <router-link
-    :to="{}"
-    class="cursor-pointer rounded-lg bg-slate-50 p-4 shadow hover:border hover:border-slate-300 hover:bg-white hover:shadow-lg"
-  >
+  <router-link :to="{}" class="cursor-pointer rounded-lg bg-zinc-100 p-4">
     <p class="text-sm font-medium">
       Survey Stats
       <span class="ml-1 font-light">(click for more)</span>
     </p>
 
     <!-- @todo Above 15% show green -->
-    <!-- <div class="mb-2 border-b border-slate-300 pb-2">
+    <!-- <div class="mb-2 pb-2">
       <p class="text-xl text-lime-600">21% response rate</p>
       <p class="text-lg">{{ 100 }} surveys sent, {{ 21 }} responded.</p>
     </div> -->

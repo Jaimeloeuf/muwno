@@ -37,7 +37,7 @@ const weeklyIntervalValues = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 <template>
   <div>
-    <div class="mb-6 flex flex-col justify-between lg:flex-row lg:items-center">
+    <div class="flex flex-col justify-between lg:flex-row lg:items-center">
       <p class="text-3xl font-extralight">PMF Performance</p>
 
       <div>

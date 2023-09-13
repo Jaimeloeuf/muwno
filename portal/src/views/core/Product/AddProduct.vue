@@ -40,7 +40,7 @@ async function addProduct() {
           <input
             v-model="name"
             type="text"
-            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
             placeholder="Product Name"
             @keydown.enter="addProduct"
           />
@@ -49,7 +49,7 @@ async function addProduct() {
 
       <div class="mb-12">
         <button
-          class="w-full rounded-lg border bg-green-600 p-3 text-xl text-slate-50"
+          class="w-full rounded-lg border border-green-600 p-3 text-xl text-green-600"
           @click="addProduct"
         >
           Add

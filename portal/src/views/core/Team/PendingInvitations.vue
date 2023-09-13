@@ -91,7 +91,7 @@ async function rejectInvitation(invitationID: number) {
         <div
           v-for="(invitation, index) in teamInvitationStore.invitations"
           :key="invitation.id"
-          class="my-3 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
+          class="my-3 rounded-lg bg-slate-50 p-6 text-gray-900"
         >
           <div class="flex flex-row items-center">
             <p class="pr-3 text-2xl">

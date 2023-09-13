@@ -23,7 +23,7 @@ const products = await productStore.getAllProducts();
     </div>
 
     <div class="md:mx-6">
-      <div class="grid grid-cols-1 lg:grid-cols-2">
+      <div class="grid grid-cols-1 xl:grid-cols-2">
         <router-link
           :to="{ name: AddProductRoute.name }"
           class="m-6 inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 p-8"
@@ -32,7 +32,7 @@ const products = await productStore.getAllProducts();
             'bg-green-600 text-white': products.length === 0,
           }"
         >
-          <p class="text-4xl">Add a Product</p>
+          <p class="text-3xl">Add Product</p>
 
           <svg
             class="h-8 w-8"
@@ -55,12 +55,11 @@ const products = await productStore.getAllProducts();
           v-for="product in products"
           :key="product.id"
           :to="{ name: ProductRoute.name, params: { productID: product.id } }"
-          class="m-6 rounded-lg bg-slate-50 p-6 text-gray-900 shadow"
+          class="m-6 rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-gray-900"
         >
-          <p class="mb-2 text-4xl">{{ product.name }}</p>
-
-          <div class="text-right">
-            <PMFLiveScoreCard class="bg-white" :productID="product.id" />
+          <div class="flex flex-row justify-between">
+            <p class="p-3 pr-4 text-3xl">{{ product.name }}</p>
+            <PMFLiveScoreCard :productID="product.id" />
           </div>
         </router-link>
       </div>

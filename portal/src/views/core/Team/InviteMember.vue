@@ -89,7 +89,7 @@ async function invite() {
       </div>
 
       <button
-        class="w-full rounded-lg bg-green-600 p-4 text-xl text-white shadow"
+        class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
         @click="invite"
       >
         Invite

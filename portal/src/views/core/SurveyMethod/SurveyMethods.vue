@@ -21,36 +21,40 @@ const product = await productStore.getProduct(props.productID);
     </div>
 
     <div class="md:mx-6">
-      <p class="mb-2 text-xl">
-        <b>Survey Methods</b> is how <i>thepmftool</i> helps you to gather
-        feedback. You can choose what to use based on the type of your product.
-      </p>
+      <div class="flex flex-col items-center justify-between lg:flex-row">
+        <p class="mb-2 text-xl">
+          <b>Survey Methods</b> is how <i>thepmftool</i> helps you gather
+          feedback.
+          <br />
+          You can choose what to use based on the type of your product.
+        </p>
 
-      <!-- @todo fix the link -->
-      <router-link
-        :to="{
-          params: { productID: product.id },
-        }"
-        class="mb-6 flex w-max cursor-pointer flex-row items-center justify-between rounded-lg bg-slate-100 p-4 text-left shadow"
-      >
-        Import your customers to survey them
-
-        <svg
-          class="ml-4 h-3 w-3 shrink-0 rotate-90 transition duration-150"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
+        <!-- @todo fix the link -->
+        <router-link
+          :to="{
+            params: { productID: product.id },
+          }"
+          class="mb-6 flex w-max flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
         >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5 5 1 1 5"
-          />
-        </svg>
-      </router-link>
+          Import your customers to survey them
+
+          <svg
+            class="ml-4 h-3 w-3 shrink-0 rotate-90 transition duration-150"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
+        </router-link>
+      </div>
 
       <div
         class="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:items-stretch"

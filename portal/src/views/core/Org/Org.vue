@@ -18,7 +18,7 @@ const orgDetails = await orgStore.getOrg();
       <p class="mb-2 text-xl">Org Details</p>
 
       <div class="flex flex-row gap-x-6">
-        <div class="inline-block w-max rounded-lg bg-slate-50 p-4 px-8 shadow">
+        <div class="inline-block w-max rounded-lg border border-zinc-200 p-6">
           <p class="text-sm">Plan</p>
 
           <div class="text-right">

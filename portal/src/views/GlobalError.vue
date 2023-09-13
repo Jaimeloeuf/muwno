@@ -35,7 +35,7 @@ defineEmits(["acknowledged"]);
           <!-- @todo Add link -->
           <a
             href=""
-            class="rounded-lg bg-lime-500 px-6 py-2 text-xl text-white"
+            class="rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-2 text-xl text-zinc-700"
           >
             REPORT 💛
           </a>
@@ -43,7 +43,7 @@ defineEmits(["acknowledged"]);
 
         <div class="my-6 flex flex-row justify-center space-x-6">
           <button
-            class="rounded-lg bg-slate-200 px-6 py-2 text-xl text-gray-500"
+            class="rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-2 text-xl text-zinc-700"
             @click="$emit('acknowledged')"
           >
             Back
@@ -51,16 +51,16 @@ defineEmits(["acknowledged"]);
 
           <router-link
             :to="{ name: AllProductRoute.name }"
-            class="rounded-lg bg-slate-200 px-6 py-2 text-xl text-gray-500"
+            class="rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-2 text-xl text-zinc-700"
           >
             Home
           </router-link>
         </div>
 
         <div class="text-left">
-          <p class="text-2xl font-extrabold">Error Message</p>
+          <p class="mb-2 text-xl">Error Message</p>
           <div
-            class="w-full rounded-lg bg-slate-50 p-4 text-red-700 shadow-lg"
+            class="w-full rounded-lg border border-zinc-200 p-4 text-red-700"
             style="word-wrap: break-word"
           >
             {{ globalError }}

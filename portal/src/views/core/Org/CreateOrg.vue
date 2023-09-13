@@ -54,7 +54,7 @@ async function createOrg() {
           <input
             v-model="name"
             type="text"
-            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
             placeholder="Name"
           />
         </label>
@@ -75,7 +75,7 @@ async function createOrg() {
           <input
             v-model="orgEmail"
             type="text"
-            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
             placeholder="Organisation Email"
           />
         </label>
@@ -88,7 +88,7 @@ async function createOrg() {
           <p>Main admin account of Organisation</p>
 
           <div
-            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6 font-extralight text-slate-800"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6 font-extralight text-slate-800"
           >
             {{ userStore.user.email }}
           </div>
@@ -96,7 +96,7 @@ async function createOrg() {
       </div>
 
       <button
-        class="w-full rounded-lg bg-green-600 p-4 text-xl text-white shadow"
+        class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
         @click="createOrg"
       >
         Create

@@ -16,7 +16,10 @@ const back = () => {
 </script>
 
 <template>
-  <button class="rounded-lg bg-slate-100 px-4 py-1.5" @click="back">
+  <button
+    class="rounded-lg bg-zinc-100 px-4 py-1.5 font-light text-zinc-900"
+    @click="back"
+  >
     <svg
       class="inline-block h-6 w-6 rotate-180 text-gray-600"
       aria-hidden="true"

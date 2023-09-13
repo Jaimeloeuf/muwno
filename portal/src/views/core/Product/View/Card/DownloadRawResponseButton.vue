@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { useLoader } from "../../../../../store";
 import { getAuthHeader } from "../../../../../firebase";
@@ -9,8 +10,10 @@ const props = defineProps<{ product: Product }>();
 
 const loader = useLoader();
 
+const showHelp = ref(false);
+
 async function downloadRawResponseCSV() {
-  loader.show();
+  loader.show("Loading response data to download ...");
 
   const { res, err } = await sf
     .useDefault()
@@ -25,34 +28,58 @@ async function downloadRawResponseCSV() {
   loader.hide();
 
   downloadFile(
-    // @todo urlencode name to ensure it can be saved by removing special characters
-    `Raw Survey Response data for ${props.product.name}.csv`,
+    // urlencode name to ensure it can be saved even with special characters
+    `Raw Survey Response data for ${encodeURIComponent(
+      props.product.name
+    )}.csv`,
     res.data
   );
 }
 </script>
 
 <template>
-  <button
-    class="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-slate-50 p-4 text-left shadow hover:border hover:border-slate-300 hover:bg-white hover:shadow-lg"
-    @click="downloadRawResponseCSV"
-  >
-    Download raw response data as CSV file
+  <div class="rounded-lg border border-zinc-200 p-4 text-left">
+    <div class="mb-2 flex flex-row items-center justify-between gap-6">
+      <p>Raw response data as CSV file</p>
 
-    <svg
-      class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 10 6"
+      <button
+        class="rounded-lg bg-zinc-100 px-3 font-light text-zinc-900"
+        @click="showHelp = !showHelp"
+      >
+        Help
+      </button>
+    </div>
+
+    <p v-if="showHelp" class="mb-4 border-t border-zinc-200 pt-2 font-light">
+      Download up to 1000 rows of your raw survey response data sorted by newest
+      first. If you need more or all historical data, reach out to us at
+      <a class="underline" href="mailto:help@thepmftool.com">
+        help@thepmftool.com
+      </a>
+      to generate it for you.
+    </p>
+
+    <button
+      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-2"
+      @click="downloadRawResponseCSV"
     >
-      <path
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M9 5 5 1 1 5"
-      />
-    </svg>
-  </button>
+      Download
+
+      <svg
+        class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 10 6"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5 5 1 1 5"
+        />
+      </svg>
+    </button>
+  </div>
 </template>

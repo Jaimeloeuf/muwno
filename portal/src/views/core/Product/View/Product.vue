@@ -5,9 +5,8 @@ import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "../PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
 // import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
-import CustomerAndSurveyMethodButtonsCard from "./Card/CustomerAndSurveyMethodButtonsCard.vue";
 import SurveyLinkCard from "./Card/SurveyLinkCard.vue";
-import DownloadRawResponseButton from "./Card/DownloadRawResponseButton.vue";
+import CustomerAndSurveyMethodButtonsCard from "./Card/CustomerAndSurveyMethodButtonsCard.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -22,7 +21,7 @@ setInterval(() => window.location.reload(), 8.64e7);
 
 <template>
   <div>
-    <div class="mb-6">
+    <div class="mb-2">
       <SideDrawer />
       <span class="ml-4 text-4xl font-light">{{ product.name }}</span>
     </div>
@@ -33,10 +32,9 @@ setInterval(() => window.location.reload(), 8.64e7);
       <div class="mx-4 flex max-w-lg flex-col space-y-6 lg:mx-0 lg:basis-1/4">
         <PMFLiveScoreCard class="w-full" :productID="product.id" />
         <TaskCard :productID="product.id" />
-        <!-- <SurveyStatsCard :product="product" /> -->
-        <CustomerAndSurveyMethodButtonsCard :product="product" />
         <SurveyLinkCard :product="product" />
-        <DownloadRawResponseButton :product="product" />
+        <!-- <SurveyStatsCard :product="product" /> -->
+        <CustomerAndSurveyMethodButtonsCard :productID="product.id" />
       </div>
     </div>
   </div>
