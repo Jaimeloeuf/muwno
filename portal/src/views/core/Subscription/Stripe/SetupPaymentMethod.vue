@@ -3,19 +3,19 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import type { StripeElements } from "@stripe/stripe-js";
 import { sf } from "simpler-fetch";
-import { useStripe } from "../../../../store";
+import { useStripe, useLoader } from "../../../../store";
 import { SetupSuccessPaymentRoute } from "../../../../router";
 import { getAbsoluteUrlFromRoute } from "../../../../utils/getAbsoluteUrlFromRoute";
 
 const router = useRouter();
 const stripeStore = useStripe();
+const loader = useLoader();
 
 const stripe = stripeStore.stripe;
 
 // Create ref to hold element reference, name must match template ref value
 const paymentElement = ref<HTMLInputElement | null>(null);
 const elements = ref<StripeElements | null>(null);
-const hideForm = ref<boolean>(false);
 
 // Mount the Stripe Payment Form after the vue component is mounted.
 onMounted(async function mountStripePaymentForm() {
@@ -49,8 +49,9 @@ async function pay() {
   if (elements.value === null)
     throw new Error("Stripe Elements is not setup and cannot be used.");
 
-  // Hide form to prevent resubmission
-  hideForm.value = true;
+  loader.show(
+    "Do not close this window! Waiting for Stripe to verify and confirm your payment details!"
+  );
 
   // Trigger form validation and wallet collection
   const { error: submitError } = await elements.value.submit();
@@ -82,7 +83,7 @@ async function pay() {
     },
   });
 
-  hideForm.value = false;
+  loader.hide();
 
   // This point will only be reached if there is an immediate error when
   // confirming the payment. Otherwise, your customer will be redirected to
@@ -111,12 +112,7 @@ async function pay() {
 </script>
 
 <template>
-  <div v-if="hideForm" class="text-4xl">
-    <p class="mb-2 text-red-700">Do not close this window!</p>
-    <p>Waiting for Stripe to verify and confirm your payment details!</p>
-  </div>
-
-  <div class="mx-auto max-w-lg" :class="{ hidden: hideForm }">
+  <div class="mx-auto max-w-lg">
     <div class="mb-6 flex flex-row items-center justify-between">
       <div>
         <p class="text-4xl font-light">Payment</p>

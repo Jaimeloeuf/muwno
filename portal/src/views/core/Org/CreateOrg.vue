@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useOrg, useUserStore, useLoader } from "../../../store";
-import { BuySubscriptionPlanRoute } from "../../../router";
+import { OrgRoute, BuySubscriptionPlanRoute } from "../../../router";
 
 const router = useRouter();
 const orgStore = useOrg();
@@ -11,6 +11,14 @@ const loaderStore = useLoader();
 
 const name = ref("");
 const orgEmail = ref(userStore.user.email); // Defaults to the Org Owner's email
+
+// If user already have an organisation, ask them if they want to continue, else
+// redirect to their original Org's home view.
+if (
+  (await orgStore.doesUserHaveOrg()) &&
+  !confirm("You already have an Organisation, create a new one?")
+)
+  router.push({ name: OrgRoute.name });
 
 async function createOrg() {
   // Check inputs

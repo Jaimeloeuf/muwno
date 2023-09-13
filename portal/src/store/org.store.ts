@@ -50,6 +50,26 @@ export const useOrg = defineStore("org", {
     },
 
     /**
+     * Check if the currently logged in user belongs to any Org.
+     */
+    async doesUserHaveOrg() {
+      const { res, err } = await sf
+        .useDefault()
+        .GET("/org/self")
+        .useHeader(getAuthHeader)
+        .runJSON<ReadOneOrgDTO>();
+
+      if (err) throw err;
+
+      if (res.ok) return true;
+      if (res.status === 404) return false;
+      else
+        throw new Error(
+          `Failed to check if user have an Org: ${JSON.stringify(res)}`
+        );
+    },
+
+    /**
      * Create a new Org.
      */
     async createOrg(createOneOrgDTO: CreateOneOrgDTO) {
