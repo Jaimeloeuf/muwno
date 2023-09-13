@@ -8,6 +8,7 @@ import type {
   ReadManyProductDTO,
   CreateOneProductDTO,
   ReadOneProductDTO,
+  ISODateTimeString,
 } from "@domain-model";
 
 /**
@@ -18,13 +19,19 @@ interface State {
    * A map used to cache Product Entity objects once they are loaded.
    */
   products: Products;
+
+  /**
+   * A map used to track when was the Product Entity objects cached, so if the
+   * cached data is too old, it will reload from the API.
+   */
+  productCacheTime: Record<ProductID, ISODateTimeString>;
 }
 
 /**
  * Use this 'store' for product data.
  */
 export const useProduct = defineStore("product", {
-  state: (): State => ({ products: {} }),
+  state: (): State => ({ products: {}, productCacheTime: {} }),
 
   actions: {
     /**
@@ -54,9 +61,14 @@ export const useProduct = defineStore("product", {
     async getProduct(productID: ProductID, forceRefresh = false) {
       const product = this.products[productID];
 
-      // If user did not ask for a forced refresh, and `product` is already
-      // cached, return it immediately.
-      if (!forceRefresh && product !== undefined) return product;
+      // Return product immediately if user did not ask for a forced refresh,
+      // `product` is cached and the cache is still fresh.
+      if (
+        !forceRefresh &&
+        product !== undefined &&
+        this.isCachedProductFresh(productID)
+      )
+        return product;
 
       const { res, err } = await sf
         .useDefault()
@@ -71,6 +83,21 @@ export const useProduct = defineStore("product", {
       this.products[productID] = res.data.product;
 
       return res.data.product;
+    },
+
+    /**
+     * Check if a cached Product is still fresh (less than 24 hours old).
+     * Returns false if the product is not found in the `productCacheTime` map.
+     */
+    isCachedProductFresh(productID: ProductID) {
+      const cacheTime = this.productCacheTime[productID];
+      if (cacheTime === undefined) return false;
+
+      // Get Unix Seconds of 24 hours ago
+      const oneDayAgo = Math.trunc(Date.now() / 1000) - 8.64e7;
+
+      // Check if time of cache is newer than the one day old threshold
+      return parseInt(cacheTime) > oneDayAgo;
     },
 
     /**
