@@ -34,7 +34,7 @@ async function submitMessage() {
 
     if (err) return alert(`Error: ${err}`);
     if (!res.ok)
-      return alert(`Failed to submit message: ${(res as any)?.data?.message}`);
+      return alert(`Failed to submit message: ${JSON.stringify(res)}`);
     if (res.status === 201)
       return alert("Message sent! We will get back to you as soon as possible");
   } catch (error) {
