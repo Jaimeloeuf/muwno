@@ -2,7 +2,7 @@
 import { useProduct } from "../../../../store";
 import SideDrawer from "../../../components/SideDrawer.vue";
 import PMFChart from "./PMFChart.vue";
-import PMFLiveScoreCard from "../PMFLiveScoreCard.vue";
+import PMFLiveScoreCard from "./Card/PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
 // import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
 import SurveyLinkCard from "./Card/SurveyLinkCard.vue";

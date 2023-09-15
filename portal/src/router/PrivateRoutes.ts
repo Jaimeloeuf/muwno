@@ -50,7 +50,7 @@ export const CreateOrgRoute = <const>{
 export const AllProductRoute = <const>{
   name: "product-all",
   path: "/product/all",
-  component: () => import("../views/core/Product/AllProduct.vue"),
+  component: () => import("../views/core/Product/AllProduct/AllProduct.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 

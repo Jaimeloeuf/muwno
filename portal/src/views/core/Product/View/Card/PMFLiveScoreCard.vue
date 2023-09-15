@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
-import { useProduct } from "../../../store";
-import type { ProductID, ReadOnePMFScoreDTO } from "@domain-model";
+import { useProduct } from "../../../../../store";
+import { useLiveScore } from "../../shared/useLiveScore";
+import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 
@@ -12,28 +11,11 @@ const product = await productStore.getProduct(props.productID);
 
 const showHelp = ref(false);
 
-const { res, err } = await sf
-  .useDefault()
-  .GET(`/pmf/live/${props.productID}`)
-  .useHeader(getAuthHeader)
-  .runJSON<ReadOnePMFScoreDTO>();
-
-if (err) throw err;
-if (!res.ok) throw new Error("Failed to load PMF live score!");
-
-const PMFScore = res.data.score;
-
-const reliability = (function () {
-  if (PMFScore.totalResponses >= 40) return "Very reliable";
-  else if (PMFScore.totalResponses < 40 && PMFScore.totalResponses >= 30)
-    return "Reliable";
-  else if (PMFScore.totalResponses < 30 && PMFScore.totalResponses >= 15)
-    return "Somewhat reliable";
-  else return "Less reliable";
-})();
+const { PMFScore, reliability } = await useLiveScore(props.productID);
 </script>
 
 <template>
+  <!-- @todo Allow users to edit live score time period setting -->
   <div class="w-full rounded-lg border border-slate-200 p-4">
     <template v-if="PMFScore.score === null">
       <div class="mb-1 flex flex-row items-center justify-between">
