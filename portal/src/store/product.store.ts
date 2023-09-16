@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
 import type {
@@ -8,7 +9,6 @@ import type {
   ReadManyProductDTO,
   CreateOneProductDTO,
   ReadOneProductDTO,
-  ISODateTimeString,
 } from "@domain-model";
 
 /**
@@ -24,7 +24,7 @@ interface State {
    * A map used to track when was the Product Entity objects cached, so if the
    * cached data is too old, it will reload from the API.
    */
-  productCacheTime: Record<ProductID, ISODateTimeString>;
+  productCacheTime: Record<ProductID, number>;
 }
 
 /**
@@ -81,6 +81,7 @@ export const useProduct = defineStore("product", {
         throw new Error(`Failed to load Product: ${JSON.stringify(res)}`);
 
       this.products[productID] = res.data.product;
+      this.productCacheTime[productID] = unixseconds();
 
       return res.data.product;
     },
@@ -94,10 +95,10 @@ export const useProduct = defineStore("product", {
       if (cacheTime === undefined) return false;
 
       // Get Unix Seconds of 24 hours ago
-      const oneDayAgo = Math.trunc(Date.now() / 1000) - 8.64e7;
+      const oneDayAgo = unixseconds() - 8.64e7;
 
       // Check if time of cache is newer than the one day old threshold
-      return parseInt(cacheTime) > oneDayAgo;
+      return cacheTime > oneDayAgo;
     },
 
     /**
@@ -115,9 +116,11 @@ export const useProduct = defineStore("product", {
       if (!res.ok)
         throw new Error(`Failed to add Product: ${JSON.stringify(res)}`);
 
-      // Store the product object locally and return it
       const { product } = res.data;
+
       this.products[product.id] = product;
+      this.productCacheTime[product.id] = unixseconds();
+
       return product;
     },
   },

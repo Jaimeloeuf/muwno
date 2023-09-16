@@ -1,14 +1,10 @@
 import { defineStore } from "pinia";
+import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
 import { auth, getAuthHeader } from "../firebase";
 import { validateCustomClaimsOnJWT } from "../utils/validateCustomClaimsOnJWT";
 import { logout } from "../utils/logout";
-import type {
-  User,
-  CreateOneUserDTO,
-  ReadOneUserDTO,
-  ISODateTimeString,
-} from "@domain-model";
+import type { User, CreateOneUserDTO, ReadOneUserDTO } from "@domain-model";
 
 /**
  * Type of this pinia store's state.
@@ -22,7 +18,7 @@ interface State {
   /**
    * Time of caching the `user` property used to prevent stale cache.
    */
-  userCacheTime: ISODateTimeString | null;
+  userCacheTime: number | null;
 }
 
 /**
@@ -40,10 +36,10 @@ export const useUserStore = defineStore("user", {
       if (this.userCacheTime === null) return false;
 
       // Get Unix Seconds of 24 hours ago
-      const oneDayAgo = Math.trunc(Date.now() / 1000) - 8.64e7;
+      const oneDayAgo = unixseconds() - 8.64e7;
 
       // Check if time of cache is newer than the one day old threshold
-      return parseInt(this.userCacheTime) > oneDayAgo;
+      return this.userCacheTime > oneDayAgo;
     },
 
     /**
@@ -98,6 +94,7 @@ export const useUserStore = defineStore("user", {
       }
 
       this.user = res.data.user;
+      this.userCacheTime = unixseconds();
 
       return res.data.user;
     },
@@ -132,6 +129,7 @@ export const useUserStore = defineStore("user", {
         throw new Error(`Failed to create account: ${JSON.stringify(res)}`);
 
       this.user = res.data.user;
+      this.userCacheTime = unixseconds();
 
       return res.data.user;
     },

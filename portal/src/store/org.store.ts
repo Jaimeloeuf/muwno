@@ -1,12 +1,8 @@
 import { defineStore } from "pinia";
+import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
-import type {
-  Org,
-  ReadOneOrgDTO,
-  CreateOneOrgDTO,
-  ISODateTimeString,
-} from "@domain-model";
+import type { Org, ReadOneOrgDTO, CreateOneOrgDTO } from "@domain-model";
 
 import { useUserStore } from "./user.store";
 
@@ -23,7 +19,7 @@ interface State {
   /**
    * Time of caching the `org` property used to prevent stale cache.
    */
-  orgCacheTime: ISODateTimeString | undefined;
+  orgCacheTime: number | undefined;
 }
 
 /**
@@ -41,16 +37,15 @@ export const useOrg = defineStore("org", {
       if (this.orgCacheTime === undefined) return false;
 
       // Get Unix Seconds of 24 hours ago
-      const oneDayAgo = Math.trunc(Date.now() / 1000) - 8.64e7;
+      const oneDayAgo = unixseconds() - 8.64e7;
 
       // Check if time of cache is newer than the one day old threshold
-      return parseInt(this.orgCacheTime) > oneDayAgo;
+      return this.orgCacheTime > oneDayAgo;
     },
 
     /**
-     * Get Org Details of the org the currently logged in user belongs to. Org
-     * details will be cached for the current session till a refresh or if force
-     * reload flag passed in.
+     * Get Org of currently logged in user. Org will be cached for current
+     * session (24hrs) till a refresh or if force reload flag passed in.
      */
     async getOrg(forceRefresh = false) {
       // Return Org immediately if user did not ask for a forced refresh, `org`
@@ -69,6 +64,7 @@ export const useOrg = defineStore("org", {
         throw new Error(`Failed to load Organisation: ${JSON.stringify(res)}`);
 
       this.org = res.data.org;
+      this.orgCacheTime = unixseconds();
 
       return res.data.org;
     },
@@ -113,6 +109,7 @@ export const useOrg = defineStore("org", {
       await useUserStore().refreshJWT(true);
 
       this.org = res.data.org;
+      this.orgCacheTime = unixseconds();
 
       return res.data.org;
     },

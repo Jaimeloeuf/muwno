@@ -22,6 +22,7 @@
     "pinia-plugin-persistedstate": "^3.1.0",
     "qrcode": "^1.5.3",
     "simpler-fetch": "^10.2.0",
+    "unixseconds": "^0.1.1",
     "vue": "^3.3.4",
     "vue-chartjs": "^5.2.0",
     "vue-router": "^4.2.4"
