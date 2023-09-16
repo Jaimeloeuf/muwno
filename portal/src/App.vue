@@ -84,11 +84,17 @@ function clearError() {
           https://v2.vuejs.org/v2/guide/conditional.html#Conditional-Groups-with-v-if-on-lt-template-gt
           https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
           https://caniuse.com/css-display-contents
+
+          The p-6 padding will only be applied to `<component :is="Component" />`
+          since both Loader and Snackbar uses `fixed` positioning to position
+          themselves relative to the browser window and is not affected by the
+          padding at all.
         -->
-        <div class="m-6">
-          <Loader v-if="loader.showLoader" />
+        <div class="p-6">
           <component :is="Component" />
 
+          <!-- Conditionally loaded `fixed` positioned components -->
+          <Loader v-if="loader.showLoader" />
           <Snackbar v-if="notif.showSnackbar" />
         </div>
 

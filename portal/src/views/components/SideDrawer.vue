@@ -33,23 +33,19 @@ const showDrawer = ref<boolean>(false);
     </svg>
   </button>
 
-  <!--
-    Custom invisible overlay across the entire screen to simulate click away
-    from side drawer to close it. Using custom w/h instead of h-screen w-screen
-    to prevent the screen from growing.
-  -->
+  <!-- Overlay across screen to simulate click away from side drawer to close. -->
   <div
     v-if="showDrawer"
-    class="absolute z-40 h-[96vh] w-[96vw]"
+    class="fixed left-0 top-0 z-40 h-screen w-screen"
     @click="showDrawer = false"
   ></div>
 
   <aside
-    class="fixed left-0 top-0 z-40 h-screen w-9/12 max-w-sm -translate-x-full transition-transform"
-    :class="{ 'translate-x-0': showDrawer, 'shadow-2xl': showDrawer }"
+    class="fixed left-0 top-0 z-40 h-screen max-w-sm -translate-x-full transition-transform"
+    :class="{ 'w-5/6 translate-x-0 shadow-2xl': showDrawer }"
   >
     <div
-      class="flex h-full flex-col items-start justify-between space-y-2 bg-gray-50 p-4 font-medium"
+      class="flex h-full flex-col items-start justify-between gap-2 bg-gray-50 p-4 font-medium"
     >
       <button
         class="w-full border-b border-gray-200 p-2 text-gray-900"
