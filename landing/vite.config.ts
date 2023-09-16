@@ -7,9 +7,9 @@ import childProcess from "child_process";
 
 // Create a version string using the git branch and hash
 const gitVersion =
-  childProcess.execSync("git rev-parse HEAD").toString() +
+  childProcess.execSync("git rev-parse --abbrev-ref HEAD").toString() +
   " " +
-  childProcess.execSync("git rev-parse --abbrev-ref HEAD").toString();
+  childProcess.execSync("git rev-parse HEAD").toString();
 
 // https://vitejs.dev/config/
 // https://vitejs.dev/config/#conditional-config

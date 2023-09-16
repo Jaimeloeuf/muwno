@@ -8,9 +8,9 @@ const version = __vite_inject.version;
 </script>
 
 <template>
-  <div class="max-w-lg text-xs font-extralight">
+  <p class="break-words text-xs font-extralight">
     Version: {{ version }}
     <br />
     Build Time: {{ buildTime }}
-  </div>
+  </p>
 </template>
