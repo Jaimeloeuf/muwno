@@ -22,7 +22,7 @@ async function login() {
 
     await signInWithEmailAndPassword(auth, email.value, password.value);
 
-    const user = await userStore.initOnLogin();
+    const user = await userStore.getUser();
 
     // If user does not have an Org, means they did not complete onboarding flow,
     // route them to continue with onboarding, else route them to Org home page.

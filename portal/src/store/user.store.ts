@@ -1,100 +1,103 @@
 import { defineStore } from "pinia";
-import { sf, type ApiResponse } from "simpler-fetch";
+import { sf } from "simpler-fetch";
 import { auth, getAuthHeader } from "../firebase";
 import { validateCustomClaimsOnJWT } from "../utils/validateCustomClaimsOnJWT";
 import { logout } from "../utils/logout";
-import type { User, CreateOneUserDTO, ReadOneUserDTO } from "@domain-model";
+import type {
+  User,
+  CreateOneUserDTO,
+  ReadOneUserDTO,
+  ISODateTimeString,
+} from "@domain-model";
 
 /**
  * Type of this pinia store's state.
  */
 interface State {
   /**
-   * Save the whole User object in store to use in UIs, this value is retrieved
-   * from API during initialisation.
-   *
-   * This is required/not-optional and readonly because this should not be
-   * modified anywhere else, and is only set after the user logged with
-   * `initOnLogin` method.
-   *
-   * See the `state` method of the store for more info.
+   * `User` entity object, access this using `getUser` method.
    */
-  readonly user: User;
-}
+  user: User | null;
 
-/**
- * Type of the state whereby every value is set to unknown, this is used to
- * enforce that the original state object must at the very least have all the
- * same keys defined! Without the same keys being defined in the original state
- * function, the assignment to this.$state in `initOnLogin` method will not be
- * reactive and it will fail.
- */
-type UnsetState = Record<keyof State, unknown>;
+  /**
+   * Time of caching the `user` property used to prevent stale cache.
+   */
+  userCacheTime: ISODateTimeString | null;
+}
 
 /**
  * Main store for user data
  */
 export const useUserStore = defineStore("user", {
-  /**
-   * State function that returns the initial state object, however since the
-   * store will create the state object before it is initialized using the
-   * `init` mehtod there will be many missing values, which will mean they have
-   * to be typed as optional, making every place that access these values do an
-   * extra check or use the non-null assertion operator which is not very safe.
-   *
-   * Therefore since every place can only use these data AFTER login and `init`
-   * method is ran, State type is typed to make every value non-optional.
-   * However this state function still needs to return a valid value, therefore
-   * the `UnsetState` type is used, to ensure that all a state object with all
-   * the keys required is used, so that when this.$state is used to set the
-   * actual state after initialization, it will still work and the values will
-   * be reactive. The value is then type casted to `State` once it satisfies
-   * `UnsetState` type.
-   */
-  state: (): State =>
-    ({ user: undefined } satisfies UnsetState as unknown as State),
+  state: (): State => ({ user: null, userCacheTime: null }),
 
   actions: {
     /**
-     * Get User Entity object from API
+     * Utility method to check if cached User is fresh (less than 24 hours old).
+     * Returns false if `user`/`userCacheTime` is not cached.
      */
-    async _getCurrentUser() {
+    isCachedUserFresh() {
+      if (this.userCacheTime === null) return false;
+
+      // Get Unix Seconds of 24 hours ago
+      const oneDayAgo = Math.trunc(Date.now() / 1000) - 8.64e7;
+
+      // Check if time of cache is newer than the one day old threshold
+      return parseInt(this.userCacheTime) > oneDayAgo;
+    },
+
+    /**
+     * Get currently logged in `User`. User will be cached for current session
+     * (24hrs) till a refresh or if force reload flag passed in.
+     */
+    async getUser(forceRefresh = false) {
+      // Return User immediately if caller did not ask for a forced refresh,
+      // `user` is cached and the cache is still fresh.
+      if (!forceRefresh && this.user !== null && this.isCachedUserFresh())
+        return this.user;
+
       const { res, err } = await sf
         .useDefault()
         .GET("/user/self")
         .useHeader(getAuthHeader)
-        .runJSON<ReadOneUserDTO>();
+        .runJSON<ReadOneUserDTO, { message: string }>();
 
-      // @todo Handle this failure instead of just throwing an error
-      if (err) throw new Error("Failed to get user account.");
+      if (err) throw new Error("Failed to get account.");
 
-      return res;
-    },
+      // Handle account loading failure and return early.
+      // Auto log user out for certain type of API call errors.
+      // This also attempts to print out the reason for logging user out first.
+      if (!res.ok) {
+        switch (res.status) {
+          case 403:
+            // Crude way to detect if their account is deactivated
+            if (res.data?.message?.includes("deactivated"))
+              console.log("[user.store] Account is deactivated");
 
-    /**
-     * Set User Entity onto store
-     */
-    async _setUser(user: User) {
-      // Save the User Entity object locally.
-      // Doing this instead of `this.user = user;` as the user property is readonly.
-      // Assigning to `this.$state` directly to reset state will only work if
-      // the original state object returned by the `state` method defined all
-      // the properties already, if not all defined, then the values will not be
-      // reactive and fail to work.
-      this.$state = { ...this.$state, user };
-    },
+            console.log("[user.store] Signing out of user account now");
 
-    /**
-     * Initialise the store with values from the API server on login
-     */
-    async initOnLogin() {
-      const res = await this._getCurrentUser();
+            // Sign user out without getting their confirmation
+            await logout();
 
-      // Throw error if the user account does not actually exists, which the
-      // caller should handle by logging the user out.
-      if (!res.ok) throw new Error("Account does not exist");
+            break;
 
-      this._setUser(res.data.user);
+          case 404:
+            console.log("[user.store] Account not found");
+            console.log("[user.store] Signing out of user account now");
+
+            // Sign user out without getting their confirmation
+            await logout();
+
+            break;
+
+          default:
+            console.log("[user.store] Unknown account loading failure");
+        }
+
+        throw new Error(`Failed to get account: ${JSON.stringify(res)}`);
+      }
+
+      this.user = res.data.user;
 
       return res.data.user;
     },
@@ -114,19 +117,6 @@ export const useUserStore = defineStore("user", {
     },
 
     /**
-     * Refresh by loading User from API server to check if it is still a valid
-     * account and save User object locally if so, else log user out.
-     */
-    async refreshUser() {
-      const res = await this._getCurrentUser();
-
-      // Handle account loading failure and return early to prevent saving undefined to store.
-      if (!res.ok) return this._handleAccountLoadingFailure(res);
-
-      this._setUser(res.data.user);
-    },
-
-    /**
      * Create a new User Entity
      */
     async createUser(name: string) {
@@ -137,41 +127,13 @@ export const useUserStore = defineStore("user", {
         .bodyJSON<CreateOneUserDTO>({ name })
         .runJSON<ReadOneUserDTO>();
 
-      // @todo Handle these failures instead of just throwing an error
       if (err) throw err;
-      if (!res.ok) throw new Error("Failed to create user account.");
+      if (!res.ok)
+        throw new Error(`Failed to create account: ${JSON.stringify(res)}`);
 
-      this._setUser(res.data.user);
-    },
+      this.user = res.data.user;
 
-    /**
-     * Auto log user out if API call to get user account failed.
-     * This also attempts to print out the reason for logging user out first.
-     */
-    async _handleAccountLoadingFailure<T>(res: ApiResponse<T>) {
-      switch (res.status) {
-        case 403:
-          // Crude way to detect if their account is deactivated
-          if (((res.data as any)?.message as string)?.includes("deactivated"))
-            console.log("[user.store] Account is deactivated");
-
-          break;
-
-        default:
-          console.log("[user.store] Unknown account loading failure");
-          console.log(`[user.store] Server Error Msg: ${(res as any).message}`);
-      }
-
-      console.log("[user.store] Signing out of user account now");
-
-      // Sign user out without getting their confirmation
-      await logout();
+      return res.data.user;
     },
   },
-
-  /**
-   * Persists this store's state in localStorage to reuse across sessions.
-   * Reference: https://www.npmjs.com/package/pinia-plugin-persistedstate
-   */
-  persist: true,
 });

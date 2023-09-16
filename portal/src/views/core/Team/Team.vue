@@ -10,6 +10,8 @@ import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 const orgStore = useOrg();
 const userStore = useUserStore();
 
+const user = await userStore.getUser();
+
 const org = await orgStore.getOrg();
 
 const { res, err } = await sf
@@ -42,10 +44,7 @@ const teamMembers = res.data.users;
         </p>
 
         <router-link
-          v-if="
-            userStore.user.role === Role.OrgOwner ||
-            userStore.user.role === Role.OrgAdmin
-          "
+          v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin"
           :to="{ name: InviteMemberRoute.name }"
           class="inline-flex w-full items-center justify-between rounded-lg border px-8 py-2"
           :class="{

@@ -9,8 +9,10 @@ const orgStore = useOrg();
 const userStore = useUserStore();
 const loaderStore = useLoader();
 
+const user = await userStore.getUser();
+
+const orgEmail = ref(user.email); // Defaults to the Org Owner's email
 const name = ref("");
-const orgEmail = ref(userStore.user.email); // Defaults to the Org Owner's email
 
 // If user already have an organisation, ask them if they want to continue, else
 // redirect to their original Org's home view.
@@ -90,7 +92,7 @@ async function createOrg() {
           <div
             class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6 font-extralight text-zinc-800"
           >
-            {{ userStore.user.email }}
+            {{ user.email }}
           </div>
         </label>
       </div>
