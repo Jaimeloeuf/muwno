@@ -12,7 +12,7 @@ const loader = useLoader();
 const org = await orgStore.getOrg();
 
 async function goToBillingPortal() {
-  loader.show();
+  loader.show("Waiting for payment provider...");
 
   /** Redirect to this route on setup success */
   const returnUrl = encodeURIComponent(

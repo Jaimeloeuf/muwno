@@ -20,7 +20,7 @@ const moneyFormatter = Intl.NumberFormat("en-US", {
 }).format;
 
 async function buyPlan(paymentInterval: "yearly" | "monthly") {
-  loader.show();
+  loader.show("Waiting for payment provider...");
 
   // Create subscription after payment method has been successfully setup.
   stripeStore.setStripeSetupNext({

@@ -7,7 +7,7 @@ import { OrgRoute, BuySubscriptionPlanRoute } from "../../../router";
 const router = useRouter();
 const orgStore = useOrg();
 const userStore = useUserStore();
-const loaderStore = useLoader();
+const loader = useLoader();
 
 const user = await userStore.getUser();
 
@@ -27,14 +27,14 @@ async function createOrg() {
   if (name.value === "")
     return alert("Please enter a valid Organisation name!");
 
-  loaderStore.show();
+  loader.show();
 
   await orgStore.createOrg({
     name: name.value,
     email: orgEmail.value,
   });
 
-  loaderStore.hide();
+  loader.hide();
 
   router.push({ name: BuySubscriptionPlanRoute.name });
 }

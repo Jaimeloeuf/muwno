@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useLoader } from "../../store";
+
+const loaderStore = useLoader();
+
 // Takes an optional boolean prop to control the loader component
 // Using compiler macro to type check the default value too
 // Reference: https://vuejs.org/api/sfc-script-setup.html#default-props-values-when-using-type-declaration
@@ -8,6 +12,7 @@ withDefaults(defineProps<{ show?: boolean }>(), { show: true });
 <template>
   <!-- Allow users to provide their own loader UI component if needed -->
   <slot v-if="show" name="loaderUI">
+    <!-- @todo Might use a loading animation gif or something instead -->
     <!-- Default loader UI -->
     <div
       class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-50 bg-opacity-90 text-center"
@@ -30,8 +35,14 @@ withDefaults(defineProps<{ show?: boolean }>(), { show: true });
           />
         </svg>
 
-        <p class="mt-12 bg-slate-50 p-2 text-4xl font-medium">
+        <p
+          v-if="loaderStore.customLoaderMessage === null"
+          class="mt-12 bg-zinc-50 px-2 text-4xl font-medium"
+        >
           ... loading ...
+        </p>
+        <p v-else class="mt-12 bg-zinc-50 px-4 text-2xl font-medium">
+          {{ loaderStore.customLoaderMessage }}
         </p>
       </div>
     </div>

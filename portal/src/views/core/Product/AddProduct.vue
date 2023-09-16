@@ -7,20 +7,20 @@ import SideDrawer from "../../components/SideDrawer.vue";
 
 const router = useRouter();
 const productStore = useProduct();
-const loaderStore = useLoader();
+const loader = useLoader();
 
 const name = ref<string>("");
 
 async function addProduct() {
   if (name.value === "") return alert("Product Name cannot be empty!");
 
-  loaderStore.show();
+  loader.show();
 
   const { id } = await productStore.createNewProduct(name.value);
 
   router.push({ name: ProductRoute.name, params: { productID: id } });
 
-  loaderStore.hide();
+  loader.hide();
 }
 </script>
 
