@@ -4,14 +4,14 @@ import SideDrawer from "../../components/SideDrawer.vue";
 
 const orgStore = useOrg();
 
-const orgDetails = await orgStore.getOrg();
+const org = await orgStore.getOrg();
 </script>
 
 <template>
   <div>
     <div class="mb-6 border-b pb-4">
       <SideDrawer />
-      <span class="ml-4 text-4xl">{{ orgDetails.name }}</span>
+      <span class="ml-4 text-4xl">{{ org.name }}</span>
     </div>
 
     <div class="mx-6 mb-10 md:mx-12">
@@ -23,7 +23,7 @@ const orgDetails = await orgStore.getOrg();
 
           <div class="text-right">
             <p class="text-4xl font-light">
-              {{ orgDetails.plan }}
+              {{ org.plan }}
             </p>
           </div>
         </div>

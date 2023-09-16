@@ -7,7 +7,7 @@ import SimplePMFLiveScoreCard from "./SimplePMFLiveScoreCard.vue";
 const orgStore = useOrg();
 const productStore = useProduct();
 
-const orgDetails = await orgStore.getOrg();
+const org = await orgStore.getOrg();
 const products = await productStore.getAllProducts();
 </script>
 
@@ -18,7 +18,7 @@ const products = await productStore.getAllProducts();
       <span class="ml-4 text-4xl">
         Products
         <span class="font-extralight"> ({{ products.length }}) </span>
-        of <span class="font-medium">{{ orgDetails.name }}</span>
+        of <span class="font-medium">{{ org.name }}</span>
       </span>
     </div>
 

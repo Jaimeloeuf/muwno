@@ -9,7 +9,7 @@ import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute"
 const orgStore = useOrg();
 const loader = useLoader();
 
-const orgDetails = await orgStore.getOrg();
+const org = await orgStore.getOrg();
 
 async function goToBillingPortal() {
   loader.show();
@@ -57,7 +57,7 @@ async function goToBillingPortal() {
 
           <div class="text-right">
             <p class="text-4xl font-light">
-              {{ orgDetails.plan }}
+              {{ org.plan }}
             </p>
           </div>
         </div>

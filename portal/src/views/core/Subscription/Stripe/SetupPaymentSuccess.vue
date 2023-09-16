@@ -9,14 +9,14 @@ const router = useRouter();
 const orgStore = useOrg();
 
 async function isSubscribed() {
-  const orgDetails = await orgStore.getOrg();
+  const org = await orgStore.getOrg();
 
-  if (orgDetails.id === undefined)
+  if (org.id === undefined)
     throw new Error(`Cannot check subscription status as Org cant be loaded`);
 
   const { res, err } = await sf
     .useDefault()
-    .GET(`/subscription/status/${orgDetails.id}`)
+    .GET(`/subscription/status/${org.id}`)
     .useHeader(getAuthHeader)
     .runJSON<{ subscribed: boolean }>();
 

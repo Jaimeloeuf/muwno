@@ -10,7 +10,7 @@ import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 const orgStore = useOrg();
 const userStore = useUserStore();
 
-const orgDetails = await orgStore.getOrg();
+const org = await orgStore.getOrg();
 
 const { res, err } = await sf
   .useDefault()
@@ -28,7 +28,7 @@ const teamMembers = res.data.users;
   <div>
     <div class="mb-6 border-b pb-4">
       <SideDrawer />
-      <span class="ml-4 text-4xl">{{ orgDetails.name }}</span>
+      <span class="ml-4 text-4xl">{{ org.name }}</span>
     </div>
 
     <!-- @todo -->

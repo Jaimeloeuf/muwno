@@ -1,7 +1,12 @@
 import { defineStore } from "pinia";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
-import type { Org, ReadOneOrgDTO, CreateOneOrgDTO } from "@domain-model";
+import type {
+  Org,
+  ReadOneOrgDTO,
+  CreateOneOrgDTO,
+  ISODateTimeString,
+} from "@domain-model";
 
 import { useUserStore } from "./user.store";
 
@@ -13,26 +18,45 @@ interface State {
    * Org Details of the org the currently logged in user belongs to.
    * Defaults to undefined if user is not logged in yet or does not have an org.
    */
-  orgDetails: Org | undefined;
+  org: Org | undefined;
+
+  /**
+   * Time of caching the `org` property used to prevent stale cache.
+   */
+  orgCacheTime: ISODateTimeString | undefined;
 }
 
 /**
  * Use this 'store' for org data.
  */
 export const useOrg = defineStore("org", {
-  state: (): State => ({ orgDetails: undefined }),
+  state: (): State => ({ org: undefined, orgCacheTime: undefined }),
 
   actions: {
+    /**
+     * Utility method to check if cached Org is fresh (less than 24 hours old).
+     * Returns false if `org`/`orgCacheTime` is not cached.
+     */
+    isCachedOrgFresh() {
+      if (this.orgCacheTime === undefined) return false;
+
+      // Get Unix Seconds of 24 hours ago
+      const oneDayAgo = Math.trunc(Date.now() / 1000) - 8.64e7;
+
+      // Check if time of cache is newer than the one day old threshold
+      return parseInt(this.orgCacheTime) > oneDayAgo;
+    },
+
     /**
      * Get Org Details of the org the currently logged in user belongs to. Org
      * details will be cached for the current session till a refresh or if force
      * reload flag passed in.
      */
     async getOrg(forceRefresh = false) {
-      // If user did not ask for a forced refresh, and `orgDetails` is already
-      // cached, return it immediately.
-      if (!forceRefresh && this.orgDetails !== undefined)
-        return this.orgDetails;
+      // Return Org immediately if user did not ask for a forced refresh, `org`
+      // is cached and the cache is still fresh.
+      if (!forceRefresh && this.org !== undefined && this.isCachedOrgFresh())
+        return this.org;
 
       const { res, err } = await sf
         .useDefault()
@@ -44,7 +68,7 @@ export const useOrg = defineStore("org", {
       if (!res.ok)
         throw new Error(`Failed to load Organisation: ${JSON.stringify(res)}`);
 
-      this.orgDetails = res.data.org;
+      this.org = res.data.org;
 
       return res.data.org;
     },
@@ -88,7 +112,7 @@ export const useOrg = defineStore("org", {
 
       await useUserStore().refreshJWT(true);
 
-      this.orgDetails = res.data.org;
+      this.org = res.data.org;
 
       return res.data.org;
     },

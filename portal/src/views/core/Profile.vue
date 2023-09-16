@@ -6,7 +6,7 @@ import { type Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();
 
-const orgDetails = await orgStore.getOrg();
+const org = await orgStore.getOrg();
 const userJWT = await auth.currentUser?.getIdTokenResult();
 </script>
 
@@ -43,21 +43,19 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
 
       <hr class="my-12" />
 
-      <div v-if="orgDetails !== undefined">
+      <div>
         <p class="mb-2 text-xl">Organisation</p>
 
         <div class="m-3 rounded-lg border border-zinc-200 p-3 font-light">
           <p>Name</p>
-          <p class="text-xl">{{ orgDetails.name }}</p>
+          <p class="text-xl">{{ org.name }}</p>
         </div>
 
         <div class="m-3 rounded-lg border border-zinc-200 p-3 font-light">
           <p>Plan</p>
-          <p class="text-xl">{{ orgDetails.plan }}</p>
+          <p class="text-xl">{{ org.plan }}</p>
         </div>
       </div>
-
-      <p v-else class="mb-2 text-xl">No Organisation</p>
     </div>
   </div>
 </template>
