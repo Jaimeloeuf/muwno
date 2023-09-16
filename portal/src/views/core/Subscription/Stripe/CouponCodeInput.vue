@@ -44,13 +44,16 @@ function clearCoupon() {
       <input
         v-model="couponCode"
         type="text"
-        class="w-full rounded-lg border border-gray-200 p-3"
+        class="w-full rounded-lg border border-zinc-200 p-3"
         :class="{ 'border-red-500': checked && !isValid }"
         placeholder="Coupon Code"
         @keydown.enter="useCouponCode"
       />
 
-      <button class="rounded-lg bg-slate-100 px-6" @click="useCouponCode">
+      <button
+        class="rounded-lg bg-zinc-100 px-6 text-zinc-900"
+        @click="useCouponCode"
+      >
         use
       </button>
     </div>

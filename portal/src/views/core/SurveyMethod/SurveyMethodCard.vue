@@ -10,13 +10,11 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    class="w-full max-w-lg rounded-lg border border-slate-300 p-6 font-light"
-  >
+  <div class="w-full max-w-lg rounded-lg border border-zinc-200 p-6 font-light">
     <div
-      class="mb-6 flex flex-row items-center justify-between border-b border-gray-300 pb-3"
+      class="mb-6 flex flex-row items-center justify-between border-b border-zinc-200 pb-3"
     >
-      <p class="mr-2 text-2xl font-light text-gray-900">
+      <p class="mr-2 text-2xl text-zinc-900">
         {{ index }}. {{ surveyMethod.name }}
       </p>
 
@@ -25,7 +23,7 @@ defineProps<{
       </p>
       <button
         v-else
-        class="rounded-lg bg-green-600 px-8 py-0.5 text-xl text-white"
+        class="rounded-lg border border-green-600 px-8 py-0.5 text-xl text-green-600"
       >
         Use
       </button>
@@ -46,7 +44,7 @@ defineProps<{
       </template>
 
       <template #content>
-        <ul class="mb-2 list-decimal px-5 text-lg font-light text-yellow-700">
+        <ul class="mb-2 list-decimal px-5 text-lg text-yellow-700">
           <li
             v-for="productType in surveyMethod.productTypes"
             :key="productType"

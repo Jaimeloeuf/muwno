@@ -120,7 +120,7 @@ async function pay() {
       </div>
 
       <button
-        class="rounded-lg bg-slate-400 px-2 py-0.5 text-white"
+        class="rounded-lg bg-zinc-100 px-2 py-0.5 font-light text-zinc-900"
         @click="router.back"
       >
         cancel
@@ -139,7 +139,7 @@ async function pay() {
     <div ref="paymentElement" class="mb-12"></div>
 
     <button
-      class="mb-8 w-full rounded-lg bg-green-600 p-2 text-2xl text-white"
+      class="mb-8 w-full rounded-lg bg-green-600 p-2 text-2xl text-zinc-50"
       @click="pay"
     >
       Pay

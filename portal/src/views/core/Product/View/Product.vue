@@ -27,10 +27,10 @@ setInterval(() => window.location.reload(), 8.64e7);
       <span class="ml-4 text-4xl font-light">{{ product.name }}</span>
     </div>
 
-    <div class="flex flex-col-reverse lg:flex-row">
+    <div class="flex flex-col-reverse xl:flex-row">
       <PMFChart class="m-4 my-12 grow lg:m-12" :product="product" />
 
-      <div class="mx-4 flex max-w-lg flex-col space-y-6 lg:mx-0 lg:basis-1/4">
+      <div class="mx-4 flex max-w-lg flex-col gap-6 lg:mx-0 lg:basis-1/4">
         <PMFLiveScoreCard class="w-full" :productID="product.id" />
         <TaskCard :productID="product.id" />
         <SurveyLinkCard :product="product" />

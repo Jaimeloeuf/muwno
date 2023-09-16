@@ -48,14 +48,14 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
     >
       <div class="w-full basis-1/2">
         <div class="p-3 font-light sm:p-6">
-          <div class="mb-6 border-b border-gray-300 pb-6">
+          <div class="mb-6 border-b border-zinc-200 pb-6">
             <p class="text-xl">
               Our subscription charges you a <i>base price</i> plus any
               <i>extra usage</i> over what is included.
             </p>
           </div>
 
-          <div class="mb-6 border-b border-gray-300 pb-6">
+          <div class="mb-6 border-b border-zinc-200 pb-6">
             <p class="mb-2 text-xl font-normal">
               What is included every month?
             </p>
@@ -71,7 +71,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
             </ul>
           </div>
 
-          <div class="mb-6 border-b border-gray-300 pb-6">
+          <div class="mb-6 border-b border-zinc-200 pb-6">
             <p class="mb-2 text-xl font-normal">
               How much does it cost if I use more than what is included?
             </p>
@@ -150,7 +150,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
           </div>
 
           <div
-            class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-gray-300 p-6 hover:shadow-2xl"
+            class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 p-6 hover:shadow-2xl"
             @click="buyPlan('monthly')"
           >
             <div>
@@ -170,7 +170,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
             </div>
 
             <svg
-              class="h-8 w-8 text-gray-700"
+              class="h-8 w-8 text-zinc-500"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

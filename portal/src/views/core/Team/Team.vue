@@ -49,7 +49,7 @@ const teamMembers = res.data.users;
           :to="{ name: InviteMemberRoute.name }"
           class="inline-flex w-full items-center justify-between rounded-lg border px-8 py-2"
           :class="{
-            'border-gray-200 text-gray-500': teamMembers.length > 1,
+            'border-zinc-200 text-zinc-900': teamMembers.length > 1,
             'border-green-600 text-green-600': teamMembers.length === 1,
           }"
         >
@@ -76,14 +76,14 @@ const teamMembers = res.data.users;
         <div
           v-for="(teamMember, index) in teamMembers"
           :key="teamMember.id"
-          class="my-3 rounded-lg border border-zinc-200 p-6 text-gray-900"
+          class="my-3 rounded-lg border border-zinc-200 p-6 text-zinc-900"
         >
           <div class="flex flex-row items-center">
             <p class="pr-3 text-2xl">
               {{ index + 1 }}
             </p>
 
-            <div class="flex-grow border-l border-slate-300 pl-3">
+            <div class="flex-grow border-l border-zinc-200 pl-3">
               <p class="mb-2 text-xl">{{ teamMember.name }}</p>
               <p v-if="teamMember.role !== undefined" class="mb-2">
                 {{ roleMapper[teamMember.role] }}

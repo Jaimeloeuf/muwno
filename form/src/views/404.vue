@@ -15,18 +15,18 @@ import { HomeRoute } from "../router";
         </h1>
 
         <p
-          class="mb-6 text-2xl font-bold tracking-tight text-gray-900 md:text-4xl"
+          class="mb-6 text-2xl font-bold tracking-tight text-zinc-900 md:text-4xl"
         >
           Whoops! This page doesn't exist.
         </p>
 
-        <p class="mt-11 text-lg font-light text-gray-500">
+        <p class="mt-11 text-lg font-light text-zinc-500">
           Here are some helpful links instead:
         </p>
 
         <router-link
           :to="{ name: HomeRoute.name }"
-          class="my-4 inline-flex text-center font-medium text-gray-500 underline"
+          class="my-4 inline-flex text-center font-medium text-zinc-500 underline"
         >
           Home
         </router-link>

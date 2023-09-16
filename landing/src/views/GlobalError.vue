@@ -16,11 +16,11 @@ defineEmits(["acknowledged"]);
       whoops
     </h1>
 
-    <p class="mb-6 text-xl font-bold text-gray-900 md:text-3xl">
+    <p class="mb-6 text-xl font-bold text-zinc-900 md:text-3xl">
       This page broke!
     </p>
 
-    <p class="mb-6 text-lg font-light text-gray-500">
+    <p class="mb-6 text-lg font-light text-zinc-500">
       Reloading the page might fix it, if not please help us report this issue!
     </p>
 

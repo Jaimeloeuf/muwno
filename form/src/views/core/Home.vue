@@ -12,7 +12,7 @@ window.location.href = "https://thepmftool.com";
   <div class="flex h-screen flex-row items-center justify-center">
     <a
       href="https://thepmftool.com"
-      class="rounded-lg bg-slate-200 px-6 py-2 text-4xl text-gray-500"
+      class="rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-2 text-4xl"
     >
       thepmftool.com
     </a>

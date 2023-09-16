@@ -88,7 +88,7 @@ async function createOrg() {
           <p>Main admin account of Organisation</p>
 
           <div
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6 font-extralight text-slate-800"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6 font-extralight text-zinc-800"
           >
             {{ userStore.user.email }}
           </div>

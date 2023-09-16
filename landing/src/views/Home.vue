@@ -48,15 +48,15 @@ async function submitMessage() {
 <template>
   <!-- Navbar -->
   <div
-    class="flex flex-row items-center justify-between bg-slate-50 p-4 lg:px-20"
+    class="flex flex-row items-center justify-between bg-zinc-50 p-4 lg:px-20"
   >
     <img src="/logo.svg" class="sm:w-52" />
 
-    <div>
+    <div class="flex flex-row gap-6">
       <a
         :href="loginLink"
         target="_blank"
-        class="mr-6 rounded-3xl bg-green-800 px-8 py-2 text-white"
+        class="rounded-full bg-green-700 px-4 py-2 text-white sm:px-8"
       >
         Login
       </a>
@@ -64,7 +64,7 @@ async function submitMessage() {
       <a
         :href="signupLink"
         target="_blank"
-        class="hidden rounded-3xl border-2 border-green-800 px-8 py-2 text-black md:inline-block"
+        class="rounded-full border-2 border-green-800 px-4 py-2 text-green-800 sm:px-8"
       >
         Sign up
       </a>
@@ -73,7 +73,7 @@ async function submitMessage() {
 
   <!-- Hero section -->
   <div
-    class="flex flex-row items-center justify-between bg-slate-200 px-10 py-16 md:px-24 lg:px-32"
+    class="flex flex-row items-center justify-between bg-slate-100 px-10 py-16 md:px-24 lg:px-32"
   >
     <div class="mr-6 max-w-sm md:max-w-full md:basis-1/2">
       <p class="mb-4 text-3xl text-green-800 md:pb-3 md:text-4xl lg:text-5xl">
@@ -87,34 +87,34 @@ async function submitMessage() {
 
       <div>
         <div
-          class="flex max-w-lg flex-col space-y-4 text-center md:flex-row md:space-x-4 md:space-y-0"
+          class="flex max-w-lg flex-col-reverse gap-4 text-center md:flex-row"
         >
           <a
             :href="loginLink"
             target="_blank"
-            class="w-full rounded-3xl bg-green-800 px-7 py-2 text-white"
+            class="w-full rounded-full border-2 border-green-800 bg-white px-7 py-2 text-green-800"
           >
-            Start
+            Live Demo
           </a>
           <a
             :href="loginLink"
             target="_blank"
-            class="w-full rounded-3xl border-2 border-green-800 bg-white px-7 py-2 text-black"
+            class="w-full rounded-full bg-green-700 px-7 py-2 text-white"
           >
-            Live Demo
+            Start
           </a>
         </div>
       </div>
     </div>
 
-    <div class="hidden bg-slate-200 md:inline-block md:basis-1/2">
+    <div class="hidden md:inline-block md:basis-1/2">
       <img src="../assets/hero.svg" />
     </div>
   </div>
 
   <!-- PMF Description section -->
   <div
-    class="flex flex-col bg-slate-100 p-10 md:px-24 md:py-20 lg:flex-row lg:space-x-12 lg:px-32"
+    class="flex flex-col bg-zinc-50 p-10 md:px-24 md:py-20 lg:flex-row lg:space-x-12 lg:px-32"
   >
     <p class="mb-4 w-full text-2xl text-green-800 md:text-4xl">
       Product Market Fit (PMF)
@@ -133,7 +133,7 @@ async function submitMessage() {
   </div>
 
   <div
-    class="flex flex-col justify-between bg-slate-200 p-10 md:flex-row md:px-24 md:py-20 md:pb-0 lg:p-32 lg:pb-0"
+    class="flex flex-col justify-between bg-slate-100 p-10 md:flex-row md:px-24 lg:px-32"
   >
     <div class="mb-12 w-full md:mb-0">
       <p class="mb-2 text-2xl text-green-800 md:text-3xl lg:text-4xl">
@@ -159,7 +159,7 @@ async function submitMessage() {
       <a
         :href="signupLink"
         target="_blank"
-        class="w-48 rounded-3xl bg-green-800 px-6 py-2 text-lg text-slate-50"
+        class="w-48 rounded-full bg-green-700 px-6 py-2 text-lg text-white"
       >
         Create Survey
       </a>
@@ -171,7 +171,7 @@ async function submitMessage() {
   </div>
 
   <div
-    class="flex flex-col-reverse justify-between bg-slate-200 p-10 pt-0 md:flex-row md:px-24 md:py-20 lg:p-32"
+    class="flex flex-col-reverse justify-between bg-slate-100 p-10 pt-0 md:flex-row md:px-24 lg:px-32"
   >
     <div class="mr-4 w-full max-w-lg md:mb-0 md:max-w-full">
       <img src="../assets/data-analysis.svg" />
@@ -190,14 +190,14 @@ async function submitMessage() {
       <a
         :href="loginLink"
         target="_blank"
-        class="w-48 rounded-3xl bg-green-800 px-6 py-2 text-lg text-slate-50"
+        class="w-48 rounded-full bg-green-700 px-6 py-2 text-lg text-white"
       >
         View Dashboard
       </a>
     </div>
   </div>
 
-  <div class="bg-slate-100 px-10 py-20 md:px-24 lg:px-32">
+  <div class="bg-zinc-50 px-10 py-20 md:px-24 lg:px-32">
     <div class="mb-6 max-w-2xl md:mb-12 lg:mb-20">
       <p class="text-2xl text-green-800 md:text-3xl lg:text-4xl">
         The PMF Survey has successfully helped companies like these grow
@@ -215,7 +215,7 @@ async function submitMessage() {
   </div>
 
   <div
-    class="flex flex-col space-y-6 bg-slate-200 px-10 py-12 md:flex-row md:space-x-12 md:px-16 lg:px-32"
+    class="flex flex-col space-y-6 bg-slate-100 px-10 py-12 md:flex-row md:space-x-12 md:px-16 lg:px-32"
   >
     <p class="w-full text-2xl text-green-800 md:text-3xl lg:text-4xl">
       Reach out to us when you are ready to growth hack your product to PMF!
@@ -223,47 +223,40 @@ async function submitMessage() {
 
     <div class="flex w-full flex-col px-3 text-sm lg:px-12">
       <label class="mb-6 w-full tracking-wide">
-        <p class="mb-2 font-bold text-gray-700">NAME</p>
+        <p class="mb-2 font-bold text-zinc-700">NAME</p>
 
         <input
           v-model="name"
-          class="w-full appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+          class="w-full appearance-none rounded border bg-zinc-100 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
           type="text"
           placeholder="Jane Doe"
         />
       </label>
 
       <label class="mb-6 w-full tracking-wide">
-        <p class="mb-2 font-bold text-gray-700">EMAIL</p>
+        <p class="mb-2 font-bold text-zinc-700">EMAIL</p>
 
         <input
           v-model="email"
-          class="w-full appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+          class="w-full appearance-none rounded border bg-zinc-100 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
           type="text"
           placeholder="janedoe@gmail.com"
           @keydown.enter="submitMessage"
         />
       </label>
 
-      <label class="mb-6 w-full tracking-wide">
-        <p class="mb-2 font-bold text-gray-700">YOUR MESSAGE</p>
+      <label class="w-full tracking-wide">
+        <p class="mb-2 font-bold text-zinc-700">YOUR MESSAGE</p>
 
         <textarea
           v-model="message"
-          class="w-full resize-none appearance-none rounded border bg-gray-300 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+          class="w-full resize-none appearance-none rounded border bg-zinc-100 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
           rows="4"
-          placeholder="I am ready to growth hack my product to PMF!"
+          placeholder="I need to reach Product Market Fit!"
         ></textarea>
       </label>
 
-      <button
-        class="w-40 rounded-3xl bg-green-800 px-6 py-2 text-lg text-slate-50"
-        @click="submitMessage"
-      >
-        Submit
-      </button>
-
-      <div class="-mx-4 mt-6 text-center text-xs font-extralight">
+      <p class="pb-4 text-xs font-extralight">
         This site is protected by reCAPTCHA and the Google
         <a
           target="_blank"
@@ -281,27 +274,34 @@ async function submitMessage() {
           Terms of Service
         </a>
         apply.
-      </div>
+      </p>
+
+      <button
+        class="w-40 rounded-full bg-green-700 px-6 py-2 text-lg text-white"
+        @click="submitMessage"
+      >
+        Submit
+      </button>
     </div>
   </div>
 
   <div
-    class="flex flex-row justify-between bg-slate-50 p-4 md:items-center md:px-16 lg:px-32"
+    class="flex flex-row justify-between bg-zinc-50 p-4 md:items-center md:px-16 lg:px-32"
   >
     <div>
       <img src="/logo.svg" class="md:w-40" />
     </div>
 
-    <div class="flex flex-col md:flex-row md:space-x-3 lg:space-x-6">
-      <a href="/TC.pdf" target="_blank" class="inline-block underline">
+    <div class="flex flex-col md:flex-row md:gap-3 lg:gap-6">
+      <a href="/TC.pdf" target="_blank" class="inline-block text-sm underline">
         Terms & Conditions
       </a>
 
-      <a href="/PP.pdf" target="_blank" class="inline-block underline">
+      <a href="/PP.pdf" target="_blank" class="inline-block text-sm underline">
         Privacy Policy
       </a>
 
-      <a href="/DPN.pdf" target="_blank" class="inline-block underline">
+      <a href="/DPN.pdf" target="_blank" class="inline-block text-sm underline">
         PDPA Data Protection Notice
       </a>
     </div>

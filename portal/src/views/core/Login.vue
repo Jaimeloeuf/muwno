@@ -51,48 +51,52 @@ async function login() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-lg">
-    <div class="my-10">
-      <p class="text-4xl">The PMF Tool</p>
-    </div>
+  <div class="mx-auto flex h-[80vh] w-full max-w-lg flex-col justify-center">
+    <a href="https://thepmftool.com" target="_blank" class="pb-6">
+      <img src="../../assets/logo.svg" alt="logo" />
+    </a>
 
-    <div class="mb-10">
+    <div class="pb-6">
       <label>
-        <p class="text-xl">Email</p>
+        <p class="pb-0.5 text-lg font-light">Email</p>
 
         <input
           v-model="email"
           type="text"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="janedoe@gmail.com"
         />
       </label>
     </div>
 
-    <div class="mb-10">
+    <div class="pb-10">
       <label>
-        <p class="text-xl">Password</p>
+        <p class="pb-0.5 text-lg font-light">Password</p>
 
         <input
           v-model="password"
           type="password"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="password"
+          @keydown.enter="login"
         />
       </label>
     </div>
 
-    <button
-      class="w-full rounded-lg bg-lime-500 p-3 text-xl tracking-widest text-white"
-      @click="login"
-    >
-      LOGIN
-    </button>
-
-    <div class="mt-12 text-center">
-      <router-link :to="{ name: SignupRoute.name }" class="underline">
-        click here to signup
+    <div class="flex flex-row items-center gap-6">
+      <router-link
+        :to="{ name: SignupRoute.name }"
+        class="rounded-lg bg-zinc-100 p-3 text-xl font-light text-zinc-700"
+      >
+        Signup
       </router-link>
+
+      <button
+        class="w-full rounded-lg bg-green-600 p-3 text-xl text-white"
+        @click="login"
+      >
+        Login
+      </button>
     </div>
   </div>
 </template>

@@ -53,64 +53,80 @@ async function signup() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-lg">
-    <div class="mb-4 mt-10">
-      <p class="text-3xl">
-        Sign up for
-        <span class="font-semibold tracking-tighter">thepmftool</span>
-      </p>
-    </div>
+  <div class="mx-auto flex h-[80vh] w-full max-w-lg flex-col justify-center">
+    <a
+      href="https://thepmftool.com"
+      target="_blank"
+      class="flex flex-row items-center gap-1 pb-6"
+    >
+      <img src="../../assets/logo.svg" alt="logo" />
+      <p class="text-lg tracking-tight">(Sign up)</p>
+    </a>
 
-    <div class="mb-6">
+    <div class="pb-6">
       <label>
-        <p class="text-xl">Name</p>
+        <p class="font-light">Name</p>
 
         <input
           v-model="name"
           type="text"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-4"
+          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="Jane Doe"
         />
       </label>
     </div>
 
-    <div class="mb-6">
+    <div class="pb-6">
       <label>
-        <p class="text-xl">Email</p>
+        <p class="font-light">Email</p>
 
         <input
           v-model="email"
           type="text"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-4"
+          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="janedoe@gmail.com"
         />
       </label>
     </div>
 
-    <div class="mb-6">
+    <div class="pb-10">
       <label>
-        <p class="text-xl">Password</p>
+        <p class="font-light">Password</p>
 
         <input
           v-model="password"
           type="password"
-          class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-4"
+          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="password"
         />
       </label>
     </div>
 
-    <button
-      class="w-full rounded-lg bg-lime-500 p-3 text-xl tracking-widest text-white"
-      @click="signup"
-    >
-      SIGNUP
-    </button>
-
-    <div class="mt-10 text-center">
-      <router-link :to="{ name: LoginRoute.name }" class="underline">
-        click here to login
+    <div class="flex flex-row items-center gap-6">
+      <router-link
+        :to="{ name: LoginRoute.name }"
+        class="rounded-lg bg-zinc-100 p-3 text-xl font-light text-zinc-700"
+      >
+        Login
       </router-link>
+
+      <button
+        class="w-full rounded-lg bg-green-600 p-3 text-xl text-white"
+        @click="signup"
+      >
+        Signup
+      </button>
     </div>
+  </div>
+
+  <div class="fixed inset-x-0 bottom-12 mx-auto text-center text-sm font-thin">
+    By signing up, you agree to our
+    <a href="https://thepmftool.com/TC.pdf" target="_blank" class="underline"
+      >Terms & Conditions</a
+    >
+    and
+    <a href="https://thepmftool.com/PP.pdf" target="_blank" class="underline">
+      Privacy Policy
+    </a>
   </div>
 </template>

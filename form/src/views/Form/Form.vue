@@ -12,7 +12,7 @@ const { form, submitForm } = await useForm(props.formID);
 <template>
   <div class="m-6">
     <FormKit type="form" :actions="false" @submit="submitForm">
-      <h1 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900">
+      <h1 class="mb-4 text-3xl font-extrabold tracking-tight text-zinc-900">
         {{ form.title }}
       </h1>
 
@@ -38,7 +38,7 @@ const { form, submitForm } = await useForm(props.formID);
       />
     </FormKit>
 
-    <p class="mt-6 text-center text-xs text-gray-500">
+    <p class="mt-6 text-center text-xs text-zinc-500">
       &copy;2023 - {{ new Date().getFullYear() }} StarterKit. All rights
       reserved.
     </p>

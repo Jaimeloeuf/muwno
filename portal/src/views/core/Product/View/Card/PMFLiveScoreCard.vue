@@ -16,7 +16,7 @@ const { PMFScore, reliability } = await useLiveScore(props.productID);
 
 <template>
   <!-- @todo Allow users to edit live score time period setting -->
-  <div class="w-full rounded-lg border border-slate-200 p-4">
+  <div class="w-full rounded-lg border border-zinc-200 p-4">
     <template v-if="PMFScore.score === null">
       <div class="mb-1 flex flex-row items-center justify-between">
         <p class="text-sm font-medium">
@@ -86,7 +86,7 @@ const { PMFScore, reliability } = await useLiveScore(props.productID);
 
     <div
       v-if="showHelp"
-      class="mt-2 border-t border-slate-200 pt-2 text-sm font-light"
+      class="mt-2 border-t border-zinc-200 pt-2 text-sm font-light"
     >
       <ul class="list-decimal space-y-2 px-4">
         <li>

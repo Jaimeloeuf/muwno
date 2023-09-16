@@ -8,7 +8,7 @@ const { PMFScore, reliability } = await useLiveScore(props.productID);
 </script>
 
 <template>
-  <div class="w-max rounded-lg border border-slate-200 bg-white p-4 font-light">
+  <div class="w-max rounded-lg border border-zinc-200 bg-white p-4 font-light">
     <p v-if="PMFScore.score === null" class="text-lg font-extralight">
       No live score yet,
       <br />

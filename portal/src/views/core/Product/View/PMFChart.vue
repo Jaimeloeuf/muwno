@@ -44,7 +44,7 @@ const weeklyIntervalValues = [2, 3, 4, 5, 6, 7, 8, 9, 10];
         Show past
         <select
           v-model="intervals"
-          class="mx-2 rounded-lg bg-slate-100 px-3 py-1"
+          class="mx-2 rounded-lg bg-zinc-100 px-3 py-1"
         >
           <option
             v-for="intervalsToShow in weeklyIntervalValues"

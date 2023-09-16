@@ -20,12 +20,12 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
     <div class="mx-6 mb-10">
       <p class="mb-2 text-xl">User</p>
 
-      <div class="m-3 rounded-lg bg-slate-200 p-3">
+      <div class="m-3 rounded-lg border border-zinc-200 p-3 font-light">
         <p>User ID</p>
         <p class="text-xl">{{ auth.currentUser?.uid }}</p>
       </div>
 
-      <div class="m-3 rounded-lg bg-slate-200 p-3">
+      <div class="m-3 rounded-lg border border-zinc-200 p-3 font-light">
         <p>Roles</p>
         <ul
           v-if="Array.isArray(userJWT?.claims?.roles)"
@@ -46,12 +46,12 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
       <div v-if="orgDetails !== undefined">
         <p class="mb-2 text-xl">Organisation</p>
 
-        <div class="m-3 rounded-lg bg-slate-200 p-3">
+        <div class="m-3 rounded-lg border border-zinc-200 p-3 font-light">
           <p>Name</p>
           <p class="text-xl">{{ orgDetails.name }}</p>
         </div>
 
-        <div class="m-3 rounded-lg bg-slate-200 p-3">
+        <div class="m-3 rounded-lg border border-zinc-200 p-3 font-light">
           <p>Plan</p>
           <p class="text-xl">{{ orgDetails.plan }}</p>
         </div>

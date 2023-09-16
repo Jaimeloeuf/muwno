@@ -21,7 +21,7 @@ const back = () => {
     @click="back"
   >
     <svg
-      class="inline-block h-6 w-6 rotate-180 text-gray-600"
+      class="inline-block h-6 w-6 rotate-180 text-zinc-700"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

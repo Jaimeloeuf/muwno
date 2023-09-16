@@ -9,7 +9,7 @@ const hidden = ref(true);
     <button
       type="button"
       class="flex w-full items-center py-4"
-      :class="{ 'border-b border-gray-200': !hidden }"
+      :class="{ 'border-b border-zinc-200': !hidden }"
       @click="hidden = !hidden"
     >
       <svg

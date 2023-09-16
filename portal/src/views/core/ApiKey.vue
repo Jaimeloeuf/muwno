@@ -82,14 +82,14 @@ const apiKeyDetails = ref(await getApiKeyDetails());
 
     <div class="mx-auto w-full max-w-3xl">
       <div
-        class="flex flex-col justify-between border-b border-slate-200 pb-6 sm:flex-row sm:items-center"
+        class="flex flex-col justify-between border-b border-zinc-200 pb-6 sm:flex-row sm:items-center"
       >
         <p class="text-xl">
-          <b>{{ apiKeyDetails.length }}</b> API Keys for this product
+          API Keys ({{ apiKeyDetails.length }}) for this product
         </p>
 
         <button
-          class="rounded-lg bg-green-600 p-2 px-6 text-white"
+          class="rounded-lg border border-green-600 p-2 px-6 text-green-600"
           @click="createApiKey"
         >
           Create new API key
@@ -104,7 +104,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
         <div
           v-for="(apiKeyDetail, i) in apiKeyDetails"
           :key="i"
-          class="mt-3 flex w-full flex-col items-center border-b border-slate-200 p-2 text-left text-xl sm:flex-row"
+          class="flex w-full flex-col items-center border-b border-zinc-200 p-4 text-left text-xl sm:flex-row"
         >
           <p class="mr-6">
             {{ i + 1 }}. <i>{{ apiKeyDetail.prefix }}</i>
@@ -117,7 +117,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
           <p class="mr-2">{{ getDateString(apiKeyDetail.createdAt) }}</p>
 
           <button
-            class="rounded-lg bg-red-700 px-2 py-0.5 text-white"
+            class="rounded-lg border border-red-700 px-2 py-0.5 font-extralight text-red-700"
             @click="deleteApiKey(apiKeyDetail.id)"
           >
             delete

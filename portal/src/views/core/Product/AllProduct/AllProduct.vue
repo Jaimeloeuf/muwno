@@ -24,7 +24,7 @@ const products = await productStore.getAllProducts();
 
     <div class="md:mx-6">
       <div
-        class="mx-6 mb-8 flex flex-row items-end justify-between pb-6"
+        class="mb-8 flex flex-col justify-between gap-3 pb-6 sm:flex-row sm:items-end"
         :class="{ 'border-b border-zinc-200': true }"
       >
         <div class="w-full">
@@ -32,18 +32,22 @@ const products = await productStore.getAllProducts();
           <div class="flex max-w-md flex-row gap-3">
             <input
               type="text"
-              class="w-full rounded-lg border border-gray-200 p-3"
+              class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2"
               :placeholder="`E.g. ${products[0]?.name ?? 'Spotify'}`"
             />
 
-            <button class="rounded-lg bg-slate-100 px-6">search</button>
+            <button
+              class="rounded-lg bg-zinc-100 px-6 font-light text-zinc-900"
+            >
+              search
+            </button>
           </div>
         </div>
 
         <div class="flex-shrink-0">
           <router-link
             :to="{ name: AddProductRoute.name }"
-            class="inline-flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 px-6 py-2"
+            class="inline-flex cursor-pointer items-center justify-between rounded-lg border border-zinc-200 px-6 py-2"
             :class="{
               'bg-white text-green-600 ': products.length !== 0,
               'bg-green-600 text-white': products.length === 0,
@@ -75,9 +79,9 @@ const products = await productStore.getAllProducts();
           v-for="product in products"
           :key="product.id"
           :to="{ name: ProductRoute.name, params: { productID: product.id } }"
-          class="m-6 rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-gray-900"
+          class="m-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-zinc-900 sm:m-6"
         >
-          <div class="flex flex-row justify-between">
+          <div class="flex flex-col justify-between sm:flex-row">
             <p class="p-3 pr-4 text-3xl">{{ product.name }}</p>
             <SimplePMFLiveScoreCard :productID="product.id" />
           </div>

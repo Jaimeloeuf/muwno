@@ -16,7 +16,7 @@ const showDrawer = ref<boolean>(false);
 <template>
   <button
     type="button"
-    class="m-1 mt-2 inline-flex rounded-lg text-sm text-gray-500"
+    class="m-1 mt-2 inline-flex rounded-lg text-sm"
     @click="showDrawer = !showDrawer"
   >
     <svg
@@ -45,10 +45,10 @@ const showDrawer = ref<boolean>(false);
     :class="{ 'w-5/6 translate-x-0 shadow-2xl': showDrawer }"
   >
     <div
-      class="flex h-full flex-col items-start justify-between gap-2 bg-gray-50 p-4 font-medium"
+      class="flex h-full flex-col items-start justify-between gap-2 bg-zinc-50 p-4"
     >
       <button
-        class="w-full border-b border-gray-200 p-2 text-gray-900"
+        class="w-full border-b border-zinc-200 p-2"
         @click="showDrawer = false"
       >
         <span class="text-2xl">Product Market Fit</span>
@@ -58,31 +58,25 @@ const showDrawer = ref<boolean>(false);
       <div class="w-full">
         <router-link
           :to="{ name: AllProductRoute.name }"
-          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
+          class="group flex w-full rounded-lg p-2 text-zinc-900 transition duration-75"
           @click="showDrawer = !showDrawer"
         >
-          <img
-            src="../../assets/SideDrawerIcon/Product.svg"
-            class="h-6 w-6 text-gray-500"
-          />
+          <img src="../../assets/SideDrawerIcon/Product.svg" class="h-6 w-6" />
           <span class="ml-3 flex-1 text-left">Products</span>
         </router-link>
 
         <router-link
           :to="{ name: OrgRoute.name }"
-          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
+          class="group flex w-full rounded-lg p-2 text-zinc-900 transition duration-75"
           @click="showDrawer = !showDrawer"
         >
-          <img
-            src="../../assets/SideDrawerIcon/Org.svg"
-            class="h-6 w-6 text-gray-500"
-          />
+          <img src="../../assets/SideDrawerIcon/Org.svg" class="h-6 w-6" />
           <span class="ml-3 flex-1 text-left">Organisation</span>
         </router-link>
 
         <router-link
           :to="{ name: TeamRoute.name }"
-          class="flex w-full p-2 text-start text-gray-900"
+          class="flex w-full p-2 text-start text-zinc-900"
           @click="showDrawer = !showDrawer"
         >
           <svg
@@ -104,12 +98,12 @@ const showDrawer = ref<boolean>(false);
 
         <router-link
           :to="{ name: ManageSubscriptionRoute.name }"
-          class="group flex w-full rounded-lg p-2 text-gray-900 transition duration-75"
+          class="group flex w-full rounded-lg p-2 text-zinc-900 transition duration-75"
           @click="showDrawer = !showDrawer"
         >
           <img
             src="../../assets/SideDrawerIcon/Subscription.svg"
-            class="h-6 w-6 text-gray-500"
+            class="h-6 w-6"
           />
           <span class="ml-3 flex-1 text-left">Subscription</span>
         </router-link>
@@ -120,10 +114,10 @@ const showDrawer = ref<boolean>(false);
 
       <router-link
         :to="{ name: ProfileRoute.name }"
-        class="flex w-full p-2 pb-0 text-start text-gray-700"
+        class="flex w-full p-2 pb-0 text-start text-zinc-800"
       >
         <svg
-          class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
+          class="h-6 w-6 flex-shrink-0 transition duration-75"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -141,10 +135,10 @@ const showDrawer = ref<boolean>(false);
 
       <router-link
         :to="{}"
-        class="flex w-full p-2 pb-0 text-start text-gray-700"
+        class="flex w-full p-2 pb-0 text-start text-zinc-800"
       >
         <svg
-          class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
+          class="h-6 w-6 flex-shrink-0 transition duration-75"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -163,9 +157,9 @@ const showDrawer = ref<boolean>(false);
       </router-link>
 
       <!-- @todo Create link -->
-      <a class="flex w-full p-2 pb-0 text-start text-gray-700" target="_blank">
+      <a class="flex w-full p-2 pb-0 text-start text-zinc-800" target="_blank">
         <svg
-          class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
+          class="h-6 w-6 flex-shrink-0 transition duration-75"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -180,11 +174,11 @@ const showDrawer = ref<boolean>(false);
       </a>
 
       <button
-        class="flex w-full p-2 text-start text-gray-700"
+        class="flex w-full p-2 text-start text-zinc-800"
         @click="logout(true)"
       >
         <svg
-          class="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75"
+          class="h-6 w-6 flex-shrink-0 transition duration-75"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

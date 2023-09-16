@@ -20,9 +20,9 @@ async function generateQR() {
 </script>
 
 <template>
-  <div class="w-full rounded-lg border border-slate-200 p-4">
+  <div class="w-full rounded-lg border border-zinc-200 p-4">
     <div
-      class="mb-2 flex flex-row items-center justify-between border-b border-slate-300 pb-2"
+      class="mb-2 flex flex-row items-center justify-between border-b border-zinc-300 pb-2"
     >
       <p class="font-medium">Survey Link</p>
 

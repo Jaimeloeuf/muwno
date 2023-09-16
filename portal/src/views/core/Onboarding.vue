@@ -32,7 +32,9 @@ const joinOrg = () =>
       </router-link>
 
       <button v-else class="text-left" @click="joinOrg">
-        <div class="mb-8 w-full rounded-lg bg-slate-100 p-4">
+        <div
+          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+        >
           <p class="mb-2 text-2xl">Join Organisation</p>
           <p class="font-light">
             Join an existing Organisation by getting your Organisation Admin or
@@ -42,7 +44,9 @@ const joinOrg = () =>
       </button>
 
       <router-link :to="{ name: CreateOrgRoute.name }">
-        <div class="mb-8 w-full rounded-lg bg-slate-100 p-4">
+        <div
+          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+        >
           <p class="mb-2 text-2xl">Create Organisation</p>
           <p class="font-light">Create a new Organisation Account.</p>
         </div>

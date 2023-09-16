@@ -42,7 +42,13 @@ const tasks = ref(await getTasks());
 </script>
 
 <template>
-  <div class="inline-block w-full pb-2">
+  <div
+    class="mb-2 w-full"
+    :class="{
+      'pb-3': tasks.length !== 0,
+      'rounded-lg border border-zinc-200 p-4': tasks.length === 0,
+    }"
+  >
     <div class="flex flex-row items-center justify-between">
       <p class="text-sm font-semibold">Top Tasks</p>
       <!--
@@ -58,7 +64,7 @@ const tasks = ref(await getTasks());
       </router-link> -->
     </div>
 
-    <div v-if="tasks.length === 0" class="text-2xl font-thin">
+    <div v-if="tasks.length === 0" class="pt-2 text-xl font-extralight">
       <!-- @todo Should also say all done if there are tasks jus all completed! -->
       This will be automatically generated once there are survey responses.
     </div>

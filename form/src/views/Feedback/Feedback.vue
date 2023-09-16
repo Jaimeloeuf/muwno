@@ -37,7 +37,7 @@ async function submit() {
 <template>
   <!-- This ensures that the UI is always centered and limited to a width even in desktop mode -->
   <div class="m-6">
-    <h1 class="mb-6 text-3xl font-extrabold tracking-tight text-gray-900">
+    <h1 class="mb-6 text-3xl font-extrabold tracking-tight text-zinc-900">
       {{ productName }} feedback form
     </h1>
 
@@ -52,7 +52,7 @@ async function submit() {
       <div
         v-for="option in radioOptions"
         :key="option.value"
-        class="mb-3 flex rounded-lg border border-gray-200 p-4 py-3"
+        class="mb-3 flex rounded-lg border border-zinc-200 p-4 py-3"
       >
         <label
           class="w-full cursor-pointer font-light"
@@ -81,7 +81,7 @@ async function submit() {
       <textarea
         v-model="a2"
         rows="2"
-        class="block w-full resize-none rounded-lg border border-gray-300 p-3 font-light"
+        class="block w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
       </textarea>
     </div>
@@ -97,7 +97,7 @@ async function submit() {
       <textarea
         v-model="a3"
         rows="4"
-        class="block w-full resize-none rounded-lg border border-gray-300 p-3 font-light"
+        class="block w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
       </textarea>
     </div>
@@ -113,7 +113,7 @@ async function submit() {
       <textarea
         v-model="a4"
         rows="4"
-        class="block w-full resize-none rounded-lg border border-gray-300 p-3 font-light"
+        class="block w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
       </textarea>
     </div>
@@ -129,7 +129,7 @@ async function submit() {
       <a
         href="https://thepmftool.com"
         target="_blank"
-        class="text-xs text-gray-500 underline"
+        class="text-xs text-zinc-500 underline"
       >
         &copy;2023 - {{ new Date().getFullYear() }} thepmftool. All rights
         reserved.

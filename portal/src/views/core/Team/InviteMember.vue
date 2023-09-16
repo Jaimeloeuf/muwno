@@ -5,7 +5,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif } from "../../../store";
 import { TeamRoute } from "../../../router";
-import SideDrawer from "../../components/SideDrawer.vue";
+import BackButton from "../../components/BackButton.vue";
 import type { CreateOneTeamMemberInvitationDTO } from "@domain-model";
 
 const router = useRouter();
@@ -39,8 +39,8 @@ async function invite() {
 
 <template>
   <div>
-    <div class="mb-12 border-b pb-4">
-      <SideDrawer />
+    <div class="mb-12 flex flex-row items-center border-b pb-4">
+      <BackButton />
       <span class="ml-4 text-4xl">Invite new Team Member</span>
     </div>
 
@@ -53,7 +53,7 @@ async function invite() {
           <input
             v-model="email"
             type="text"
-            class="mt-4 w-full rounded-lg border border-gray-300 bg-slate-50 p-6"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
             placeholder="janedoe@gmail.com"
           />
         </label>

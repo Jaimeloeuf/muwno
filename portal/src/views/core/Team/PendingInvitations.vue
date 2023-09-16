@@ -80,7 +80,7 @@ async function rejectInvitation(invitationID: number) {
         </p>
 
         <button
-          class="rounded-lg bg-slate-200 p-2 font-light text-gray-800"
+          class="rounded-lg bg-zinc-100 px-4 font-light text-zinc-900"
           @click="teamInvitationStore.checkForPendingTeamInvitations"
         >
           refresh
@@ -91,14 +91,14 @@ async function rejectInvitation(invitationID: number) {
         <div
           v-for="(invitation, index) in teamInvitationStore.invitations"
           :key="invitation.id"
-          class="my-3 rounded-lg bg-slate-50 p-6 text-gray-900"
+          class="my-3 rounded-lg bg-zinc-100 p-6 text-zinc-900"
         >
           <div class="flex flex-row items-center">
             <p class="pr-3 text-2xl">
               {{ index + 1 }}
             </p>
 
-            <div class="flex-grow border-l border-slate-300 pl-3">
+            <div class="flex-grow border-l border-zinc-200 pl-3">
               <p class="mb-2">
                 <b>{{ invitation.inviter.name }}</b> has invited you to join
                 <b>{{ invitation.team.name }}</b> on
