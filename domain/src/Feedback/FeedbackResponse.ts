@@ -4,7 +4,7 @@ import type { ISODateTimeString } from "../utils/Timestamp.js";
  * Type to represent a single response of the PMF survey feedback form.
  */
 export interface FeedbackResponse {
-  id: number;
+  id: string;
   createdAt: ISODateTimeString;
   productID: string;
   a1: 1 | 2 | 3;
