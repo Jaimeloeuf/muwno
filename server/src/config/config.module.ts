@@ -18,6 +18,12 @@ export const ConfigModule = _ConfigModule.forRoot({
   isGlobal: true,
 
   /**
+   * Explicitly specify the file path of the .env files.
+   * The values from the first file takes precedence.
+   */
+  envFilePath: ['.env.development', '.env.production', '.env'],
+
+  /**
    * From NestJS docs: Accessing process.env can be slow, caching it can increase
    * the performance of the `ConfigService.get` method when it comes to variables
    * stored in process.env
