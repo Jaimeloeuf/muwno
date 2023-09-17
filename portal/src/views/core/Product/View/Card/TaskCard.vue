@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../../firebase";
 import { useNotif } from "../../../../../store";
+import { SurveyResponseRoute } from "../../../../../router";
 import type { ProductID, ReadManyTaskDTO, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -80,9 +81,14 @@ const tasks = ref(await getTasks());
         >
           <p class="w-full">Priority {{ i + 1 }}</p>
 
-          <!-- @todo -->
           <router-link
-            :to="{}"
+            :to="{
+              name: SurveyResponseRoute.name,
+              params: {
+                productID: task.productID,
+                responseID: task.responseID,
+              },
+            }"
             class="rounded-lg border border-zinc-200 px-3 text-center font-light text-zinc-900"
           >
             Details

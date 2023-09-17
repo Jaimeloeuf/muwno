@@ -4,7 +4,12 @@ import { IFeedbackRepo } from '../../../DAL/index.js';
 import { TaskService } from '../../task/services/task.service.js';
 
 // Entity Types
-import type { ProductID, FeedbackForm } from 'domain-model';
+import type {
+  ProductID,
+  FeedbackForm,
+  FeedbackResponseID,
+  FeedbackResponse,
+} from 'domain-model';
 
 // DTO Types
 import type { CreateOneFeedbackResponseDTO } from 'domain-model';
@@ -45,6 +50,17 @@ export class FeedbackService {
     );
 
     await this.taskService.createOne(productID, responseID, response);
+  }
+
+  /**
+   * Get a single response.
+   */
+  async getResponse(responseID: FeedbackResponseID): Promise<FeedbackResponse> {
+    const response = await this.feedbackRepo.getResponse(responseID);
+    if (response === null)
+      throw new NotFoundException(`Cannot find response: ${responseID}`);
+
+    return response;
   }
 
   /**

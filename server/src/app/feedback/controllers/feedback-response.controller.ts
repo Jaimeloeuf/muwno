@@ -6,7 +6,11 @@ import { FeedbackService } from '../services/feedback.service.js';
 import { GuardWithRBAC, AllowAllRoles } from '../../../rbac/index.js';
 
 // Entity Types
-import type { ProductID } from 'domain-model';
+import type {
+  ProductID,
+  FeedbackResponseID,
+  FeedbackResponse,
+} from 'domain-model';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -16,7 +20,7 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
  * to interact with their customers' PMF survey responses. This is unlike
  * `FeedbackController` which defines publicly accessibly API endpoints.
  */
-@Controller('feedback')
+@Controller('feedback/response')
 @GuardWithRBAC()
 @UseHttpControllerFilters
 export class FeedbackResponseController {
@@ -25,7 +29,20 @@ export class FeedbackResponseController {
   /**
    * Get survey responses as CSV string to download as a CSV file on the client.
    */
-  @Get('response/download/:productID')
+  @Get(':responseID')
+  @AllowAllRoles
+  async getResponse(
+    @Param('responseID') responseID: FeedbackResponseID,
+  ): Promise<{ response: FeedbackResponse }> {
+    return this.feedbackService
+      .getResponse(responseID)
+      .then((response) => ({ response }));
+  }
+
+  /**
+   * Get survey responses as CSV string to download as a CSV file on the client.
+   */
+  @Get('download/:productID')
   @AllowAllRoles
   // @todo Throttle by user/team instead of throttling by IP
   @Throttle(3, 1) // Highly rate limited since this is an expensive DB operation

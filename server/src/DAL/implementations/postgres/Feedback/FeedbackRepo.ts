@@ -6,10 +6,17 @@ import type {
 } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
-import type { CreateOneFeedbackResponseDTO, ProductID } from 'domain-model';
+import type {
+  CreateOneFeedbackResponseDTO,
+  ProductID,
+  FeedbackResponseID,
+} from 'domain-model';
 
 // Mappers
-import { mapProductModelToEntity } from './mapper.js';
+import {
+  mapProductModelToEntity,
+  mapFeedbackResponseModelToEntity,
+} from './mapper.js';
 
 // Utils
 import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
@@ -27,6 +34,23 @@ export class FeedbackRepo implements IFeedbackRepo {
       .then(runMapperIfNotNull(mapProductModelToEntity));
   }
 
+  async saveOneResponse(
+    productID: ProductID,
+    response: CreateOneFeedbackResponseDTO,
+  ) {
+    return this.db.pmf_survey_responses
+      .create({
+        data: { ...response, productID },
+        select: { id: true },
+      })
+      .then(({ id }) => id);
+  }
+
+  async getResponse(responseID: FeedbackResponseID) {
+    return this.db.pmf_survey_responses
+      .findUnique({ where: { id: responseID } })
+      .then(runMapperIfNotNull(mapFeedbackResponseModelToEntity));
+  }
   async getResponses(productID: ProductID) {
     return this.db.pmf_survey_responses.findMany({
       select: { createdAt: true, a1: true, a2: true, a3: true, a4: true },
@@ -40,17 +64,5 @@ export class FeedbackRepo implements IFeedbackRepo {
       // Type casting here is safe since only type casting a1's value from
       // number to the specific values 1, 2, 3.
     }) as Promise<Array<DBFeedbackResponse>>;
-  }
-
-  async saveOneResponse(
-    productID: ProductID,
-    response: CreateOneFeedbackResponseDTO,
-  ) {
-    return this.db.pmf_survey_responses
-      .create({
-        data: { ...response, productID },
-        select: { id: true },
-      })
-      .then(({ id }) => id);
   }
 }
