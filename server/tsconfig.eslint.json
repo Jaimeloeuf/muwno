@@ -12,7 +12,7 @@
 
     // Include all files that eslint would be linting
     "src/**/*",
-    "prisma/seeds/*",
+    "prisma/**/*",
     "scripts/stripe/**/*",
     "**/*spec.ts"
   ],

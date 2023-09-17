@@ -21,6 +21,7 @@
     "docker:run-attached": "docker run -p 3000:3000 --rm --name thepmftool --env-file .env asia.gcr.io/thepmftool/api",
     "docker:push": "docker push asia.gcr.io/thepmftool/api",
     "deploy": "npm run docker:build && npm run docker:push",
+    "prisma:script": "npx ts-node ./prisma/script/script.ts",
     "stripe:setup": "npx ts-node ./scripts/stripe/index.ts",
     "stripe:listen": "stripe listen --forward-to localhost:3000/v1/subscription/stripe/webhook",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
