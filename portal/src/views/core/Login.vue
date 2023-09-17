@@ -10,7 +10,9 @@ const router = useRouter();
 const loader = useLoader();
 const userStore = useUserStore();
 
-const email = ref<string>("");
+const props = defineProps<{ prefillEmail?: string }>();
+
+const email = ref<string>(props.prefillEmail ?? "");
 const password = ref<string>("");
 
 async function login() {
@@ -40,7 +42,13 @@ async function login() {
 
     if (errorCode === "auth/user-not-found") {
       alert("Account does not exists, please signup instead!");
-      router.push({ name: SignupRoute.name });
+
+      router.push({
+        name: SignupRoute.name,
+
+        // Pass email so they dont have to retype it
+        query: { prefillEmail: email.value },
+      });
     } else {
       alert("Login failed!");
     }
@@ -83,20 +91,18 @@ async function login() {
       </label>
     </div>
 
-    <div class="flex flex-row items-center gap-6">
-      <router-link
-        :to="{ name: SignupRoute.name }"
-        class="rounded-lg bg-zinc-100 p-3 text-xl font-light text-zinc-700"
-      >
-        Signup
-      </router-link>
+    <button
+      class="mb-6 w-full rounded-lg bg-green-600 py-3 text-xl text-white"
+      @click="login"
+    >
+      Login
+    </button>
 
-      <button
-        class="w-full rounded-lg bg-green-600 p-3 text-xl text-white"
-        @click="login"
-      >
-        Login
-      </button>
-    </div>
+    <router-link
+      :to="{ name: SignupRoute.name }"
+      class="rounded-lg border border-zinc-200 py-2 text-center font-light text-zinc-900"
+    >
+      Click here to sign up
+    </router-link>
   </div>
 </template>

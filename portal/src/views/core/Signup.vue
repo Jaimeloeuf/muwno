@@ -10,8 +10,10 @@ const router = useRouter();
 const loader = useLoader();
 const userStore = useUserStore();
 
+const props = defineProps<{ prefillEmail?: string }>();
+
 const name = ref<string>("");
-const email = ref<string>("");
+const email = ref<string>(props.prefillEmail ?? "");
 const password = ref<string>("");
 
 async function signup() {
@@ -42,7 +44,14 @@ async function signup() {
 
     if (errorCode === "auth/email-already-in-use") {
       alert("Account already exists, please login instead!");
-      router.push({ name: LoginRoute.name });
+
+      // Pass email so they dont have to retype it
+      router.push({
+        name: LoginRoute.name,
+
+        // Pass email so they dont have to retype it
+        query: { prefillEmail: email.value },
+      });
     } else {
       alert("Signup failed!");
     }
@@ -98,25 +107,24 @@ async function signup() {
           type="password"
           class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="password"
+          @keydown.enter="signup"
         />
       </label>
     </div>
 
-    <div class="flex flex-row items-center gap-6">
-      <router-link
-        :to="{ name: LoginRoute.name }"
-        class="rounded-lg bg-zinc-100 p-3 text-xl font-light text-zinc-700"
-      >
-        Login
-      </router-link>
+    <button
+      class="mb-6 w-full rounded-lg bg-green-600 py-3 text-xl text-white"
+      @click="signup"
+    >
+      Sign up
+    </button>
 
-      <button
-        class="w-full rounded-lg bg-green-600 p-3 text-xl text-white"
-        @click="signup"
-      >
-        Signup
-      </button>
-    </div>
+    <router-link
+      :to="{ name: LoginRoute.name }"
+      class="rounded-lg border border-zinc-200 py-2 text-center font-light text-zinc-900"
+    >
+      Click here to login
+    </router-link>
   </div>
 
   <div class="fixed inset-x-0 bottom-12 mx-auto text-center text-sm font-thin">

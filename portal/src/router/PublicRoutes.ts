@@ -1,3 +1,5 @@
+import type { RouteLocationNormalized } from "vue-router";
+
 import type { PublicRoute } from "./RouteTypes";
 import { AuthType } from "./AuthType";
 
@@ -14,6 +16,7 @@ import { AuthType } from "./AuthType";
 export const LoginRoute = <const>{
   path: "/",
   name: "login",
+  props: (route: RouteLocationNormalized) => route.query,
   component: () => import("../views/core/Login.vue"),
   meta: { AuthRequirements: AuthType.PublicOnly },
 };
@@ -21,6 +24,7 @@ export const LoginRoute = <const>{
 export const SignupRoute = <const>{
   path: "/signup",
   name: "signup",
+  props: (route: RouteLocationNormalized) => route.query,
   component: () => import("../views/core/Signup.vue"),
   meta: { AuthRequirements: AuthType.PublicOnly },
 };
