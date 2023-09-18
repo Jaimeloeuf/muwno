@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 
 import { useLoader, useNotif } from "./store";
 import GlobalErrorView from "./views/GlobalError.vue";
+import SideDrawer from "./views/components/SideDrawer.vue";
 import Loader from "./views/components/Loader.vue";
 import Snackbar from "./views/components/Snackbar.vue";
 
@@ -91,6 +92,7 @@ function clearError() {
           padding at all.
         -->
         <div class="p-6">
+          <SideDrawer />
           <component :is="Component" />
 
           <!-- Conditionally loaded `fixed` positioned components -->

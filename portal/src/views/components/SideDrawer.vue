@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import {
   AllProductRoute,
   OrgRoute,
@@ -7,50 +6,34 @@ import {
   ProfileRoute,
   TeamRoute,
 } from "../../router";
+import { useSidedrawer } from "../../store";
 import { logout } from "../../utils/logout";
 import Version from "./Version.vue";
 
-const showDrawer = ref<boolean>(false);
+const drawer = useSidedrawer();
+
+function closeAndLogout() {
+  drawer.hide();
+  logout(true);
+}
 </script>
 
 <template>
-  <button
-    type="button"
-    class="m-1 mt-2 inline-flex rounded-lg text-sm"
-    @click="showDrawer = !showDrawer"
-  >
-    <svg
-      class="h-6 w-6"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        clip-rule="evenodd"
-        fill-rule="evenodd"
-        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-      />
-    </svg>
-  </button>
-
   <!-- Overlay across screen to simulate click away from side drawer to close. -->
   <div
-    v-if="showDrawer"
+    v-if="drawer.showDrawer"
     class="fixed left-0 top-0 z-40 h-screen w-screen"
-    @click="showDrawer = false"
+    @click="drawer.hide"
   ></div>
 
-  <aside
+  <nav
     class="fixed left-0 top-0 z-40 h-screen max-w-sm -translate-x-full transition-transform"
-    :class="{ 'w-5/6 translate-x-0 shadow-2xl': showDrawer }"
+    :class="{ 'w-5/6 translate-x-0 shadow-2xl': drawer.showDrawer }"
   >
     <div
       class="flex h-full flex-col items-start justify-between gap-2 bg-zinc-50 p-4"
     >
-      <button
-        class="w-full border-b border-zinc-200 p-2"
-        @click="showDrawer = false"
-      >
+      <button class="w-full border-b border-zinc-200 p-2" @click="drawer.hide">
         <span class="text-2xl">Product Market Fit</span>
         <span class="ml-3 text-2xl">📈</span>
       </button>
@@ -59,7 +42,7 @@ const showDrawer = ref<boolean>(false);
         <router-link
           :to="{ name: AllProductRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900 transition duration-75"
-          @click="showDrawer = !showDrawer"
+          @click="drawer.hide"
         >
           <img src="../../assets/SideDrawerIcon/Product.svg" class="h-6 w-6" />
           <span class="ml-3 flex-1 text-left">Products</span>
@@ -68,7 +51,7 @@ const showDrawer = ref<boolean>(false);
         <router-link
           :to="{ name: OrgRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900 transition duration-75"
-          @click="showDrawer = !showDrawer"
+          @click="drawer.hide"
         >
           <img src="../../assets/SideDrawerIcon/Org.svg" class="h-6 w-6" />
           <span class="ml-3 flex-1 text-left">Organisation</span>
@@ -77,7 +60,7 @@ const showDrawer = ref<boolean>(false);
         <router-link
           :to="{ name: TeamRoute.name }"
           class="flex w-full p-2 text-start text-zinc-900"
-          @click="showDrawer = !showDrawer"
+          @click="drawer.hide"
         >
           <svg
             class="ml-0.5 h-6 w-6 flex-shrink-0 transition duration-75"
@@ -99,7 +82,7 @@ const showDrawer = ref<boolean>(false);
         <router-link
           :to="{ name: ManageSubscriptionRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900 transition duration-75"
-          @click="showDrawer = !showDrawer"
+          @click="drawer.hide"
         >
           <img
             src="../../assets/SideDrawerIcon/Subscription.svg"
@@ -115,6 +98,7 @@ const showDrawer = ref<boolean>(false);
       <router-link
         :to="{ name: ProfileRoute.name }"
         class="flex w-full p-2 pb-0 text-start text-zinc-800"
+        @click="drawer.hide"
       >
         <svg
           class="h-6 w-6 flex-shrink-0 transition duration-75"
@@ -136,6 +120,7 @@ const showDrawer = ref<boolean>(false);
       <router-link
         :to="{}"
         class="flex w-full p-2 pb-0 text-start text-zinc-800"
+        @click="drawer.hide"
       >
         <svg
           class="h-6 w-6 flex-shrink-0 transition duration-75"
@@ -157,7 +142,11 @@ const showDrawer = ref<boolean>(false);
       </router-link>
 
       <!-- @todo Create link -->
-      <a class="flex w-full p-2 pb-0 text-start text-zinc-800" target="_blank">
+      <a
+        class="flex w-full p-2 pb-0 text-start text-zinc-800"
+        target="_blank"
+        @click="drawer.hide"
+      >
         <svg
           class="h-6 w-6 flex-shrink-0 transition duration-75"
           viewBox="0 0 20 20"
@@ -175,7 +164,7 @@ const showDrawer = ref<boolean>(false);
 
       <button
         class="flex w-full p-2 text-start text-zinc-800"
-        @click="logout(true)"
+        @click="closeAndLogout"
       >
         <svg
           class="h-6 w-6 flex-shrink-0 transition duration-75"
@@ -204,5 +193,5 @@ const showDrawer = ref<boolean>(false);
 
       <Version />
     </div>
-  </aside>
+  </nav>
 </template>

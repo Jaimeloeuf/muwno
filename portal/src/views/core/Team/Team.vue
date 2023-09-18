@@ -3,7 +3,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useUserStore } from "../../../store";
 import { InviteMemberRoute } from "../../../router";
-import SideDrawer from "../../components/SideDrawer.vue";
+import SideDrawerButton from "../../components/SideDrawerButton.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 
@@ -29,7 +29,7 @@ const teamMembers = res.data.users;
 <template>
   <div>
     <div class="mb-6 border-b pb-4">
-      <SideDrawer />
+      <SideDrawerButton />
       <span class="ml-4 text-4xl">{{ org.name }}</span>
     </div>
 

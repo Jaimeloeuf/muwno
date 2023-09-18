@@ -6,6 +6,7 @@ export * from "./init";
 
 export * from "./loader.store";
 export * from "./notif.store";
+export * from "./sidedrawer.store";
 export * from "./onboarding.store";
 export * from "./user.store";
 export * from "./org.store";

@@ -3,7 +3,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useLoader } from "../../../store";
 import { ManageSubscriptionRoute } from "../../../router";
-import SideDrawer from "../../components/SideDrawer.vue";
+import SideDrawerButton from "../../components/SideDrawerButton.vue";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
 
 const orgStore = useOrg();
@@ -44,7 +44,7 @@ async function goToBillingPortal() {
 <template>
   <div>
     <div class="mb-6 flex flex-row border-b pb-4">
-      <SideDrawer />
+      <SideDrawerButton />
       <span class="ml-4 text-4xl">Manage Subscription</span>
     </div>
 

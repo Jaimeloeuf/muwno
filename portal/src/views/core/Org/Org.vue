@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useOrg } from "../../../store";
-import SideDrawer from "../../components/SideDrawer.vue";
+import SideDrawerButton from "../../components/SideDrawerButton.vue";
 
 const orgStore = useOrg();
 
@@ -10,7 +10,7 @@ const org = await orgStore.getOrg();
 <template>
   <div>
     <div class="mb-6 border-b pb-4">
-      <SideDrawer />
+      <SideDrawerButton />
       <span class="ml-4 text-4xl">{{ org.name }}</span>
     </div>
 

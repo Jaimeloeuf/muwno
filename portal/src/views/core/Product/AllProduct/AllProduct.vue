@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useOrg, useProduct } from "../../../../store";
 import { ProductRoute, AddProductRoute } from "../../../../router";
-import SideDrawer from "../../../components/SideDrawer.vue";
+import SideDrawerButton from "../../../components/SideDrawerButton.vue";
 import SimplePMFLiveScoreCard from "./SimplePMFLiveScoreCard.vue";
 
 const orgStore = useOrg();
@@ -14,7 +14,7 @@ const products = await productStore.getAllProducts();
 <template>
   <div>
     <div class="mb-6 flex flex-row border-b pb-4">
-      <SideDrawer />
+      <SideDrawerButton />
       <span class="ml-4 text-4xl">
         Products
         <span class="font-extralight"> ({{ products.length }}) </span>

@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useProduct } from "../../store";
-import SideDrawer from "../components/SideDrawer.vue";
+import BackButton from "../components/BackButton.vue";
 import { getDateString } from "../../utils/date-formatting/getDateString";
 import type {
   ProductID,
@@ -73,8 +73,8 @@ const apiKeyDetails = ref(await getApiKeyDetails());
 
 <template>
   <div>
-    <div class="mb-12 border-b pb-4">
-      <SideDrawer />
+    <div class="mb-12 flex flex-row items-center border-b pb-4">
+      <BackButton />
       <span class="ml-4 text-4xl">
         <span class="font-light">API Keys for</span> <b>{{ product.name }}</b>
       </span>

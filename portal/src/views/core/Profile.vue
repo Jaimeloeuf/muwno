@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { auth } from "../../firebase";
 import { useOrg } from "../../store";
-import SideDrawer from "../components/SideDrawer.vue";
+import SideDrawerButton from "../components/SideDrawerButton.vue";
 import { type Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();
@@ -13,7 +13,7 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
 <template>
   <div>
     <div class="mb-6 border-b pb-4">
-      <SideDrawer />
+      <SideDrawerButton />
       <span class="ml-4 text-4xl">Profile</span>
     </div>
 

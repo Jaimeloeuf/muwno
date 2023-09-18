@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { ProductRoute } from "../../router";
-import SideDrawer from "../components/SideDrawer.vue";
+import BackButton from "../components/BackButton.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -28,7 +28,7 @@ async function parseUsers() {
 <template>
   <div>
     <div class="mb-12 border-b pb-4">
-      <SideDrawer />
+      <BackButton />
       <span class="ml-4 text-4xl">Import Customers</span>
     </div>
 

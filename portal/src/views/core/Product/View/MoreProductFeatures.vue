@@ -2,6 +2,7 @@
 import { useProduct } from "../../../../store";
 import BackButton from "../../../components/BackButton.vue";
 import DownloadRawResponseButton from "./Card/DownloadRawResponseButton.vue";
+import ApiKeyViewButton from "./Card/ApiKeyViewButton.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -17,9 +18,10 @@ const product = await productStore.getProduct(props.productID);
       <span class="ml-4 text-4xl font-light">{{ product.name }}</span>
     </div>
 
-    <div class="mx-auto flex max-w-lg flex-col space-y-6 lg:basis-1/4">
+    <div class="mx-auto flex max-w-lg flex-col gap-6">
       <p class="text-3xl">More Features</p>
       <DownloadRawResponseButton :product="product" />
+      <ApiKeyViewButton :productID="product.id" />
     </div>
   </div>
 </template>

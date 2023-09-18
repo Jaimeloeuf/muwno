@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useProduct, useLoader } from "../../../store";
 import { ProductRoute } from "../../../router";
-import SideDrawer from "../../components/SideDrawer.vue";
+import BackButton from "../../components/BackButton.vue";
 
 const router = useRouter();
 const productStore = useProduct();
@@ -26,8 +26,8 @@ async function addProduct() {
 
 <template>
   <div>
-    <div class="mb-12 border-b pb-4">
-      <SideDrawer />
+    <div class="mb-12 flex flex-row items-center border-b pb-4">
+      <BackButton />
       <span class="ml-4 text-4xl">Add new Product</span>
     </div>
 
