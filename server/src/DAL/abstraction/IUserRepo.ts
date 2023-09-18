@@ -13,6 +13,19 @@ export abstract class IUserRepo {
   abstract getOne(userID: UserID): Promise<User | null>;
 
   /**
+   * Check if given user completed onboarding.
+   *
+   * To be considered onboarded
+   * 1. User must have an Org
+   * 2. The org must have a valid subscription
+   *
+   * ### Warning
+   * If user account does not exist, it return false for not onboarded, and does
+   * not throw an error.
+   */
+  abstract isOnboarded(userID: UserID): Promise<boolean>;
+
+  /**
    * Create a new User in data source
    */
   abstract createOne(createOneUserDTO: DBCreateOneUserDTO): Promise<User>;

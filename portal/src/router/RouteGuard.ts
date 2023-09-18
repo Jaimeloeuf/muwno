@@ -5,9 +5,10 @@ import type {
 
 import { AuthType } from "./AuthType";
 import { LoginRoute } from "./PublicRoutes";
-import { AllProductRoute } from "./PrivateRoutes";
+import { AllProductRoute, OnboardingRoute } from "./PrivateRoutes";
 
 import { auth } from "../firebase";
+import { useOnboarding } from "../store";
 
 export type RouteGuard = NavigationGuardWithThis<undefined>;
 
@@ -41,34 +42,43 @@ const requiredAuth = (AuthRequirements?: AuthType) => ({
 });
 
 /**
- * RouteGuard Factory Function, creates a new route guard with a given
- * authentication predicate and default redirects.
- *
- * Only used by the create router with guard factory function, and since
- * that is the public interface and this is the internal factory function,
- * all the params here are required, since that wrapper should be the one
- * dealing with default values.
+ * RouteGuard handles routing using user's authentication and onboarding status.
  */
 export const routeGuard: RouteGuard = async function (to, from, next) {
-  /** Get user's authentication status using the provided authentication predicate */
   const isAuthenticated = await authenticationPredicate(to, from);
 
+  const routeMeta = to.matched[0]?.meta;
+
   /**
-   * Get auth requirements from first route object that matches with route navigated to,
-   * and convert it into a easier to use auth requirement object for the checking below.
+   * Get auth requirements of first route object that matches route navigated to
+   * and convert it to an auth requirement object for routing logic below.
    */
   const AuthType_required_is = requiredAuth(
-    to.matched[0]?.meta.AuthRequirements as AuthType | undefined
+    routeMeta?.AuthRequirements as AuthType | undefined
   );
 
-  /* Call the next middleware based on authentication status */
+  if (AuthType_required_is.private) {
+    if (isAuthenticated) {
+      // Check if route aligns with their current onboarding status.
+      if (!routeMeta?.onboarding && (await useOnboarding().isOnboarding())) {
+        // User tries to access a private non-onboarding route while they are
+        // still onboarding, redirect to default onboarding route.
+        next({ name: OnboardingRoute.name });
+      }
 
-  // If route is auth protected and user not authenticated, redirect to login page
-  if (AuthType_required_is.private && !isAuthenticated)
-    next({ name: LoginRoute.name });
-  // If route is public only and user is authenticated, redirect to default private route of home
-  else if (AuthType_required_is.public_only && isAuthenticated)
+      // Continue if aligned
+      else next();
+    }
+
+    // Route is private and user is not authenticated, redirect to login
+    else next({ name: LoginRoute.name });
+  }
+
+  // If route is public only and user is authenticated.
+  else if (AuthType_required_is.public_only && isAuthenticated) {
     next({ name: AllProductRoute.name });
+  }
+
   // Else, just continue navigation as per user request.
   else next();
 };

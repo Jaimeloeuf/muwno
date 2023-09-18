@@ -27,6 +27,13 @@ export class UserService {
   }
 
   /**
+   * Get the user's onboarding status from data source.
+   */
+  async isUserOnboarded(userID: UserID): Promise<boolean> {
+    return this.userRepo.isOnboarded(userID);
+  }
+
+  /**
    * Create a new User
    */
   async createUser(

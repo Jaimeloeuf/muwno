@@ -19,7 +19,7 @@ export const OnboardingRoute = <const>{
   name: "onboarding",
   path: "/onboarding",
   component: () => import("../views/core/Onboarding.vue"),
-  meta: { AuthRequirements: AuthType.Private },
+  meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
 export const ProfileRoute = <const>{
@@ -42,7 +42,7 @@ export const CreateOrgRoute = <const>{
   name: "org-create",
   path: "/org/create",
   component: () => import("../views/core/Org/CreateOrg.vue"),
-  meta: { AuthRequirements: AuthType.Private },
+  meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
 /* =========================== Product Module Routes ======================== */
@@ -125,7 +125,7 @@ export const PendingInvitationRoute = <const>{
   name: "team-pending-invitation",
   path: "/team/pending/invitation",
   component: () => import("../views/core/Team/PendingInvitations.vue"),
-  meta: { AuthRequirements: AuthType.Private },
+  meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
 /* ======================== Subscription Module Routes ===================== */
@@ -134,7 +134,7 @@ export const BuySubscriptionPlanRoute = <const>{
   name: "subscription-buy",
   path: "/subscription/buy",
   component: () => import("../views/core/Subscription/BuySubscription.vue"),
-  meta: { AuthRequirements: AuthType.Private },
+  meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
 export const SetupPaymentMethodRoute = <const>{
@@ -142,7 +142,7 @@ export const SetupPaymentMethodRoute = <const>{
   path: "/subscription/setup-payment-method",
   component: () =>
     import("../views/core/Subscription/Stripe/SetupPaymentMethod.vue"),
-  meta: { AuthRequirements: AuthType.Private },
+  meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
 export const SetupSuccessPaymentRoute = <const>{
@@ -150,7 +150,7 @@ export const SetupSuccessPaymentRoute = <const>{
   path: "/subscription/setup-payment-success",
   component: () =>
     import("../views/core/Subscription/Stripe/SetupPaymentSuccess.vue"),
-  meta: { AuthRequirements: AuthType.Private },
+  meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
 export const ManageSubscriptionRoute = <const>{

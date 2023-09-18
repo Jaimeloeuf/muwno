@@ -25,6 +25,25 @@ export class UserRepo implements IUserRepo {
       .then(runMapperIfNotNull(mapUserModelToEntity));
   }
 
+  async isOnboarded(userID: UserID) {
+    return this.db.user
+      .findUnique({
+        where: { id: userID },
+        select: {
+          org: {
+            select: {
+              subscribed: true,
+            },
+          },
+        },
+      })
+      .then(
+        // Because of optional chaining and default to false, non-existent user
+        // accounts will be treated as not onboarded too.
+        (user) => user?.org?.subscribed ?? false,
+      );
+  }
+
   async createOne(createOneUserDTO: DBCreateOneUserDTO) {
     const dbRole =
       createOneUserDTO.role === undefined

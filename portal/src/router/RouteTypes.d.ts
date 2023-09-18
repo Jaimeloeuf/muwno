@@ -15,7 +15,16 @@ export interface RouteObject extends RouteRecordRaw {
  * A Private route requires AuthRequirements to be specified as Private only
  */
 export interface PrivateRoute extends RouteObject {
-  meta: { AuthRequirements: AuthType.Private };
+  meta: {
+    AuthRequirements: AuthType.Private;
+
+    /**
+     * Optionally set this to true to indicate that this route is part of the
+     * basic onboarding process (account setup, creating Org and subscribing)
+     * and user can access it before they have completed onboarding.
+     */
+    onboarding?: true;
+  };
 }
 
 /**

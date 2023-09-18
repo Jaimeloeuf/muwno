@@ -42,6 +42,19 @@ export class UserController {
   }
 
   /**
+   * Get the user's onboarding status.
+   */
+  @Get('onboarding/status')
+  @NoRoleRequired
+  async getOnboardingStatus(
+    @JWT_uid userID: FirebaseAuthUID,
+  ): Promise<{ onboarding: boolean }> {
+    return this.userService
+      .isUserOnboarded(userID)
+      .then((onboarded) => ({ onboarding: !onboarded }));
+  }
+
+  /**
    * Create a new User
    */
   @Post('create')
