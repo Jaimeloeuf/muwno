@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import { useTeamInvitationStore } from "../../store";
-import { CreateOrgRoute, PendingInvitationRoute } from "../../router";
+import { useTeamInvitationStore, useOrg, useOnboarding } from "../../store";
+import {
+  PendingInvitationRoute,
+  CreateOrgRoute,
+  BuySubscriptionPlanRoute,
+} from "../../router";
 
 const teamInvitationStore = useTeamInvitationStore();
+const orgStore = useOrg();
+const onboardingStore = useOnboarding();
 
 await teamInvitationStore.checkForPendingTeamInvitations();
+
+// If user have an Org but still onboarding, it means that Org does not have a
+// valid subscription right now, therefore show button to buy subscription plan
+// for the Org instead of the Create Org button.
+// Alternative way to get this value is by calling API to check if user's Org is
+// missing payment/active subscription but this will do for now.
+const orgWaitingForSubscription =
+  (await orgStore.doesUserHaveOrg()) && (await onboardingStore.isOnboarding());
 
 const joinOrg = () =>
   alert("Please ask your team's Owner or Admin to invite you as a member!");
@@ -43,7 +57,21 @@ const joinOrg = () =>
         </div>
       </button>
 
-      <router-link :to="{ name: CreateOrgRoute.name }">
+      <router-link
+        v-if="orgWaitingForSubscription"
+        :to="{ name: BuySubscriptionPlanRoute.name }"
+      >
+        <div
+          class="mb-8 w-full rounded-lg border border-green-700 p-4 text-green-700"
+        >
+          <p class="mb-2 text-2xl">Activate {{ "org name" }}</p>
+          <p class="font-light">
+            Subscribe to activate your Organisation account.
+          </p>
+        </div>
+      </router-link>
+
+      <router-link v-else :to="{ name: CreateOrgRoute.name }">
         <div
           class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
         >

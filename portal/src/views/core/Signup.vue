@@ -66,7 +66,7 @@ async function signup() {
     <a
       href="https://thepmftool.com"
       target="_blank"
-      class="flex flex-row items-center gap-1 pb-6"
+      class="flex w-max flex-row items-center gap-1 pb-6"
     >
       <img src="../../assets/logo.svg" alt="logo" />
       <p class="text-lg tracking-tight">(Sign up)</p>

@@ -3,12 +3,13 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useLoader, useUserStore } from "../../store";
+import { useLoader, useUserStore, useOnboarding } from "../../store";
 import { AllProductRoute, OnboardingRoute, SignupRoute } from "../../router";
 
 const router = useRouter();
 const loader = useLoader();
 const userStore = useUserStore();
+const onboardingStore = useOnboarding();
 
 const props = defineProps<{ prefillEmail?: string }>();
 
@@ -24,11 +25,12 @@ async function login() {
 
     await signInWithEmailAndPassword(auth, email.value, password.value);
 
-    const user = await userStore.getUser();
+    // Load the user from API, this will also handle any invalid states.
+    await userStore.getUser();
 
-    // If user does not have an Org, means they did not complete onboarding flow,
-    // route them to continue with onboarding, else route them to Org home page.
-    if (user.orgID === undefined) router.push({ name: OnboardingRoute.name });
+    const isOnboarding = await onboardingStore.isOnboarding();
+
+    if (isOnboarding) router.push({ name: OnboardingRoute.name });
     else router.push({ name: AllProductRoute.name });
   } catch (error: any) {
     // If Login succeeded but initialisation failed, user should be logged out
@@ -60,7 +62,7 @@ async function login() {
 
 <template>
   <div class="mx-auto flex h-[80vh] w-full max-w-lg flex-col justify-center">
-    <a href="https://thepmftool.com" target="_blank" class="pb-6">
+    <a href="https://thepmftool.com" target="_blank" class="w-max pb-6">
       <img src="../../assets/logo.svg" alt="logo" />
     </a>
 
