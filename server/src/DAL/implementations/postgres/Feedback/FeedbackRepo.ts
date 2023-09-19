@@ -65,4 +65,17 @@ export class FeedbackRepo implements IFeedbackRepo {
       // number to the specific values 1, 2, 3.
     }) as Promise<Array<DBFeedbackResponse>>;
   }
+
+  async getResponseProduct(responseID: FeedbackResponseID) {
+    return this.db.pmf_survey_responses
+      .findUnique({
+        where: { id: responseID },
+        select: {
+          product: {
+            select: { id: true },
+          },
+        },
+      })
+      .then(runMapperIfNotNull((response) => response.product.id));
+  }
 }

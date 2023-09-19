@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { ITaskRepo } from '../../../DAL/index.js';
+import { ITaskRepo, IFeedbackRepo } from '../../../DAL/index.js';
 import { ProductService } from '../../product/services/product.service.js';
 import { IAiService } from '../../../infra/index.js';
 
@@ -16,10 +16,14 @@ import type {
 // DTO Types
 import type { CreateOneFeedbackResponseDTO } from 'domain-model';
 
+// Service layer Exceptions
+import { NotFoundException } from '../../../exceptions/index.js';
+
 @Injectable()
 export class TaskService {
   constructor(
     private readonly taskRepo: ITaskRepo,
+    private readonly feedbackRepo: IFeedbackRepo,
     private readonly productService: ProductService,
     private readonly aiService: IAiService,
   ) {}
@@ -50,22 +54,49 @@ export class TaskService {
   }
 
   /**
-   * Get a list of tasks for the selected product.
+   * Get tasks of response.
    */
-  async getTasks(
+  async getTasksOfResponse(
+    requestorID: UserID,
+    responseID: FeedbackResponseID,
+  ): Promise<Array<Task>> {
+    const productID = await this.feedbackRepo.getResponseProduct(responseID);
+    if (productID === null)
+      throw new NotFoundException(`Response '${responseID}' not found`);
+
+    // Validate if user can access this product, and in extension, its tasks.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    return this.taskRepo.getTasksOfResponse(responseID);
+  }
+
+  /**
+   * Get tasks of product.
+   */
+  async getTasksOfProduct(
     requestorID: UserID,
     productID: ProductID,
     count: number,
   ): Promise<Array<Task>> {
     await this.productService.validateProductID(productID);
 
-    return this.taskRepo.getMany(productID, count);
+    // Validate if user can access this product, and in extension, its tasks.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    return this.taskRepo.getTasksOfProduct(productID, count);
   }
 
   /**
-   * Mark a single Task as done.
+   * Mark Task as done.
    */
-  async markTaskAsDone(taskID: TaskID): Promise<void> {
+  async markTaskAsDone(requestorID: UserID, taskID: TaskID): Promise<void> {
+    const productID = await this.taskRepo.getTaskProduct(taskID);
+    if (productID === null)
+      throw new NotFoundException(`Task '${taskID}' not found`);
+
+    // Validate if user can access this product, and in extension, its tasks.
+    await this.productService.validateUserAccess(requestorID, productID);
+
     await this.taskRepo.markTaskAsDone(taskID);
   }
 }

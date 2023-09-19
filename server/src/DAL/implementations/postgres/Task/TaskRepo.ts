@@ -7,10 +7,13 @@ import type {
 import { PrismaService } from '../prisma.service.js';
 
 // Entity Types
-import type { ProductID, TaskID } from 'domain-model';
+import type { FeedbackResponseID, ProductID, TaskID } from 'domain-model';
 
 // Mappers
 import { mapTaskModelToEntity, mapTaskModelsToEntity } from './mapper.js';
+
+// Utils
+import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 
 @Injectable()
 export class TaskRepo implements ITaskRepo {
@@ -22,7 +25,13 @@ export class TaskRepo implements ITaskRepo {
       .then(mapTaskModelToEntity);
   }
 
-  async getMany(productID: ProductID, count: number) {
+  async getTasksOfResponse(responseID: FeedbackResponseID) {
+    return this.db.task
+      .findMany({ where: { responseID } })
+      .then(mapTaskModelsToEntity);
+  }
+
+  async getTasksOfProduct(productID: ProductID, count: number) {
     return this.db.task
       .findMany({
         where: {
@@ -43,6 +52,19 @@ export class TaskRepo implements ITaskRepo {
         take: count,
       })
       .then(mapTaskModelsToEntity);
+  }
+
+  async getTaskProduct(taskID: TaskID) {
+    return this.db.task
+      .findUnique({
+        where: { id: taskID },
+        select: {
+          product: {
+            select: { id: true },
+          },
+        },
+      })
+      .then(runMapperIfNotNull((task) => task.product.id));
   }
 
   async markTaskAsDone(taskID: TaskID) {

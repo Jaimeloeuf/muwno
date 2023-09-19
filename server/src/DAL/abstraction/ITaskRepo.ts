@@ -1,4 +1,4 @@
-import type { Task, ProductID, TaskID } from 'domain-model';
+import type { Task, FeedbackResponseID, ProductID, TaskID } from 'domain-model';
 
 export type DBCreateOneTaskDTO = Omit<Task, 'id' | 'createdAt' | 'done'>;
 
@@ -13,9 +13,24 @@ export abstract class ITaskRepo {
   abstract createOne(createOneTaskDTO: DBCreateOneTaskDTO): Promise<Task>;
 
   /**
-   * Get many Tasks of the selected product from data source.
+   * Get Tasks of response from data source.
    */
-  abstract getMany(productID: ProductID, count: number): Promise<Array<Task>>;
+  abstract getTasksOfResponse(
+    responseID: FeedbackResponseID,
+  ): Promise<Array<Task>>;
+
+  /**
+   * Get Tasks of product from data source.
+   */
+  abstract getTasksOfProduct(
+    productID: ProductID,
+    count: number,
+  ): Promise<Array<Task>>;
+
+  /**
+   * Mark a task as done in data source.
+   */
+  abstract getTaskProduct(taskID: TaskID): Promise<ProductID | null>;
 
   /**
    * Mark a task as done in data source.

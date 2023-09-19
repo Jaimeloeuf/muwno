@@ -13,7 +13,12 @@ import { TaskService } from '../services/task.service.js';
 import { GuardWithRBAC, AllowAllRoles, JWT_uid } from '../../../rbac/index.js';
 
 // Entity Types
-import type { FirebaseAuthUID, ProductID, TaskID } from 'domain-model';
+import type {
+  FirebaseAuthUID,
+  FeedbackResponseID,
+  ProductID,
+  TaskID,
+} from 'domain-model';
 
 // DTO Types
 import type { ReadManyTaskDTO } from 'domain-model';
@@ -28,7 +33,21 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   /**
-   * Get a list of tasks for the selected product.
+   * Get tasks of response.
+   */
+  @Get('of-response/:responseID')
+  @AllowAllRoles
+  async getTasksOfResponse(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('responseID') responseID: FeedbackResponseID,
+  ): Promise<ReadManyTaskDTO> {
+    return this.taskService
+      .getTasksOfResponse(requestorID, responseID)
+      .then((tasks) => ({ tasks }));
+  }
+
+  /**
+   * Get tasks of product.
    *
    * Use required URL query param to specify how many tasks to load, can be
    * between 3 for card showing most important tasks or to 25 when seeing all
@@ -36,9 +55,9 @@ export class TaskController {
    *
    * @todo Add pagination support
    */
-  @Get(':productID')
+  @Get('of-product/:productID')
   @AllowAllRoles
-  async getTasks(
+  async getTasksOfProduct(
     @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
     @Query('count', ParseIntPipe) count: number,
@@ -49,16 +68,19 @@ export class TaskController {
       );
 
     return this.taskService
-      .getTasks(requestorID, productID, count)
+      .getTasksOfProduct(requestorID, productID, count)
       .then((tasks) => ({ tasks }));
   }
 
   /**
-   * Mark a single Task as done.
+   * Mark Task as done.
    */
   @Post('done/:taskID')
   @AllowAllRoles
-  async markTaskAsDone(@Param('taskID') taskID: TaskID): Promise<void> {
-    await this.taskService.markTaskAsDone(taskID);
+  async markTaskAsDone(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('taskID') taskID: TaskID,
+  ): Promise<void> {
+    await this.taskService.markTaskAsDone(requestorID, taskID);
   }
 }

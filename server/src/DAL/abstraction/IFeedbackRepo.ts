@@ -44,4 +44,11 @@ export abstract class IFeedbackRepo {
   abstract getResponses(
     productID: ProductID,
   ): Promise<Array<DBFeedbackResponse>>;
+
+  /**
+   * Get product ID of the given response.
+   */
+  abstract getResponseProduct(
+    responseID: FeedbackResponseID,
+  ): Promise<ProductID | null>;
 }

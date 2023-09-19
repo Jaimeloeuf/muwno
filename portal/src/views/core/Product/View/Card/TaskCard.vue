@@ -12,7 +12,7 @@ const notif = useNotif();
 async function getTasks() {
   const { res, err } = await sf
     .useDefault()
-    .GET(`/task/${props.productID}?count=3`)
+    .GET(`/task/of-product/${props.productID}?count=3`)
     .useHeader(getAuthHeader)
     .runJSON<ReadManyTaskDTO>();
 
@@ -87,6 +87,9 @@ const tasks = ref(await getTasks());
               params: {
                 productID: task.productID,
                 responseID: task.responseID,
+              },
+              query: {
+                taskID: task.id,
               },
             }"
             class="rounded-lg border border-zinc-200 px-3 text-center font-light text-zinc-900"

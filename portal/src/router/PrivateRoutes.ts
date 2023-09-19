@@ -82,7 +82,10 @@ export const MoreProductFeatureRoute = <const>{
 export const SurveyResponseRoute = <const>{
   name: "survey-response",
   path: "/survey/response/:productID/:responseID",
-  props: true,
+  props: (route: RouteLocationNormalized) => ({
+    ...route.params,
+    ...route.query,
+  }),
   component: () => import("../views/core/SurveyResponse.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
