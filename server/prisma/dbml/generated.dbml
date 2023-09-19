@@ -1,0 +1,146 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table org {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  name String [not null]
+  email String [not null]
+  verified Boolean [not null]
+  subscribed Boolean [not null]
+  plan SubscriptionPlan
+  user user [not null]
+  product product [not null]
+  team_member_invitation team_member_invitation [not null]
+  stripe_customer stripe_customer
+}
+
+Table user {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  role Role
+  name String [not null]
+  email String [unique, not null]
+  deactivated Boolean [not null, default: false]
+  org org
+  orgID String
+  team_member_invitation team_member_invitation [not null]
+  api_key api_key [not null]
+}
+
+Table product {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  name String [not null]
+  org org [not null]
+  orgID String [not null]
+  pmf_survey_responses pmf_survey_responses [not null]
+  task task [not null]
+  api_key api_key [not null]
+}
+
+Table pmf_survey_responses {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  a1 Int [not null]
+  a2 String [not null]
+  a3 String [not null]
+  a4 String [not null]
+  product product [not null]
+  productID String [not null]
+  task task [not null]
+}
+
+Table task {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  score Int [not null]
+  task String [not null]
+  done Boolean [not null, default: false]
+  product product [not null]
+  productID String [not null]
+  response pmf_survey_responses [not null]
+  responseID String [not null]
+}
+
+Table team_member_invitation {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  inviteeEmail String [unique, not null]
+  inviter user [not null]
+  inviterID String [not null]
+  org org [not null]
+  orgID String [not null]
+}
+
+Table stripe_webhook_event {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  type String [not null]
+  livemode Boolean [not null]
+  processed Boolean [not null]
+}
+
+Table stripe_customer {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  org org [not null]
+  orgID String [unique, not null]
+}
+
+Table stripe_setup_next {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  next Json [not null]
+}
+
+Table api_key {
+  iid Int [pk, increment]
+  id String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  hash String [unique, not null]
+  prefix String [unique, not null]
+  product product [not null]
+  productID String [not null]
+  createdBy user [not null]
+  userID String [not null]
+}
+
+Enum SubscriptionPlan {
+  Standard
+}
+
+Enum Role {
+  OrgUser
+  OrgAdmin
+  OrgOwner
+}
+
+Ref: user.orgID > org.id [delete: Cascade]
+
+Ref: product.orgID > org.id [delete: Cascade]
+
+Ref: pmf_survey_responses.productID > product.id [delete: Cascade]
+
+Ref: task.productID > product.id [delete: Cascade]
+
+Ref: task.responseID > pmf_survey_responses.id [delete: Cascade]
+
+Ref: team_member_invitation.inviterID > user.id [delete: Cascade]
+
+Ref: team_member_invitation.orgID > org.id [delete: Cascade]
+
+Ref: stripe_customer.orgID - org.id [delete: Cascade]
+
+Ref: api_key.productID > product.id [delete: Cascade]
+
+Ref: api_key.userID > user.id [delete: Cascade]
