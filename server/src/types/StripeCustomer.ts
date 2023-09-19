@@ -16,11 +16,6 @@ export interface StripeCustomer {
   createdAt: ISODateTimeString;
 
   /**
-   * Stripe's Subscription ID for subscription payments.
-   */
-  subscriptionID: string | null;
-
-  /**
    * `OrgID` since every `StripeCustomer` is a paying `Org`.
    */
   orgID: OrgID;

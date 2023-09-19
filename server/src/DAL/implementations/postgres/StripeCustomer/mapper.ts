@@ -6,6 +6,5 @@ export const mapStripeCustomerModelToEntity = (
 ): StripeCustomer => ({
   id: stripeCustomerModel.id,
   createdAt: stripeCustomerModel.createdAt.toISOString(),
-  subscriptionID: stripeCustomerModel.subscriptionID,
   orgID: stripeCustomerModel.orgID,
 });

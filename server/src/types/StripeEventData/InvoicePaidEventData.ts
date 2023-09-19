@@ -19,7 +19,7 @@ export type InvoicePaidEventData = {
   /**
    * Stripe's Subscription ID.
    */
-  subscription: StripeCustomer['subscriptionID'];
+  subscription: string;
 
   /**
    * String reason from Stripe on why the customer is invoiced.

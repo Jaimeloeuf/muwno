@@ -11,10 +11,13 @@ export const mapProductModelToEntity = (
 export const mapFeedbackResponseModelToEntity = (
   response: FeedbackResponseModel,
 ): FeedbackResponse => ({
-  ...response,
-
+  id: response.id,
   createdAt: response.createdAt.toISOString(),
+  productID: response.productID,
 
   // Safe to type cast since it is validated on write
   a1: response.a1 as 1 | 2 | 3,
+  a2: response.a2,
+  a3: response.a3,
+  a4: response.a4,
 });
