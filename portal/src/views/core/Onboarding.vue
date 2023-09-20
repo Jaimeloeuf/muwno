@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { useTeamInvitationStore, useOrg, useOnboarding } from "../../store";
+import { sendEmailVerification } from "firebase/auth";
+import { auth } from "../../firebase";
+import {
+  useTeamInvitationStore,
+  useOrg,
+  useOnboarding,
+  useLoader,
+  useNotif,
+} from "../../store";
 import {
   PendingInvitationRoute,
   CreateOrgRoute,
@@ -9,6 +17,8 @@ import {
 const teamInvitationStore = useTeamInvitationStore();
 const orgStore = useOrg();
 const onboardingStore = useOnboarding();
+const loader = useLoader();
+const notif = useNotif();
 
 await teamInvitationStore.checkForPendingTeamInvitations();
 
@@ -20,8 +30,28 @@ await teamInvitationStore.checkForPendingTeamInvitations();
 const orgWaitingForSubscription =
   (await orgStore.doesUserHaveOrg()) && (await onboardingStore.isOnboarding());
 
+// Load the org name only if user have an Org, else this will error out
+const orgName = orgWaitingForSubscription
+  ? (await orgStore.getOrg()).name
+  : undefined;
+
 const joinOrg = () =>
   alert("Please ask your team's Owner or Admin to invite you as a member!");
+
+const reloadPage = () => window.location.reload();
+
+if (auth.currentUser === null) {
+  throw new Error("Firebase Auth unable to load current user");
+}
+
+const faUser = auth.currentUser;
+
+async function sendVerificationEmail() {
+  loader.show();
+  await sendEmailVerification(faUser);
+  loader.hide();
+  notif.setSnackbar("Email sent!");
+}
 </script>
 
 <template>
@@ -31,54 +61,108 @@ const joinOrg = () =>
     </div>
 
     <div class="mx-auto max-w-xl">
-      <router-link
-        v-if="teamInvitationStore.invitations.length > 0"
-        :to="{ name: PendingInvitationRoute.name }"
-      >
-        <div class="mb-8 w-full rounded-lg bg-green-600 p-4 text-white">
-          <p class="mb-2 text-2xl">Pending Invitations</p>
+      <div v-if="!faUser.emailVerified" class="pb-8">
+        <div class="pb-6">
+          <p class="pb-2 text-3xl">Verify Email</p>
+          <p class="pb-6 font-light">
+            Verify
+            <span class="font-light italic underline underline-offset-4">{{
+              faUser.email
+            }}</span>
+            by clicking the link we sent you.
+          </p>
+
+          <p class="pb-2 text-xl">Why?</p>
           <p class="font-light">
-            See your pending team invitations. You have
-            <b>{{ teamInvitationStore.invitations.length }}</b> pending
-            invitation right now.
+            This will help us verify your identity to prevent bad actors from
+            using our platform to scam or spam your customers, making it safer
+            for you and your customers!
           </p>
         </div>
-      </router-link>
 
-      <button v-else class="text-left" @click="joinOrg">
-        <div
-          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+        <button
+          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
+          @click="sendVerificationEmail"
+        >
+          <p class="mb-2 text-2xl">Re-send verification email</p>
+          <p class="pb-1 font-light">
+            Click to resend if you did not receive the verification email.
+            Please check your spam folder too!
+          </p>
+        </button>
+
+        <button
+          class="w-full rounded-lg border border-zinc-200 p-2 font-light text-zinc-900"
+          @click="reloadPage"
+        >
+          <p class="text-lg">Check Status</p>
+        </button>
+      </div>
+
+      <template v-else>
+        <router-link
+          v-if="teamInvitationStore.invitations.length > 0"
+          :to="{ name: PendingInvitationRoute.name }"
+        >
+          <div class="mb-8 w-full rounded-lg bg-green-600 p-4 text-white">
+            <p class="mb-2 text-2xl">Pending Invitations</p>
+            <p class="font-light">
+              See your pending team invitations. You have
+              <b>{{ teamInvitationStore.invitations.length }}</b> pending
+              invitation right now.
+            </p>
+          </div>
+        </router-link>
+
+        <button
+          v-else
+          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
+          @click="joinOrg"
         >
           <p class="mb-2 text-2xl">Join Organisation</p>
           <p class="font-light">
             Join an existing Organisation by getting your Organisation Admin or
             Owner to send you a team invitation in <i>Team > Invite Member</i>.
           </p>
-        </div>
-      </button>
+        </button>
 
-      <router-link
-        v-if="orgWaitingForSubscription"
-        :to="{ name: BuySubscriptionPlanRoute.name }"
-      >
-        <div
-          class="mb-8 w-full rounded-lg border border-green-700 p-4 text-green-700"
+        <router-link
+          v-if="orgWaitingForSubscription"
+          :to="{ name: BuySubscriptionPlanRoute.name }"
         >
-          <p class="mb-2 text-2xl">Activate {{ "org name" }}</p>
-          <p class="font-light">
-            Subscribe to activate your Organisation account.
-          </p>
-        </div>
-      </router-link>
+          <div
+            class="mb-8 w-full rounded-lg border border-green-700 p-4 text-green-700"
+          >
+            <p class="mb-2 text-2xl">Activate {{ orgName }}</p>
+            <p class="font-light">
+              Subscribe to activate your Organisation account.
+            </p>
+          </div>
+        </router-link>
 
-      <router-link v-else :to="{ name: CreateOrgRoute.name }">
-        <div
-          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
-        >
-          <p class="mb-2 text-2xl">Create Organisation</p>
-          <p class="font-light">Create a new Organisation Account.</p>
-        </div>
-      </router-link>
+        <router-link v-else :to="{ name: CreateOrgRoute.name }">
+          <div
+            class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+          >
+            <p class="mb-2 text-2xl">Create Organisation</p>
+            <p class="font-light">Create a new Organisation Account.</p>
+          </div>
+        </router-link>
+      </template>
+
+      <div class="pt-4">
+        <p class="mb-2 text-xl font-normal">Need Help?</p>
+        <p>
+          Reach out to us at
+          <a
+            class="font-light italic underline underline-offset-4"
+            target="_blank"
+            href="mailto:help@thepmftool.com"
+          >
+            help@thepmftool.com
+          </a>
+        </p>
+      </div>
     </div>
   </div>
 </template>

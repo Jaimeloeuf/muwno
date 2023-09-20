@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLoader, useUserStore } from "../../store";
 import { OnboardingRoute, LoginRoute } from "../../router";
@@ -24,10 +27,16 @@ async function signup() {
 
     loader.show();
 
-    await createUserWithEmailAndPassword(auth, email.value, password.value);
+    const user = await createUserWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
 
     // Create a new User Entity with API
     await userStore.createUser(name.value);
+
+    await sendEmailVerification(user.user);
 
     router.push({ name: OnboardingRoute.name });
   } catch (error: any) {
