@@ -18,7 +18,7 @@ const progressBarInterval = setInterval(() => {
 <template>
   <div class="fixed bottom-4 right-0 pr-4">
     <div
-      class="w-full max-w-lg rounded-lg border border-zinc-200 bg-zinc-50 shadow-2xl drop-shadow-2xl"
+      class="w-full min-w-[24rem] max-w-xl rounded-lg border border-zinc-200 bg-zinc-50 shadow-2xl drop-shadow-2xl"
     >
       <div class="flex flex-row justify-between p-4">
         <p class="pr-6">{{ notif.snackBarMessage }}</p>

@@ -8,7 +8,7 @@ const hidden = ref(true);
   <div>
     <button
       type="button"
-      class="flex w-full items-center py-4"
+      class="flex w-full flex-row items-center py-4"
       :class="{ 'border-b border-zinc-200': !hidden }"
       @click="hidden = !hidden"
     >
