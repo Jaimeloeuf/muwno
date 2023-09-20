@@ -19,8 +19,8 @@ export const ROLES_KEY = Symbol('roles');
  * This can accept multiple Roles as its argument, a request will be allowed
  * as long as the user's role matches any one of the required roles.
  *
- * If there are role(s) specified on both the route method and its parent
- * controller, the role specified on the route method itself will take precedence.
+ * If there are role(s) specified on both route method and parent controller,
+ * the role specified on the route method itself will take precedence.
  */
 export const RolesRequired = (...roles: Role[]) =>
   SetMetadata(ROLES_KEY, roles);

@@ -22,8 +22,8 @@ import TinyJsonHttp from 'tiny-json-http';
 export const GuardWithRecaptcha = () => UseGuards(RecaptchaGuard);
 
 /**
- * The recaptcha Guard Class guard rotes by ensuring that the requests are made
- * by humans with recaptcha validation.
+ * The RecaptchaGuard Class guard routes by ensuring that requests are made by
+ * humans with recaptcha validation.
  *
  * This is not exported since the expected use through the GuardWithRecaptcha
  * function as defined as above, as it is easier to use since module users do
@@ -32,7 +32,7 @@ export const GuardWithRecaptcha = () => UseGuards(RecaptchaGuard);
  * This can be exported to use this Guard in the global scope like so
  * ```TypeScript
  * const app = await NestFactory.create(AppModule);
- * app.useGlobalGuards(new RolesGuard());
+ * app.useGlobalGuards(new RecaptchaGuard());
  * ```
  */
 @Injectable()
@@ -48,7 +48,7 @@ class RecaptchaGuard implements CanActivate {
   private readonly baseUrl: string;
 
   /**
-   * Compare role(s) assigned to the current user to the actual roles required by the current route being processed.
+   * Ensure that request has a valid recaptcha token.
    */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     // Get the underlying Express request object

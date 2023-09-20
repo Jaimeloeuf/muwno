@@ -25,9 +25,8 @@ import { AppModule } from './app/app.module.js';
   ],
 
   providers: [
-    // Throttler is injected globally so all controllers and routes are protected
-    // with the default rate limiting settings. Default settings can be overwritten
-    // using the `Throttler` decorator to set custom `TTL` and `limit` values.
+    // Throttler is injected globally so all routes are protected with the
+    // default rate limiting settings.
     ThrottlerProvider,
   ],
 })

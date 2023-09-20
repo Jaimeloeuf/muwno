@@ -14,7 +14,8 @@ export class BasicController {
   }
 
   /**
-   * Read version info from env var which is a string of build time git branch and commit hash
+   * Read version info from env var which is a string of build time git branch
+   * and commit hash.
    */
   @Get('version')
   version(): string {

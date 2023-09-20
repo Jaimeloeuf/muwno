@@ -57,15 +57,16 @@ class RolesGuard implements CanActivate {
   ) {}
 
   /**
-   * Compare role(s) assigned to the current user to the actual roles required by the current route being processed.
+   * Compare role(s) assigned to the current user to the actual roles required
+   * by the current route being processed.
    */
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // Get the roles required by the current route being processed as specified by the Roles decorator.
-    // This checks for any roles specified on both the route method itself and its parent
-    // controller class. If there is a role specified on both the route method and the parent
-    // controller, the role specified on the route method itself will take precedence.
-    //
-    // It can be undefined if there is no roles being set with any of the roles decorators.
+    // Get the roles required by the current route being processed as specified
+    // by the Roles decorator. This checks for any roles specified on both the
+    // route method itself and its parent controller class. If there is a role
+    // specified on both the route method and the parent controller, the role
+    // specified on the route method itself will take precedence.
+    // It can be undefined if there is no roles set with the decorators.
     const requiredRoles = this.reflector.getAllAndOverride<
       undefined | Array<Role>
     >(ROLES_KEY, [context.getHandler(), context.getClass()]);
@@ -101,7 +102,7 @@ class RolesGuard implements CanActivate {
       this.logger.error('Killing Process now', RolesGuard.name);
 
       // Not the best way but the simplest way that will always work.
-      // Alternative is to call app.close() method using a event, listened in main.ts
+      // Alternative is to call app.close() in main.ts with a event.
       // Ref: https://stackoverflow.com/questions/57146395/how-to-trigger-application-shutdown-from-a-service-in-nest-js
       return process.exit(1);
     }
@@ -109,31 +110,31 @@ class RolesGuard implements CanActivate {
     // Get the underlying Express request object
     const req = context.switchToHttp().getRequest<Request>();
 
-    // Check if auth token is available, note that headers are all lowercased by express
+    // Check if auth token is set, note that headers are lowercased by express
     if (!req.headers.authorization)
       throw new UnauthorizedException('Missing auth header');
 
-    // Get the authentication scheme and encoded token string from the header string
+    // Get authentication scheme and encoded token from header
     const [authScheme, jwtString] = req.headers.authorization.split(' ');
 
-    // Check if Bearer Authentication Scheme is used, end request in this middleware if invalid scheme is used
+    // Check if Bearer Authentication Scheme used, end request on invalid scheme
     if (authScheme !== 'Bearer')
       throw new UnauthorizedException('Expected Bearer Authentication Scheme');
 
-    // Throw error on missing token string. Although the auth service can also
-    // throw an error on empty jwtString, it throws a generic error type, therefore
+    // Throw error on missing token string. Although auth service can also throw
+    // an error on empty jwtString, it throws a generic error type, therefore
     // this guard clause is used to have a more accurate error response message.
     if (jwtString === '' || jwtString === undefined)
       throw new UnauthorizedException('Missing auth token');
 
-    // Get the optional RBAC strictness requirement of the route, where `true` means that
-    // the route requires a round trip to auth service provider to check if the token has
-    // been revoked to ensure the token's RBAC claims is accurate.
+    // Get optional RBAC strictness requirement of route, where `true` means
+    // the route requires a round trip to auth service provider to check if
+    // token is revoked to ensure the token's RBAC claims is accurate.
     //
-    // This checks for any strictness requirement specified on both the route method itself
-    // and its parent controller class. If there is a strictness requirement specified on
-    // both the route method and the parent controller, the strictness requirement specified
-    // on the route method itself will take precedence.
+    // This checks for strictness requirement specified on both route method
+    // itself and its parent controller class. If it is specified on both route
+    // method and controller, the strictness requirement specified on the route
+    // method itself will take precedence.
     const checkRevoked = this.reflector.getAllAndOverride<true | undefined>(
       STRICT_RBAC_KEY,
       [context.getHandler(), context.getClass()],

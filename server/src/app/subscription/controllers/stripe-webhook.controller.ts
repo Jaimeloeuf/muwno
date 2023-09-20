@@ -63,11 +63,12 @@ export class StripeWebhookController {
    * ### Event Ordering
    * Stripe doesn’t guarantee delivery of events in the order in which they’re
    * generated. For example, creating a subscription might generate events like
-   * 'customer.subscription.created', 'invoice.created', 'invoice.paid' and
-   * 'charge.created', and these are not guaranteed to be delivered in order so
-   * the handler needs to deal with this accordingly. Stripe suggests to call its
-   * API to load any missing objects as needed if the event first received does
-   * not have enough information to fulfil the request.
+   * 'customer.subscription.created', 'invoice.created' and 'invoice.paid', and
+   * these are not guaranteed to be delivered in order so the handler needs to
+   * deal with this accordingly.
+   *
+   * Stripe suggests calling its API to load missing objects as needed if the
+   * received event does not have enough information to fulfil the request.
    * Reference: https://stripe.com/docs/webhooks#even-ordering
    */
   @Post('stripe/webhook')

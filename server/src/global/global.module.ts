@@ -30,7 +30,8 @@ const GloballySharedProviders: Provider[] = [
   providers: GloballySharedProviders,
 
   exports: GloballySharedProviders
-    // RepoModule needs to be global so that the feature modules do not need to import it one by one
+    // RepoModule is set as global so that the feature modules do not need to
+    // import DAL Repos one by one
     .concat([RepoModule]),
 })
 export class GlobalModule {}
