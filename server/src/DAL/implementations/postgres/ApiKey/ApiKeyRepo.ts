@@ -4,7 +4,7 @@ import type { IApiKeyRepo } from '../../../abstraction/index.js';
 import { PrismaService } from '../prisma.service.js';
 
 // Entity Types
-import type { ProductID, ApiKeyDetailID, UserID } from 'domain-model';
+import type { OrgID, ApiKeyDetailID } from 'domain-model';
 
 // Mappers
 import { mapApiKeyModelToEntity, mapApiKeyModelsToEntity } from './mapper.js';
@@ -16,53 +16,29 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class ApiKeyRepo implements IApiKeyRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getProductApiKeys(productID: ProductID) {
+  async getOrgApiKeyDetails(orgID: OrgID) {
     return this.db.api_key
       .findMany({
-        where: { productID },
+        where: { orgID },
         orderBy: { createdAt: 'desc' },
-
-        include: {
-          createdBy: {
-            select: { name: true },
-          },
-        },
       })
       .then(mapApiKeyModelsToEntity);
   }
 
   async getOne(apiKeyID: ApiKeyDetailID) {
     return this.db.api_key
-      .findUnique({
-        where: { id: apiKeyID },
-        include: {
-          createdBy: {
-            select: { name: true },
-          },
-        },
-      })
+      .findUnique({ where: { id: apiKeyID } })
       .then(runMapperIfNotNull(mapApiKeyModelToEntity));
   }
 
-  async saveOne(
-    productID: ProductID,
-    createdBy: UserID,
-    hash: string,
-    prefix: string,
-  ) {
+  async saveOne(orgID: OrgID, createdBy: string, hash: string, prefix: string) {
     return this.db.api_key
       .create({
         data: {
+          orgID,
           hash,
           prefix,
-          productID,
-          userID: createdBy,
-        },
-
-        include: {
-          createdBy: {
-            select: { name: true },
-          },
+          createdBy,
         },
       })
       .then(mapApiKeyModelToEntity);

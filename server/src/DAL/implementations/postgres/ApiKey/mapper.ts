@@ -1,19 +1,15 @@
-import type {
-  api_key as DBApiKeyModel,
-  user as UserModel,
-} from '@prisma/client';
+import type { api_key as ApiKeyModel } from '@prisma/client';
 import type { ApiKeyDetail } from 'domain-model';
-
-type ApiKeyModel = DBApiKeyModel & { createdBy: Pick<UserModel, 'name'> };
 
 export const mapApiKeyModelToEntity = (
   apiKeyModel: ApiKeyModel,
 ): ApiKeyDetail => ({
   id: apiKeyModel.id,
   createdAt: apiKeyModel.createdAt.toISOString(),
+  orgID: apiKeyModel.orgID,
   prefix: apiKeyModel.prefix,
-  productID: apiKeyModel.productID,
-  createdBy: apiKeyModel.createdBy.name,
+  createdBy: apiKeyModel.createdBy,
+  description: apiKeyModel.description,
 });
 
 export const mapApiKeyModelsToEntity = (

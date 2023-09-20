@@ -10,5 +10,8 @@ import { UserController } from './controllers/user.controller.js';
   providers: [UserService],
 
   controllers: [UserController],
+
+  // Export these services so other modules can use these
+  exports: [UserService],
 })
 export class UserModule {}

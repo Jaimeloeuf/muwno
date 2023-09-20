@@ -1,15 +1,18 @@
 <script setup lang="ts">
+import { useRoute } from "vue-router";
 import {
   AllProductRoute,
   OrgRoute,
   ManageSubscriptionRoute,
   ProfileRoute,
   TeamRoute,
+  ApiKeyRoute,
 } from "../../router";
 import { useSidedrawer } from "../../store";
 import { logout } from "../../utils/logout";
 import Version from "./Version.vue";
 
+const route = useRoute();
 const drawer = useSidedrawer();
 
 function closeAndLogout() {
@@ -89,6 +92,19 @@ function closeAndLogout() {
             class="h-6 w-6"
           />
           <span class="ml-3 flex-1 text-left">Subscription</span>
+        </router-link>
+
+        <router-link
+          :to="{ name: ApiKeyRoute.name }"
+          class="group flex w-full rounded-lg p-2 text-zinc-900"
+          :class="{
+            'border border-zinc-200 bg-zinc-50':
+              route.name === ApiKeyRoute.name,
+          }"
+          @click="drawer.hide"
+        >
+          <img src="../../assets/SideDrawerIcon/ApiKey.svg" class="h-6 w-6" />
+          <span class="ml-3 flex-1 text-left">API Keys</span>
         </router-link>
       </div>
 

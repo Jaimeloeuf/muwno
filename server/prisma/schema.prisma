@@ -69,6 +69,9 @@ model org {
   // Relationship: ONE org, can have MANY pending team member invitations
   team_member_invitation team_member_invitation[]
 
+  // Relationship: ONE org, can have MANY api keys.
+  api_key api_key[]
+
   // Relationship: ONE org, is ONE (a) Stripe Customer if it is subscribed.
   stripe_customer stripe_customer?
 }
@@ -101,9 +104,6 @@ model user {
 
   // Relationship: ONE user, can invite MANY team members
   team_member_invitation team_member_invitation[]
-
-  // Relationship: ONE user, can create MANY api keys.
-  api_key api_key[]
 }
 
 model product {
@@ -125,9 +125,6 @@ model product {
 
   // Relationship: ONE product, can have MANY Tasks
   task task[]
-
-  // Relationship: ONE product, can have MANY api keys
-  api_key api_key[]
 }
 
 model pmf_survey_responses {
@@ -241,19 +238,16 @@ model api_key {
   iid Int @id @default(autoincrement())
 
   // Unique random string ID as the apiKeyID
-  id        String   @unique @default(cuid())
-  createdAt DateTime @default(now())
-  hash      String   @unique
-  prefix    String   @unique
-  // description String?
+  id          String   @unique @default(cuid())
+  createdAt   DateTime @default(now())
+  // Hash to prevent direct access on lost of all keys on leak
+  hash        String   @unique
+  prefix      String
+  createdBy   String
+  description String?
 
-  // Relationship: MANY api keys, allows access to ONE (the same) product
-  // Auto delete ApiKey if Product is deleted
-  product   product @relation(fields: [productID], references: [id], onDelete: Cascade)
-  productID String
-
-  // Relationship: MANY api keys, can be created by ONE (the same) user
-  // Auto delete ApiKey if API Key Creator is deleted
-  createdBy user   @relation(fields: [userID], references: [id], onDelete: Cascade)
-  userID    String
+  // Relationship: MANY api keys, allows access to products of ONE Org
+  // Auto delete ApiKey if Org is deleted
+  org   org    @relation(fields: [orgID], references: [id], onDelete: Cascade)
+  orgID String
 }

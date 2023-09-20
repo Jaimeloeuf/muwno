@@ -1,5 +1,5 @@
+import type { OrgID } from "../Org/index.js";
 import type { ISODateTimeString } from "../utils/Timestamp.js";
-import type { ProductID } from "../Product/index.js";
 
 /**
  * Type to represent a single Api Key Detail.
@@ -13,24 +13,26 @@ export type ApiKeyDetail = {
   createdAt: ISODateTimeString;
 
   /**
+   * ID of the Org that this API Key belongs to.
+   */
+  orgID: OrgID;
+
+  /**
    * Prefix of the API key for you to easily identify if you have the right key.
    */
   prefix: string;
 
   /**
-   * Optional description for users to describe where the key is used.
-   */
-  // description: string | null;
-
-  /**
-   * ID of the product this API key is made for.
-   */
-  productID: ProductID;
-
-  /**
-   * Name of the API Key creator.
+   * Creator's name and email as a String.
+   * No relation to the User entity itself because deleting a User should not
+   * cause the API Key to be deleted.
    */
   createdBy: string;
+
+  /**
+   * Optional description for users to describe where the key is used.
+   */
+  description: string | null;
 };
 
 /**

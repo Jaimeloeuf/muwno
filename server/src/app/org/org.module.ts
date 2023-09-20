@@ -15,5 +15,8 @@ import { OrgController } from './controllers/org.controller.js';
   providers: [OrgService],
 
   controllers: [OrgController],
+
+  // Export these services so other modules can use these
+  exports: [OrgService],
 })
 export class OrgModule {}

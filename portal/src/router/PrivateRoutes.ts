@@ -168,7 +168,7 @@ export const ManageSubscriptionRoute = <const>{
 
 export const ApiKeyRoute = <const>{
   name: "api-key",
-  path: "/api-key/:productID",
+  path: "/api-key",
   props: true,
   component: () => import("../views/core/ApiKey.vue"),
   meta: { AuthRequirements: AuthType.Private },

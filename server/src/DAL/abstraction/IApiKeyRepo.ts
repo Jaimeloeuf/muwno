@@ -1,7 +1,7 @@
 import type {
   ApiKeyDetail,
   UserID,
-  ProductID,
+  OrgID,
   ApiKeyDetailID,
 } from 'domain-model';
 
@@ -11,11 +11,9 @@ import type {
  */
 export abstract class IApiKeyRepo {
   /**
-   * Get a list of all the API Key Detail objects for a given product.
+   * Get all API Key Detail objects of the Org.
    */
-  abstract getProductApiKeys(
-    productID: ProductID,
-  ): Promise<Array<ApiKeyDetail>>;
+  abstract getOrgApiKeyDetails(orgID: OrgID): Promise<Array<ApiKeyDetail>>;
 
   /**
    * Get a single API Key Detail object back using its ID.
@@ -26,7 +24,7 @@ export abstract class IApiKeyRepo {
    * Save a newly created API Key.
    */
   abstract saveOne(
-    productID: ProductID,
+    orgID: OrgID,
     createdBy: UserID,
     hash: string,
     prefix: string,

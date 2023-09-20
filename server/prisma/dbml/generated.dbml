@@ -14,6 +14,7 @@ Table org {
   user user [not null]
   product product [not null]
   team_member_invitation team_member_invitation [not null]
+  api_key api_key [not null]
   stripe_customer stripe_customer
 }
 
@@ -28,7 +29,6 @@ Table user {
   org org
   orgID String
   team_member_invitation team_member_invitation [not null]
-  api_key api_key [not null]
 }
 
 Table product {
@@ -40,7 +40,6 @@ Table product {
   orgID String [not null]
   pmf_survey_responses pmf_survey_responses [not null]
   task task [not null]
-  api_key api_key [not null]
 }
 
 Table pmf_survey_responses {
@@ -108,11 +107,11 @@ Table api_key {
   id String [unique, not null]
   createdAt DateTime [default: `now()`, not null]
   hash String [unique, not null]
-  prefix String [unique, not null]
-  product product [not null]
-  productID String [not null]
-  createdBy user [not null]
-  userID String [not null]
+  prefix String [not null]
+  createdBy String [not null]
+  description String
+  org org [not null]
+  orgID String [not null]
 }
 
 Enum SubscriptionPlan {
@@ -141,6 +140,4 @@ Ref: team_member_invitation.orgID > org.id [delete: Cascade]
 
 Ref: stripe_customer.orgID - org.id [delete: Cascade]
 
-Ref: api_key.productID > product.id [delete: Cascade]
-
-Ref: api_key.userID > user.id [delete: Cascade]
+Ref: api_key.orgID > org.id [delete: Cascade]

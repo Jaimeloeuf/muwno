@@ -5,7 +5,7 @@ import { ApiKeyService } from '../services/apikey.service.js';
 import { GuardWithRBAC, RolesRequired, JWT_uid } from '../../../rbac/index.js';
 
 // Entity Types
-import type { FirebaseAuthUID, ProductID } from 'domain-model';
+import type { FirebaseAuthUID } from 'domain-model';
 import { Role } from 'domain-model';
 
 // DTO Types
@@ -21,29 +21,27 @@ export class ApiKeyController {
   constructor(private readonly apiKeyService: ApiKeyService) {}
 
   /**
-   * Get a list of all the API Key Detail objects for a given product.
+   * Get all API Key Detail objects of the user's Org.
    */
-  @Get('details/:productID')
+  @Get('details')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async getApiKeyDetails(
     @JWT_uid requestorID: FirebaseAuthUID,
-    @Param('productID') productID: ProductID,
   ): Promise<ReadManyApiKeyDTO> {
     return this.apiKeyService
-      .getApiKeyDetailsOfProduct(requestorID, productID)
+      .getApiKeyDetails(requestorID)
       .then((details) => ({ details }));
   }
 
   /**
-   * Create a new API Key for selected product.
+   * Create a new API Key for user's Org.
    */
-  @Post('create/:productID')
+  @Post('create')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createApiKey(
     @JWT_uid requestorID: FirebaseAuthUID,
-    @Param('productID') productID: ProductID,
   ): Promise<ReadOneApiKeyDTO> {
-    return this.apiKeyService.createApiKey(requestorID, productID);
+    return this.apiKeyService.createApiKey(requestorID);
   }
 
   /**

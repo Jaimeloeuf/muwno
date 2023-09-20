@@ -1,16 +1,12 @@
-import { randomBytes, createHash } from 'crypto';
+import { randomBytes } from 'crypto';
 import { Injectable } from '@nestjs/common';
 
 import { IApiKeyRepo } from '../../../DAL/index.js';
-import { ProductService } from '../../product/services/product.service.js';
+import { OrgService } from '../../org/services/org.service.js';
+import { UserService } from '../../user/services/user.service.js';
 
 // Entity Types
-import type {
-  UserID,
-  ProductID,
-  ApiKeyDetail,
-  ApiKeyDetailID,
-} from 'domain-model';
+import type { UserID, ApiKeyDetail, ApiKeyDetailID } from 'domain-model';
 
 // DTO Types
 import type { ReadOneApiKeyDTO } from 'domain-model';
@@ -18,49 +14,40 @@ import type { ReadOneApiKeyDTO } from 'domain-model';
 // Service layer Exceptions
 import { NotFoundException } from '../../../exceptions/index.js';
 
+// Utils
+import { sha256hash } from '../../../utils/index.js';
+
 @Injectable()
 export class ApiKeyService {
   constructor(
     private readonly apiKeyRepo: IApiKeyRepo,
-    private readonly productService: ProductService,
-  ) {
-    this.hashApiKey = (key: string) =>
-      createHash('sha256').update(key).digest('base64url');
+    private readonly orgService: OrgService,
+    private readonly userService: UserService,
+  ) {}
+
+  /**
+   * Get all API Key Detail objects of the user's Org.
+   */
+  async getApiKeyDetails(requestorID: UserID): Promise<Array<ApiKeyDetail>> {
+    const org = await this.orgService.getUserOrg(requestorID);
+
+    return this.apiKeyRepo.getOrgApiKeyDetails(org.id);
   }
 
   /**
-   * Hash function to hash API Key before saving it in data source.
+   * Create a new API Key for user's Org.
    */
-  private readonly hashApiKey: (key: string) => string;
-
-  /**
-   * Get a list of all the API Key Detail objects for a given product.
-   */
-  async getApiKeyDetailsOfProduct(
-    requestorID: UserID,
-    productID: ProductID,
-  ): Promise<Array<ApiKeyDetail>> {
-    await this.productService.validateUserAccess(requestorID, productID);
-
-    return this.apiKeyRepo.getProductApiKeys(productID);
-  }
-
-  /**
-   * Create and save new API Key for selected product.
-   */
-  async createApiKey(
-    requestorID: UserID,
-    productID: ProductID,
-  ): Promise<ReadOneApiKeyDTO> {
-    await this.productService.validateUserAccess(requestorID, productID);
+  async createApiKey(requestorID: UserID): Promise<ReadOneApiKeyDTO> {
+    const org = await this.orgService.getUserOrg(requestorID);
+    const user = await this.userService.getUser(requestorID);
 
     const key = 'sk:' + randomBytes(32).toString('base64');
-    const hash = this.hashApiKey(key);
+    const hash = sha256hash(key);
     const prefix = key.slice(0, 6);
 
     const apiKeyDetail = await this.apiKeyRepo.saveOne(
-      productID,
-      requestorID,
+      org.id,
+      `${user.name} <${user.email}>`,
       hash,
       prefix,
     );
@@ -79,11 +66,6 @@ export class ApiKeyService {
 
     if (apiKeyDetail === null)
       throw new NotFoundException(`API Key ${apiKeyID} does not exist.`);
-
-    await this.productService.validateUserAccess(
-      requestorID,
-      apiKeyDetail.productID,
-    );
 
     await this.apiKeyRepo.deleteOne(apiKeyID);
   }

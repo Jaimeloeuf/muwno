@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 
 // Modules
-import { ProductModule } from '../product/product.module.js';
+import { OrgModule } from '../org/org.module.js';
+import { UserModule } from '../user/user.module.js';
 
 // Services
 import { ApiKeyService } from './services/apikey.service.js';
@@ -10,7 +11,7 @@ import { ApiKeyService } from './services/apikey.service.js';
 import { ApiKeyController } from './controllers/apikey.controller.js';
 
 @Module({
-  imports: [ProductModule],
+  imports: [OrgModule, UserModule],
 
   providers: [ApiKeyService],
 
