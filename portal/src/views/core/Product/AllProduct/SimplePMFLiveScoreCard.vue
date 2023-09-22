@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { useLiveScore } from "../shared/useLiveScore";
+import { useCacheableLiveScore } from "./useCacheableLiveScore";
 import type { ProductID } from "@domain-model";
 
-const props = defineProps<{ productID: ProductID }>();
+const props = defineProps<{ productID: ProductID; cacheKey: string }>();
 
-const { PMFScore, reliability } = await useLiveScore(props.productID);
+const { PMFScore, reliability } = await useCacheableLiveScore(
+  props.productID,
+  props.cacheKey
+);
 </script>
 
 <template>

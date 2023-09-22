@@ -1,14 +1,27 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useOrg, useProduct } from "../../../../store";
 import { ProductRoute, AddProductRoute } from "../../../../router";
 import SideDrawerButton from "../../../components/SideDrawerButton.vue";
 import SimplePMFLiveScoreCard from "./SimplePMFLiveScoreCard.vue";
+import { useSearch } from "./SearchComposable";
 
 const orgStore = useOrg();
 const productStore = useProduct();
 
 const org = await orgStore.getOrg();
 const products = await productStore.getAllProducts();
+
+const pmfLiveScoreCacheKey = Date.now().toString();
+
+/** Ref to the DOM element so that it can be cleared by `clearSearchInputHandler` */
+const searchField = ref<HTMLInputElement | null>(null);
+
+const { searchInput, results, clearSearchInput } = useSearch(
+  products,
+  { keys: ["name"], threshold: 0.5, resultLimit: 5 },
+  () => searchField.value?.focus()
+);
 </script>
 
 <template>
@@ -22,24 +35,26 @@ const products = await productStore.getAllProducts();
       </span>
     </div>
 
-    <div class="md:mx-6">
+    <div class="md:mx-12">
       <div
         class="mb-8 flex flex-col justify-between gap-3 pb-6 sm:flex-row sm:items-end"
         :class="{ 'border-b border-zinc-200': true }"
       >
-        <div class="w-full">
+        <div class="w-full max-w-md">
           <p class="font-medium">Product Name</p>
           <div class="flex max-w-md flex-row gap-3">
             <input
+              v-model="searchInput"
               type="text"
-              class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2"
+              class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3 focus:outline-none"
               :placeholder="`E.g. ${products[0]?.name ?? 'Spotify'}`"
             />
 
             <button
-              class="rounded-lg bg-zinc-100 px-6 font-light text-zinc-900"
+              class="rounded-lg bg-zinc-100 px-4 font-light text-zinc-900"
+              @click="clearSearchInput"
             >
-              search
+              clear
             </button>
           </div>
         </div>
@@ -74,16 +89,29 @@ const products = await productStore.getAllProducts();
         </div>
       </div>
 
-      <div class="grid grid-cols-1 xl:grid-cols-2">
+      <p
+        v-if="searchInput !== '' && results.length === 0"
+        class="text-2xl font-extralight"
+      >
+        No products matches your search.
+      </p>
+
+      <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <router-link
-          v-for="product in products"
+          v-for="product in results"
           :key="product.id"
-          :to="{ name: ProductRoute.name, params: { productID: product.id } }"
-          class="m-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-zinc-900 sm:m-6"
+          :to="{
+            name: ProductRoute.name,
+            params: { productID: product.id },
+          }"
+          class="rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-zinc-900"
         >
           <div class="flex flex-col justify-between sm:flex-row">
             <p class="p-3 pr-4 text-3xl">{{ product.name }}</p>
-            <SimplePMFLiveScoreCard :productID="product.id" />
+            <SimplePMFLiveScoreCard
+              :productID="product.id"
+              :cacheKey="pmfLiveScoreCacheKey"
+            />
           </div>
         </router-link>
       </div>

@@ -87,7 +87,7 @@ export class ProductRepo implements IProductRepo {
             org: {
               select: {
                 product: {
-                  orderBy: { createdAt: 'asc' },
+                  orderBy: { createdAt: 'desc' },
                 },
               },
             },
