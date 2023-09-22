@@ -3,6 +3,7 @@ import type {
   UserID,
   OrgID,
   ApiKeyDetailID,
+  Org,
 } from 'domain-model';
 
 /**
@@ -34,4 +35,9 @@ export abstract class IApiKeyRepo {
    * Delete an API Key.
    */
   abstract deleteOne(apiKeyID: ApiKeyDetailID): Promise<void>;
+
+  /**
+   * Get API Key's corresponding Org.
+   */
+  abstract getApiKeyOrg(hash: string): Promise<Org | null>;
 }

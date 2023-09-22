@@ -8,6 +8,7 @@ import type { OrgID, ApiKeyDetailID } from 'domain-model';
 
 // Mappers
 import { mapApiKeyModelToEntity, mapApiKeyModelsToEntity } from './mapper.js';
+import { mapOrgModelToEntity } from '../Org/mapper.js';
 
 // Utils
 import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
@@ -46,5 +47,15 @@ export class ApiKeyRepo implements IApiKeyRepo {
 
   async deleteOne(apiKeyID: ApiKeyDetailID) {
     await this.db.api_key.delete({ where: { id: apiKeyID } });
+  }
+
+  async getApiKeyOrg(hash: string) {
+    return this.db.api_key
+      .findUnique({
+        where: { hash },
+        select: { org: true },
+      })
+      .then((apiKey) => apiKey?.org)
+      .then(runMapperIfNotNull(mapOrgModelToEntity));
   }
 }

@@ -16,7 +16,7 @@ import { CustomClaimsKeys } from 'domain-model';
 import { ROLES_KEY } from './roles.decorator.js';
 import { STRICT_RBAC_KEY } from './rbac-strictness.decorator.js';
 import { isRoles } from './roles.utils.js';
-import { RequestJwtKey } from './express-req-extension.js';
+import { RequestJwtKey } from '../express-req-extension.js';
 import { ALLOW_UNAUTHENTICATED_REQ__KEY } from './auth.decorator.js';
 
 /**

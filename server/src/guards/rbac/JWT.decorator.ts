@@ -2,7 +2,10 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import type { Request } from 'express';
 import { CustomClaimsKeys } from 'domain-model';
 
-import { RequestJwtKey } from './express-req-extension.js';
+import { RequestJwtKey } from '../express-req-extension.js';
+
+// Service layer Exceptions
+import { InvalidInternalStateException } from '../../exceptions/index.js';
 
 /**
  * Custom decorator to get user's auth JWT set on `req[RequestJwtKey]` in
@@ -12,10 +15,15 @@ import { RequestJwtKey } from './express-req-extension.js';
  * so all params that use this decorator still need to use the `ServerJWT` type.
  * Ref: https://stackoverflow.com/questions/68662938/nestjs-param-decorator-return-type
  */
-export const JWT = createParamDecorator<string>(
-  (_, ctx: ExecutionContext) =>
-    ctx.switchToHttp().getRequest<Request>()[RequestJwtKey],
-);
+export const JWT = createParamDecorator<string>((_, ctx: ExecutionContext) => {
+  const jwt = ctx.switchToHttp().getRequest<Request>()[RequestJwtKey];
+  if (jwt === undefined)
+    throw new InvalidInternalStateException(
+      `Org not set on API Key protected route`,
+    );
+
+  return jwt;
+});
 
 /**
  * Get a specific field on the jwt instead of the whole jwt.
