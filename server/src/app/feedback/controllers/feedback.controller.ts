@@ -14,9 +14,6 @@ import type { ReadOneFeedbackFormDTO } from 'domain-model';
 // DTO Validators
 import { ValidatedCreateOneFeedbackResponseDTO } from '../dto-validation/ValidatedCreateOneFeedbackResponseDTO.js';
 
-// Mappers
-import { mapFeedbackFormEntityToDTO } from '../mapper/toDTOs/feedbackform.js';
-
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -42,9 +39,7 @@ export class FeedbackController {
   async getForm(
     @Param('productID') productID: ProductID,
   ): Promise<ReadOneFeedbackFormDTO> {
-    return this.feedbackService
-      .getForm(productID)
-      .then(mapFeedbackFormEntityToDTO);
+    return this.feedbackService.getForm(productID).then((form) => ({ form }));
   }
 
   /**

@@ -19,9 +19,6 @@ import type { ReadOneUserDTO } from 'domain-model';
 // DTO Validators
 import { ValidatedCreateOneUserDTO } from '../dto-validation/ValidatedCreateOneUserDTO.js';
 
-// Mappers
-import { mapUserEntityToDTO } from '../mapper/toDTOs/user.js';
-
 // Exceptions and Filters
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -38,7 +35,7 @@ export class UserController {
   @Get('self')
   @NoRoleRequired
   async getSelf(@JWT_uid userID: FirebaseAuthUID): Promise<ReadOneUserDTO> {
-    return this.userService.getUser(userID).then(mapUserEntityToDTO);
+    return this.userService.getUser(userID).then((user) => ({ user }));
   }
 
   /**
@@ -70,6 +67,6 @@ export class UserController {
 
     return this.userService
       .createUser(jwt.uid, jwt.email, createOneUserDTO)
-      .then(mapUserEntityToDTO);
+      .then((user) => ({ user }));
   }
 }

@@ -13,9 +13,6 @@ import type { ReadOneProductDTO, ReadManyProductDTO } from 'domain-model';
 // DTO Validators
 import { ValidatedCreateOneProductDTO } from '../dto-validation/ValidatedCreateOneProductDTO.js';
 
-// Mappers
-import { mapManyProductEntityToDTO } from '../mapper/toDTOs/products.js';
-
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -49,7 +46,7 @@ export class ProductController {
   ): Promise<ReadManyProductDTO> {
     return this.productService
       .getUserOrgProducts(userID)
-      .then(mapManyProductEntityToDTO);
+      .then((products) => ({ products }));
   }
 
   /**

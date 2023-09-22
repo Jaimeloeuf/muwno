@@ -23,9 +23,6 @@ import type {
 // DTO Validators
 import { ValidatedCreateOneTeamMemberInvitationDTO } from '../dto-validation/ValidatedCreateOneTeamMemberInvitationDTO.js';
 
-// Mappers
-import { mapUserEntityToDTO } from '../mapper/toDTOs/user.js';
-
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -45,7 +42,7 @@ export class TeamController {
   ): Promise<ReadManyUserDTO> {
     return this.teamService
       .getAllMembersOfUsersOrg(userID)
-      .then(mapUserEntityToDTO);
+      .then((users) => ({ users }));
   }
 
   /**

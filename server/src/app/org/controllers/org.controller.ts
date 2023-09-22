@@ -18,9 +18,6 @@ import type { ReadOneOrgDTO } from 'domain-model';
 // DTO Validators
 import { ValidatedCreateOneOrgDTO } from '../dto-validation/ValidatedCreateOneOrgDTO.js';
 
-// Mappers
-import { mapOrgEntityToDTO } from '../mapper/toDTOs/org.js';
-
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -36,7 +33,7 @@ export class OrgController {
   @Get('self')
   @AllowAllRoles
   async getSelfOrg(@JWT_uid userID: FirebaseAuthUID): Promise<ReadOneOrgDTO> {
-    return this.orgService.getUserOrg(userID).then(mapOrgEntityToDTO);
+    return this.orgService.getUserOrg(userID).then((org) => ({ org }));
   }
 
   /**
@@ -52,6 +49,6 @@ export class OrgController {
   ): Promise<ReadOneOrgDTO> {
     return this.orgService
       .createOrg(userID, createOneOrgDTO)
-      .then(mapOrgEntityToDTO);
+      .then((org) => ({ org }));
   }
 }
