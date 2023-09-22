@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
 
 import { PmfscoreService } from '../services/pmfscore.service.js';
 
-import { GuardWithRBAC, AllowAllRoles } from '../../../rbac/index.js';
+import { GuardWithRBAC, AllowAllRoles } from '../../../guards/index.js';
 
 // Entity Types
 import type { ProductID } from 'domain-model';

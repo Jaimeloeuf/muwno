@@ -1,4 +1,4 @@
-import type { ServerJWT } from '../types/index.js';
+import type { ServerJWT } from '../../types/index.js';
 
 /**
  * Shared key for the JWT attached to the Request object so that

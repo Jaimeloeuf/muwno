@@ -10,7 +10,11 @@ import {
 
 import { TaskService } from '../services/task.service.js';
 
-import { GuardWithRBAC, AllowAllRoles, JWT_uid } from '../../../rbac/index.js';
+import {
+  GuardWithRBAC,
+  AllowAllRoles,
+  JWT_uid,
+} from '../../../guards/index.js';
 
 // Entity Types
 import type {

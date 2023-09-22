@@ -2,7 +2,11 @@ import { Controller, Get, Post, Param } from '@nestjs/common';
 
 import { ApiKeyService } from '../services/apikey.service.js';
 
-import { GuardWithRBAC, RolesRequired, JWT_uid } from '../../../rbac/index.js';
+import {
+  GuardWithRBAC,
+  RolesRequired,
+  JWT_uid,
+} from '../../../guards/index.js';
 
 // Entity Types
 import type { FirebaseAuthUID } from 'domain-model';

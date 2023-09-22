@@ -3,7 +3,7 @@ import { Throttle } from '@nestjs/throttler';
 
 import { FeedbackService } from '../services/feedback.service.js';
 
-import { GuardWithRBAC, AllowAllRoles } from '../../../rbac/index.js';
+import { GuardWithRBAC, AllowAllRoles } from '../../../guards/index.js';
 
 // Entity Types
 import type {

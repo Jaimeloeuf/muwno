@@ -7,7 +7,7 @@ import {
   AllowAllRoles,
   NoRoleRequired,
   JWT_uid,
-} from '../../../rbac/index.js';
+} from '../../../guards/index.js';
 
 // Entity Types
 import type { FirebaseAuthUID } from 'domain-model';

@@ -7,7 +7,7 @@ import {
   NoRoleRequired,
   JWT_uid,
   JWT,
-} from '../../../rbac/index.js';
+} from '../../../guards/index.js';
 import type { ServerJWT } from '../../../types/ServerJWT.js';
 
 // Entity Types

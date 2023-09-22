@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 
-import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
+import { GuardWithRecaptcha } from '../../../guards/index.js';
 
 import { ITelegramBotService } from '../../../infra/index.js';
 

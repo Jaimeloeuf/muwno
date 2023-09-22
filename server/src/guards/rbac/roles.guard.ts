@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-import { IAuthService } from '../infra/index.js';
+import { IAuthService } from '../../infra/index.js';
 import type { Request } from 'express';
 import type { Role } from 'domain-model';
 import { CustomClaimsKeys } from 'domain-model';

@@ -16,7 +16,7 @@ import {
   JWT_uid,
   RolesRequired,
   AllowUnauthenticatedRequest,
-} from '../../../rbac/index.js';
+} from '../../../guards/index.js';
 
 // Entity Types
 import { Role } from 'domain-model';

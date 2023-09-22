@@ -2,7 +2,11 @@ import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
-import { GuardWithRBAC, AllowAllRoles, JWT_uid } from '../../../rbac/index.js';
+import {
+  GuardWithRBAC,
+  AllowAllRoles,
+  JWT_uid,
+} from '../../../guards/index.js';
 
 // Entity Types
 import type { FirebaseAuthUID, ProductID } from 'domain-model';

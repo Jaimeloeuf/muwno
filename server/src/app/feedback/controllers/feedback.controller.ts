@@ -3,7 +3,7 @@ import { SkipThrottle } from '@nestjs/throttler';
 
 import { FeedbackService } from '../services/feedback.service.js';
 
-import { GuardWithRecaptcha } from '../../../recaptcha/index.js';
+import { GuardWithRecaptcha } from '../../../guards/index.js';
 
 // Entity Types
 import type { ProductID } from 'domain-model';

@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
-import { GuardWithRBAC, NoRoleRequired } from '../../../rbac/index.js';
+import { GuardWithRBAC, NoRoleRequired } from '../../../guards/index.js';
 
 // Entity Types
 import type { OrgID } from 'domain-model';

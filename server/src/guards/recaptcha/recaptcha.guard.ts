@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import type { EnvironmentVariables } from '../config/types.js';
+import type { EnvironmentVariables } from '../../config/types.js';
 
 import type { Request } from 'express';
 
