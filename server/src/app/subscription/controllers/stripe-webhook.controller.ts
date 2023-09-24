@@ -25,9 +25,9 @@ import { StripeSetupintentService } from '../services/stripe-setupintent.service
 
 // Entity Types
 import type {
-  InvoicePaidEventData,
-  SetupIntentSucceededEventData,
-  SubscriptionDeletedEventData,
+  Invoice,
+  SetupIntent,
+  Subscription,
 } from '../../../types/index.js';
 
 // Exception Filters
@@ -209,16 +209,13 @@ export class StripeWebhookController {
        * type casted manually. Type only includes data of what is needed.
        * @todo Parse with Zod or smth
        */
-      const setupIntentSucceededEvent = event.data
-        .object as SetupIntentSucceededEventData;
+      const setupIntent = event.data.object as SetupIntent;
 
       // @todo
       // Alternatively, use `setupIntentSucceededEvent.metadata` to reflect
       // `StripeSetupNext` instead of storing and loading it.
 
-      await this.stripeSetupintentService.onSetupIntentSuccess(
-        setupIntentSucceededEvent,
-      );
+      await this.stripeSetupintentService.onSetupIntentSuccess(setupIntent);
     },
 
     // ===================== Activate Subscription Events =====================
@@ -242,17 +239,17 @@ export class StripeWebhookController {
        * type casted manually. Type only includes data of what is needed.
        * @todo Parse with Zod or smth
        */
-      const invoicePaidEventData = event.data.object as InvoicePaidEventData;
+      const invoice = event.data.object as Invoice;
 
       const stripeCustomer =
         await this.stripeCustomerRepo.getCustomerWithStripeCustomerID(
-          invoicePaidEventData.customer,
+          invoice.customer,
         );
 
       // @todo Send admins details to investigate and manually recouncil this
       if (stripeCustomer === null) {
         throw new Error(
-          `${event.id}-${event.type}-${invoicePaidEventData.subscription}-${invoicePaidEventData.customer}-${invoicePaidEventData.customer_email}`,
+          `${event.id}-${event.type}-${invoice.subscription}-${invoice.customer}-${invoice.customer_email}`,
         );
       }
 
@@ -260,7 +257,7 @@ export class StripeWebhookController {
       await this.subscriptionService.activateSubscription(stripeCustomer.orgID);
 
       this.logger.verbose(
-        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, paid for ${invoicePaidEventData.subscription}`,
+        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, paid for ${invoice.subscription}`,
         StripeWebhookController.name,
       );
     },
@@ -288,7 +285,7 @@ export class StripeWebhookController {
        * type casted manually. Type only includes data of what is needed.
        * @todo Parse with Zod or smth
        */
-      const invoice = event.data.object as InvoicePaidEventData;
+      const invoice = event.data.object as Invoice;
 
       const stripeCustomer =
         await this.stripeCustomerRepo.getCustomerWithStripeCustomerID(
@@ -322,23 +319,22 @@ export class StripeWebhookController {
        * type casted manually. Type only includes data of what is needed.
        * @todo Parse with Zod or smth
        */
-      const subscriptionDeletedEventData = event.data
-        .object as SubscriptionDeletedEventData;
+      const subscription = event.data.object as Subscription;
 
       const stripeCustomer =
         await this.stripeCustomerRepo.getCustomerWithStripeCustomerID(
-          subscriptionDeletedEventData.customer,
+          subscription.customer,
         );
 
       // @todo Send admins details to investigate and manually recouncil this
       if (stripeCustomer === null) {
         throw new Error(
-          `${event.id}-${event.type}-${subscriptionDeletedEventData.id}-${subscriptionDeletedEventData.customer}`,
+          `${event.id}-${event.type}-${subscription.id}-${subscription.customer}`,
         );
       }
 
       this.logger.verbose(
-        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, ended their subscription ${subscriptionDeletedEventData.id}`,
+        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, ended their subscription ${subscription.id}`,
         StripeWebhookController.name,
       );
 

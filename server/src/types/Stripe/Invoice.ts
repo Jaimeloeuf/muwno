@@ -1,9 +1,6 @@
-import type { StripeCustomer } from '../StripeCustomer.js';
+import type { Customer } from './Customer.js';
 
-/**
- * See [InvoicePaidEventData Sample](<./InvoicePaidEventData Sample.md>)
- */
-export type InvoicePaidEventData = {
+export type Invoice = {
   /**
    * This is Stripe Invoice ID
    */
@@ -12,7 +9,7 @@ export type InvoicePaidEventData = {
   /**
    * This is Stripe's Customer ID, **NOT** `UserID` or `OrgID`
    */
-  customer: StripeCustomer['id'];
+  customer: Customer['id'];
 
   /**
    * Stripe Customer Email, this should be `Org['email']` unless customer

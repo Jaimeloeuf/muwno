@@ -1,5 +1,5 @@
 import type { OrgID } from 'domain-model';
-import type { StripeCustomer } from '../../types/index.js';
+import type { Customer } from '../../types/index.js';
 
 /**
  * Data Repository interface used as an abstraction over underlying datasource
@@ -11,25 +11,23 @@ export abstract class IStripeCustomerRepo {
    */
   abstract getCustomerWithStripeCustomerID(
     stripeCustomerID: string,
-  ): Promise<StripeCustomer | null>;
+  ): Promise<Customer | null>;
 
   /**
    * Get a `StripeCustomer` object back using a `OrgID`.
    */
-  abstract getCustomerWithOrgID(orgID: OrgID): Promise<StripeCustomer | null>;
+  abstract getCustomerWithOrgID(orgID: OrgID): Promise<Customer | null>;
 
   /**
    * Get `StripeCustomer` Entity ID of the given `OrgID`.
    */
-  abstract getCustomerIDWithOrgID(
-    orgID: OrgID,
-  ): Promise<StripeCustomer['id'] | null>;
+  abstract getCustomerIDWithOrgID(orgID: OrgID): Promise<Customer['id'] | null>;
 
   /**
    * Create and save a new `StripeCustomer` object in data source.
    */
   abstract createOne(
     orgID: OrgID,
-    stripeCustomerID: StripeCustomer['id'],
+    stripeCustomerID: Customer['id'],
   ): Promise<void>;
 }

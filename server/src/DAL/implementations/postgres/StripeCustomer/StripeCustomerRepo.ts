@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma.service.js';
 
 // Entity Types
 import type { OrgID } from 'domain-model';
-import type { StripeCustomer } from '../../../../types/index.js';
+import type { Customer } from '../../../../types/index.js';
 
 // Mappers
 import { mapStripeCustomerModelToEntity } from './mapper.js';
@@ -17,9 +17,7 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class StripeCustomerRepo implements IStripeCustomerRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getCustomerWithStripeCustomerID(
-    stripeCustomerID: StripeCustomer['id'],
-  ) {
+  async getCustomerWithStripeCustomerID(stripeCustomerID: Customer['id']) {
     return this.db.stripe_customer
       .findUnique({ where: { id: stripeCustomerID } })
       .then(runMapperIfNotNull(mapStripeCustomerModelToEntity));

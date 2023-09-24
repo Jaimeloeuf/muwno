@@ -1,10 +1,6 @@
-import type { StripeCustomer } from '../StripeCustomer.js';
+import type { Customer } from './Customer.js';
 
-/**
- * Only typing properties that are remotely useful and ignoring everything else.
- * <!-- See [SetupIntentSucceededEventData Sample](<./SetupIntentSucceededEventData Sample.md>) -->
- */
-export type SetupIntentSucceededEventData<Metadata = any> = {
+export type SetupIntent<Metadata = any> = {
   /**
    * This is the Stripe Setup Intent ID.
    */
@@ -13,7 +9,7 @@ export type SetupIntentSucceededEventData<Metadata = any> = {
   /**
    * This is Stripe's Customer ID, **NOT** `UserID` or `OrgID`
    */
-  customer: StripeCustomer['id'];
+  customer: Customer['id'];
 
   /**
    * This is the ID of the Payment Method created by the Setup Intent.

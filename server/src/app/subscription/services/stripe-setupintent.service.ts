@@ -9,7 +9,7 @@ import {
 
 // Entity Types
 import type { Org } from 'domain-model';
-import type { SetupIntentSucceededEventData } from '../../../types/index.js';
+import type { SetupIntent } from '../../../types/index.js';
 
 // DTO Types
 import type { CreateOneStripeSetupNextDTO } from 'domain-model';
@@ -72,7 +72,7 @@ export class StripeSetupintentService {
    * payment method as the customer's default payment method and executing any
    * `StripeSetupNext` actions stored by the user during `createSetupIntent`.
    */
-  async onSetupIntentSuccess(setupIntent: SetupIntentSucceededEventData) {
+  async onSetupIntentSuccess(setupIntent: SetupIntent) {
     // Attach payment method as customer's default payment method, so that when
     // creating subscriptions for them, it will automatically use this payment
     // method instead of having to explicitly pass in a payment method.

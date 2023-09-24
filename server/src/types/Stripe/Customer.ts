@@ -1,10 +1,6 @@
 import type { OrgID, ISODateTimeString } from 'domain-model';
 
-/**
- * `StripeCustomer` entity object holds a required stripe customer data to
- * interact with the Stripe API.
- */
-export interface StripeCustomer {
+export interface Customer {
   /**
    * This is Stripe's Customer ID, **NOT** `UserID` or `OrgID`
    */
