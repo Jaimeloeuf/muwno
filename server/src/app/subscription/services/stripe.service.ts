@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { ConfigService } from '@nestjs/config';
-import type { EnvironmentVariables } from '../../../config/types.js';
-
 import { Stripe } from '../infra/stripe.infra.js';
 import { IStripeCustomerRepo } from '../../../DAL/index.js';
 
@@ -12,42 +9,12 @@ import type { Org, OrgID } from 'domain-model';
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
 
-/**
- * Implements a Payment Service using Stripe.
- *
- * This does not implement an abstract interface because the interface would be
- * too hard to be abstracted out for different payment providers. Therefore this
- * will be used directly, and this service will encapsulate as much Stripe
- * specific logic as possible.
- */
 @Injectable()
 export class StripeService {
   constructor(
     private readonly stripe: Stripe,
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
-    configService: ConfigService<EnvironmentVariables, true>,
-  ) {
-    this.stripeWebhookSecret = configService.get('STRIPE_WEBHOOK_SECRET', {
-      infer: true,
-    });
-  }
-
-  /**
-   * Hold the `STRIPE_WEBHOOK_SECRET` env var after reading it in constructor.
-   */
-  private readonly stripeWebhookSecret: string;
-
-  /**
-   * Method to verify a Stripe webhook event by checking its signature before
-   * creating the Event object and returning it.
-   */
-  async verifyAndConstructEvent(payload: Buffer, stripeSignature: string) {
-    return this.stripe.webhooks.constructEvent(
-      payload,
-      stripeSignature,
-      this.stripeWebhookSecret,
-    );
-  }
+  ) {}
 
   /**
    * Create a new Stripe Billing Portal Session and get back the session's URL

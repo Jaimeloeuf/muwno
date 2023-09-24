@@ -5,6 +5,11 @@ import type { StripeCustomer } from '../StripeCustomer.js';
  */
 export type InvoicePaidEventData = {
   /**
+   * This is Stripe Invoice ID
+   */
+  id: string;
+
+  /**
    * This is Stripe's Customer ID, **NOT** `UserID` or `OrgID`
    */
   customer: StripeCustomer['id'];

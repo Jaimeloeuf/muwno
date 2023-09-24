@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import type StripeClient from 'stripe';
 
 import { Stripe } from '../infra/stripe.infra.js';
@@ -8,7 +8,10 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 
 @Injectable()
 export class StripeSubscriptionService {
-  constructor(private readonly stripe: Stripe) {}
+  constructor(
+    private readonly logger: Logger,
+    private readonly stripe: Stripe,
+  ) {}
 
   /**
    * Buy subscription plans for new customer using their default payment method.
@@ -48,11 +51,7 @@ export class StripeSubscriptionService {
     items: StripeClient.SubscriptionCreateParams.Item[],
     coupon: null | string,
   ) {
-    // @todo Use this instead of doing type gymnastics below
-    // if (coupon === null) {
-    // }
-
-    return this.stripe.subscriptions.create({
+    const subscriptionOptions = {
       // Subscription will be paid with customer's default payment method,
       // therefore they must have one attached else this will fail.
       customer: stripeCustomerID,
@@ -62,15 +61,17 @@ export class StripeSubscriptionService {
 
       items,
 
-      // @todo Fix this type gymnastics
-      // Cannot be null so convert to undefined first
-      coupon: (coupon ?? undefined) as string,
-
       // @todo
       // Test this as stripe docs suggested this for first payment failure due
       // to customer action required
       // payment_behavior: 'allow_incomplete',
-    });
+    } satisfies StripeClient.SubscriptionCreateParams;
+
+    return this.stripe.subscriptions.create(
+      coupon === null
+        ? subscriptionOptions
+        : { ...subscriptionOptions, coupon },
+    );
   }
 
   /**
@@ -117,19 +118,19 @@ export class StripeSubscriptionService {
       coupon,
     );
 
-    // @todo This might happen if 3DS requires user action and subscription becomes incomplete
+    // @todo
+    // This might happen if 3DS requires user action and subscription cannot
+    // complete, need to use `standardProductSubscription.pending_setup_intent`
     if (standardProductSubscription.status !== 'active')
       throw new Error(
         `Subscription '${standardProductSubscription.id}' did not succeed: '${standardProductSubscription.status}'`,
       );
 
-    console.log(
-      'Standard Product Subscription Created',
-      standardProductSubscription,
+    // @todo Save subscription ID instead of calling Stripe API on future use
+    this.logger.verbose(
+      `Created subscription: 'Standard' - ${standardProductSubscription.id}`,
+      StripeSubscriptionService.name,
     );
-
-    // @todo Save to Subscriptions table as Orgs can have more than 1 subscription
-    standardProductSubscription.id;
   }
 
   /**
@@ -156,18 +157,18 @@ export class StripeSubscriptionService {
       null,
     );
 
-    // @todo This might happen if 3DS requires user action and subscription becomes incomplete
+    // @todo
+    // This might happen if 3DS requires user action and subscription cannot
+    // complete, need to use `meteredProductSubscription.pending_setup_intent`
     if (meteredProductSubscription.status !== 'active')
       throw new Error(
         `Subscription '${meteredProductSubscription.id}' did not succeed: '${meteredProductSubscription.status}'`,
       );
 
-    console.log(
-      'Metered Product Subscription Created',
-      meteredProductSubscription,
+    // @todo Save subscription ID instead of calling Stripe API on future use
+    this.logger.verbose(
+      `Created subscription: 'Metered' - ${meteredProductSubscription.id}`,
+      StripeSubscriptionService.name,
     );
-
-    // @todo Save to Subscriptions table as Orgs can have more than 1 subscription
-    meteredProductSubscription.id;
   }
 }

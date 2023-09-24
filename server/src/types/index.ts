@@ -6,3 +6,4 @@ export * from './ServerJWT.js';
 export * from './StripeCustomer.js';
 export * from './StripeEventData/InvoicePaidEventData.js';
 export * from './StripeEventData/SetupIntentSucceededEventData.js';
+export * from './StripeEventData/SubscriptionDeletedEventData.js';

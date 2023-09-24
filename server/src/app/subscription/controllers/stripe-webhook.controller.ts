@@ -8,6 +8,7 @@ import {
   Req,
   BadRequestException,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { Request } from 'express';
 import type { Stripe } from 'stripe';
 
@@ -18,30 +19,34 @@ import {
   IStripeWebhookEventRepo,
   IStripeCustomerRepo,
 } from '../../../DAL/index.js';
+import { Stripe as StripeClient } from '../infra/stripe.infra.js';
 import { SubscriptionService } from '../services/subscription.service.js';
-import { StripeService } from '../services/stripe.service.js';
 import { StripeSetupintentService } from '../services/stripe-setupintent.service.js';
 
 // Entity Types
 import type {
   InvoicePaidEventData,
   SetupIntentSucceededEventData,
+  SubscriptionDeletedEventData,
 } from '../../../types/index.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 /**
+ * HTTP Webhook Controller for Stripe webhooks.
+ * https://stripe.com/docs/webhooks#register-webhook
  */
 @Controller('subscription')
 @UseHttpControllerFilters
+@Throttle(300, 3) // Relax throttler to ensure events are not missed
 export class StripeWebhookController {
   constructor(
     private readonly logger: Logger,
     private readonly stripeWebhookEventRepo: IStripeWebhookEventRepo,
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
+    private readonly stripe: StripeClient,
     private readonly subscriptionService: SubscriptionService,
-    private readonly stripeService: StripeService,
     private readonly stripeSetupintentService: StripeSetupintentService,
 
     configService: ConfigService<EnvironmentVariables, true>,
@@ -55,7 +60,16 @@ export class StripeWebhookController {
         Object.keys(this.eventHandlerMapping),
         StripeWebhookController.name,
       );
+
+    this.stripeWebhookSecret = configService.get('STRIPE_WEBHOOK_SECRET', {
+      infer: true,
+    });
   }
+
+  /**
+   * Hold the `STRIPE_WEBHOOK_SECRET` env var after reading it in constructor.
+   */
+  private readonly stripeWebhookSecret: string;
 
   /**
    * URL --> $HOSTNAME/v1/subscription/stripe/webhook
@@ -80,10 +94,18 @@ export class StripeWebhookController {
     if (!stripeSignature)
       throw new BadRequestException(`Missing 'stripe-signature' header`);
 
-    const rawRequestBody = req.rawBody;
-
-    if (rawRequestBody === undefined)
+    if (req.rawBody === undefined)
       throw new BadRequestException(`Missing request body`);
+
+    /**
+     * Verify a Stripe webhook event by checking its signature before creating
+     * `Event` object to process. If this throws, the caller will get it.
+     */
+    const event = await this.stripe.webhooks.constructEvent(
+      req.rawBody,
+      stripeSignature,
+      this.stripeWebhookSecret,
+    );
 
     // Use setTimeout to simulate a 'defer' operation so that this can respond
     // back to Stripe ASAP with a 200 status code as specified by Stripe's
@@ -93,24 +115,19 @@ export class StripeWebhookController {
     // 'Quickly returns successful status code (2xx) prior to any complex logic
     // that could cause a timeout. For example, you must return a 200 response
     // before updating a customer's invoice as paid in your accounting system.'
-    setTimeout(() => this.handleEvent(rawRequestBody, stripeSignature));
+    setTimeout(() => this.handleEvent(event));
   }
 
   /**
    * Handle a Stripe Webhook Event
-   *
-   * 1. Validate event using webhook signatures
    * 1. Ensure indempotency of event processing
+   * 1. Logging (log event.id and event.type)
    * 1. Dispatch specific event's handlers
+   * 1. Mark event as processed once its handler completes
    */
-  private async handleEvent(rawRequestBody: Buffer, stripeSignature: string) {
-    const event = await this.stripeService.verifyAndConstructEvent(
-      rawRequestBody,
-      stripeSignature,
-    );
-
+  private async handleEvent(event: Stripe.Event) {
     // Check with data persistence layer if the event has been processed before.
-    // Doing this because this method should be idempotent.
+    // Doing this to ensure our method is idempotent.
     // Reference: https://stripe.com/docs/webhooks#handle-duplicate-events
     const eventIsUnprocessed = await this.stripeWebhookEventRepo.isUnprocessed(
       event.id,
@@ -127,16 +144,6 @@ export class StripeWebhookController {
       return;
     }
 
-    await this.processEvent(event);
-  }
-
-  /**
-   * Process event
-   *
-   * 1. Logging (log event.id and event.type)
-   * 1. Dispatch specific event's handlers
-   */
-  private async processEvent(event: Stripe.Event) {
     const modeString = event.livemode ? 'live' : 'test';
 
     this.logger.verbose(
@@ -144,12 +151,12 @@ export class StripeWebhookController {
       StripeWebhookController.name,
     );
 
-    // Use the `eventHandlerMapping` to get the specific event handler based on
-    // `event.type`, in a dynamic dispatch style.
+    // Use `eventHandlerMapping` to get specific event handler with `event.type`
+    // in a dynamic dispatch style.
     const eventHandler = this.eventHandlerMapping[event.type];
 
-    // If there is a event handler registered for the event.type, call the
-    // handler with the event object and await for completion before returning.
+    // If there is a event handler registered for the event.type, run handler
+    // and await for completion before marking it as processed.
     if (eventHandler !== undefined) {
       await eventHandler(event);
 
@@ -162,12 +169,11 @@ export class StripeWebhookController {
     // configured to send a event of that event.type, log it out as a potential
     // issue / warning. Configure what events to be sent to the Webhook endpoint
     // in Stripe to ensure only required events are sent.
-    else {
+    else
       this.logger.warn(
         `Unhandled '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
         StripeWebhookController.name,
       );
-    }
   }
 
   /**
@@ -176,8 +182,11 @@ export class StripeWebhookController {
    * To add a new mapping, make sure the event is sent by Stripe by configuring
    * the webhook settings in Stripe dashboard.
    *
-   * All the possible Webhook event types:
+   * Main events to listen to for subscription model like ours
    * https://stripe.com/docs/billing/subscriptions/webhooks
+   *
+   * All the possible Webhook event types
+   * https://stripe.com/docs/api/events/types
    */
   private readonly eventHandlerMapping: Record<
     string,
@@ -185,12 +194,27 @@ export class StripeWebhookController {
   > = {
     // ======================== Payment related Events ========================
 
+    /**
+     * When an SetupIntent has successfully setup a payment method, call setup
+     * intent service method to handle it.
+     *
+     * ### Note
+     * This might be called twice for a single SetupIntent created on our end
+     * because Stripe might create the `Stripe Link` payment method for user if
+     * they allow it in SetupPaymentMethod view.
+     */
     'setup_intent.succeeded': async (event) => {
+      /**
+       * Stripe library does not define concrete type for this so it needs to be
+       * type casted manually. Type only includes data of what is needed.
+       * @todo Parse with Zod or smth
+       */
       const setupIntentSucceededEvent = event.data
         .object as SetupIntentSucceededEventData;
 
-      // @todo Alternative, reflect next action with Stripe instead of storing it
-      // setupIntentSucceededEvent.metadata;
+      // @todo
+      // Alternatively, use `setupIntentSucceededEvent.metadata` to reflect
+      // `StripeSetupNext` instead of storing and loading it.
 
       await this.stripeSetupintentService.onSetupIntentSuccess(
         setupIntentSucceededEvent,
@@ -216,6 +240,7 @@ export class StripeWebhookController {
       /**
        * Stripe library does not define concrete type for this so it needs to be
        * type casted manually. Type only includes data of what is needed.
+       * @todo Parse with Zod or smth
        */
       const invoicePaidEventData = event.data.object as InvoicePaidEventData;
 
@@ -233,14 +258,11 @@ export class StripeWebhookController {
 
       // Provision access to the product
       await this.subscriptionService.activateSubscription(stripeCustomer.orgID);
-    },
 
-    /**
-     * Event sent when a subscription previously in a paused status is resumed.
-     */
-    'customer.subscription.resumed': (event) => {
-      event;
-      this.subscriptionService.activateSubscription;
+      this.logger.verbose(
+        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, paid for ${invoicePaidEventData.subscription}`,
+        StripeWebhookController.name,
+      );
     },
 
     // ==================== Deactivate Subscription Events ====================
@@ -260,52 +282,78 @@ export class StripeWebhookController {
      * 1. https://stripe.com/docs/billing/subscriptions/overview#settings
      * 1. https://stripe.com/docs/billing/revenue-recovery/smart-retries
      */
-    'invoice.payment_failed': (event) => {
-      event;
-      this.subscriptionService.deactivateSubscription;
+    'invoice.payment_failed': async (event) => {
+      /**
+       * Stripe library does not define concrete type for this so it needs to be
+       * type casted manually. Type only includes data of what is needed.
+       * @todo Parse with Zod or smth
+       */
+      const invoice = event.data.object as InvoicePaidEventData;
+
+      const stripeCustomer =
+        await this.stripeCustomerRepo.getCustomerWithStripeCustomerID(
+          invoice.customer,
+        );
+
+      // @todo Send admins details to investigate and manually recouncil this
+      if (stripeCustomer === null) {
+        throw new Error(
+          `${event.id}-${event.type}-${invoice.id}-${invoice.customer}`,
+        );
+      }
+
+      this.logger.verbose(
+        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, did not pay invoice ${invoice.id}`,
+        StripeWebhookController.name,
+      );
+
+      // Stop provisioning access to the product
+      await this.subscriptionService.deactivateSubscription(
+        stripeCustomer.orgID,
+      );
     },
 
     /**
-     * TLDR, customer's subscription ended, stop provisioning access to product.
-     *
-     * Event sent when a customer's subscription ends.
+     * Customer's subscription ended, stop provisioning access to product.
      */
-    'customer.subscription.deleted': (event) => {
-      event;
-      this.subscriptionService.deactivateSubscription;
+    'customer.subscription.deleted': async (event) => {
+      /**
+       * Stripe library does not define concrete type for this so it needs to be
+       * type casted manually. Type only includes data of what is needed.
+       * @todo Parse with Zod or smth
+       */
+      const subscriptionDeletedEventData = event.data
+        .object as SubscriptionDeletedEventData;
+
+      const stripeCustomer =
+        await this.stripeCustomerRepo.getCustomerWithStripeCustomerID(
+          subscriptionDeletedEventData.customer,
+        );
+
+      // @todo Send admins details to investigate and manually recouncil this
+      if (stripeCustomer === null) {
+        throw new Error(
+          `${event.id}-${event.type}-${subscriptionDeletedEventData.id}-${subscriptionDeletedEventData.customer}`,
+        );
+      }
+
+      this.logger.verbose(
+        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, ended their subscription ${subscriptionDeletedEventData.id}`,
+        StripeWebhookController.name,
+      );
+
+      // Stop provisioning access to the product
+      await this.subscriptionService.deactivateSubscription(
+        stripeCustomer.orgID,
+      );
     },
 
     /**
-     * TLDR, customer's subscription ended, stop provisioning access to product.
-     *
-     * Event sent when a subscription schedule is canceled, which also cancels
-     * any active associated subscription.
+     * When customer's subscription schedule is canceled, which also cancels any
+     * active associated subscription, stop provisioning access to product.
      */
     'subscription_schedule.canceled': (event) => {
       event;
-      this.subscriptionService.deactivateSubscription;
-    },
-
-    /**
-     * TLDR, customer's subscription ended, stop provisioning access to product.
-     *
-     * Event sent when a subscription schedule is canceled because payment
-     * delinquency terminated the related subscription.
-     */
-    'subscription_schedule.aborted': (event) => {
-      event;
-      this.subscriptionService.deactivateSubscription;
-    },
-
-    /**
-     * TLDR, customer's subscription paused, stop provisioning access to product.
-     *
-     * Event sent when a subscription is configured to pause when a free trial
-     * ends without a payment method
-     */
-    'customer.subscription.paused': (event) => {
-      event;
-      this.subscriptionService.deactivateSubscription;
     },
 
     // =================== Other Subscription related Events ===================
@@ -315,17 +363,21 @@ export class StripeWebhookController {
      *
      * Event sent when a subscription starts or changes. For example, renewing a
      * subscription, adding a coupon, applying a discount, adding an invoice
-     * item, and changing plans all trigger this event.
+     * item, switching from one plan to another, or changing the status from
+     * trial to active all trigger this event.
      * https://stripe.com/docs/billing/subscriptions/change
-     */
-    'customer.subscription.updated': () => undefined,
-
-    /**
-     * TLDR, customer's subscription trial is .
      *
-     * Event sent if product has a free trial period and the subscription trial
-     * is ending.
+     * @todo
+     * Currently not handling this event since the example use cases are all not
+     * supported yet. The most important usecase is probably 'change of plans'.
+     * Technically for other events like created/cancelled, the specific event
+     * itself will be sent anyways so dont have to handle those cases here.
      */
-    'customer.subscription.trial_will_end': () => undefined,
+    'customer.subscription.updated': (event) => {
+      this.logger.warn(
+        `Unhandled but registered webhook method called: ${event.type} -> ${event.id}`,
+        StripeWebhookController.name,
+      );
+    },
   };
 }
