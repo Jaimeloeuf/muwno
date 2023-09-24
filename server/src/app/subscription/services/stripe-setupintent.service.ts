@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { Stripe } from '../infra/stripe.infra.js';
-import { StripeSubscriptionService } from './stripe-subscription.service.js';
+import { StripeBuySubscriptionService } from './stripe-buy-subscription.service.js';
 import {
   IStripeCustomerRepo,
   IStripeSetupNextRepo,
@@ -21,7 +21,7 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 export class StripeSetupintentService {
   constructor(
     private readonly stripe: Stripe,
-    private readonly stripeSubscriptionService: StripeSubscriptionService,
+    private readonly stripeBuySubscriptionService: StripeBuySubscriptionService,
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
     private readonly stripeSetupNextRepo: IStripeSetupNextRepo,
   ) {}
@@ -93,7 +93,7 @@ export class StripeSetupintentService {
 
     // If user requested for Standard Plan subscription to be created
     else if (stripeSetupNextAction.success.intent === 'create-subscription') {
-      await this.stripeSubscriptionService.buySubscription(
+      await this.stripeBuySubscriptionService.buySubscription(
         setupIntent.customer,
         stripeSetupNextAction.success.paymentInterval,
         stripeSetupNextAction.success.coupon,

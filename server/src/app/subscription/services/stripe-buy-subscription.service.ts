@@ -7,7 +7,7 @@ import { Stripe } from '../infra/stripe.infra.js';
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
 
 @Injectable()
-export class StripeSubscriptionService {
+export class StripeBuySubscriptionService {
   constructor(
     private readonly logger: Logger,
     private readonly stripe: Stripe,
@@ -129,7 +129,7 @@ export class StripeSubscriptionService {
     // @todo Save subscription ID instead of calling Stripe API on future use
     this.logger.verbose(
       `Created subscription: 'Standard' - ${standardProductSubscription.id}`,
-      StripeSubscriptionService.name,
+      StripeBuySubscriptionService.name,
     );
   }
 
@@ -168,7 +168,7 @@ export class StripeSubscriptionService {
     // @todo Save subscription ID instead of calling Stripe API on future use
     this.logger.verbose(
       `Created subscription: 'Metered' - ${meteredProductSubscription.id}`,
-      StripeSubscriptionService.name,
+      StripeBuySubscriptionService.name,
     );
   }
 }

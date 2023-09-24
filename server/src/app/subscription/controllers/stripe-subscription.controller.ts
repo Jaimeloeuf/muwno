@@ -41,26 +41,6 @@ export class StripeSubscriptionController {
   ) {}
 
   /**
-   * Create a new Stripe Billing Portal Session and get back the session's URL
-   * string for client to redirect to.
-   */
-  @Post('create-portal-session')
-  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
-  async createPortalSession(
-    @JWT_uid userID: FirebaseAuthUID,
-
-    /**
-     * Required, but allow undefined here to ensure type is checked before using
-     */
-    @Query('returnUrl') returnUrl: string | undefined,
-  ): Promise<string> {
-    if (returnUrl === undefined)
-      throw new InvalidInputException(`Missing 'returnUrl' query param.`);
-
-    return this.subscriptionService.createPortalSession(userID, returnUrl);
-  }
-
-  /**
    * Check if a given Stripe coupon is valid.
    */
   @Get('coupon/check-validity/:couponID')
