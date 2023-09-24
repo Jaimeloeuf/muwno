@@ -4,6 +4,8 @@ import { createProduct } from './utils/createProduct';
 import { createMonthlyGraduatedPrice } from './utils/createMonthlyGraduatedPrice';
 import type { CreateIdempotentKey } from './utils/createIdempotentKeyFF';
 
+import { PlanDetails } from 'domain-model';
+
 /**
  * Create `Email` product and prices
  */
@@ -20,22 +22,28 @@ export async function createEmail(
 
   await createMonthlyGraduatedPrice(
     stripe,
-    createIdempotentKey('email_product_usage_price'),
+    createIdempotentKey('email_product_usage_price_sgd'),
     email_product.id,
     'email-usage',
+    'sgd',
 
     [
-      // It is free for the first 300 emails.
+      // It is free for the first X email.
       {
-        up_to: 300,
+        up_to: PlanDetails.included.email,
         flat_amount: 0,
       },
 
-      // Subsequently it is $3 per 1,000 emails, which means $0.003 per email
       {
         up_to: 'inf',
-        unit_amount_decimal: '0.3',
+        // Using `unit_amount_decimal` instead of `unit_amount` since per unit
+        // price of this product is less than the smallest unit of the currency
+        // used. 1 cent is the smallest integer unit for SGD.
+        // For example `unit_amount_decimal: '0.4'` means $0.004 per email
+        unit_amount_decimal: `${PlanDetails.overage.email.price.SGD * 100}`,
       },
     ],
   );
+
+  console.log('Created Email Product and its Prices');
 }

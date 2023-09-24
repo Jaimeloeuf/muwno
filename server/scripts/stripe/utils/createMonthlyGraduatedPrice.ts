@@ -8,6 +8,7 @@ export function createMonthlyGraduatedPrice(
   idempotencyKey: string | undefined,
   productID: string,
   nameAndLookupKey: string,
+  currency: 'sgd' | 'usd',
   tiers: Stripe.PriceCreateParams['tiers'],
 ) {
   if (tiers === undefined)
@@ -24,7 +25,7 @@ export function createMonthlyGraduatedPrice(
       billing_scheme: 'tiered',
       tiers,
 
-      currency: 'sgd',
+      currency,
       recurring: {
         interval: 'month',
         usage_type: 'metered',

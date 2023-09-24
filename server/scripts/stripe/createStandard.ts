@@ -5,6 +5,8 @@ import { createFlatPrice } from './utils/createFlatPrice';
 import { dollarsToUnitAmount } from './utils/dollarsToUnitAmount';
 import type { CreateIdempotentKey } from './utils/createIdempotentKeyFF';
 
+import { PlanDetails } from 'domain-model';
+
 /**
  * Create `Standard` product and prices
  */
@@ -21,19 +23,23 @@ export async function createStandard(
 
   await createFlatPrice(
     stripe,
-    createIdempotentKey('standard_product_monthly_price'),
+    createIdempotentKey('standard_product_monthly_price_sgd'),
     standard_product.id,
     'standard-monthly',
-    dollarsToUnitAmount(100),
     'month',
+    dollarsToUnitAmount(PlanDetails.price.SGD.monthly),
+    'sgd',
   );
 
   await createFlatPrice(
     stripe,
-    createIdempotentKey('standard_product_yearly_price'),
+    createIdempotentKey('standard_product_yearly_price_sgd'),
     standard_product.id,
     'standard-yearly',
-    dollarsToUnitAmount(1000),
     'year',
+    dollarsToUnitAmount(PlanDetails.price.SGD.yearly),
+    'sgd',
   );
+
+  console.log('Created Standard Product and its Prices');
 }

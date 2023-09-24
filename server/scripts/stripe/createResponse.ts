@@ -4,6 +4,8 @@ import { createProduct } from './utils/createProduct';
 import { createMonthlyGraduatedPrice } from './utils/createMonthlyGraduatedPrice';
 import type { CreateIdempotentKey } from './utils/createIdempotentKeyFF';
 
+import { PlanDetails } from 'domain-model';
+
 /**
  * Create `Response` product and prices
  */
@@ -20,22 +22,25 @@ export async function createResponse(
 
   await createMonthlyGraduatedPrice(
     stripe,
-    createIdempotentKey('response_product_usage_price'),
+    createIdempotentKey('response_product_usage_price_sgd'),
     response_product.id,
     'response-usage',
+    'sgd',
 
     [
-      // It is free for the first 300 responses.
+      // It is free for the first X response.
       {
-        up_to: 300,
+        up_to: PlanDetails.included.response,
         flat_amount: 0,
       },
 
-      // Subsequently it is $3 per 100 responses, which means $0.03 per response
       {
         up_to: 'inf',
-        unit_amount: 3,
+        // For example `unit_amount: 5` means $0.05 per response
+        unit_amount: PlanDetails.overage.response.price.SGD * 100,
       },
     ],
   );
+
+  console.log('Created Response Product and its Prices');
 }

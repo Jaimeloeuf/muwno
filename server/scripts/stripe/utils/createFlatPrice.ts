@@ -5,8 +5,9 @@ export function createFlatPrice(
   idempotencyKey: string | undefined,
   productID: string,
   nameAndLookupKey: string,
-  unitAmount: number,
   interval: Stripe.PriceCreateParams.Recurring.Interval,
+  unitAmount: number,
+  currency: 'sgd' | 'usd',
 ) {
   return stripe.prices.create(
     {
@@ -17,12 +18,10 @@ export function createFlatPrice(
 
       unit_amount: unitAmount,
 
-      currency: 'sgd',
+      currency,
       recurring: {
         interval,
       },
-
-      expand: ['tiers'],
     },
 
     idempotencyKey ? { idempotencyKey } : undefined,
