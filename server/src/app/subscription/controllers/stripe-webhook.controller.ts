@@ -3,10 +3,13 @@ import {
   Logger,
   Post,
   HttpCode,
+  Param,
   Headers,
   RawBodyRequest,
   Req,
   BadRequestException,
+  ForbiddenException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { Request } from 'express';
@@ -64,6 +67,9 @@ export class StripeWebhookController {
     this.stripeWebhookSecret = configService.get('STRIPE_WEBHOOK_SECRET', {
       infer: true,
     });
+    this.stripeWebhookPathSecret = configService.get('STRIPE_WEBHOOK_PATH', {
+      infer: true,
+    });
   }
 
   /**
@@ -72,7 +78,19 @@ export class StripeWebhookController {
   private readonly stripeWebhookSecret: string;
 
   /**
-   * URL --> $HOSTNAME/v1/stripe/webhook
+   * Hold the `STRIPE_WEBHOOK_PATH` env var after reading it in constructor.
+   */
+  private readonly stripeWebhookPathSecret: string;
+
+  /**
+   * URL --> $HOSTNAME/v1/stripe/webhook/:webhookPathSecret
+   *
+   * ### Webhook Path Secret
+   * To prevent (D)DoS type spam on the public and throttler relaxed API end
+   * point, caller uses `webhookPathSecret` to prove they are Stripe as only the
+   * server and Stripe webhook is configured with the same shared secret string.
+   * https://stripe.com/docs/webhooks#register-webhook
+   *
    *
    * ### Event Ordering
    * Stripe doesn’t guarantee delivery of events in the order in which they’re
@@ -85,14 +103,18 @@ export class StripeWebhookController {
    * received event does not have enough information to fulfil the request.
    * Reference: https://stripe.com/docs/webhooks#even-ordering
    */
-  @Post()
+  @Post(':webhookPathSecret')
   @HttpCode(200) // Stripe needs this for receipt of event acknowledgement
   async stripeWebhookHandler(
     @Headers('stripe-signature') stripeSignature: string,
     @Req() req: RawBodyRequest<Request>,
+    @Param('webhookPathSecret') webhookPathSecret: string,
   ): Promise<void> {
+    if (webhookPathSecret !== this.stripeWebhookPathSecret)
+      throw new ForbiddenException(`Wrong webhook path secret`);
+
     if (!stripeSignature)
-      throw new BadRequestException(`Missing 'stripe-signature' header`);
+      throw new UnauthorizedException(`Missing 'stripe-signature' header`);
 
     if (req.rawBody === undefined)
       throw new BadRequestException(`Missing request body`);
@@ -115,7 +137,21 @@ export class StripeWebhookController {
     // 'Quickly returns successful status code (2xx) prior to any complex logic
     // that could cause a timeout. For example, you must return a 200 response
     // before updating a customer's invoice as paid in your accounting system.'
-    setTimeout(() => this.handleEvent(event));
+    //
+    // If there is an error catch it to log and prevent it from bubbling up and
+    // crashing the process since handleEvent is ran out of the normal NestJS
+    // callstack with setTimeout and cant be handled by it.
+    setTimeout(() =>
+      this.handleEvent(event).catch((error) =>
+        this.logger.error(
+          `Error while handling ${
+            event.livemode ? 'live' : 'test'
+          } Stripe event: ${event.type} -> ${event.id}`,
+          error,
+          StripeWebhookController.name,
+        ),
+      ),
+    );
   }
 
   /**
@@ -147,7 +183,7 @@ export class StripeWebhookController {
     const modeString = event.livemode ? 'live' : 'test';
 
     this.logger.verbose(
-      `Processing '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
+      `Processing '${modeString}' Stripe event: ${event.type} -> ${event.id}`,
       StripeWebhookController.name,
     );
 
@@ -171,7 +207,7 @@ export class StripeWebhookController {
     // in Stripe to ensure only required events are sent.
     else
       this.logger.warn(
-        `Unhandled '${modeString}' Stripe event: ${event.id} -> ${event.type}`,
+        `Unhandled ${modeString} Stripe event: ${event.type} -> ${event.id}`,
         StripeWebhookController.name,
       );
   }
@@ -190,7 +226,7 @@ export class StripeWebhookController {
    */
   private readonly eventHandlerMapping: Record<
     string,
-    (event: Stripe.Event) => void | Promise<void>
+    (event: Stripe.Event) => Promise<void>
   > = {
     // ======================== Payment related Events ========================
 
@@ -348,7 +384,7 @@ export class StripeWebhookController {
      * When customer's subscription schedule is canceled, which also cancels any
      * active associated subscription, stop provisioning access to product.
      */
-    'subscription_schedule.canceled': (event) => {
+    'subscription_schedule.canceled': async (event) => {
       event;
     },
 
@@ -369,7 +405,7 @@ export class StripeWebhookController {
      * Technically for other events like created/cancelled, the specific event
      * itself will be sent anyways so dont have to handle those cases here.
      */
-    'customer.subscription.updated': (event) => {
+    'customer.subscription.updated': async (event) => {
       this.logger.warn(
         `Unhandled but registered webhook method called: ${event.type} -> ${event.id}`,
         StripeWebhookController.name,

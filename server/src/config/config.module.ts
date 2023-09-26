@@ -78,6 +78,11 @@ export const ConfigModule = _ConfigModule.forRoot({
     STRIPE_WEBHOOK_SECRET: Joi.string().required(),
 
     /**
+     * Expects a Stripe Webhook Path Secret.
+     */
+    STRIPE_WEBHOOK_PATH: Joi.string().required(),
+
+    /**
      * Expects the telegram bot's token.
      */
     TELE_BOT_TOKEN: Joi.string().required(),

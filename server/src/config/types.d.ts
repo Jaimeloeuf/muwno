@@ -52,6 +52,12 @@ export interface EnvironmentVariables {
   readonly STRIPE_WEBHOOK_SECRET: string;
 
   /**
+   * Stripe's Webhook Path Secret used as a simple way to ensure that the caller
+   * is actually Stripe by knowing the secret path.
+   */
+  readonly STRIPE_WEBHOOK_PATH: string;
+
+  /**
    * Telegram bot's token.
    */
   readonly TELE_BOT_TOKEN: string;
