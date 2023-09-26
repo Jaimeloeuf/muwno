@@ -21,7 +21,10 @@ async function isSubscribed() {
     .runJSON<{ subscribed: boolean }>();
 
   if (err) throw err;
-  if (!res.ok) throw new Error("Failed to load Tasks");
+  if (!res.ok)
+    throw new Error(
+      `Failed to get subscription status: ${JSON.stringify(res)}`
+    );
 
   if (res.data.subscribed) {
     // Start countdown to redirect to AllProduct page

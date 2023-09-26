@@ -77,7 +77,7 @@ async function pay() {
       return_url: sf
         .useDefault()
         .GET(
-          `/subscription/stripe/redirect/setup-intent-confirmed?redirectTo=${redirectTo}`
+          `/stripe/setup-intent/redirect-on-confirmation?redirectTo=${redirectTo}`
         )
         .getURL(),
     },

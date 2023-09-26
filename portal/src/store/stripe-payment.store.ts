@@ -46,7 +46,7 @@ export const useStripe = defineStore("stripe", {
     async createSetupIntent() {
       const { res, err } = await sf
         .useDefault()
-        .POST(`/subscription/stripe/create-setup-intent`)
+        .POST(`/stripe/setup-intent/create`)
         .bodyJSON<CreateOneStripeSetupNextDTO>({ next: this.next })
         .useHeader(getAuthHeader)
         .runJSON<{ clientSecret: string; orgEmail: string }>();

@@ -3,12 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { Stripe } from '../infra/stripe.infra.js';
 import { StripeBuySubscriptionService } from './stripe-buy-subscription.service.js';
 import {
+  IOrgRepo,
   IStripeCustomerRepo,
   IStripeSetupNextRepo,
 } from '../../../DAL/index.js';
 
 // Entity Types
-import type { Org } from 'domain-model';
+import type { UserID } from 'domain-model';
 import type { SetupIntent } from '../../../types/index.js';
 
 // DTO Types
@@ -22,6 +23,7 @@ export class StripeSetupintentService {
   constructor(
     private readonly stripe: Stripe,
     private readonly stripeBuySubscriptionService: StripeBuySubscriptionService,
+    private readonly orgRepo: IOrgRepo,
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
     private readonly stripeSetupNextRepo: IStripeSetupNextRepo,
   ) {}
@@ -32,10 +34,15 @@ export class StripeSetupintentService {
    * the collected payment info.
    */
   async createSetupIntent(
-    org: Org,
+    userID: UserID,
     createOneStripeSetupNextDTO: CreateOneStripeSetupNextDTO,
   ) {
-    // @todo Or search from Stripe API using org.id meta data
+    const org = await this.orgRepo.getUserOrg(userID);
+    if (org === null)
+      throw new InvalidInternalStateException(
+        `User '${userID}' cannot setup payment method as they don't have an Org`,
+      );
+
     const stripeCustomer = await this.stripeCustomerRepo.getCustomerWithOrgID(
       org.id,
     );

@@ -33,8 +33,6 @@ export class StripeCustomerService {
         `User '${userID}' cannot access portal as they do not have an Org`,
       );
 
-    // @todo track the user's request using their ID
-
     const stripeCustomerID =
       await this.stripeCustomerRepo.getCustomerIDWithOrgID(org.id);
 

@@ -18,7 +18,7 @@ import { InvalidInputException } from '../../../exceptions/index.js';
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
-@Controller('subscription/stripe')
+@Controller('stripe/customer')
 @GuardWithRBAC()
 @UseHttpControllerFilters
 export class StripeCustomerController {

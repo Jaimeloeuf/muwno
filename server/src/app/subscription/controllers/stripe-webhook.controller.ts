@@ -37,7 +37,7 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
  * HTTP Webhook Controller for Stripe webhooks.
  * https://stripe.com/docs/webhooks#register-webhook
  */
-@Controller('subscription')
+@Controller('stripe/webhook')
 @UseHttpControllerFilters
 @Throttle(300, 3) // Relax throttler to ensure events are not missed
 export class StripeWebhookController {
@@ -72,7 +72,7 @@ export class StripeWebhookController {
   private readonly stripeWebhookSecret: string;
 
   /**
-   * URL --> $HOSTNAME/v1/subscription/stripe/webhook
+   * URL --> $HOSTNAME/v1/stripe/webhook
    *
    * ### Event Ordering
    * Stripe doesn’t guarantee delivery of events in the order in which they’re
@@ -85,7 +85,7 @@ export class StripeWebhookController {
    * received event does not have enough information to fulfil the request.
    * Reference: https://stripe.com/docs/webhooks#even-ordering
    */
-  @Post('stripe/webhook')
+  @Post()
   @HttpCode(200) // Stripe needs this for receipt of event acknowledgement
   async stripeWebhookHandler(
     @Headers('stripe-signature') stripeSignature: string,

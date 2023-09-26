@@ -21,7 +21,7 @@ async function goToBillingPortal() {
 
   const { res, err } = await sf
     .useDefault()
-    .POST(`/subscription/stripe/create-portal-session?returnUrl=${returnUrl}`)
+    .POST(`/stripe/customer/create-portal-session?returnUrl=${returnUrl}`)
     .useHeader(getAuthHeader)
     .runText();
 

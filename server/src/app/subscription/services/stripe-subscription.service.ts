@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Stripe } from '../infra/stripe.infra.js';
 
 @Injectable()
-export class StripeService {
+export class StripeSubscriptionService {
   constructor(private readonly stripe: Stripe) {}
 
   /**

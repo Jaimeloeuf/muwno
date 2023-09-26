@@ -15,7 +15,7 @@ watch(couponCode, () => (checked.value = false));
 async function useCouponCode() {
   const { res, err } = await sf
     .useDefault()
-    .GET(`/subscription/stripe/coupon/check-validity/${couponCode.value}`)
+    .GET(`/stripe/subscription/coupon/check-validity/${couponCode.value}`)
     .useHeader(getAuthHeader)
     .runJSON<{ valid: boolean }>();
 
