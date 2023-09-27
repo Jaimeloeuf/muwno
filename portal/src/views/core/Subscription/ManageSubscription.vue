@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useOrg, useLoader } from "../../../store";
+import { useLoader } from "../../../store";
 import { ManageSubscriptionRoute } from "../../../router";
 import SideDrawerButton from "../../components/SideDrawerButton.vue";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
 
-const orgStore = useOrg();
 const loader = useLoader();
-
-const org = await orgStore.getOrg();
 
 async function goToBillingPortal() {
   loader.show("Waiting for payment provider...");
@@ -52,7 +49,8 @@ async function goToBillingPortal() {
       <p class="mb-2 text-xl">Org Details</p>
 
       <div class="flex flex-row items-center gap-6">
-        <div class="rounded-lg border border-zinc-200 p-4">
+        <!-- Not showing org.plan until we have more than 1 type of plan -->
+        <!-- <div class="rounded-lg border border-zinc-200 p-4">
           <p class="text-sm">Plan</p>
 
           <div class="text-right">
@@ -60,7 +58,7 @@ async function goToBillingPortal() {
               {{ org.plan }}
             </p>
           </div>
-        </div>
+        </div> -->
 
         <div
           class="cursor-pointer rounded-lg border border-zinc-200 p-4"

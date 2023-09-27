@@ -15,18 +15,17 @@ const org = await orgStore.getOrg();
     </div>
 
     <div class="mx-6 mb-10 md:mx-12">
-      <p class="mb-2 text-xl">Org Details</p>
+      <p class="mb-2 text-xl">Details</p>
 
-      <div class="flex flex-row gap-x-6">
-        <div class="inline-block w-max rounded-lg border border-zinc-200 p-6">
-          <p class="text-sm">Plan</p>
+      <div class="flex flex-row gap-6">
+        <!-- Not showing org.plan until we have more than 1 type of plan -->
+        <!-- <div class="w-max rounded-lg border border-zinc-200 p-6">
+          <p>Plan</p>
 
-          <div class="text-right">
-            <p class="text-4xl font-light">
-              {{ org.plan }}
-            </p>
-          </div>
-        </div>
+          <p class="text-4xl font-light">
+            {{ org.plan }}
+          </p>
+        </div> -->
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useOrg, useUserStore, useLoader } from "../../../store";
-import { OrgRoute, BuySubscriptionPlanRoute } from "../../../router";
+import { AllProductRoute, BuySubscriptionPlanRoute } from "../../../router";
 
 const router = useRouter();
 const orgStore = useOrg();
@@ -22,7 +22,7 @@ if (
   (await orgStore.doesUserHaveOrg()) &&
   !confirm("You already have an Organisation, create a new one?")
 )
-  router.push({ name: OrgRoute.name });
+  router.push({ name: AllProductRoute.name });
 
 async function createOrg() {
   // Check inputs

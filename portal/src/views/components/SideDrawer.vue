@@ -3,17 +3,17 @@ import { useRoute } from "vue-router";
 import {
   AllProductRoute,
   CustomerRoute,
-  OrgRoute,
   ManageSubscriptionRoute,
   ProfileRoute,
+  OrgUsageRoute,
   TeamRoute,
   ApiKeyRoute,
 } from "../../router";
-import { useSidedrawer } from "../../store";
+import { useOnboarding, useSidedrawer } from "../../store";
 import { logout } from "../../utils/logout";
-import Version from "./Version.vue";
 
 const route = useRoute();
+const onboardingStore = useOnboarding();
 const drawer = useSidedrawer();
 
 function closeAndLogout() {
@@ -30,14 +30,17 @@ function closeAndLogout() {
     @click="drawer.hide"
   ></div>
 
+  <!--
+    Conditionally render this when onboarded to prevent users from navigating to
+    these routes which will break their experience.
+  -->
   <nav
-    class="fixed left-0 top-0 z-40 h-screen max-w-sm -translate-x-full transition-transform"
+    v-if="onboardingStore.onboarding === false"
+    class="fixed left-0 top-0 z-40 h-screen max-w-xs -translate-x-full transition-transform"
     :class="{ 'w-5/6 translate-x-0 shadow-2xl': drawer.showDrawer }"
   >
-    <div
-      class="flex h-full flex-col items-start justify-between gap-2 bg-white p-4"
-    >
-      <button class="w-full border-b border-zinc-200 p-2" @click="drawer.hide">
+    <div class="flex h-full flex-col items-start justify-between bg-white p-4">
+      <button class="w-full border-b border-zinc-200 py-4" @click="drawer.hide">
         <span class="text-2xl">Product Market Fit</span>
         <span class="ml-3 text-2xl">📈</span>
       </button>
@@ -70,16 +73,17 @@ function closeAndLogout() {
         </router-link>
 
         <p
-          class="mb-2 mt-6 w-full border-b border-zinc-200 pb-1 text-center font-thin"
+          class="mb-2 mt-6 w-full border-b border-zinc-200 pb-1 text-center font-extralight"
         >
           More
         </p>
 
         <router-link
-          :to="{}"
+          :to="{ name: OrgUsageRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
-            'border border-zinc-200 bg-zinc-50': route.name === '',
+            'border border-zinc-200 bg-zinc-50':
+              route.name === OrgUsageRoute.name,
           }"
           @click="drawer.hide"
         >
@@ -100,7 +104,8 @@ function closeAndLogout() {
           <span class="ml-3 flex-1">Team</span>
         </router-link>
 
-        <router-link
+        <!-- Hidden as there is nothing to show for now. -->
+        <!-- <router-link
           :to="{ name: OrgRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
@@ -110,7 +115,7 @@ function closeAndLogout() {
         >
           <img src="../../assets/SideDrawerIcon/Org.svg" class="h-6 w-6" />
           <span class="ml-3 flex-1 text-left">Organisation</span>
-        </router-link>
+        </router-link> -->
 
         <router-link
           :to="{ name: ManageSubscriptionRoute.name }"
@@ -147,25 +152,32 @@ function closeAndLogout() {
 
       <router-link
         :to="{ name: ProfileRoute.name }"
-        class="flex w-full p-2 pb-0 text-start text-zinc-800"
+        class="flex w-full rounded-lg p-2 text-start text-zinc-800"
+        :class="{
+          'border border-zinc-200 bg-zinc-50': route.name === ProfileRoute.name,
+        }"
         @click="drawer.hide"
       >
         <img src="../../assets/SideDrawerIcon/Profile.svg" class="h-6 w-6" />
         <span class="ml-3 flex-1">Profile</span>
       </router-link>
 
-      <router-link
-        :to="{}"
-        class="flex w-full p-2 pb-0 text-start text-zinc-800"
+      <!-- <router-link
+        :to="{ name: SettingsRoute.name }"
+        class="flex w-full rounded-lg p-2 text-start text-zinc-800"
+        :class="{
+          'border border-zinc-200 bg-zinc-50':
+            route.name === SettingsRoute.name,
+        }"
         @click="drawer.hide"
       >
         <img src="../../assets/SideDrawerIcon/Settings.svg" class="h-6 w-6" />
         <span class="ml-3 flex-1">Settings</span>
-      </router-link>
+      </router-link> -->
 
       <!-- @todo Create link -->
       <a
-        class="flex w-full p-2 pb-0 text-start text-zinc-800"
+        class="flex w-full rounded-lg p-2 text-start text-zinc-800"
         target="_blank"
         @click="drawer.hide"
       >
@@ -180,8 +192,6 @@ function closeAndLogout() {
         <img src="../../assets/SideDrawerIcon/logout.svg" class="h-6 w-6" />
         <span class="ml-3 flex-1">Logout</span>
       </button>
-
-      <Version />
     </div>
   </nav>
 </template>
