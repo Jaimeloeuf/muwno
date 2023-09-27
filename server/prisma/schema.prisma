@@ -223,11 +223,8 @@ model stripe_customer {
 
 // Table for next actions to execute on Stripe SetupIntent completing successfully.
 model stripe_setup_next {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Stripe's unique SetupIntent ID
-  id        String   @unique
+  id        String   @id
   createdAt DateTime @default(now())
 
   // Next action is stored as a JSON object since different next actions can be

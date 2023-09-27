@@ -115,6 +115,6 @@ export class StripeSetupintentService {
     }
 
     // Delete stored `StripeSetupNext` once it has successfully executed.
-    await this.stripeSetupNextRepo.deleteOne(stripeSetupNextAction.id);
+    await this.stripeSetupNextRepo.deleteOne(setupIntent.id);
   }
 }

@@ -27,14 +27,11 @@ export class StripeSetupNextRepo implements IStripeSetupNextRepo {
     return this.db.stripe_setup_next
       .findUnique({ where: { id: setupIntentID } })
       .then(
-        runMapperIfNotNull(({ iid, next }) => ({
-          id: iid,
-          ...(next as unknown as StripeSetupNext),
-        })),
+        runMapperIfNotNull(({ next }) => next as unknown as StripeSetupNext),
       );
   }
 
-  async deleteOne(id: number) {
-    await this.db.stripe_setup_next.delete({ where: { iid: id } });
+  async deleteOne(setupIntentID: string) {
+    await this.db.stripe_setup_next.delete({ where: { id: setupIntentID } });
   }
 }

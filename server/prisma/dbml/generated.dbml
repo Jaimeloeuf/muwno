@@ -98,8 +98,7 @@ Table stripe_customer {
 }
 
 Table stripe_setup_next {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   next Json [not null]
 }
