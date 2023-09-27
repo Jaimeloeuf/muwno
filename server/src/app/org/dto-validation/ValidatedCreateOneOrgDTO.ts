@@ -1,6 +1,12 @@
 import type { CreateOneOrgDTO } from 'domain-model';
 
-import { IsNotEmpty, IsString, MaxLength, IsEmail } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  IsEmail,
+  IsOptional,
+} from 'class-validator';
 
 /**
  * The TS not null assertion operator is used as these are supposed to be
@@ -17,4 +23,14 @@ export class ValidatedCreateOneOrgDTO implements CreateOneOrgDTO {
   @IsEmail()
   @IsNotEmpty()
   readonly email!: string;
+
+  @IsString()
+  @MaxLength(30)
+  @IsOptional()
+  readonly phone!: string | null;
+
+  @IsString()
+  @MaxLength(300)
+  @IsOptional()
+  readonly address!: string | null;
 }

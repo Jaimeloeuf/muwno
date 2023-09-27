@@ -12,6 +12,8 @@ export type Org = {
   createdAt: ISODateTimeString;
   name: string;
   email: string;
+  phone: string | null;
+  address: string | null;
   plan: SubscriptionPlan | null;
   verified: boolean;
 };

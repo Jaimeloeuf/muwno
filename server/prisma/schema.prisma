@@ -50,6 +50,8 @@ model org {
   createdAt DateTime @default(now())
   name      String
   email     String
+  phone     String?
+  address   String?
 
   // Boolean flag to indicate if Org has been verified by `thepmftool` admins.
   verified Boolean

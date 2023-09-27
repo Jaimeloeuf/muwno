@@ -8,6 +8,8 @@ Table org {
   createdAt DateTime [default: `now()`, not null]
   name String [not null]
   email String [not null]
+  phone String
+  address String
   verified Boolean [not null]
   subscribed Boolean [not null]
   plan SubscriptionPlan

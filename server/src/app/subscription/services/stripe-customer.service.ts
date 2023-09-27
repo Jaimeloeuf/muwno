@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import StripeClient from 'stripe';
 
 import { Stripe } from '../infra/stripe.infra.js';
 import { IOrgRepo, IStripeCustomerRepo } from '../../../DAL/index.js';
@@ -63,19 +64,20 @@ export class StripeCustomerService {
   async createCustomer(org: Org) {
     // @todo check if org already has a stripe customer attached to it
 
-    const customer = await this.stripe.customers.create({
+    const customerOptions = {
       name: org.name,
       email: org.email,
 
-      // @todo Add this once we start collecting their phone numbers
-      // phone: org.phone,
+      // Save org.id as metadata in case it needs to be retrieved during
+      // reconciliation processes between this system and Stripe.
+      metadata: { orgID: org.id },
+    } satisfies StripeClient.CustomerCreateParams;
 
-      metadata: {
-        // Save org.id as metadata in case it needs to be retrieved during
-        // reconciliation processes between this system and Stripe.
-        orgID: org.id,
-      },
-    });
+    const customer = await this.stripe.customers.create(
+      org.phone === null
+        ? customerOptions
+        : { ...customerOptions, phone: org.phone },
+    );
 
     await this.stripeCustomerRepo.createOne(org.id, customer.id);
   }

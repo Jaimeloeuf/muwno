@@ -81,7 +81,15 @@ export const useOrg = defineStore("org", {
 
       if (err) throw err;
 
-      if (res.ok) return true;
+      // If user has an Org, cache the data first so subsequent calls to
+      // `getOrg` would be cached instead of making another round trip.
+      if (res.ok) {
+        this.org = res.data.org;
+        this.orgCacheTime = unixseconds();
+
+        return true;
+      }
+
       if (res.status === 404) return false;
       else
         throw new Error(

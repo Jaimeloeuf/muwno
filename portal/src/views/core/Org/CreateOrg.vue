@@ -11,8 +11,10 @@ const loader = useLoader();
 
 const user = await userStore.getUser();
 
-const orgEmail = ref(user.email); // Defaults to the Org Owner's email
 const name = ref("");
+const email = ref(user.email); // Defaults to the Org Owner's email
+const phone = ref("");
+const address = ref("");
 
 // If user already have an organisation, ask them if they want to continue, else
 // redirect to their original Org's home view.
@@ -26,12 +28,16 @@ async function createOrg() {
   // Check inputs
   if (name.value === "")
     return alert("Please enter a valid Organisation name!");
+  if (email.value === "")
+    return alert("Please enter a valid Organisation email!");
 
   loader.show();
 
   await orgStore.createOrg({
     name: name.value,
-    email: orgEmail.value,
+    email: email.value,
+    phone: phone.value !== "" ? phone.value : null,
+    address: address.value !== "" ? address.value : null,
   });
 
   loader.hide();
@@ -46,26 +52,24 @@ async function createOrg() {
       <span class="text-4xl">Create Organisation</span>
     </div>
 
-    <div class="mx-auto w-full max-w-md">
-      <!-- Organisation Name input -->
-      <div class="mb-12">
+    <div class="mx-auto w-full max-w-lg">
+      <div class="pb-10">
         <label>
-          <p class="text-3xl">Organisation Name</p>
+          <p class="text-3xl">Name</p>
           <p>This is what your customer's will see</p>
 
           <input
             v-model="name"
             type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
             placeholder="Name"
           />
         </label>
       </div>
 
-      <!-- Organisation Owner Account display -->
-      <div class="mb-10">
+      <div class="pb-10">
         <label>
-          <p class="text-3xl">Organisation Administrative Email</p>
+          <p class="text-3xl">Administrative Email</p>
           <ul class="list-decimal px-5">
             <li>
               Main administrative email address used for things like
@@ -75,25 +79,61 @@ async function createOrg() {
           </ul>
 
           <input
-            v-model="orgEmail"
+            v-model="email"
             type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
             placeholder="Organisation Email"
           />
         </label>
       </div>
 
-      <!-- Organisation Owner Account display -->
-      <div class="mb-14">
+      <div class="pb-10">
         <label>
-          <p class="text-3xl">Organisation Owner</p>
-          <p>Main admin account of Organisation</p>
+          <p class="text-3xl">
+            Phone Number <span class="pl-3 text-2xl font-thin">*Optional</span>
+          </p>
+          <ul class="list-decimal px-5">
+            <li>
+              Main administrative phone number used for things like subscription
+              payment and invoicing.
+            </li>
+            <li>
+              Providing this will also help us speed up your account
+              verification process.
+            </li>
+          </ul>
 
-          <div
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6 font-extralight text-zinc-800"
+          <input
+            v-model="phone"
+            type="text"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
+            placeholder="Phone Number"
+          />
+        </label>
+      </div>
+
+      <div class="pb-10">
+        <label>
+          <p class="text-3xl">
+            Address <span class="pl-3 text-2xl font-thin">*Optional</span>
+          </p>
+          <ul class="list-decimal px-5">
+            <li>
+              Organisation address is optional, but required if you would like
+              to join our highly effective gamification programmes.
+            </li>
+            <li>
+              Providing this will also help us speed up your account
+              verification process.
+            </li>
+          </ul>
+
+          <textarea
+            v-model="address"
+            rows="3"
+            class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-6"
           >
-            {{ user.email }}
-          </div>
+          </textarea>
         </label>
       </div>
 

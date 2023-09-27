@@ -61,8 +61,8 @@ async function sendVerificationEmail() {
     </div>
 
     <div class="mx-auto max-w-xl">
-      <div v-if="!faUser.emailVerified" class="pb-8">
-        <div class="pb-6">
+      <div v-if="!faUser.emailVerified" class="pb-12">
+        <div class="pb-12">
           <p class="pb-2 text-3xl">Verify Email</p>
           <p class="pb-6 font-light">
             Verify
@@ -72,6 +72,15 @@ async function sendVerificationEmail() {
             by clicking the link we sent you.
           </p>
 
+          <button
+            class="w-full rounded-lg border border-zinc-200 p-2 font-light text-zinc-900"
+            @click="reloadPage"
+          >
+            <p class="text-lg">I verified my email</p>
+          </button>
+        </div>
+
+        <div class="pb-6">
           <p class="pb-2 text-xl">Why?</p>
           <p class="font-light">
             This will help us verify your identity to prevent bad actors from
@@ -81,7 +90,7 @@ async function sendVerificationEmail() {
         </div>
 
         <button
-          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
+          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
           @click="sendVerificationEmail"
         >
           <p class="mb-2 text-2xl">Re-send verification email</p>
@@ -90,16 +99,9 @@ async function sendVerificationEmail() {
             Please check your spam folder too!
           </p>
         </button>
-
-        <button
-          class="w-full rounded-lg border border-zinc-200 p-2 font-light text-zinc-900"
-          @click="reloadPage"
-        >
-          <p class="text-lg">Check Status</p>
-        </button>
       </div>
 
-      <template v-else>
+      <div v-else class="pb-12">
         <router-link
           v-if="teamInvitationStore.invitations.length > 0"
           :to="{ name: PendingInvitationRoute.name }"
@@ -148,9 +150,9 @@ async function sendVerificationEmail() {
             <p class="font-light">Create a new Organisation Account.</p>
           </div>
         </router-link>
-      </template>
+      </div>
 
-      <div class="pt-4">
+      <div>
         <p class="mb-2 text-xl font-normal">Need Help?</p>
         <p>
           Reach out to us at

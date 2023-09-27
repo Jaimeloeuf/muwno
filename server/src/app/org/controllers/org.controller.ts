@@ -4,7 +4,6 @@ import { OrgService } from '../services/org.service.js';
 
 import {
   GuardWithRBAC,
-  AllowAllRoles,
   NoRoleRequired,
   JWT_uid,
 } from '../../../guards/index.js';
@@ -31,7 +30,9 @@ export class OrgController {
    * Get the given user's org
    */
   @Get('self')
-  @AllowAllRoles
+  // A user can call this API to check if they have an Org, and if they dont, it
+  // means that they do not have any roles yet, and it should still be allowed.
+  @NoRoleRequired
   async getSelfOrg(@JWT_uid userID: FirebaseAuthUID): Promise<ReadOneOrgDTO> {
     return this.orgService.getUserOrg(userID).then((org) => ({ org }));
   }
