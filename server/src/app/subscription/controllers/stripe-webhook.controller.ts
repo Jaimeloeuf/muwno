@@ -22,7 +22,7 @@ import {
   IStripeWebhookEventRepo,
   IStripeCustomerRepo,
 } from '../../../DAL/index.js';
-import { Stripe as StripeClient } from '../infra/stripe.infra.js';
+import { StripeClient } from '../infra/stripe.infra.js';
 import { SubscriptionService } from '../services/subscription.service.js';
 import { StripeSetupintentService } from '../services/stripe-setupintent.service.js';
 

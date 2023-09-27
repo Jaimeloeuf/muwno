@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import StripeClient from 'stripe';
+import Stripe from 'stripe';
 
 import { ConfigService } from '@nestjs/config';
 import type { EnvironmentVariables } from '../../../config/types.js';
@@ -8,7 +8,7 @@ import type { EnvironmentVariables } from '../../../config/types.js';
  * Stripe Client setup with config module.
  */
 @Injectable()
-export class Stripe extends StripeClient {
+export class StripeClient extends Stripe {
   constructor(configService: ConfigService<EnvironmentVariables, true>) {
     const nodeEnv = configService.get('NODE_ENV', { infer: true });
     const version = configService.get('version', { infer: true });

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import type StripeClient from 'stripe';
+import type { Stripe } from 'stripe';
 
-import { Stripe } from '../infra/stripe.infra.js';
+import { StripeClient } from '../infra/stripe.infra.js';
 
 // Exceptions
 import { InvalidInternalStateException } from '../../../exceptions/index.js';
@@ -10,7 +10,7 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 export class StripeBuySubscriptionService {
   constructor(
     private readonly logger: Logger,
-    private readonly stripe: Stripe,
+    private readonly stripe: StripeClient,
   ) {}
 
   /**
@@ -48,7 +48,7 @@ export class StripeBuySubscriptionService {
    */
   private async createSubsciption(
     stripeCustomerID: string,
-    items: StripeClient.SubscriptionCreateParams.Item[],
+    items: Stripe.SubscriptionCreateParams.Item[],
     coupon: null | string,
   ) {
     const subscriptionOptions = {
@@ -65,7 +65,7 @@ export class StripeBuySubscriptionService {
       // Test this as stripe docs suggested this for first payment failure due
       // to customer action required
       // payment_behavior: 'allow_incomplete',
-    } satisfies StripeClient.SubscriptionCreateParams;
+    } satisfies Stripe.SubscriptionCreateParams;
 
     return this.stripe.subscriptions.create(
       coupon === null

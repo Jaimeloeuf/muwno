@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import StripeClient from 'stripe';
+import type { Stripe } from 'stripe';
 
-import { Stripe } from '../infra/stripe.infra.js';
+import { StripeClient } from '../infra/stripe.infra.js';
 import { IOrgRepo, IStripeCustomerRepo } from '../../../DAL/index.js';
 
 // Entity Types
@@ -13,7 +13,7 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 @Injectable()
 export class StripeCustomerService {
   constructor(
-    private readonly stripe: Stripe,
+    private readonly stripe: StripeClient,
     private readonly orgRepo: IOrgRepo,
     private readonly stripeCustomerRepo: IStripeCustomerRepo,
   ) {}
@@ -71,7 +71,7 @@ export class StripeCustomerService {
       // Save org.id as metadata in case it needs to be retrieved during
       // reconciliation processes between this system and Stripe.
       metadata: { orgID: org.id },
-    } satisfies StripeClient.CustomerCreateParams;
+    } satisfies Stripe.CustomerCreateParams;
 
     const customer = await this.stripe.customers.create(
       org.phone === null

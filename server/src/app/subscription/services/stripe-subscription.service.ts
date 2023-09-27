@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { Stripe } from '../infra/stripe.infra.js';
+import { StripeClient } from '../infra/stripe.infra.js';
 
 @Injectable()
 export class StripeSubscriptionService {
-  constructor(private readonly stripe: Stripe) {}
+  constructor(private readonly stripe: StripeClient) {}
 
   /**
    * Check if a given Stripe coupon is valid.

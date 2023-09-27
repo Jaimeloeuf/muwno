@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { Stripe } from '../infra/stripe.infra.js';
+import { StripeClient } from '../infra/stripe.infra.js';
 import { StripeBuySubscriptionService } from './stripe-buy-subscription.service.js';
 import {
   IOrgRepo,
@@ -21,7 +21,7 @@ import { InvalidInternalStateException } from '../../../exceptions/index.js';
 @Injectable()
 export class StripeSetupintentService {
   constructor(
-    private readonly stripe: Stripe,
+    private readonly stripe: StripeClient,
     private readonly stripeBuySubscriptionService: StripeBuySubscriptionService,
     private readonly orgRepo: IOrgRepo,
     private readonly stripeCustomerRepo: IStripeCustomerRepo,

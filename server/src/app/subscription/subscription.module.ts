@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 // Infra
-import { Stripe } from './infra/stripe.infra.js';
+import { StripeClient } from './infra/stripe.infra.js';
 
 // Services
 import { SubscriptionService } from './services/subscription.service.js';
@@ -19,7 +19,7 @@ import { StripeWebhookController } from './controllers/stripe-webhook.controller
 
 @Module({
   providers: [
-    Stripe,
+    StripeClient,
     SubscriptionService,
     StripeSubscriptionService,
     StripeBuySubscriptionService,
