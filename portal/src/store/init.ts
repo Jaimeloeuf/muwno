@@ -1,4 +1,4 @@
-import { useUserStore } from "./user.store";
+import { useUser } from "./user.store";
 
 /**
  * Use this function to initialize all stores that needs
@@ -23,6 +23,6 @@ export async function initStoresOnAppStartIfLoggedIn(): Promise<void> {
   // Run all of these initializations without any particular order
   await Promise.all([
     // If user account is no longer valid this will log them out.
-    useUserStore().getUser(),
+    useUser().getUser(),
   ]);
 }

@@ -101,9 +101,8 @@ export const SurveyMethodsRoute = <const>{
 };
 
 export const ImportCustomerRoute = <const>{
-  name: "product-import-customer",
-  path: "/product/:productID/customer/import",
-  props: true,
+  name: "customer-import",
+  path: "/customer/import",
   component: () => import("../views/core/ImportCustomer.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
@@ -164,12 +163,11 @@ export const ManageSubscriptionRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
-/* ====================== API Key Module Routes ====================== */
+/* ========================= API Key Module Routes ========================= */
 
 export const ApiKeyRoute = <const>{
   name: "api-key",
   path: "/api-key",
-  props: true,
   component: () => import("../views/core/ApiKey.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };

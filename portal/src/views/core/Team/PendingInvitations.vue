@@ -3,8 +3,8 @@ import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import {
-  useTeamInvitationStore,
-  useUserStore,
+  useTeamInvitation,
+  useUser,
   useLoader,
   useNotif,
 } from "../../../store";
@@ -13,8 +13,8 @@ import { getDateString } from "../../../utils/date-formatting/getDateString";
 import BackButton from "../../components/BackButton.vue";
 
 const router = useRouter();
-const teamInvitationStore = useTeamInvitationStore();
-const userStore = useUserStore();
+const teamInvitationStore = useTeamInvitation();
+const userStore = useUser();
 const loader = useLoader();
 const notif = useNotif();
 

@@ -107,7 +107,7 @@ export const useProduct = defineStore("product", {
     async createNewProduct(productName: Product["name"]) {
       const { res, err } = await sf
         .useDefault()
-        .POST(`/product/create`)
+        .POST(`/product`)
         .useHeader(getAuthHeader)
         .bodyJSON<CreateOneProductDTO>({ name: productName })
         .runJSON<ReadOneProductDTO>();

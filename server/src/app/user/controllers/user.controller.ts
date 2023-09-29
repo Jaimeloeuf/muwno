@@ -54,7 +54,7 @@ export class UserController {
   /**
    * Create a new User
    */
-  @Post('create')
+  @Post()
   @NoRoleRequired
   async createUser(
     @JWT() jwt: ServerJWT,

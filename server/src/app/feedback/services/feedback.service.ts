@@ -76,7 +76,11 @@ export class FeedbackService {
     const q4Header = `Q4. How can we improve ${productName} for you?`;
 
     /** Mapping to convert q1 answers stored as 1, 2, 3 in DB into text */
-    const a1WordMapping = { 3: 'Very', 2: 'Somewhat', 1: 'Not' };
+    const a1WordMapping = {
+      3: 'Very disappointed',
+      2: 'Somewhat disappointed',
+      1: 'Not disappointed',
+    };
 
     const responses = await this.feedbackRepo.getResponses(productID);
 

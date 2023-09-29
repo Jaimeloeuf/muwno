@@ -29,8 +29,8 @@ defineProps<{
       </button>
     </div>
 
-    <div class="mb-6">
-      <p class="mb-2 text-xl">Use this if</p>
+    <div class="pb-2">
+      <p class="pb-1 text-lg">Use this if</p>
       <ul class="list-decimal px-5">
         <li v-for="usecase in surveyMethod.usecase" :key="usecase">
           {{ usecase }}
@@ -44,7 +44,7 @@ defineProps<{
       </template>
 
       <template #content>
-        <ul class="mb-2 list-decimal px-5 text-lg text-yellow-700">
+        <ul class="list-decimal px-5 pb-2 text-lg">
           <li
             v-for="productType in surveyMethod.productTypes"
             :key="productType"
@@ -53,7 +53,7 @@ defineProps<{
           </li>
         </ul>
 
-        <p class="mb-2">
+        <p>
           For example, <i>{{ surveyMethod.productExamples.join(", ") }}</i>
         </p>
       </template>

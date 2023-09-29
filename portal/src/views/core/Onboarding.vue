@@ -2,7 +2,7 @@
 import { sendEmailVerification } from "firebase/auth";
 import { auth } from "../../firebase";
 import {
-  useTeamInvitationStore,
+  useTeamInvitation,
   useOrg,
   useOnboarding,
   useLoader,
@@ -14,7 +14,7 @@ import {
   BuySubscriptionPlanRoute,
 } from "../../router";
 
-const teamInvitationStore = useTeamInvitationStore();
+const teamInvitationStore = useTeamInvitation();
 const orgStore = useOrg();
 const onboardingStore = useOnboarding();
 const loader = useLoader();

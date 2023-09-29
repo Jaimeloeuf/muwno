@@ -247,7 +247,6 @@ export class StripeWebhookController {
        */
       const setupIntent = event.data.object as SetupIntent;
 
-      // @todo
       // Alternatively, use `setupIntentSucceededEvent.metadata` to reflect
       // `StripeSetupNext` instead of storing and loading it.
 
@@ -399,7 +398,7 @@ export class StripeWebhookController {
      * trial to active all trigger this event.
      * https://stripe.com/docs/billing/subscriptions/change
      *
-     * @todo
+     * ## Note
      * Currently not handling this event since the example use cases are all not
      * supported yet. The most important usecase is probably 'change of plans'.
      * Technically for other events like created/cancelled, the specific event

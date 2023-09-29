@@ -19,7 +19,7 @@ interface State {
 /**
  * Main store for team invitation data
  */
-export const useTeamInvitationStore = defineStore("team-invitation", {
+export const useTeamInvitation = defineStore("team-invitation", {
   state: (): State => ({ invitations: [] }),
 
   actions: {

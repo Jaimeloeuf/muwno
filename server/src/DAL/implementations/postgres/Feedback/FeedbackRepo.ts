@@ -58,8 +58,8 @@ export class FeedbackRepo implements IFeedbackRepo {
         productID,
       },
 
-      // Limit up to 10 thousand rows each time
-      take: 10000,
+      // Limit up to 1 thousand rows each time
+      take: 1000,
 
       // Type casting here is safe since only type casting a1's value from
       // number to the specific values 1, 2, 3.

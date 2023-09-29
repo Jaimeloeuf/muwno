@@ -66,5 +66,13 @@ export const useOnboarding = defineStore("onboarding", {
 
       return res.data.onboarding;
     },
+
+    // @todo
+    // Might add a method to set 'onboarding' as completed locally.
+    // For now it works without it since user needs to pay first for onboarding
+    // to complete and during payment it will redirect causing a site reload,
+    // which will cause this cached onboarding state to update too.
+    // Alternatively, call isOnboarding with force refresh in setup payment
+    // success page to avoid the need for building a local `onboarded` method.
   },
 });

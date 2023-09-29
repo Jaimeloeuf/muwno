@@ -3,12 +3,12 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useLoader, useUserStore, useOnboarding } from "../../store";
+import { useLoader, useUser, useOnboarding } from "../../store";
 import { AllProductRoute, OnboardingRoute, SignupRoute } from "../../router";
 
 const router = useRouter();
 const loader = useLoader();
-const userStore = useUserStore();
+const userStore = useUser();
 const onboardingStore = useOnboarding();
 
 const props = defineProps<{ prefillEmail?: string }>();
@@ -61,7 +61,7 @@ async function login() {
 </script>
 
 <template>
-  <div class="mx-auto flex h-[80vh] w-full max-w-lg flex-col justify-center">
+  <div class="mx-auto flex h-[90vh] w-full max-w-lg flex-col justify-center">
     <a href="https://thepmftool.com" target="_blank" class="w-max pb-6">
       <img src="../../assets/logo.svg" alt="logo" />
     </a>

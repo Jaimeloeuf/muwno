@@ -6,12 +6,12 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useLoader, useUserStore } from "../../store";
+import { useLoader, useUser } from "../../store";
 import { OnboardingRoute, LoginRoute } from "../../router";
 
 const router = useRouter();
 const loader = useLoader();
-const userStore = useUserStore();
+const userStore = useUser();
 
 const props = defineProps<{ prefillEmail?: string }>();
 
@@ -71,14 +71,14 @@ async function signup() {
 </script>
 
 <template>
-  <div class="mx-auto flex h-[80vh] w-full max-w-lg flex-col justify-center">
+  <div class="mx-auto flex h-[90vh] w-full max-w-lg flex-col justify-center">
     <a
       href="https://thepmftool.com"
       target="_blank"
       class="flex w-max flex-row items-center gap-1 pb-6"
     >
       <img src="../../assets/logo.svg" alt="logo" />
-      <p class="text-lg tracking-tight">(Sign up)</p>
+      <p class="text-lg tracking-wide">(Sign up)</p>
     </a>
 
     <div class="pb-6">
@@ -134,16 +134,16 @@ async function signup() {
     >
       Click here to login
     </router-link>
-  </div>
 
-  <div class="fixed inset-x-0 bottom-12 mx-auto text-center text-sm font-thin">
-    By signing up, you agree to our
-    <a href="https://thepmftool.com/TC.pdf" target="_blank" class="underline"
-      >Terms & Conditions</a
-    >
-    and
-    <a href="https://thepmftool.com/PP.pdf" target="_blank" class="underline">
-      Privacy Policy
-    </a>
+    <div class="pt-6 text-sm font-thin md:pt-12">
+      By signing up, you agree to our
+      <a href="https://thepmftool.com/TC.pdf" target="_blank" class="underline"
+        >Terms & Conditions</a
+      >
+      and
+      <a href="https://thepmftool.com/PP.pdf" target="_blank" class="underline">
+        Privacy Policy
+      </a>
+    </div>
   </div>
 </template>

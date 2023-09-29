@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete } from '@nestjs/common';
 
 import { ApiKeyService } from '../services/apikey.service.js';
 
@@ -40,7 +40,7 @@ export class ApiKeyController {
   /**
    * Create a new API Key for user's Org.
    */
-  @Post('create')
+  @Post()
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createApiKey(
     @JWT_uid requestorID: FirebaseAuthUID,
@@ -51,7 +51,7 @@ export class ApiKeyController {
   /**
    * Delete an API Key.
    */
-  @Post('delete/:apiKeyID')
+  @Delete(':apiKeyID')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async deleteApiKey(
     @JWT_uid requestorID: FirebaseAuthUID,

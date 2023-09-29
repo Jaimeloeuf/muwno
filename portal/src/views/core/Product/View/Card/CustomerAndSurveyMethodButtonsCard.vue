@@ -12,7 +12,7 @@ defineProps<{ productID: ProductID }>();
       :to="{
         params: { productID },
       }"
-      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
+      class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
     >
       Manage Customers
 
@@ -38,7 +38,7 @@ defineProps<{ productID: ProductID }>();
         name: SurveyMethodsRoute.name,
         params: { productID },
       }"
-      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
+      class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
     >
       Survey Methods
 

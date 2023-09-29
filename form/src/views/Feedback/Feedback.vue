@@ -35,13 +35,11 @@ async function submit() {
 </script>
 
 <template>
-  <!-- This ensures that the UI is always centered and limited to a width even in desktop mode -->
   <div class="m-6">
     <h1 class="mb-6 text-3xl font-extrabold tracking-tight text-zinc-900">
       {{ productName }} feedback form
     </h1>
 
-    <!-- Question 1 -->
     <div class="mb-6">
       <p class="mb-2">
         <span class="mr-1">Q1.</span> How would you feel if
@@ -70,7 +68,6 @@ async function submit() {
       </div>
     </div>
 
-    <!-- Question 2 -->
     <div class="mb-6">
       <p class="mb-2">
         <span class="mr-1">Q2.</span> What type of people do you think would
@@ -81,12 +78,11 @@ async function submit() {
       <textarea
         v-model="a2"
         rows="2"
-        class="block w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
+        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
       </textarea>
     </div>
 
-    <!-- Question 3 -->
     <div class="mb-6">
       <p class="mb-2">
         <span class="mr-1">Q3.</span> What is the main benefit you receive from
@@ -97,12 +93,11 @@ async function submit() {
       <textarea
         v-model="a3"
         rows="4"
-        class="block w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
+        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
       </textarea>
     </div>
 
-    <!-- Question 4 -->
     <div class="mb-6">
       <p class="mb-2">
         <span class="mr-1">Q4.</span> How can we improve
@@ -113,7 +108,7 @@ async function submit() {
       <textarea
         v-model="a4"
         rows="4"
-        class="block w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
+        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
       </textarea>
     </div>

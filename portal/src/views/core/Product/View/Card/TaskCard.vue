@@ -17,7 +17,7 @@ async function getTasks() {
     .runJSON<ReadManyTaskDTO>();
 
   if (err) throw err;
-  if (!res.ok) throw new Error("Failed to load Tasks");
+  if (!res.ok) throw new Error(`Failed to get Tasks: ${JSON.stringify(res)}`);
 
   return res.data.tasks;
 }
@@ -31,7 +31,7 @@ async function markTaskAsDone(taskID: TaskID) {
 
   if (err) throw err;
   if (!res.ok)
-    throw new Error(`Failed to mark Task as done. ${JSON.stringify(res)}`);
+    throw new Error(`Failed to mark Task as done: ${JSON.stringify(res)}`);
 
   notif.setSnackbar("Task completed! Updating task list ...");
 

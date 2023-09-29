@@ -56,7 +56,7 @@ export class ProductController {
   /**
    * Create a new Product
    */
-  @Post('create')
+  @Post()
   @AllowAllRoles
   async createProduct(
     @JWT_uid userID: FirebaseAuthUID,

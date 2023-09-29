@@ -42,7 +42,7 @@ async function createApiKey() {
 
   const { res, err } = await sf
     .useDefault()
-    .POST(`/api-key/create`)
+    .POST(`/api-key`)
     .useHeader(getAuthHeader)
     .runJSON<ReadOneApiKeyDTO>();
 
@@ -66,7 +66,7 @@ async function deleteApiKey(apiKeyID: ApiKeyDetailID) {
 
   const { res, err } = await sf
     .useDefault()
-    .POST(`/api-key/delete/${apiKeyID}`)
+    .DEL(`/api-key/${apiKeyID}`)
     .useHeader(getAuthHeader)
     .runVoid();
 

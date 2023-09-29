@@ -4,7 +4,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
 import type { Org, ReadOneOrgDTO, CreateOneOrgDTO } from "@domain-model";
 
-import { useUserStore } from "./user.store";
+import { useUser } from "./user.store";
 
 /**
  * Type of this pinia store's state.
@@ -103,7 +103,7 @@ export const useOrg = defineStore("org", {
     async createOrg(createOneOrgDTO: CreateOneOrgDTO) {
       const { res, err } = await sf
         .useDefault()
-        .POST("/org/create")
+        .POST("/org")
         .useHeader(getAuthHeader)
         .bodyJSON<CreateOneOrgDTO>(createOneOrgDTO)
         .runJSON<ReadOneOrgDTO>();
@@ -114,7 +114,7 @@ export const useOrg = defineStore("org", {
           `Failed to create Organisation: ${JSON.stringify(res)}`
         );
 
-      await useUserStore().refreshJWT(true);
+      await useUser().refreshJWT(true);
 
       this.org = res.data.org;
       this.orgCacheTime = unixseconds();

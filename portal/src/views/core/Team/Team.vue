@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useOrg, useUserStore } from "../../../store";
+import { useOrg, useUser } from "../../../store";
 import { InviteMemberRoute } from "../../../router";
 import SideDrawerButton from "../../components/SideDrawerButton.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();
-const userStore = useUserStore();
+const userStore = useUser();
 
 const user = await userStore.getUser();
 

@@ -40,7 +40,7 @@ export class OrgController {
   /**
    * Create a new Organisation, and set creator as the Org Owner
    */
-  @Post('create')
+  @Post()
   // A user does not have any roles since they do not belong to any organisation
   // when creating a new organisation, therefore no role is required.
   @NoRoleRequired

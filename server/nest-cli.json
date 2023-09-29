@@ -2,7 +2,10 @@
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
-  "compilerOptions-comments": "Added since upgrading Nest to v10",
+  "compilerOptions-comments": [
+    "Added since upgrading Nest to v10",
+    "Checkout https://docs.nestjs.com/recipes/swc#common-pitfalls when using SWC"
+  ],
   "compilerOptions": {
     "builder": "swc",
     "typeCheck": true

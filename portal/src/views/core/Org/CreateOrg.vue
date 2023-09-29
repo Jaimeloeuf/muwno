@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useOrg, useUserStore, useLoader } from "../../../store";
+import { useOrg, useUser, useLoader } from "../../../store";
 import { AllProductRoute, BuySubscriptionPlanRoute } from "../../../router";
 
 const router = useRouter();
 const orgStore = useOrg();
-const userStore = useUserStore();
+const userStore = useUser();
 const loader = useLoader();
 
 const user = await userStore.getUser();

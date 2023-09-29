@@ -24,7 +24,7 @@ interface State {
 /**
  * Main store for user data
  */
-export const useUserStore = defineStore("user", {
+export const useUser = defineStore("user", {
   state: (): State => ({ user: null, userCacheTime: null }),
 
   actions: {
@@ -107,7 +107,7 @@ export const useUserStore = defineStore("user", {
       // Force refresh JWT since creating Org will add to JWT's 'roles' claim
       await auth.currentUser?.getIdToken(true);
       if (auth.currentUser === null)
-        throw new Error("Invalid State: User is logged out after org creation");
+        throw new Error("Invalid State: User is logged out on token refresh");
 
       // Optionally validate the custom claims, will throw if invalid.
       if (validateClaims) await validateCustomClaimsOnJWT(auth.currentUser);
@@ -119,7 +119,7 @@ export const useUserStore = defineStore("user", {
     async createUser(name: string) {
       const { res, err } = await sf
         .useDefault()
-        .POST("/user/create")
+        .POST("/user")
         .useHeader(getAuthHeader)
         .bodyJSON<CreateOneUserDTO>({ name })
         .runJSON<ReadOneUserDTO>();

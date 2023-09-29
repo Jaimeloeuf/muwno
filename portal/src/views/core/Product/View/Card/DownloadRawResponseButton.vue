@@ -28,10 +28,11 @@ async function downloadRawResponseCSV() {
   loader.hide();
 
   downloadFile(
-    // urlencode name to ensure it can be saved even with special characters
-    `Raw Survey Response data for ${encodeURIComponent(
-      props.product.name
-    )}.csv`,
+    // @todo Check if urlencoding needed to save even with special characters
+    // `Raw Survey Response data for ${encodeURIComponent(
+    //   props.product.name
+    // )}.csv`,
+    `Raw Survey Response data for ${props.product.name}.csv`,
     res.data
   );
 }
@@ -50,6 +51,7 @@ async function downloadRawResponseCSV() {
       </button>
     </div>
 
+    <!-- @todo Add a link to a request form to fill up -->
     <p v-if="showHelp" class="mb-4 border-t border-zinc-200 pt-2 font-light">
       Download up to 1000 rows of your raw survey response data sorted by newest
       first. If you need more or all historical data, reach out to us at

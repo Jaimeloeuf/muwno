@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { ProductRoute } from "../../router";
 import BackButton from "../components/BackButton.vue";
-import type { ProductID } from "@domain-model";
-
-const props = defineProps<{ productID: ProductID }>();
 
 const router = useRouter();
 
@@ -14,26 +10,20 @@ const customerTemplateUrl = new URL(
   import.meta.url
 ).href;
 
-const goProductView = () =>
-  router.push({
-    name: ProductRoute.name,
-    params: { productID: props.productID },
-  });
-
 async function parseUsers() {
-  goProductView();
+  // @todo Accept a next route as URL Query
+  router.back();
 }
 </script>
 
 <template>
   <div>
-    <div class="mb-12 border-b pb-4">
+    <div class="mb-12 flex flex-row items-center border-b pb-4">
       <BackButton />
       <span class="ml-4 text-4xl">Import Customers</span>
     </div>
 
     <div class="mx-auto w-full max-w-md">
-      <!-- Product Name input -->
       <div class="mb-10">
         <p class="text-2xl">Import Customers manually</p>
 
