@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Redirect, Query } from '@nestjs/common';
+import {
+  Controller,
+  Logger,
+  Post,
+  Body,
+  Get,
+  Redirect,
+  Query,
+} from '@nestjs/common';
 
 import { StripeSetupintentService } from '../services/stripe-setupintent.service.js';
 
@@ -27,6 +35,7 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 @UseHttpControllerFilters
 export class StripeSetupintentController {
   constructor(
+    private readonly logger: Logger,
     private readonly stripeSetupintentService: StripeSetupintentService,
   ) {}
 
@@ -76,6 +85,11 @@ export class StripeSetupintentController {
      */
     @Query('redirectTo') redirectTo: string | undefined,
   ): Promise<{ url: string }> {
+    this.logger.verbose(
+      `SetupIntent ${setupIntentID} redirect status: ${redirectStatus}`,
+      StripeSetupintentController.name,
+    );
+
     if (redirectTo === undefined)
       throw new InvalidInputException(`Missing 'redirectTo' query param.`);
 
