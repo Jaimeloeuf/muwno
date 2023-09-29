@@ -18,7 +18,7 @@ const gitVersion =
 export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
-      "@domain-model": path.resolve(__dirname, "../domain/src/index.ts"),
+      "@domain-model": path.resolve(__dirname, "../server/src/domain/index.ts"),
     },
   },
 
