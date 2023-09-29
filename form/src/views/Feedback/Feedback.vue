@@ -14,7 +14,7 @@ const { productName, radioOptions, a1, a2, a3, a4, submitForm } = await useForm(
 // Use the default value for a1 after validating it
 if (props.defaultA1 !== undefined) {
   const defaultA1 = parseInt(props.defaultA1);
-  if (defaultA1 in [0, 1, 2]) a1.value = defaultA1;
+  if (defaultA1 in [1, 2, 3]) a1.value = defaultA1;
 }
 
 async function submit() {
