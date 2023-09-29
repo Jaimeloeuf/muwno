@@ -2,8 +2,6 @@
 API server built with the [Nest](https://github.com/nestjs/nest) framework.
 
 
-\*\***Make sure [domain](../domain/) subrepo is built before building this server.**
-
 ## Installation
 ```sh
 npm install
@@ -13,7 +11,7 @@ Other than npm dependencies, `git` is also needed to be available in path for np
 
 
 ## Create the .env file
-Create a new .env file following this sample [.sample.env](./.sample.env) file.
+Create a new .env file following this sample [.env.sample](./.env.sample) file.
 
 
 ## Running the app

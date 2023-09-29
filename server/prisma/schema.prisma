@@ -34,7 +34,7 @@ datasource db {
   // shadowDatabaseUrl = env(“SHADOW_DATABASE_URL”)
 }
 
-// This enum mirrors the SubscriptionPlan enum type in domain/
+// This enum mirrors the SubscriptionPlan enum type in server/src/domain/
 // these are stored as literal string values in the DB.
 enum SubscriptionPlan {
   Standard
@@ -78,9 +78,9 @@ model org {
   stripe_customer stripe_customer?
 }
 
-// This enum mirrors the Role enum type's name in domain/, but the shortform
-// defined for the Role enum cannot be used since DB enum names cannot contain
-//  dashes, so these are the literal string values stored in the DB.
+// This enum mirrors the Role enum type's name in server/src/domain/, but the
+// shortform defined for the Role enum cannot be used since DB enum names cannot
+// contain dashes, so these are the literal string values stored in the DB.
 enum Role {
   OrgUser
   OrgAdmin

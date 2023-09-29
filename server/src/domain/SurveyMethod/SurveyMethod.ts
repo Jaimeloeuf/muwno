@@ -10,7 +10,7 @@ export type SurveyMethod = {
 
   /**
    * Unique ID for this survey method, since there is only a fixed number of
-   * survey methods and they are all defined in domain/.
+   * survey methods and they are all defined in domain model.
    */
   id: number;
 

@@ -3,4 +3,4 @@ Folder for Class based DTO validators built with the `class-validator` library, 
 
 
 ## Naming Convention
-See domain/DTOs README for the DTO naming convention. All the validator module and class here use the same exact name of the DTO type and module, just with the word `Validated` prepended to it. E.g. `CreateOneUserDTO` will be `ValidatedCreateOneUserDTO`.
+See domain model DTOs README for the DTO naming convention. All the validator module and class here use the same exact name of the DTO type and module, just with the word `Validated` prepended to it. E.g. `CreateOneUserDTO` will be `ValidatedCreateOneUserDTO`.

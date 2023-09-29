@@ -3,18 +3,15 @@
 
 
 ## Project structure
-- [domain](./domain)
-    - Standalone domain model that is shared/used by all other subrepos.
-    - Make sure this is built before running the other subrepos, see [README](./domain/README.md) for more info.
-- [portal](./portal)
+- [portal](./portal/README.md)
     - Project directory for PWA made with Vue3/TS/Tailwind
-- [form](./form)
+- [form](./form/README.md)
     - Project directory for PWA made with Vue3/TS/Tailwind
-- [landing](./landing)
+- [landing](./landing/README.md)
     - Project directory for landing page made with Vue3/TS/Tailwind
-- [server](./server)
+- [server](./server/README.md)
     - Project directory for API server built with NestJS/TS/PostgreSQL
-- [docs](./docs)
+- [docs](./docs/README.md)
     - Technical documentation version controlled together with code
 
 
