@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { IOrgRepo, IUserRepo } from '../../../DAL/index.js';
 import { IAuthService } from '../../../infra/index.js';
-import { StripeCustomerService } from '../../subscription/services/stripe-customer.service.js';
+import { StripeCustomerService } from '../../stripe/services/customer.service.js';
 
 // Entity Types
 import type { Org, OrgID, UserID } from 'domain-model';

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 // Modules
-import { SubscriptionModule } from '../subscription/subscription.module.js';
+import { StripeModule } from '../stripe/stripe.module.js';
 
 // Services
 import { OrgService } from './services/org.service.js';
@@ -10,7 +10,7 @@ import { OrgService } from './services/org.service.js';
 import { OrgController } from './controllers/org.controller.js';
 
 @Module({
-  imports: [SubscriptionModule],
+  imports: [StripeModule],
 
   providers: [OrgService],
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { StripeClient } from '../infra/stripe.infra.js';
+import { StripeClient } from '../infra/stripe-client.js';
 
 @Injectable()
 export class StripeSubscriptionService {

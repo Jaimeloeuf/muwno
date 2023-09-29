@@ -22,9 +22,9 @@ import {
   IStripeWebhookEventRepo,
   IStripeCustomerRepo,
 } from '../../../DAL/index.js';
-import { StripeClient } from '../infra/stripe.infra.js';
-import { SubscriptionService } from '../services/subscription.service.js';
-import { StripeSetupintentService } from '../services/stripe-setupintent.service.js';
+import { StripeClient } from '../infra/stripe-client.js';
+import { StripeSetupintentService } from '../services/setupintent.service.js';
+import { SubscriptionService } from '../../subscription/services/subscription.service.js';
 
 // Entity Types
 import type {

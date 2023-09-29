@@ -1,6 +1,6 @@
 import { Controller, Post, Query } from '@nestjs/common';
 
-import { StripeCustomerService } from '../services/stripe-customer.service.js';
+import { StripeCustomerService } from '../services/customer.service.js';
 
 import {
   GuardWithRBAC,

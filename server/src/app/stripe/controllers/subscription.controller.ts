@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 
-import { StripeSubscriptionService } from '../services/stripe-subscription.service.js';
+import { StripeSubscriptionService } from '../services/subscription.service.js';
 
 import { GuardWithRBAC, RolesRequired } from '../../../guards/index.js';
 

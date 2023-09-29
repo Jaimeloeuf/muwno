@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type { Stripe } from 'stripe';
 
-import { StripeClient } from '../infra/stripe.infra.js';
+import { StripeClient } from '../infra/stripe-client.js';
 import { IOrgRepo, IStripeCustomerRepo } from '../../../DAL/index.js';
 
 // Entity Types

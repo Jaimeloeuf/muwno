@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { StripeClient } from '../infra/stripe.infra.js';
-import { StripeBuySubscriptionService } from './stripe-buy-subscription.service.js';
+import { StripeClient } from '../infra/stripe-client.js';
+import { StripeBuySubscriptionService } from './buy-subscription.service.js';
 import {
   IOrgRepo,
   IStripeCustomerRepo,

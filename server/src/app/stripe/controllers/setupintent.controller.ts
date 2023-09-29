@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { StripeSetupintentService } from '../services/stripe-setupintent.service.js';
+import { StripeSetupintentService } from '../services/setupintent.service.js';
 
 import {
   GuardWithRBAC,
