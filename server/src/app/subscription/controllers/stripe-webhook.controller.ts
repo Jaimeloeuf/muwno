@@ -31,6 +31,7 @@ import type {
   Invoice,
   SetupIntent,
   Subscription,
+  SubscriptionSchedule,
 } from '../../../types/index.js';
 
 // Exception Filters
@@ -384,7 +385,34 @@ export class StripeWebhookController {
      * active associated subscription, stop provisioning access to product.
      */
     'subscription_schedule.canceled': async (event) => {
-      event;
+      /**
+       * Stripe library does not define concrete type for this so it needs to be
+       * type casted manually. Type only includes data of what is needed.
+       * @todo Parse with Zod or smth
+       */
+      const subscriptionSchedule = event.data.object as SubscriptionSchedule;
+
+      const stripeCustomer =
+        await this.stripeCustomerRepo.getCustomerWithStripeCustomerID(
+          subscriptionSchedule.customer,
+        );
+
+      // @todo Send admins details to investigate and manually recouncil this
+      if (stripeCustomer === null) {
+        throw new Error(
+          `${event.id}-${event.type}-${subscriptionSchedule.id}-${subscriptionSchedule.customer}`,
+        );
+      }
+
+      this.logger.verbose(
+        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, subscription schedule cancelled ${subscriptionSchedule.id}`,
+        StripeWebhookController.name,
+      );
+
+      // Stop provisioning access to the product
+      await this.subscriptionService.deactivateSubscription(
+        stripeCustomer.orgID,
+      );
     },
 
     // =================== Other Subscription related Events ===================
