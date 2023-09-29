@@ -13,6 +13,10 @@
     "baseUrl": "./",
     "outDir": "./dist",
 
+    "paths": {
+      "domain-model": ["./src/domain/index.ts"]
+    },
+
     // Skip declaration and sourceMap generations as these are not needed in a standalone TS project like this
     "declaration": false,
     "sourceMap": false,

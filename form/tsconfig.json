@@ -10,7 +10,7 @@
 
   "compilerOptions": {
     "paths": {
-      "@domain-model": ["../domain/src/index.ts"]
+      "@domain-model": ["../server/src/domain/index.ts"]
     },
 
     // @todo Remove someday
