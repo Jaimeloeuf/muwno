@@ -1,0 +1,24 @@
+# dockerignore file specifies what files should not be sent as build context to
+# docker daemon. See https://stackoverflow.com/a/45118985 on build process and
+# what is included in build context. See last paragraph of
+# https://docs.docker.com/engine/reference/builder/#dockerignore-file on how 
+# build context is selected in this file. This optimization is not needed when
+# using buildkit, https://docs.docker.com/engine/reference/builder/#buildkit
+#
+# This dockerignore file uses whitelisting as explained above. .Dockerfile and
+# .dockerignore will also be ignored, but will still be sent by default.
+# Certain things that must be ignored:
+#   - .git
+#   - secrets/.env (visible via docker inspect if build context is cached)
+
+
+# Ignore all first to use dockerignore as a whitelist instead of a blacklist
+*
+
+# Everything needed to build the service
+!package*.json
+!dist/**
+!prisma/**
+
+# @todo
+!serviceAccountKey.json
