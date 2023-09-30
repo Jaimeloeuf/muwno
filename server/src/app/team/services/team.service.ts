@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ulid } from 'ulid';
 
 import { ITeamRepo, IOrgRepo, IUserRepo } from '../../../DAL/index.js';
-import { IEmailService, IAuthService } from '../../../infra/index.js';
+import {
+  ITransactionalEmailService,
+  IAuthService,
+} from '../../../infra/index.js';
 
 // Entity Types
 import type { User, UserID, TeamInvitation } from 'domain-model';
@@ -18,16 +21,13 @@ import {
   ForbiddenException,
 } from '../../../exceptions/index.js';
 
-// Utils
-import { createInviteTeamMemberEmailMessage } from '../utils/InviteTeamMemberEmailMessage.js';
-
 @Injectable()
 export class TeamService {
   constructor(
     private readonly teamRepo: ITeamRepo,
     private readonly orgRepo: IOrgRepo,
     private readonly userRepo: IUserRepo,
-    private readonly emailService: IEmailService,
+    private readonly transactionalEmailService: ITransactionalEmailService,
     private readonly authService: IAuthService,
   ) {}
 
@@ -72,14 +72,10 @@ export class TeamService {
 
     if (!inviteCreated) throw new Error('Failed to create team member invite');
 
-    // Only email invitee if invitation is successfully saved
-    await this.emailService.sendOne(
+    this.transactionalEmailService.teamInvite(
       createOneTeamMemberInvitationDTO.inviteeEmail,
-      {
-        from: 'robot@thepmftool.com',
-        subject: `${inviter.name} invited you to join ${inviterOrg.name}`,
-        body: createInviteTeamMemberEmailMessage(inviter.name, inviterOrg.name),
-      },
+      inviter.name,
+      inviterOrg.name,
     );
   }
 

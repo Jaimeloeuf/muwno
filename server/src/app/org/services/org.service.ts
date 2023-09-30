@@ -2,8 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ulid } from 'ulid';
 
 import { IOrgRepo, IUserRepo } from '../../../DAL/index.js';
-import { IAuthService } from '../../../infra/index.js';
 import { StripeCustomerService } from '../../stripe/services/customer.service.js';
+import {
+  IAuthService,
+  ITransactionalEmailService,
+} from '../../../infra/index.js';
 
 // Entity Types
 import type { Org, OrgID, UserID } from 'domain-model';
@@ -20,8 +23,9 @@ export class OrgService {
   constructor(
     private readonly orgRepo: IOrgRepo,
     private readonly userRepo: IUserRepo,
-    private readonly authService: IAuthService,
     private readonly stripeCustomerService: StripeCustomerService,
+    private readonly authService: IAuthService,
+    private readonly transactionalEmailService: ITransactionalEmailService,
   ) {}
 
   /**
@@ -71,7 +75,7 @@ export class OrgService {
     // a Stripe Customer, even if it is not subscribed yet.
     await this.stripeCustomerService.createCustomer(org);
 
-    // @todo Send a fire and forget email to thank them for creating org
+    this.transactionalEmailService.newOrgCreated(org.email, org.name);
 
     return org;
   }

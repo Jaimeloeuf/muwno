@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { IUserRepo } from '../../../DAL/index.js';
+import { ITransactionalEmailService } from '../../../infra/index.js';
 
 // Entity Types
 import type { User, UserID } from 'domain-model';
@@ -13,7 +14,10 @@ import { NotFoundException } from '../../../exceptions/index.js';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepo: IUserRepo) {}
+  constructor(
+    private readonly userRepo: IUserRepo,
+    private readonly transactionalEmailService: ITransactionalEmailService,
+  ) {}
 
   /**
    * Get User Entity of given `userID` from data source.
@@ -41,6 +45,14 @@ export class UserService {
     email: string,
     createOneUserDTO: CreateOneUserDTO,
   ): Promise<User> {
-    return this.userRepo.createOne({ ...createOneUserDTO, id: userID, email });
+    const user = await this.userRepo.createOne({
+      ...createOneUserDTO,
+      id: userID,
+      email,
+    });
+
+    this.transactionalEmailService.welcomeNewUser(email, createOneUserDTO.name);
+
+    return user;
   }
 }

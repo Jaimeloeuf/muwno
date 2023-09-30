@@ -2,7 +2,10 @@ import { Module, Global, Logger, type Provider } from '@nestjs/common';
 
 // Infra providers
 import { RepoModule } from '../DAL/repo.module.js';
-import { AuthServiceProvider, EmailServiceProvider } from '../infra/index.js';
+import {
+  AuthServiceProvider,
+  TransactionalEmailServiceProvider,
+} from '../infra/index.js';
 
 /**
  * A list of providers that should be shared globally for all other modules
@@ -11,7 +14,7 @@ import { AuthServiceProvider, EmailServiceProvider } from '../infra/index.js';
 const GloballySharedProviders: Provider[] = [
   Logger,
   AuthServiceProvider,
-  EmailServiceProvider,
+  TransactionalEmailServiceProvider,
 ];
 
 /**
