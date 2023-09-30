@@ -24,7 +24,8 @@ export abstract class IStripeCustomerRepo {
   abstract getCustomerIDWithOrgID(orgID: OrgID): Promise<Customer['id'] | null>;
 
   /**
-   * Create and save a new `StripeCustomer` object in data source.
+   * Create and save a new `StripeCustomer` object in data source. If `Org`
+   * already have a StripeCustomer, replace it with this new one.
    */
   abstract createOne(
     orgID: OrgID,

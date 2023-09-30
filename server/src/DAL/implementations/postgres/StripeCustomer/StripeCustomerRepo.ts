@@ -39,11 +39,13 @@ export class StripeCustomerRepo implements IStripeCustomerRepo {
   }
 
   async createOne(orgID: OrgID, stripeCustomerID: string) {
-    await this.db.stripe_customer.create({
-      data: {
+    await this.db.stripe_customer.upsert({
+      where: { id: stripeCustomerID },
+      create: {
         id: stripeCustomerID,
         orgID,
       },
+      update: { id: stripeCustomerID },
     });
   }
 }
