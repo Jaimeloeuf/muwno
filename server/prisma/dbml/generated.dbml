@@ -3,8 +3,7 @@
 //// ------------------------------------------------------
 
 Table org {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   name String [not null]
   email String [not null]
@@ -34,8 +33,7 @@ Table user {
 }
 
 Table product {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   name String [not null]
   org org [not null]
@@ -45,8 +43,7 @@ Table product {
 }
 
 Table pmf_survey_responses {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   a1 Int [not null]
   a2 String [not null]
@@ -58,8 +55,7 @@ Table pmf_survey_responses {
 }
 
 Table task {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   score Int [not null]
   task String [not null]
@@ -81,8 +77,7 @@ Table team_member_invitation {
 }
 
 Table stripe_webhook_event {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   type String [not null]
   livemode Boolean [not null]
@@ -90,8 +85,7 @@ Table stripe_webhook_event {
 }
 
 Table stripe_customer {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   org org [not null]
   orgID String [unique, not null]
@@ -104,8 +98,7 @@ Table stripe_setup_next {
 }
 
 Table api_key {
-  iid Int [pk, increment]
-  id String [unique, not null]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   hash String [unique, not null]
   prefix String [not null]

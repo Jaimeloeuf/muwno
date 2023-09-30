@@ -42,11 +42,8 @@ enum SubscriptionPlan {
 
 // Table to store all the user organisations
 model org {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Unique random string ID as the orgID
-  id        String   @unique @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   name      String
   email     String
@@ -109,11 +106,8 @@ model user {
 }
 
 model product {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Unique random string ID as the productID
-  id        String   @unique @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   name      String
 
@@ -130,11 +124,8 @@ model product {
 }
 
 model pmf_survey_responses {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Unique random string ID as the responseID
-  id        String   @unique @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
   // Fixed answer format for now to get started
@@ -155,11 +146,8 @@ model pmf_survey_responses {
 // Generated tasks for customers to do based on their own customers' feedback.
 // Built using responses to question 4 of the PMF survey.
 model task {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Unique random string ID as the taskID
-  id        String   @unique @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   score     Int
   task      String
@@ -194,11 +182,8 @@ model team_member_invitation {
 }
 
 model stripe_webhook_event {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Use Stripe's unique event ID as the indempotency key
-  id        String   @unique
+  id        String   @id
   // Time of DB insertion, not time where Stripe created the event
   createdAt DateTime @default(now())
   type      String
@@ -208,11 +193,8 @@ model stripe_webhook_event {
 
 // Table to store Stripe specific details.
 model stripe_customer {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Stripe's unique customer ID
-  id        String   @unique
+  id        String   @id
   createdAt DateTime @default(now())
 
   // Relationship: ONE Stripe Customer, is created for ONE (each) paying Organisation
@@ -233,11 +215,8 @@ model stripe_setup_next {
 }
 
 model api_key {
-  // Autoincrementing Int ID needed for queries that require ordering
-  iid Int @id @default(autoincrement())
-
   // Unique random string ID as the apiKeyID
-  id          String   @unique @default(cuid())
+  id          String   @id @default(cuid())
   createdAt   DateTime @default(now())
   // Hash to prevent direct access on lost of all keys on leak
   hash        String   @unique

@@ -24,7 +24,7 @@ export class ProductRepo implements IProductRepo {
     return this.db.product
       .findUnique({
         where: { id: productID },
-        select: { iid: true }, // Select as little as possible for efficiency
+        select: { id: true }, // Select as little as possible for efficiency
       })
       .then((product) => product !== null);
   }
