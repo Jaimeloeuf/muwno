@@ -226,7 +226,7 @@ async function submitMessage() {
         <p class="mb-2 font-bold text-zinc-700">NAME</p>
 
         <input
-          v-model="name"
+          v-model.trim="name"
           class="w-full appearance-none rounded border bg-zinc-100 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
           type="text"
           placeholder="Jane Doe"
@@ -237,7 +237,7 @@ async function submitMessage() {
         <p class="mb-2 font-bold text-zinc-700">EMAIL</p>
 
         <input
-          v-model="email"
+          v-model.trim="email"
           class="w-full appearance-none rounded border bg-zinc-100 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
           type="text"
           placeholder="janedoe@gmail.com"
@@ -249,7 +249,7 @@ async function submitMessage() {
         <p class="mb-2 font-bold text-zinc-700">YOUR MESSAGE</p>
 
         <textarea
-          v-model="message"
+          v-model.trim="message"
           class="w-full resize-none appearance-none rounded border bg-zinc-100 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
           rows="4"
           placeholder="I need to reach Product Market Fit!"

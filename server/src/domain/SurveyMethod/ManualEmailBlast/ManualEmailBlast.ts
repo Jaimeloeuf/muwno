@@ -1,6 +1,8 @@
 import type { SurveyMethod } from '../SurveyMethod.js';
 
 export const ManualEmailBlast: SurveyMethod = {
+  unimplemented: true,
+
   id: 1,
   name: 'Manual Email Blasts',
   productTypes: ['Software as a Service (SaaS)', 'Physical Product or Service'],

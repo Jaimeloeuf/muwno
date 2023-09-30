@@ -1,7 +1,3 @@
-/**
- * Barrel file.
- */
-
 export {
   RolesRequired,
   AllowAllRoles,

@@ -51,7 +51,7 @@ async function invite() {
           <p>They will need to create an account and login with this email!</p>
 
           <input
-            v-model="email"
+            v-model.trim="email"
             type="text"
             class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
             placeholder="janedoe@gmail.com"

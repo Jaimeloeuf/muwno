@@ -71,7 +71,7 @@ async function login() {
         <p class="pb-0.5 text-lg font-light">Email</p>
 
         <input
-          v-model="email"
+          v-model.trim="email"
           type="text"
           class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="janedoe@gmail.com"
@@ -84,7 +84,7 @@ async function login() {
         <p class="pb-0.5 text-lg font-light">Password</p>
 
         <input
-          v-model="password"
+          v-model.trim="password"
           type="password"
           class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
           placeholder="password"

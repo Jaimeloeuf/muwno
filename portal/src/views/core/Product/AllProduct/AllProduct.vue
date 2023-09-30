@@ -44,7 +44,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
           <p class="font-medium">Product Name</p>
           <div class="flex max-w-md flex-row gap-3">
             <input
-              v-model="searchInput"
+              v-model.trim="searchInput"
               type="text"
               class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3 focus:outline-none"
               :placeholder="`E.g. ${products[0]?.name ?? 'Spotify'}`"

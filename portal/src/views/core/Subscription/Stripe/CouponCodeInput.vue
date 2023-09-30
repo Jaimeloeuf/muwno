@@ -42,7 +42,7 @@ function clearCoupon() {
 
     <div class="flex flex-row gap-3">
       <input
-        v-model="couponCode"
+        v-model.trim="couponCode"
         type="text"
         class="w-full rounded-lg border border-zinc-200 p-3"
         :class="{ 'border-red-500': checked && !isValid }"

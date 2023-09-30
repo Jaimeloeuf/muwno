@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SurveyMethodsRoute } from "../../../../../router";
+import { CustomerRoute, SurveyMethodsRoute } from "../../../../../router";
 import type { ProductID } from "@domain-model";
 
 defineProps<{ productID: ProductID }>();
@@ -7,9 +7,9 @@ defineProps<{ productID: ProductID }>();
 
 <template>
   <div class="flex flex-row justify-between gap-6">
-    <!-- @todo fix link -->
     <router-link
       :to="{
+        name: CustomerRoute.name,
         params: { productID },
       }"
       class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"

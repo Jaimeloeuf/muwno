@@ -76,7 +76,7 @@ async function submit() {
       </p>
 
       <textarea
-        v-model="a2"
+        v-model.trim="a2"
         rows="2"
         class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
@@ -91,7 +91,7 @@ async function submit() {
       </p>
 
       <textarea
-        v-model="a3"
+        v-model.trim="a3"
         rows="4"
         class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >
@@ -106,7 +106,7 @@ async function submit() {
       </p>
 
       <textarea
-        v-model="a4"
+        v-model.trim="a4"
         rows="4"
         class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
       >

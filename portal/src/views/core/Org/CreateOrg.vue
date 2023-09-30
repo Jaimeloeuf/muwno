@@ -59,7 +59,7 @@ async function createOrg() {
           <p>This is what your customer's will see</p>
 
           <input
-            v-model="name"
+            v-model.trim="name"
             type="text"
             class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
             placeholder="Name"
@@ -79,7 +79,7 @@ async function createOrg() {
           </ul>
 
           <input
-            v-model="email"
+            v-model.trim="email"
             type="text"
             class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
             placeholder="Organisation Email"
@@ -97,6 +97,7 @@ async function createOrg() {
               Main administrative phone number used for things like subscription
               payment and invoicing.
             </li>
+            <li>Please include the country and area code too.</li>
             <li>
               Providing this will also help us speed up your account
               verification process.
@@ -104,7 +105,7 @@ async function createOrg() {
           </ul>
 
           <input
-            v-model="phone"
+            v-model.trim="phone"
             type="text"
             class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
             placeholder="Phone Number"
@@ -129,7 +130,7 @@ async function createOrg() {
           </ul>
 
           <textarea
-            v-model="address"
+            v-model.trim="address"
             rows="3"
             class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-6"
           >

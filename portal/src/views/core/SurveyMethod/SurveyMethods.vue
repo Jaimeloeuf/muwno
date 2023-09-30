@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useProduct } from "../../../store";
+import { CustomerRoute } from "../../../router";
 import BackButton from "../../components/BackButton.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
 import { type ProductID, SurveyMethodsArray } from "@domain-model";
@@ -29,9 +30,9 @@ const product = await productStore.getProduct(props.productID);
           You can choose what to use based on the type of your product.
         </p>
 
-        <!-- @todo fix the link -->
         <router-link
           :to="{
+            name: CustomerRoute.name,
             params: { productID: product.id },
           }"
           class="mb-6 flex w-max flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"

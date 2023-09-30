@@ -38,7 +38,7 @@ async function addProduct() {
           <p>This is what your customer's will see</p>
 
           <input
-            v-model="name"
+            v-model.trim="name"
             type="text"
             class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
             placeholder="Product Name"
