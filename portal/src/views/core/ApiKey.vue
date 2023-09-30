@@ -86,7 +86,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
 <template>
   <div>
     <div
-      v-if="showModal"
+      v-if="showModal && newApiKey !== null"
       class="fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-white p-40"
     >
       <div class="flex flex-col font-light">
@@ -95,14 +95,14 @@ const apiKeyDetails = ref(await getApiKeyDetails());
           Key will only be shown once and cannot be shown again!
         </p>
 
-        <div
-          class="rounded-lg border border-zinc-200 bg-zinc-50 p-6"
-          @click="(showModal = false), (newApiKey = null)"
-        >
-          <CopyOnClick>
+        <CopyOnClick :textToCopy="newApiKey">
+          <div
+            class="rounded-lg border border-zinc-200 bg-zinc-50 p-6"
+            @click="(showModal = false), (newApiKey = null)"
+          >
             {{ newApiKey }}
-          </CopyOnClick>
-        </div>
+          </div>
+        </CopyOnClick>
       </div>
     </div>
 

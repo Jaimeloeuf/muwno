@@ -1,4 +1,5 @@
 import { randomBytes } from 'crypto';
+import { ulid } from 'ulid';
 import { Injectable } from '@nestjs/common';
 
 import { IApiKeyRepo } from '../../../DAL/index.js';
@@ -41,11 +42,12 @@ export class ApiKeyService {
     const org = await this.orgService.getUserOrg(requestorID);
     const user = await this.userService.getUser(requestorID);
 
-    const key = 'sk:' + randomBytes(32).toString('base64');
+    const key = 'sk:' + randomBytes(32).toString('base64url');
     const hash = sha256hash(key);
     const prefix = key.slice(0, 6);
 
     const apiKeyDetail = await this.apiKeyRepo.saveOne(
+      ulid(),
       org.id,
       `${user.name} <${user.email}>`,
       hash,

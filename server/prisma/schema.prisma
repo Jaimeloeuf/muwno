@@ -214,8 +214,7 @@ model stripe_setup_next {
 }
 
 model api_key {
-  // Unique random string ID as the apiKeyID
-  id          String   @id @default(cuid())
+  id          String   @id
   createdAt   DateTime @default(now())
   // Hash to prevent direct access on lost of all keys on leak
   hash        String   @unique

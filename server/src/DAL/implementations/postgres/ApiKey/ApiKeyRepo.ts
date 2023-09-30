@@ -32,10 +32,17 @@ export class ApiKeyRepo implements IApiKeyRepo {
       .then(runMapperIfNotNull(mapApiKeyModelToEntity));
   }
 
-  async saveOne(orgID: OrgID, createdBy: string, hash: string, prefix: string) {
+  async saveOne(
+    id: string,
+    orgID: OrgID,
+    createdBy: string,
+    hash: string,
+    prefix: string,
+  ) {
     return this.db.api_key
       .create({
         data: {
+          id,
           orgID,
           hash,
           prefix,

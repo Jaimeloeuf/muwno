@@ -25,6 +25,7 @@ export abstract class IApiKeyRepo {
    * Save a newly created API Key.
    */
   abstract saveOne(
+    id: string,
     orgID: OrgID,
     createdBy: UserID,
     hash: string,
