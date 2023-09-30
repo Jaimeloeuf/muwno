@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ulid } from 'ulid';
 
 import { IFeedbackRepo } from '../../../DAL/index.js';
 import { TaskService } from '../../task/services/task.service.js';
@@ -45,6 +46,7 @@ export class FeedbackService {
     response: CreateOneFeedbackResponseDTO,
   ): Promise<void> {
     const responseID = await this.feedbackRepo.saveOneResponse(
+      ulid(),
       productID,
       response,
     );

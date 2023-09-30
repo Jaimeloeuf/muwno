@@ -27,6 +27,7 @@ export abstract class IFeedbackRepo {
    * Save response of a feedback form.
    */
   abstract saveOneResponse(
+    id: string,
     productID: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ): Promise<FeedbackResponseID>;

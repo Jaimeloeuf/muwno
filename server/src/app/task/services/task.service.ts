@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ulid } from 'ulid';
 
 import { ITaskRepo, IFeedbackRepo } from '../../../DAL/index.js';
 import { ProductService } from '../../product/services/product.service.js';
@@ -46,6 +47,7 @@ export class TaskService {
     const taskString = await this.aiService.getActionableTask(customerFeedback);
 
     return this.taskRepo.createOne({
+      id: ulid(),
       productID,
       responseID,
       task: taskString,

@@ -35,12 +35,13 @@ export class FeedbackRepo implements IFeedbackRepo {
   }
 
   async saveOneResponse(
+    id: string,
     productID: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ) {
     return this.db.pmf_survey_responses
       .create({
-        data: { ...response, productID },
+        data: { ...response, id, productID },
         select: { id: true },
       })
       .then(({ id }) => id);

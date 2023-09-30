@@ -122,8 +122,7 @@ model product {
 }
 
 model pmf_survey_responses {
-  // Unique random string ID as the responseID
-  id        String   @id @default(cuid())
+  id        String   @id
   createdAt DateTime @default(now())
 
   // Fixed answer format for now to get started
@@ -144,8 +143,7 @@ model pmf_survey_responses {
 // Generated tasks for customers to do based on their own customers' feedback.
 // Built using responses to question 4 of the PMF survey.
 model task {
-  // Unique random string ID as the taskID
-  id        String   @id @default(cuid())
+  id        String   @id
   createdAt DateTime @default(now())
   score     Int
   task      String

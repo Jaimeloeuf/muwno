@@ -1,6 +1,6 @@
 import type { Task, FeedbackResponseID, ProductID, TaskID } from 'domain-model';
 
-export type DBCreateOneTaskDTO = Omit<Task, 'id' | 'createdAt' | 'done'>;
+export type DBCreateOneTaskDTO = Omit<Task, 'createdAt' | 'done'>;
 
 /**
  * Data Repository interface used as an abstraction over a collection of
