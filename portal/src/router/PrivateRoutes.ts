@@ -100,6 +100,15 @@ export const SurveyMethodsRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ========================= Customer Module Routes ========================= */
+
+export const CustomerRoute = <const>{
+  name: "customer",
+  path: "/customer",
+  component: () => import("../views/core/Customer/Customer.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const ImportCustomerRoute = <const>{
   name: "customer-import",
   path: "/customer/import",
@@ -172,6 +181,15 @@ export const ApiKeyRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ========================== Usage Module Routes ========================== */
+
+export const OrgUsageRoute = <const>{
+  name: "usage-org",
+  path: "/usage/org",
+  component: () => import("../views/core/Usage/OrgUsage.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /**
  * This array is only used internally for typechecking and type creation purposes
  * only, and is never used as a value anywhere, therefore there is no need to worry
@@ -198,6 +216,7 @@ const PrivateRoutes = [
   SurveyResponseRoute,
   AddProductRoute,
   SurveyMethodsRoute,
+  CustomerRoute,
   ImportCustomerRoute,
   TeamRoute,
   InviteMemberRoute,
@@ -207,6 +226,7 @@ const PrivateRoutes = [
   SetupSuccessPaymentRoute,
   ManageSubscriptionRoute,
   ApiKeyRoute,
+  OrgUsageRoute,
 ] satisfies Array<PrivateRoute>;
 
 /**

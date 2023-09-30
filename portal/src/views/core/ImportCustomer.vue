@@ -70,9 +70,9 @@ async function parseUsers() {
         </label>
       </div>
 
-      <div class="mb-6">
-        <input type="checkbox" />
-        Save customers to use them again in the future
+      <div class="mb-10">
+        Customers you import will be saved automatically for you to reuse in the
+        future!
       </div>
 
       <!-- @todo Add a youtube video to demo how to use it -->
@@ -81,7 +81,7 @@ async function parseUsers() {
         class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
         @click="parseUsers"
       >
-        done
+        Done
       </button>
     </div>
   </div>

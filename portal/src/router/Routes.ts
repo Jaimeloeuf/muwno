@@ -12,6 +12,7 @@ import {
   SurveyResponseRoute,
   AddProductRoute,
   SurveyMethodsRoute,
+  CustomerRoute,
   ImportCustomerRoute,
   TeamRoute,
   InviteMemberRoute,
@@ -21,6 +22,7 @@ import {
   SetupSuccessPaymentRoute,
   ManageSubscriptionRoute,
   ApiKeyRoute,
+  OrgUsageRoute,
 } from "./PrivateRoutes";
 
 /**
@@ -43,6 +45,7 @@ export const Routes = (<const>[
   SurveyResponseRoute,
   AddProductRoute,
   SurveyMethodsRoute,
+  CustomerRoute,
   ImportCustomerRoute,
   TeamRoute,
   InviteMemberRoute,
@@ -52,6 +55,7 @@ export const Routes = (<const>[
   SetupSuccessPaymentRoute,
   ManageSubscriptionRoute,
   ApiKeyRoute,
+  OrgUsageRoute,
 
   /* Public Routes */
   LoginRoute,

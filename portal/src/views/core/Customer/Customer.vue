@@ -1,0 +1,118 @@
+<script setup lang="ts">
+import { sf } from "simpler-fetch";
+import { getAuthHeader } from "../../../firebase";
+import { useOrg } from "../../../store";
+import { ImportCustomerRoute } from "../../../router";
+import SideDrawerButton from "../../components/SideDrawerButton.vue";
+
+const orgStore = useOrg();
+const org = await orgStore.getOrg();
+
+async function getCustomerGroups() {
+  const { res, err } = await sf
+    .useDefault()
+    .GET(`/customer/group/of-org/${org.id}`)
+    .useHeader(getAuthHeader)
+    .runJSON<{ groups: unknown }>();
+
+  if (err) throw err;
+  if (!res.ok)
+    throw new Error(`Failed to get Customer Groups: ${JSON.stringify(res)}`);
+
+  return res.data.groups;
+}
+
+const customerGroups = await getCustomerGroups();
+
+customerGroups;
+</script>
+
+<template>
+  <div>
+    <div class="mb-6 border-b pb-4">
+      <SideDrawerButton />
+      <span class="ml-4 text-4xl">Customers</span>
+    </div>
+
+    <div class="md:mx-6">
+      <div class="flex flex-row gap-6">
+        <router-link
+          :to="{}"
+          class="mb-6 flex flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+        >
+          See All Customers
+
+          <svg
+            class="ml-4 h-3 w-3 shrink-0 rotate-90 transition duration-150"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
+        </router-link>
+
+        <router-link
+          :to="{ name: ImportCustomerRoute.name }"
+          class="mb-6 flex flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+        >
+          Import Customers manually
+
+          <svg
+            class="ml-4 h-3 w-3 shrink-0 rotate-90 transition duration-150"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
+        </router-link>
+
+        <router-link
+          :to="{}"
+          class="mb-6 flex flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+        >
+          Setup API integration
+
+          <svg
+            class="ml-4 h-3 w-3 shrink-0 rotate-90 transition duration-150"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
+        </router-link>
+      </div>
+
+      <div>
+        <p class="text-2xl">Groups</p>
+        <p class="font-light">
+          Use customer groups to survey your customers grouped by certain
+          properties.
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
