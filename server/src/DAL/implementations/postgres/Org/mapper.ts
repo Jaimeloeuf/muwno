@@ -3,7 +3,7 @@ import type { Org, SubscriptionPlan } from 'domain-model';
 
 export const mapOrgModelToEntity = (orgModel: OrgModel): Org => ({
   id: orgModel.id,
-  createdAt: orgModel.createdAt.toISOString(),
+  createdAt: orgModel.created_at.toISOString(),
   name: orgModel.name,
   email: orgModel.email,
   phone: orgModel.phone,

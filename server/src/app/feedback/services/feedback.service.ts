@@ -97,7 +97,7 @@ export class FeedbackService {
     const mappedResponse = responses.map((response, index: number) => ({
       // Use 1 indexed serial ID
       id: index + 1,
-      'Survey Response Time': response.createdAt.toISOString(),
+      'Survey Response Time': response.created_at.toISOString(),
       [q1Header]: a1WordMapping[response.a1],
       [q2Header]: response.a2,
       [q3Header]: response.a3,

@@ -36,12 +36,12 @@ export class FeedbackRepo implements IFeedbackRepo {
 
   async saveOneResponse(
     id: string,
-    productID: ProductID,
+    product_id: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ) {
     return this.db.pmf_survey_responses
       .create({
-        data: { ...response, id, productID },
+        data: { ...response, id, product_id },
         select: { id: true },
       })
       .then(({ id }) => id);
@@ -52,11 +52,12 @@ export class FeedbackRepo implements IFeedbackRepo {
       .findUnique({ where: { id: responseID } })
       .then(runMapperIfNotNull(mapFeedbackResponseModelToEntity));
   }
-  async getResponses(productID: ProductID) {
+
+  async getResponses(product_id: ProductID) {
     return this.db.pmf_survey_responses.findMany({
-      select: { createdAt: true, a1: true, a2: true, a3: true, a4: true },
+      select: { created_at: true, a1: true, a2: true, a3: true, a4: true },
       where: {
-        productID,
+        product_id,
       },
 
       // Limit up to 1 thousand rows each time

@@ -9,7 +9,7 @@ import type { ProductID, PMFScore } from 'domain-model';
 export class PmfscoreRepo implements IPmfscoreRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async PMFScoreOfPeriod(productID: ProductID, start: string, end: string) {
+  async PMFScoreOfPeriod(product_id: ProductID, start: string, end: string) {
     // Select all responses submitted during the given time period.
     // Group by a1 and count how many in each group.
     const responses = await this.db.pmf_survey_responses.groupBy({
@@ -17,9 +17,9 @@ export class PmfscoreRepo implements IPmfscoreRepo {
       _count: { a1: true },
       where: {
         AND: [
-          { productID },
-          { createdAt: { gte: start } }, // Start of period
-          { createdAt: { lt: end } }, // End of period
+          { product_id },
+          { created_at: { gte: start } }, // Start of period
+          { created_at: { lt: end } }, // End of period
         ],
       },
     });

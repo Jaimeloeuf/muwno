@@ -12,8 +12,8 @@ export const mapFeedbackResponseModelToEntity = (
   response: FeedbackResponseModel,
 ): FeedbackResponse => ({
   id: response.id,
-  createdAt: response.createdAt.toISOString(),
-  productID: response.productID,
+  createdAt: response.created_at.toISOString(),
+  productID: response.product_id,
 
   // Safe to type cast since it is validated on write
   a1: response.a1 as 1 | 2 | 3,

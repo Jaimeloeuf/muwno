@@ -9,7 +9,7 @@ import type {
 export type DBFeedbackResponse = Omit<
   FeedbackResponse,
   'id' | 'productID' | 'createdAt'
-> & { createdAt: Date };
+> & { created_at: Date };
 
 /**
  * Data Repository interface used as an abstraction over a collection of

@@ -5,7 +5,7 @@ import { DbRoleEnumToRoleTypeMapping } from '../utils/dbRoleMapper.js';
 export function mapUserModelToEntity(userModel: UserModel): User {
   const user: User = {
     id: userModel.id,
-    createdAt: userModel.createdAt.toISOString(),
+    createdAt: userModel.created_at.toISOString(),
     name: userModel.name,
     email: userModel.email,
     deactivated: userModel.deactivated,
@@ -13,7 +13,7 @@ export function mapUserModelToEntity(userModel: UserModel): User {
 
   if (userModel.role !== null)
     user.role = DbRoleEnumToRoleTypeMapping[userModel.role];
-  if (userModel.orgID !== null) user.orgID = userModel.orgID;
+  if (userModel.org_id !== null) user.orgID = userModel.org_id;
 
   return user;
 }

@@ -20,19 +20,19 @@ export function mapToTeamInvitation(
 ): TeamInvitation {
   if (invite.inviter.role === null)
     throw new InvalidInternalStateException(
-      `${invite.inviteeEmail}'s inviter's role is null`,
+      `${invite.invitee_email}'s inviter's role is null`,
     );
 
   return {
     id: invite.id,
-    createdAt: invite.createdAt.toISOString(),
-    inviteeEmail: invite.inviteeEmail,
+    createdAt: invite.created_at.toISOString(),
+    inviteeEmail: invite.invitee_email,
     inviter: {
       name: invite.inviter.name,
       role: DbRoleEnumToRoleTypeMapping[invite.inviter.role],
     },
     team: {
-      id: invite.orgID,
+      id: invite.org_id,
       name: invite.org.name,
     },
   };

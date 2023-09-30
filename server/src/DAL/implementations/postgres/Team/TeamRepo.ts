@@ -24,12 +24,12 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class TeamRepo implements ITeamRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getAllMembers(orgID: OrgID) {
+  async getAllMembers(org_id: OrgID) {
     return this.db.user
       .findMany({
-        where: { orgID },
+        where: { org_id },
         // Sort by newest member first
-        orderBy: { createdAt: 'desc' },
+        orderBy: { created_at: 'desc' },
       })
       .then(mapUserModelsToEntity);
   }
@@ -37,33 +37,33 @@ export class TeamRepo implements ITeamRepo {
   async createInvite(
     invitationID: string,
     inviterUserID: UserID,
-    orgID: OrgID,
+    org_id: OrgID,
     createOneTeamMemberInvitationDTO: CreateOneTeamMemberInvitationDTO,
   ) {
     // Using an upsert to ensure that duplicates wont be created
     await this.db.team_member_invitation.upsert({
       create: {
         id: invitationID,
-        inviteeEmail: createOneTeamMemberInvitationDTO.inviteeEmail,
-        inviterID: inviterUserID,
-        orgID,
+        invitee_email: createOneTeamMemberInvitationDTO.inviteeEmail,
+        inviter_id: inviterUserID,
+        org_id,
       },
-      where: { inviteeEmail: createOneTeamMemberInvitationDTO.inviteeEmail },
+      where: { invitee_email: createOneTeamMemberInvitationDTO.inviteeEmail },
       // Only update inviterUserID to prevent a OrgID attack where someone from
       // another org can just invite the user to prevent them from joining the
       // original Org they were invited to.
-      update: { inviterID: inviterUserID },
+      update: { inviter_id: inviterUserID },
     });
 
     return true;
   }
 
-  async getPendingInvites(inviteeEmail: User['email']) {
+  async getPendingInvites(invitee_email: User['email']) {
     // Use of findMany is useless since a user can only join a single team now
     // this is only useful after allowing multiple teams in a single Org.
     return this.db.team_member_invitation
       .findMany({
-        where: { inviteeEmail },
+        where: { invitee_email },
         include: {
           inviter: { select: { name: true, role: true } },
           org: { select: { name: true } },

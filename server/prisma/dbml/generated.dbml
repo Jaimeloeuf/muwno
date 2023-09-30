@@ -4,7 +4,7 @@
 
 Table org {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   name String [not null]
   email String [not null]
   phone String
@@ -22,63 +22,63 @@ Table org {
 Table user {
   iid Int [pk, increment]
   id String [unique, not null]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   role Role
   name String [not null]
   email String [unique, not null]
   deactivated Boolean [not null, default: false]
   org org
-  orgID String
+  org_id String
   team_member_invitation team_member_invitation [not null]
 }
 
 Table product {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   name String [not null]
   org org [not null]
-  orgID String [not null]
+  org_id String [not null]
   pmf_survey_responses pmf_survey_responses [not null]
   task task [not null]
 }
 
 Table pmf_survey_responses {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   a1 Int [not null]
   a2 String [not null]
   a3 String [not null]
   a4 String [not null]
   product product [not null]
-  productID String [not null]
+  product_id String [not null]
   task task [not null]
 }
 
 Table task {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   score Int [not null]
   task String [not null]
   done Boolean [not null, default: false]
   product product [not null]
-  productID String [not null]
+  product_id String [not null]
   response pmf_survey_responses [not null]
-  responseID String [not null]
+  response_id String [not null]
 }
 
 Table team_member_invitation {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  inviteeEmail String [unique, not null]
+  created_at DateTime [default: `now()`, not null]
+  invitee_email String [unique, not null]
   inviter user [not null]
-  inviterID String [not null]
+  inviter_id String [not null]
   org org [not null]
-  orgID String [not null]
+  org_id String [not null]
 }
 
 Table stripe_webhook_event {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   type String [not null]
   livemode Boolean [not null]
   processed Boolean [not null]
@@ -86,26 +86,26 @@ Table stripe_webhook_event {
 
 Table stripe_customer {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   org org [not null]
-  orgID String [unique, not null]
+  org_id String [unique, not null]
 }
 
 Table stripe_setup_next {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   next Json [not null]
 }
 
 Table api_key {
   id String [pk]
-  createdAt DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   hash String [unique, not null]
   prefix String [not null]
-  createdBy String [not null]
+  created_by String [not null]
   description String
   org org [not null]
-  orgID String [not null]
+  org_id String [not null]
 }
 
 Enum SubscriptionPlan {
@@ -118,20 +118,20 @@ Enum Role {
   OrgOwner
 }
 
-Ref: user.orgID > org.id [delete: Cascade]
+Ref: user.org_id > org.id [delete: Cascade]
 
-Ref: product.orgID > org.id [delete: Cascade]
+Ref: product.org_id > org.id [delete: Cascade]
 
-Ref: pmf_survey_responses.productID > product.id [delete: Cascade]
+Ref: pmf_survey_responses.product_id > product.id [delete: Cascade]
 
-Ref: task.productID > product.id [delete: Cascade]
+Ref: task.product_id > product.id [delete: Cascade]
 
-Ref: task.responseID > pmf_survey_responses.id [delete: Cascade]
+Ref: task.response_id > pmf_survey_responses.id [delete: Cascade]
 
-Ref: team_member_invitation.inviterID > user.id [delete: Cascade]
+Ref: team_member_invitation.inviter_id > user.id [delete: Cascade]
 
-Ref: team_member_invitation.orgID > org.id [delete: Cascade]
+Ref: team_member_invitation.org_id > org.id [delete: Cascade]
 
-Ref: stripe_customer.orgID - org.id [delete: Cascade]
+Ref: stripe_customer.org_id - org.id [delete: Cascade]
 
-Ref: api_key.orgID > org.id [delete: Cascade]
+Ref: api_key.org_id > org.id [delete: Cascade]

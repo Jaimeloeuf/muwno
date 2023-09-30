@@ -23,27 +23,27 @@ export class StripeCustomerRepo implements IStripeCustomerRepo {
       .then(runMapperIfNotNull(mapStripeCustomerModelToEntity));
   }
 
-  async getCustomerWithOrgID(orgID: OrgID) {
+  async getCustomerWithOrgID(org_id: OrgID) {
     return this.db.stripe_customer
-      .findUnique({ where: { orgID } })
+      .findUnique({ where: { org_id } })
       .then(runMapperIfNotNull(mapStripeCustomerModelToEntity));
   }
 
-  async getCustomerIDWithOrgID(orgID: OrgID) {
+  async getCustomerIDWithOrgID(org_id: OrgID) {
     return this.db.stripe_customer
       .findUnique({
-        where: { orgID },
+        where: { org_id },
         select: { id: true },
       })
       .then(runMapperIfNotNull(({ id }) => id));
   }
 
-  async createOne(orgID: OrgID, stripeCustomerID: string) {
+  async createOne(org_id: OrgID, stripeCustomerID: string) {
     await this.db.stripe_customer.upsert({
       where: { id: stripeCustomerID },
       create: {
         id: stripeCustomerID,
-        orgID,
+        org_id,
       },
       update: { id: stripeCustomerID },
     });

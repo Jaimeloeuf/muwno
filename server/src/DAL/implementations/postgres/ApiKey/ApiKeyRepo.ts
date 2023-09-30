@@ -17,11 +17,11 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class ApiKeyRepo implements IApiKeyRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getOrgApiKeyDetails(orgID: OrgID) {
+  async getOrgApiKeyDetails(org_id: OrgID) {
     return this.db.api_key
       .findMany({
-        where: { orgID },
-        orderBy: { createdAt: 'desc' },
+        where: { org_id },
+        orderBy: { created_at: 'desc' },
       })
       .then(mapApiKeyModelsToEntity);
   }
@@ -34,8 +34,8 @@ export class ApiKeyRepo implements IApiKeyRepo {
 
   async saveOne(
     id: string,
-    orgID: OrgID,
-    createdBy: string,
+    org_id: OrgID,
+    created_by: string,
     hash: string,
     prefix: string,
   ) {
@@ -43,10 +43,10 @@ export class ApiKeyRepo implements IApiKeyRepo {
       .create({
         data: {
           id,
-          orgID,
+          org_id,
           hash,
           prefix,
-          createdBy,
+          created_by,
         },
       })
       .then(mapApiKeyModelToEntity);

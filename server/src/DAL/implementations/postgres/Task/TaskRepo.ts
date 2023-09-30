@@ -21,21 +21,29 @@ export class TaskRepo implements ITaskRepo {
 
   async createOne(createOneTaskDTO: DBCreateOneTaskDTO) {
     return this.db.task
-      .create({ data: createOneTaskDTO })
+      .create({
+        data: {
+          id: createOneTaskDTO.id,
+          score: createOneTaskDTO.score,
+          task: createOneTaskDTO.task,
+          response_id: createOneTaskDTO.responseID,
+          product_id: createOneTaskDTO.productID,
+        },
+      })
       .then(mapTaskModelToEntity);
   }
 
-  async getTasksOfResponse(responseID: FeedbackResponseID) {
+  async getTasksOfResponse(response_id: FeedbackResponseID) {
     return this.db.task
-      .findMany({ where: { responseID } })
+      .findMany({ where: { response_id } })
       .then(mapTaskModelsToEntity);
   }
 
-  async getTasksOfProduct(productID: ProductID, count: number) {
+  async getTasksOfProduct(product_id: ProductID, count: number) {
     return this.db.task
       .findMany({
         where: {
-          productID,
+          product_id,
           // Get all non completed tasks
           done: false,
         },
@@ -46,7 +54,7 @@ export class TaskRepo implements ITaskRepo {
 
           // Get the oldest task first so the task list will not keep changing
           // unless the user actually marks the oldest task as done.
-          { createdAt: 'asc' },
+          { created_at: 'asc' },
         ],
 
         take: count,

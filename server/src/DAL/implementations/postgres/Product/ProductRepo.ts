@@ -72,9 +72,9 @@ export class ProductRepo implements IProductRepo {
       .then(runMapperIfNotNull(mapProductModelToEntity));
   }
 
-  async getOrgProducts(orgID: OrgID) {
+  async getOrgProducts(org_id: OrgID) {
     return this.db.product
-      .findMany({ where: { orgID }, orderBy: { createdAt: 'asc' } })
+      .findMany({ where: { org_id }, orderBy: { created_at: 'asc' } })
       .then(mapProductModelsToEntity);
   }
 
@@ -87,7 +87,7 @@ export class ProductRepo implements IProductRepo {
             org: {
               select: {
                 product: {
-                  orderBy: { createdAt: 'desc' },
+                  orderBy: { created_at: 'desc' },
                 },
               },
             },
@@ -100,11 +100,11 @@ export class ProductRepo implements IProductRepo {
 
   async createOne(
     id: string,
-    orgID: OrgID,
+    org_id: OrgID,
     createOneProductDTO: CreateOneProductDTO,
   ) {
     return this.db.product
-      .create({ data: { ...createOneProductDTO, id, orgID } })
+      .create({ data: { ...createOneProductDTO, id, org_id } })
       .then(mapProductModelToEntity);
   }
 }

@@ -5,10 +5,10 @@ export const mapApiKeyModelToEntity = (
   apiKeyModel: ApiKeyModel,
 ): ApiKeyDetail => ({
   id: apiKeyModel.id,
-  createdAt: apiKeyModel.createdAt.toISOString(),
-  orgID: apiKeyModel.orgID,
+  createdAt: apiKeyModel.created_at.toISOString(),
+  orgID: apiKeyModel.org_id,
   prefix: apiKeyModel.prefix,
-  createdBy: apiKeyModel.createdBy,
+  createdBy: apiKeyModel.created_by,
   description: apiKeyModel.description,
 });
 
