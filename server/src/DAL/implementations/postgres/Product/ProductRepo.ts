@@ -98,9 +98,13 @@ export class ProductRepo implements IProductRepo {
     );
   }
 
-  async createOne(orgID: OrgID, createOneProductDTO: CreateOneProductDTO) {
+  async createOne(
+    id: string,
+    orgID: OrgID,
+    createOneProductDTO: CreateOneProductDTO,
+  ) {
     return this.db.product
-      .create({ data: { ...createOneProductDTO, orgID } })
+      .create({ data: { ...createOneProductDTO, id, orgID } })
       .then(mapProductModelToEntity);
   }
 }

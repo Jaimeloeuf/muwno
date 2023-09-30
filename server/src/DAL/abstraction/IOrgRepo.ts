@@ -18,5 +18,8 @@ export abstract class IOrgRepo {
   /**
    * Create a new Organisation in data source
    */
-  abstract createOne(createOneOrgDTO: CreateOneOrgDTO): Promise<Org>;
+  abstract createOne(
+    id: string,
+    createOneOrgDTO: CreateOneOrgDTO,
+  ): Promise<Org>;
 }

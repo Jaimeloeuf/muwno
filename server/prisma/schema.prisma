@@ -42,8 +42,7 @@ enum SubscriptionPlan {
 
 // Table to store all the user organisations
 model org {
-  // Unique random string ID as the orgID
-  id        String   @id @default(cuid())
+  id        String   @id
   createdAt DateTime @default(now())
   name      String
   email     String
@@ -106,8 +105,7 @@ model user {
 }
 
 model product {
-  // Unique random string ID as the productID
-  id        String   @id @default(cuid())
+  id        String   @id
   createdAt DateTime @default(now())
   name      String
 

@@ -47,6 +47,7 @@ export abstract class IProductRepo {
    * Create a new Product in data source
    */
   abstract createOne(
+    id: string,
     orgID: OrgID,
     createOneProductDTO: CreateOneProductDTO,
   ): Promise<Product>;

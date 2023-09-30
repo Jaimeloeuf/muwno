@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ulid } from 'ulid';
 
 import { IOrgRepo, IUserRepo } from '../../../DAL/index.js';
 import { IAuthService } from '../../../infra/index.js';
@@ -55,7 +56,7 @@ export class OrgService {
     // Ensure no leading or trailing spaces for Org names.
     createOneOrgDTO.name = createOneOrgDTO.name.trim();
 
-    const org = await this.orgRepo.createOne(createOneOrgDTO);
+    const org = await this.orgRepo.createOne(ulid(), createOneOrgDTO);
 
     // Update User Entity to add Role and OrgID
     await this.userRepo.updateOne(userID, {

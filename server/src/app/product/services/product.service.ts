@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ulid } from 'ulid';
 
 import { IProductRepo, IOrgRepo } from '../../../DAL/index.js';
 
@@ -101,6 +102,6 @@ export class ProductService {
         `User '${userID}' cannot create product without being in an Org`,
       );
 
-    return this.productRepo.createOne(org.id, createOneProductDTO);
+    return this.productRepo.createOne(ulid(), org.id, createOneProductDTO);
   }
 }

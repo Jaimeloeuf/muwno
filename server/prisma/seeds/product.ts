@@ -1,4 +1,5 @@
 import type { PrismaClient } from '@prisma/client';
+import { ulid } from 'ulid';
 
 /**
  * Utility for generating ISODateTime strings
@@ -10,11 +11,13 @@ export async function seedProduct(prisma: PrismaClient) {
   await prisma.product.createMany({
     data: [
       {
+        id: ulid(),
         orgID: '__TEST_ORG_ID__',
         createdAt: generateIsoDateTimeString(-246400000),
         name: 'Product X',
       },
       {
+        id: ulid(),
         orgID: '__TEST_ORG_ID__',
         createdAt: generateIsoDateTimeString(-246400000),
         name: 'thepmftool',
