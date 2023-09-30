@@ -165,8 +165,7 @@ model task {
 }
 
 model team_member_invitation {
-  // Autoincrementing Int ID needed for queries that require ordering
-  id           Int      @id @default(autoincrement())
+  id           String   @id
   createdAt    DateTime @default(now())
   inviteeEmail String   @unique
 

@@ -85,7 +85,7 @@ export class TeamController {
   @NoRoleRequired
   async acceptInvitation(
     @JWT_uid userID: FirebaseAuthUID,
-    @Param('invitationID') invitationID: number,
+    @Param('invitationID') invitationID: string,
   ): Promise<void> {
     await this.teamService.acceptInvitation(userID, invitationID);
   }
@@ -99,7 +99,7 @@ export class TeamController {
   @NoRoleRequired
   async rejectInvitation(
     @JWT_uid userID: FirebaseAuthUID,
-    @Param('invitationID') invitationID: number,
+    @Param('invitationID') invitationID: string,
   ): Promise<void> {
     await this.teamService.rejectInvitation(userID, invitationID);
   }

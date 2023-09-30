@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ulid } from 'ulid';
 
 import { ITeamRepo, IOrgRepo, IUserRepo } from '../../../DAL/index.js';
 import { IEmailService, IAuthService } from '../../../infra/index.js';
@@ -63,6 +64,7 @@ export class TeamService {
       );
 
     const inviteCreated = await this.teamRepo.createInvite(
+      ulid(),
       inviterUserID,
       inviterOrg.id,
       createOneTeamMemberInvitationDTO,
@@ -98,7 +100,7 @@ export class TeamService {
 
   async acceptInvitation(
     inviteeID: UserID,
-    invitationID: number,
+    invitationID: string,
   ): Promise<void> {
     const invitee = await this.userRepo.getOne(inviteeID);
     if (invitee === null)
@@ -135,7 +137,7 @@ export class TeamService {
 
   async rejectInvitation(
     inviteeID: UserID,
-    invitationID: number,
+    invitationID: string,
   ): Promise<void> {
     const invitee = await this.userRepo.getOne(inviteeID);
     if (invitee === null)

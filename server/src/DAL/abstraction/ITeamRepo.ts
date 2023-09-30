@@ -20,6 +20,7 @@ export abstract class ITeamRepo {
    * Create and save a team member invite into data source.
    */
   abstract createInvite(
+    invitationID: string,
     inviterUserID: UserID,
     orgID: OrgID,
     createOneTeamMemberInvitationDTO: CreateOneTeamMemberInvitationDTO,
@@ -35,10 +36,10 @@ export abstract class ITeamRepo {
   /**
    * Get a pending team invitation using the given `invitationID`.
    */
-  abstract getInvite(invitationID: number): Promise<TeamInvitation | null>;
+  abstract getInvite(invitationID: string): Promise<TeamInvitation | null>;
 
   /**
    * Delete a pending team invitation.
    */
-  abstract deleteInvite(invitationID: number): Promise<void>;
+  abstract deleteInvite(invitationID: string): Promise<void>;
 }

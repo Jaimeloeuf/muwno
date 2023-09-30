@@ -67,7 +67,7 @@ Table task {
 }
 
 Table team_member_invitation {
-  id Int [pk, increment]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   inviteeEmail String [unique, not null]
   inviter user [not null]

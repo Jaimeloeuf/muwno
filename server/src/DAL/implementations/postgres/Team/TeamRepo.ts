@@ -35,6 +35,7 @@ export class TeamRepo implements ITeamRepo {
   }
 
   async createInvite(
+    invitationID: string,
     inviterUserID: UserID,
     orgID: OrgID,
     createOneTeamMemberInvitationDTO: CreateOneTeamMemberInvitationDTO,
@@ -42,6 +43,7 @@ export class TeamRepo implements ITeamRepo {
     // Using an upsert to ensure that duplicates wont be created
     await this.db.team_member_invitation.upsert({
       create: {
+        id: invitationID,
         inviteeEmail: createOneTeamMemberInvitationDTO.inviteeEmail,
         inviterID: inviterUserID,
         orgID,
@@ -70,7 +72,7 @@ export class TeamRepo implements ITeamRepo {
       .then(mapToTeamInvitations);
   }
 
-  async getInvite(invitationID: number) {
+  async getInvite(invitationID: string) {
     return this.db.team_member_invitation
       .findUnique({
         where: { id: invitationID },
@@ -82,7 +84,7 @@ export class TeamRepo implements ITeamRepo {
       .then(runMapperIfNotNull(mapToTeamInvitation));
   }
 
-  async deleteInvite(invitationID: number) {
+  async deleteInvite(invitationID: string) {
     await this.db.team_member_invitation.delete({
       where: { id: invitationID },
     });
