@@ -6,6 +6,7 @@ import { StripeCustomerService } from '../../stripe/services/customer.service.js
 import {
   IAuthService,
   ITransactionalEmailService,
+  IAdminNotifService,
 } from '../../../infra/index.js';
 
 // Entity Types
@@ -26,6 +27,7 @@ export class OrgService {
     private readonly stripeCustomerService: StripeCustomerService,
     private readonly authService: IAuthService,
     private readonly transactionalEmailService: ITransactionalEmailService,
+    private readonly adminNotifService: IAdminNotifService,
   ) {}
 
   /**
@@ -76,6 +78,7 @@ export class OrgService {
     await this.stripeCustomerService.createCustomer(org);
 
     this.transactionalEmailService.newOrgCreated(org.email, org.name);
+    this.adminNotifService.orgCreated(org.id, createOneOrgDTO);
 
     return org;
   }

@@ -25,6 +25,7 @@ import {
 import { StripeClient } from '../infra/stripe-client.js';
 import { StripeSetupintentService } from '../services/setupintent.service.js';
 import { SubscriptionService } from '../../subscription/services/subscription.service.js';
+import { IAdminNotifService } from '../../../infra/index.js';
 
 // Entity Types
 import type {
@@ -52,6 +53,7 @@ export class StripeWebhookController {
     private readonly stripe: StripeClient,
     private readonly subscriptionService: SubscriptionService,
     private readonly stripeSetupintentService: StripeSetupintentService,
+    private readonly adminNotifService: IAdminNotifService,
 
     configService: ConfigService<EnvironmentVariables, true>,
   ) {
@@ -143,15 +145,14 @@ export class StripeWebhookController {
     // crashing the process since handleEvent is ran out of the normal NestJS
     // callstack with setTimeout and cant be handled by it.
     setTimeout(() =>
-      this.handleEvent(event).catch((error) =>
-        this.logger.error(
-          `Error while handling ${
-            event.livemode ? 'live' : 'test'
-          } Stripe event: ${event.type} -> ${event.id}`,
-          error,
-          StripeWebhookController.name,
-        ),
-      ),
+      this.handleEvent(event).catch((error) => {
+        const errMsg = `Error while handling ${
+          event.livemode ? 'live' : 'test'
+        } Stripe event: ${event.type} -> ${event.id}`;
+
+        this.logger.error(errMsg, error, StripeWebhookController.name);
+        this.adminNotifService.webhookError(errMsg, error);
+      }),
     );
   }
 
@@ -282,12 +283,11 @@ export class StripeWebhookController {
           invoice.customer,
         );
 
-      // @todo Send admins details to investigate and manually recouncil this
-      if (stripeCustomer === null) {
+      // Include details for admin to investigate and manually recouncil.
+      if (stripeCustomer === null)
         throw new Error(
-          `${event.id}-${event.type}-${invoice.subscription}-${invoice.customer}-${invoice.customer_email}`,
+          `Cannot find StripeCustomer ${invoice.customer}, ${invoice.customer_email} in DB after they paid for ${invoice.subscription}`,
         );
-      }
 
       // Provision access to the product
       await this.subscriptionService.activateSubscription(stripeCustomer.orgID);
@@ -296,6 +296,24 @@ export class StripeWebhookController {
         `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, paid for ${invoice.subscription}`,
         StripeWebhookController.name,
       );
+
+      const stripeInvoiceData = event.data.object as Stripe.Invoice;
+
+      // @todo If invoiceUrl contains all the data needed already, then dont have
+      // to send all the other data to chat.
+      this.adminNotifService.webhookPaid({
+        customerName: stripeInvoiceData.customer_name ?? 'UNDEFINED',
+        amountPaid: stripeInvoiceData.amount_paid,
+        currency: stripeInvoiceData.currency,
+        orgID: stripeCustomer.orgID,
+        stripeCustomerID: stripeCustomer.id,
+        customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
+        customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
+        subscriptionID: invoice.subscription,
+        subscriptionDetails: (stripeInvoiceData.subscription_details ??
+          '') as string,
+        invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
+      });
     },
 
     // ==================== Deactivate Subscription Events ====================
@@ -328,22 +346,38 @@ export class StripeWebhookController {
           invoice.customer,
         );
 
-      // @todo Send admins details to investigate and manually recouncil this
-      if (stripeCustomer === null) {
+      if (stripeCustomer === null)
         throw new Error(
-          `${event.id}-${event.type}-${invoice.id}-${invoice.customer}`,
+          `Cannot find StripeCustomer ${invoice.customer} in DB after they failed to pay ${invoice.id}`,
         );
-      }
+
+      // Stop provisioning access to the product
+      await this.subscriptionService.deactivateSubscription(
+        stripeCustomer.orgID,
+      );
 
       this.logger.verbose(
         `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, did not pay invoice ${invoice.id}`,
         StripeWebhookController.name,
       );
 
-      // Stop provisioning access to the product
-      await this.subscriptionService.deactivateSubscription(
-        stripeCustomer.orgID,
-      );
+      const stripeInvoiceData = event.data.object as Stripe.Invoice;
+
+      // @todo If invoiceUrl contains all the data needed already, then dont have
+      // to send all the other data to chat.
+      this.adminNotifService.webhookPaymentFailed({
+        customerName: stripeInvoiceData.customer_name ?? 'UNDEFINED',
+        amountPaid: stripeInvoiceData.amount_paid,
+        currency: stripeInvoiceData.currency,
+        orgID: stripeCustomer.orgID,
+        stripeCustomerID: stripeCustomer.id,
+        customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
+        customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
+        subscriptionID: invoice.subscription,
+        subscriptionDetails: (stripeInvoiceData.subscription_details ??
+          '') as string,
+        invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
+      });
     },
 
     /**
@@ -362,22 +396,20 @@ export class StripeWebhookController {
           subscription.customer,
         );
 
-      // @todo Send admins details to investigate and manually recouncil this
-      if (stripeCustomer === null) {
+      // Include details for admin to investigate and manually recouncil.
+      if (stripeCustomer === null)
         throw new Error(
-          `${event.id}-${event.type}-${subscription.id}-${subscription.customer}`,
+          `Cannot find StripeCustomer ${subscription.customer} in DB after they delete subscription ${subscription.id}`,
         );
-      }
-
-      this.logger.verbose(
-        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, ended their subscription ${subscription.id}`,
-        StripeWebhookController.name,
-      );
 
       // Stop provisioning access to the product
       await this.subscriptionService.deactivateSubscription(
         stripeCustomer.orgID,
       );
+
+      const msg = `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, ended their subscription ${subscription.id}`;
+      this.logger.verbose(msg, StripeWebhookController.name);
+      this.adminNotifService.custom(msg);
     },
 
     /**
@@ -397,22 +429,19 @@ export class StripeWebhookController {
           subscriptionSchedule.customer,
         );
 
-      // @todo Send admins details to investigate and manually recouncil this
-      if (stripeCustomer === null) {
+      if (stripeCustomer === null)
         throw new Error(
-          `${event.id}-${event.type}-${subscriptionSchedule.id}-${subscriptionSchedule.customer}`,
+          `Cannot find StripeCustomer ${subscriptionSchedule.customer} in DB after they cancelled ${subscriptionSchedule.id}`,
         );
-      }
-
-      this.logger.verbose(
-        `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, subscription schedule cancelled ${subscriptionSchedule.id}`,
-        StripeWebhookController.name,
-      );
 
       // Stop provisioning access to the product
       await this.subscriptionService.deactivateSubscription(
         stripeCustomer.orgID,
       );
+
+      const msg = `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, subscription schedule cancelled ${subscriptionSchedule.id}`;
+      this.logger.verbose(msg, StripeWebhookController.name);
+      this.adminNotifService.custom(msg);
     },
 
     // =================== Other Subscription related Events ===================

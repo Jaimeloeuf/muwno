@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { IUserRepo } from '../../../DAL/index.js';
-import { ITransactionalEmailService } from '../../../infra/index.js';
+import {
+  ITransactionalEmailService,
+  IAdminNotifService,
+} from '../../../infra/index.js';
 
 // Entity Types
 import type { User, UserID } from 'domain-model';
@@ -17,6 +20,7 @@ export class UserService {
   constructor(
     private readonly userRepo: IUserRepo,
     private readonly transactionalEmailService: ITransactionalEmailService,
+    private readonly adminNotifService: IAdminNotifService,
   ) {}
 
   /**
@@ -52,6 +56,11 @@ export class UserService {
     });
 
     this.transactionalEmailService.welcomeNewUser(email, createOneUserDTO.name);
+    this.adminNotifService.userSignup(
+      createOneUserDTO.name,
+      email,
+      createOneUserDTO.phone,
+    );
 
     return user;
   }
