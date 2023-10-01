@@ -4,6 +4,8 @@ import { Module, Global, Logger, type Provider } from '@nestjs/common';
 import { RepoModule } from '../DAL/repo.module.js';
 import {
   AuthServiceProvider,
+  TelegramBotProvider,
+  AdminNotifServiceProvider,
   TransactionalEmailServiceProvider,
 } from '../infra/index.js';
 
@@ -14,6 +16,8 @@ import {
 const GloballySharedProviders: Provider[] = [
   Logger,
   AuthServiceProvider,
+  TelegramBotProvider,
+  AdminNotifServiceProvider,
   TransactionalEmailServiceProvider,
 ];
 

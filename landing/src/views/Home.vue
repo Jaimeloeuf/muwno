@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useLoader } from "../store";
+import type { CreateOneContactFormSubmissionDTO } from "@domain-model";
 
 const loginLink = "https://portal.thepmftool.com";
 const signupLink = "https://portal.thepmftool.com/#/signup";
@@ -25,7 +26,7 @@ async function submitMessage() {
       .useDefault()
       .POST("/landing/contact-form/submit")
       .useHeader({ "x-recaptcha-token": await getRecaptchaToken("contactUs") })
-      .bodyJSON({
+      .bodyJSON<CreateOneContactFormSubmissionDTO>({
         name: name.value,
         email: email.value,
         message: message.value,

@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 
 import { GuardWithRecaptcha } from '../../../guards/index.js';
 
-import { ITelegramBotService } from '../../../infra/index.js';
+import { IAdminNotifService } from '../../../infra/index.js';
 
 // DTO Validators
 import { ValidatedContactFormDetailsDTO } from '../dto-validation/ValidatedContactFormDetailsDTO.js';
@@ -14,19 +14,14 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 @GuardWithRecaptcha()
 @UseHttpControllerFilters
 export class LandingController {
-  constructor(private readonly telegramBotService: ITelegramBotService) {}
+  constructor(private readonly adminNotifService: IAdminNotifService) {}
 
   /**
    * API Endpoint for contact us form submission from landing page.
    */
   @Post('contact-form/submit')
   async createUser(@Body() details: ValidatedContactFormDetailsDTO) {
-    await this.telegramBotService.notifyAdmin(
-      `<b>ContactForm</b>
-Name: ${details.name}
-Email: ${details.email}
-Message: ${details.message}`,
-    );
+    await this.adminNotifService.landingPageContactForm(details);
 
     // Return empty object so that client can parse as JSON
     return {};
