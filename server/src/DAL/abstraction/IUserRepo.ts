@@ -1,6 +1,9 @@
 import type { User, UserID } from 'domain-model';
 
-export type DBCreateOneUserDTO = Omit<User, 'createdAt' | 'deactivated'>;
+export type DBCreateOneUserDTO = Omit<
+  User,
+  'orgID' | 'createdAt' | 'deactivated'
+> & { org_id: string | null };
 
 /**
  * Data Repository interface used as an abstraction over a collection of
@@ -28,7 +31,12 @@ export abstract class IUserRepo {
   /**
    * Create a new User in data source
    */
-  abstract createOne(createOneUserDTO: DBCreateOneUserDTO): Promise<User>;
+  abstract createOne(
+    /**
+     * `org_id` and `role` always default to null on new user creation
+     */
+    createOneUserDTO: Omit<DBCreateOneUserDTO, 'org_id' | 'role'>,
+  ): Promise<User>;
 
   /**
    * Update a User in data source

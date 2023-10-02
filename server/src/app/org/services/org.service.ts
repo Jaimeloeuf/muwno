@@ -66,7 +66,7 @@ export class OrgService {
 
     // Update User Entity to add Role and OrgID
     await this.userRepo.updateOne(userID, {
-      orgID: org.id,
+      org_id: org.id,
       role: Role.OrgOwner,
     });
 

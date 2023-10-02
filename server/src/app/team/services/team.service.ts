@@ -115,7 +115,7 @@ export class TeamService {
 
     // Update invitee's OrgID and Role in data source
     await this.userRepo.updateOne(inviteeID, {
-      orgID: invitation.team.id,
+      org_id: invitation.team.id,
       role: Role.OrgUser,
     });
 
