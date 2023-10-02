@@ -14,6 +14,16 @@ const name = ref<string>("");
 async function addProduct() {
   if (name.value === "") return alert("Product Name cannot be empty!");
 
+  if (
+    Object.values(productStore.products).some(
+      (product) => product.name === name.value
+    ) &&
+    !confirm(
+      "Product Name is already used, are you sure you want to add a new Product with the same name?"
+    )
+  )
+    return;
+
   loader.show();
 
   const { id } = await productStore.createNewProduct(name.value);
