@@ -43,7 +43,9 @@ Address: ${createOneOrgDTO.address}`);
   }
 
   async webhookError(errMsg: string, error: Error) {
-    return this.telegramBotService.notifyAdmin(`<b>${errMsg}</b>
+    return this.telegramBotService.notifyAdmin(`<b>Stripe Webhook Error</b>
+
+${errMsg}
 
 ${error}`);
   }
@@ -51,27 +53,29 @@ ${error}`);
   async webhookPaid(details: AdminNotificationWebhookPaymentDetails) {
     return this.telegramBotService.notifyAdmin(`<b>Paid!</b>
 
-${details.customerName} paid ${details.currency} ${details.amountPaid}
+${details.customerName} paid ${details.currency} ${(
+      details.amountPaid / 100
+    ).toFixed(2)}
 
 Invoice: ${details.invoiceUrl}
 
 OrgID: ${details.orgID}
 StripeCustomerID: ${details.stripeCustomerID}
-For: ${details.subscriptionID}
-Details: ${details.subscriptionDetails}`);
+For: ${details.subscriptionID}`);
   }
 
   async webhookPaymentFailed(details: AdminNotificationWebhookPaymentDetails) {
     return this.telegramBotService.notifyAdmin(`<b>Payment Failed!</b>
 
-${details.customerName} failed to pay ${details.currency} ${details.amountPaid}
+${details.customerName} failed to pay ${details.currency} ${(
+      details.amountPaid / 100
+    ).toFixed(2)}
 
 Invoice: ${details.invoiceUrl}
 
 OrgID: ${details.orgID}
 StripeCustomerID: ${details.stripeCustomerID}
-For: ${details.subscriptionID}
-Details: ${details.subscriptionDetails}`);
+For: ${details.subscriptionID}`);
   }
 
   async custom(msg: string) {

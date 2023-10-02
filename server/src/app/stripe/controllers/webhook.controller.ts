@@ -310,8 +310,6 @@ export class StripeWebhookController {
         customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
         customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
         subscriptionID: invoice.subscription,
-        subscriptionDetails: (stripeInvoiceData.subscription_details ??
-          '') as string,
         invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
       });
     },
@@ -374,8 +372,6 @@ export class StripeWebhookController {
         customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
         customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
         subscriptionID: invoice.subscription,
-        subscriptionDetails: (stripeInvoiceData.subscription_details ??
-          '') as string,
         invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
       });
     },

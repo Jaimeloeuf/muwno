@@ -13,7 +13,6 @@ export type AdminNotificationWebhookPaymentDetails = {
   customerEmail: string;
   customerPhone: string;
   subscriptionID: string;
-  subscriptionDetails: string;
   invoiceUrl: string;
 };
 
