@@ -51,4 +51,9 @@ export abstract class IProductRepo {
     orgID: OrgID,
     createOneProductDTO: CreateOneProductDTO,
   ): Promise<Product>;
+
+  /**
+   * Delete a single product.
+   */
+  abstract deleteOne(productID: ProductID): Promise<void>;
 }

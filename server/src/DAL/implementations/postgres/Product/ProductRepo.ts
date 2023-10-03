@@ -107,4 +107,8 @@ export class ProductRepo implements IProductRepo {
       .create({ data: { ...createOneProductDTO, id, org_id } })
       .then(mapProductModelToEntity);
   }
+
+  async deleteOne(productID: ProductID) {
+    await this.db.product.delete({ where: { id: productID } });
+  }
 }

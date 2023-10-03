@@ -104,4 +104,12 @@ export class ProductService {
 
     return this.productRepo.createOne(ulid(), org.id, createOneProductDTO);
   }
+
+  /**
+   * Delete a single product.
+   */
+  async deleteProduct(userID: UserID, productID: ProductID): Promise<void> {
+    await this.validateUserAccess(userID, productID);
+    await this.productRepo.deleteOne(productID);
+  }
 }

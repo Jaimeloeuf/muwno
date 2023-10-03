@@ -123,5 +123,21 @@ export const useProduct = defineStore("product", {
 
       return product;
     },
+
+    /**
+     * Delete a product and clear it from cache.
+     */
+    async deleteProduct(productID: ProductID) {
+      const { res, err } = await sf
+        .useDefault()
+        .DEL(`/product/${productID}`)
+        .useHeader(getAuthHeader)
+        .runJSON();
+
+      if (err) throw err;
+      if (!res.ok) throw new Error(`Failed to delete: ${JSON.stringify(res)}`);
+
+      delete this.products[productID];
+    },
   },
 });

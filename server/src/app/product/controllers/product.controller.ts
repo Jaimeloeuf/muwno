@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
@@ -6,10 +6,13 @@ import {
   GuardWithRBAC,
   AllowAllRoles,
   JWT_uid,
+  RolesRequired,
+  StrictRBAC,
 } from '../../../guards/index.js';
 
 // Entity Types
 import type { FirebaseAuthUID, ProductID } from 'domain-model';
+import { Role } from 'domain-model';
 
 // DTO Types
 import type { ReadOneProductDTO, ReadManyProductDTO } from 'domain-model';
@@ -65,5 +68,22 @@ export class ProductController {
     return this.productService
       .createProduct(userID, createOneProductDTO)
       .then((product) => ({ product }));
+  }
+
+  /**
+   * Delete a single product.
+   */
+  @Delete(':productID')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  @StrictRBAC
+  async deleteProduct(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Param('productID') productID: ProductID,
+  ) {
+    await this.productService.deleteProduct(userID, productID);
+
+    // Return empty object so that client can parse as JSON,
+    // in case there is any errors thrown and returned as JSON.
+    return {};
   }
 }
