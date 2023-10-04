@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import { useNotif } from "../../store";
 
-const notif = useNotif();
+const notifStore = useNotif();
 
-const numberOfLoops = notif._timeoutInMilliSeconds / 10;
+const notif = notifStore.snackBarMessages[0] ?? { msg: "", timeout: 0 };
+
+const numberOfLoops = notif.timeout / 10;
 const stepPerLoop = 100 / numberOfLoops;
 
 const progressBarProgress = ref(0);
@@ -21,11 +23,11 @@ const progressBarInterval = setInterval(() => {
       class="w-full max-w-xl rounded-lg border border-zinc-200 bg-zinc-50 shadow-2xl drop-shadow-2xl sm:min-w-[24rem]"
     >
       <div class="flex flex-row justify-between p-4">
-        <p class="pr-6">{{ notif.snackBarMessage }}</p>
+        <p class="pr-6">{{ notif.msg }}</p>
         <button
           type="button"
           class="whitespace-nowrap font-medium text-zinc-700 underline"
-          @click="notif.hideSnackbar"
+          @click="notifStore.hideSnackbar"
         >
           Got it
         </button>
