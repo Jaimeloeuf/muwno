@@ -3,12 +3,12 @@ import type { Task } from 'domain-model';
 
 export const mapTaskModelToEntity = (taskModel: TaskModel): Task => ({
   id: taskModel.id,
-  productID: taskModel.productID,
-  responseID: taskModel.responseID,
+  productID: taskModel.product_id,
+  responseID: taskModel.response_id,
   task: taskModel.task,
   done: taskModel.done,
 
-  createdAt: taskModel.createdAt.toISOString(),
+  createdAt: taskModel.created_at.toISOString(),
 
   // Type cast is safe here since there is validation on DB write already.
   score: taskModel.score as 1 | 2 | 3,
