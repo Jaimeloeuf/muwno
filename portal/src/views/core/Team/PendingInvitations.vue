@@ -8,7 +8,7 @@ import {
   useLoader,
   useNotif,
 } from "../../../store";
-import { OrgRoute } from "../../../router";
+import { AllProductRoute } from "../../../router";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import BackButton from "../../components/BackButton.vue";
 
@@ -18,7 +18,7 @@ const userStore = useUser();
 const loader = useLoader();
 const notif = useNotif();
 
-async function acceptInvitation(invitationID: number) {
+async function acceptInvitation(invitationID: string) {
   loader.show();
 
   const { res, err } = await sf
@@ -37,10 +37,10 @@ async function acceptInvitation(invitationID: number) {
 
   loader.hide();
 
-  router.push({ name: OrgRoute.name });
+  router.push({ name: AllProductRoute.name });
 }
 
-async function rejectInvitation(invitationID: number) {
+async function rejectInvitation(invitationID: string) {
   loader.show();
 
   const { res, err } = await sf

@@ -57,9 +57,7 @@ const product = await productStore.getProduct(props.productID);
         </router-link>
       </div>
 
-      <div
-        class="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:items-stretch"
-      >
+      <div class="grid gap-6 lg:grid-cols-2 2xl:grid-cols-3">
         <SurveyMethodCard
           v-for="(surveyMethod, i) in SurveyMethodsArray"
           :key="surveyMethod.id"

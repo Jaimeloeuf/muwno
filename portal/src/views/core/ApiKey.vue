@@ -2,10 +2,11 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useOrg, useLoader, useNotif } from "../../store";
+import { useOrg, useUser, useLoader, useNotif } from "../../store";
 import SideDrawerButton from "../components/SideDrawerButton.vue";
 import CopyOnClick from "../components/CopyOnClick.vue";
 import { getDateString } from "../../utils/date-formatting/getDateString";
+import { Role } from "@domain-model";
 import type {
   ReadManyApiKeyDTO,
   ReadOneApiKeyDTO,
@@ -13,10 +14,13 @@ import type {
 } from "@domain-model";
 
 const orgStore = useOrg();
+const userStore = useUser();
 const loader = useLoader();
 const notif = useNotif();
 
 const org = await orgStore.getOrg();
+const user = await userStore.getUser();
+const isAdmin = user.role === Role.OrgOwner || user.role === Role.OrgAdmin;
 
 const showModal = ref(false);
 const newApiKey = ref<string | null>(null);
@@ -115,7 +119,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
 
     <div class="mx-auto w-full max-w-5xl">
       <div
-        class="flex flex-col justify-between border-b border-zinc-200 pb-6 sm:flex-row sm:items-center"
+        class="flex flex-col justify-between gap-3 border-b border-zinc-200 pb-6 sm:flex-row sm:items-center"
       >
         <p v-if="apiKeyDetails.length === 0" class="text-2xl font-thin">
           No API Keys right now.
@@ -125,20 +129,24 @@ const apiKeyDetails = ref(await getApiKeyDetails());
         </p>
 
         <button
+          v-if="isAdmin"
           class="rounded-lg border border-green-600 p-2 px-6 text-green-600"
           @click="createApiKey"
         >
           Create new API key
         </button>
+        <div v-else class="rounded-lg border border-zinc-200 p-2 px-4">
+          Only Admins can create new API keys
+        </div>
       </div>
 
       <template v-if="apiKeyDetails.length !== 0">
         <div
           v-for="(apiKeyDetail, i) in apiKeyDetails"
           :key="i"
-          class="flex w-full flex-col items-center border-b border-zinc-200 p-4 text-left text-xl font-light sm:flex-row"
+          class="flex w-full flex-col gap-3 border-t border-zinc-200 p-4 text-xl font-light sm:flex-row sm:items-center sm:justify-between"
         >
-          <p class="mr-6">
+          <p class="pr-4">
             {{ i + 1 }}. <i>{{ apiKeyDetail.prefix }}</i>
           </p>
 
@@ -146,9 +154,10 @@ const apiKeyDetails = ref(await getApiKeyDetails());
             Created By <u>{{ apiKeyDetail.createdBy }}</u>
           </p>
 
-          <p class="mr-2">{{ getDateString(apiKeyDetail.createdAt) }}</p>
+          <p>{{ getDateString(apiKeyDetail.createdAt) }}</p>
 
           <button
+            v-if="isAdmin"
             class="rounded-lg border border-red-700 px-2 py-0.5 font-extralight text-red-700"
             @click="deleteApiKey(apiKeyDetail.id)"
           >

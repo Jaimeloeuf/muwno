@@ -47,7 +47,7 @@ export const useTeamInvitation = defineStore("team-invitation", {
      * Removes the locally cached invitation so the UI will not be out of sync
      * with the data in the API service.
      */
-    removeInvitation(invitationID: number) {
+    removeInvitation(invitationID: string) {
       this.invitations = this.invitations.filter(
         (invitation) => invitation.id !== invitationID
       );

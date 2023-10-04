@@ -10,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="w-full max-w-lg rounded-lg border border-zinc-200 p-6 font-light">
+  <div class="w-full rounded-lg border border-zinc-200 p-6 font-light">
     <div
       class="mb-6 flex flex-row items-center justify-between border-b border-zinc-200 pb-3"
     >

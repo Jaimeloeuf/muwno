@@ -5,6 +5,7 @@ import { ApiKeyService } from '../services/apikey.service.js';
 import {
   GuardWithRBAC,
   RolesRequired,
+  AllowAllRoles,
   JWT_uid,
 } from '../../../guards/index.js';
 
@@ -28,7 +29,7 @@ export class ApiKeyController {
    * Get all API Key Detail objects of the user's Org.
    */
   @Get('details')
-  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  @AllowAllRoles
   async getApiKeyDetails(
     @JWT_uid requestorID: FirebaseAuthUID,
   ): Promise<ReadManyApiKeyDTO> {

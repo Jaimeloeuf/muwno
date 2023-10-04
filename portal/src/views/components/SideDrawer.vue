@@ -72,11 +72,7 @@ function closeAndLogout() {
           <span class="ml-3 flex-1 text-left">Customers</span>
         </router-link>
 
-        <p
-          class="mb-2 mt-6 w-full border-b border-zinc-200 pb-1 text-center font-extralight"
-        >
-          More
-        </p>
+        <div class="mb-4 mt-8 w-full border-b border-zinc-200"></div>
 
         <router-link
           :to="{ name: OrgUsageRoute.name }"
