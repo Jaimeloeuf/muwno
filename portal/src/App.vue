@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from "vue";
-import { useRouter } from "vue-router";
 
 import { useLoader, useNotif } from "./store";
 import GlobalErrorView from "./views/GlobalError.vue";
@@ -8,7 +7,6 @@ import SideDrawer from "./views/components/SideDrawer.vue";
 import Loader from "./views/components/Loader.vue";
 import Snackbar from "./views/components/Snackbar.vue";
 
-const router = useRouter();
 const loader = useLoader();
 const notif = useNotif();
 
@@ -18,26 +16,25 @@ onErrorCaptured((e) => {
 });
 
 /**
- * Clear the global error flag and navigate to the last working page.
+ * Clear the global error flag and loader.
  */
 function clearError() {
-  // Navigate back to the last working page
-  router.back();
-
-  // Clear the global error flag.
+  // This is wrapped in setTimeout because if the 'v-if' conditional rendering
+  // updates before the `router.back()` can change the router-view's dynamic
+  // component, the router-view component is showed again with the page that
+  // errored before it is navigated away will cause the error to be thrown and
+  // bubbled up here again, even if the URL has changed to navigate user to the
+  // last working page, it still shows the global error view component.
   //
-  // This needs to be wrapped in a setTimeout because the v-if conditional
-  // rendering updates before the `router.back()` can change the router-view's
-  // dynamic component, which means that the router-view component is showed
-  // again with the page that errored before it is navigated away. This causes
-  // the error to be thrown and bubbled up here again, even if the URL has
-  // changed to navigate the user to the last working page, it still shows
-  // the global error view component.
-  //
-  // The 100 milliseconds timeout value is arbitrary, it needs to be long
-  // enough for the router-back update to take effect but not too long that it
-  // seems like the clear error action froze, and 100ms is a good in between.
+  // The 100 milliseconds timeout value is arbitrary, it needs to be long enough
+  // for the router-back update to take effect but not too long that it seems
+  // like the clear error action froze, and 100ms is a good in between.
   setTimeout(() => (globalError.value = null), 100);
+
+  // Clears any loader still shown too, since an error might be thrown before
+  // loader can be hidden again, making it always show the loader even after
+  // the error is cleared.
+  loader.hide();
 }
 </script>
 

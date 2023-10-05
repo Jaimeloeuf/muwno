@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import { AllProductRoute } from "../router";
 
 defineProps<{ globalError: Error }>();
 
 defineEmits(["acknowledged"]);
+
+const router = useRouter();
 </script>
 
 <template>
@@ -35,7 +38,7 @@ defineEmits(["acknowledged"]);
 
       <button
         class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-xl text-zinc-800"
-        @click="$emit('acknowledged')"
+        @click="router.back(), $emit('acknowledged')"
       >
         Back
       </button>
@@ -43,6 +46,7 @@ defineEmits(["acknowledged"]);
       <router-link
         :to="{ name: AllProductRoute.name }"
         class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-xl text-zinc-800"
+        @click="$emit('acknowledged')"
       >
         Home
       </router-link>
