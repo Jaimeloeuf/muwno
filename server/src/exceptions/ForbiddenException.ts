@@ -1,6 +1,10 @@
 /**
- * Throw Generic Exception if Service Layer encounters a Forbidden action,
- * usually due to lack of authorization / permission to perform said action.
+ * Throw Generic ForbiddenException if Service Layer encounters a forbidden
+ * action / operation, usually due to the fact that the requestor of that
+ * operation does not have authorization or sufficient permission to do so,
+ * such as deleting other organisation's acc.
+ *
+ * The exception filter used should convert this to HTTP UnauthorizedException.
  */
 export class ForbiddenException extends Error {
   /**
@@ -9,7 +13,7 @@ export class ForbiddenException extends Error {
   constructor(optionalMessage?: string) {
     const message = optionalMessage
       ? optionalMessage
-      : `Forbidden Service Request`;
+      : `Forbidden/Unauthorized Service Request`;
 
     super(message);
   }

@@ -1,6 +1,8 @@
 import { UseFilters } from '@nestjs/common';
 
 /* Exception filters for generic service level exceptions */
+import { ServiceExceptionFilter } from './ServiceExceptionFilter.js';
+import { ConflictExceptionFilter } from './ConflictExceptionFilter.js';
 import { NotFoundExceptionFilter } from './NotFoundExceptionFilter.js';
 import { ForbiddenExceptionFilter } from './ForbiddenExceptionFilter.js';
 import { InvalidInputExceptionFilter } from './InvalidInputExceptionFilter.js';
@@ -8,6 +10,7 @@ import { InvalidOperationExceptionFilter } from './InvalidOperationExceptionFilt
 import { InvalidInternalStateExceptionFilter } from './InvalidInternalStateExceptionFilter.js';
 
 /* Custom exception filters from other sources */
+import { PrismaClientExceptionFilter } from './PrismaClientExceptionFilter.js';
 import { FirebaseAuthExceptionFilter } from '../infra/implementations/index.js';
 
 /**
@@ -20,6 +23,8 @@ import { FirebaseAuthExceptionFilter } from '../infra/implementations/index.js';
  */
 export const UseHttpControllerFilters = UseFilters(
   // Generic exception filters
+  ServiceExceptionFilter,
+  ConflictExceptionFilter,
   NotFoundExceptionFilter,
   ForbiddenExceptionFilter,
   InvalidInputExceptionFilter,
@@ -27,5 +32,6 @@ export const UseHttpControllerFilters = UseFilters(
   InvalidInternalStateExceptionFilter,
 
   // Custom exception filters
+  PrismaClientExceptionFilter,
   FirebaseAuthExceptionFilter,
 );
