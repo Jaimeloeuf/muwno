@@ -14,6 +14,7 @@
     "prebuild": "npx rimraf dist .tsbuildinfo",
     "build": "nest build --path tsconfig.build.json",
     "postbuild": "node ./scripts/createServerVersion.mjs",
+    "build:domain": "npx tsc --project tsconfig.domain.json",
     "format": "npx prettier --write \"./**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "docker:clean-build": "npm run docker:build -- --no-cache",

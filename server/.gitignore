@@ -1,12 +1,12 @@
 # compiled output
-/dist
+/dist*
 /node_modules
 
 # env vars
 *.env
 
 # Ignore the tsbuildinfo file used by tsc to cache build info to rebuild faster
-.tsbuildinfo
+.tsbuildinfo*
 
 # Logs
 logs

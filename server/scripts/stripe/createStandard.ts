@@ -5,7 +5,7 @@ import { createFlatPrice } from './utils/createFlatPrice';
 import { dollarsToUnitAmount } from './utils/dollarsToUnitAmount';
 import type { CreateIdempotentKey } from './utils/createIdempotentKeyFF';
 
-import { PlanDetails } from 'domain-model';
+import { PlanDetails } from '../../dist-domain';
 
 /**
  * Create `Standard` product and prices

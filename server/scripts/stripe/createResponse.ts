@@ -4,7 +4,7 @@ import { createProduct } from './utils/createProduct';
 import { createMonthlyGraduatedPrice } from './utils/createMonthlyGraduatedPrice';
 import type { CreateIdempotentKey } from './utils/createIdempotentKeyFF';
 
-import { PlanDetails } from 'domain-model';
+import { PlanDetails } from '../../dist-domain';
 
 /**
  * Create `Response` product and prices

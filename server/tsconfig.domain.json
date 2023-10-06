@@ -1,0 +1,24 @@
+/*
+  This tsconfig should only be used for building the domain model.
+*/
+
+{
+  "extends": "./tsconfig.json",
+
+  // Override base tsconfig to include only required files.
+  "include": ["src/domain/**/*"],
+
+  "compilerOptions": {
+    "outDir": "./dist-domain",
+
+    // Generate declaration and sourceMap since this is used as a standalone lib
+    "declaration": true,
+    "sourceMap": true,
+    "removeComments": false,
+
+    // Enable build caching to have faster builds, and keep buildinfo file out
+    // of dist/ and separate from the main .tsbuildinfo
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo-domain"
+  }
+}
