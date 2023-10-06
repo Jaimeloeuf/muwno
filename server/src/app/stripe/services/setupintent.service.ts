@@ -16,7 +16,10 @@ import type { SetupIntent } from '../../../types/index.js';
 import type { CreateOneStripeSetupNextDTO } from 'domain-model';
 
 // Exceptions
-import { InvalidInternalStateException } from '../../../exceptions/index.js';
+import {
+  InvalidInternalStateException,
+  ServiceException,
+} from '../../../exceptions/index.js';
 
 @Injectable()
 export class StripeSetupintentService {
@@ -58,7 +61,9 @@ export class StripeSetupintentService {
       });
 
     if (clientSecret === null)
-      throw new Error(`Failed to get Stripe Setup Intent Client Secret.`);
+      throw new ServiceException(
+        `Failed to get Stripe Setup Intent Client Secret.`,
+      );
 
     // If user requested for a next action, save to DB.
     if (createOneStripeSetupNextDTO.next !== null)
@@ -109,7 +114,7 @@ export class StripeSetupintentService {
 
     // This should not happen since all Next action types must be accounted for.
     else {
-      throw new Error(
+      throw new ServiceException(
         `Invalid StripeSetupNext success intent: ${stripeSetupNextAction.success.intent}`,
       );
     }

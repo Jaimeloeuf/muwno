@@ -18,6 +18,7 @@ import type { CreateOneTeamMemberInvitationDTO } from 'domain-model';
 import {
   InvalidOperationException,
   InvalidInternalStateException,
+  ServiceException,
   ForbiddenException,
 } from '../../../exceptions/index.js';
 
@@ -70,7 +71,8 @@ export class TeamService {
       createOneTeamMemberInvitationDTO,
     );
 
-    if (!inviteCreated) throw new Error('Failed to create team member invite');
+    if (!inviteCreated)
+      throw new ServiceException('Failed to create team member invite');
 
     this.transactionalEmailService.teamInvite(
       createOneTeamMemberInvitationDTO.inviteeEmail,

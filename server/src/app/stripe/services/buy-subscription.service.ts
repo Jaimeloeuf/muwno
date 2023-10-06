@@ -4,7 +4,10 @@ import type { Stripe } from 'stripe';
 import { StripeClient } from '../infra/stripe-client.js';
 
 // Exceptions
-import { InvalidInternalStateException } from '../../../exceptions/index.js';
+import {
+  InvalidInternalStateException,
+  ServiceException,
+} from '../../../exceptions/index.js';
 
 @Injectable()
 export class StripeBuySubscriptionService {
@@ -122,7 +125,7 @@ export class StripeBuySubscriptionService {
     // This might happen if 3DS requires user action and subscription cannot
     // complete, need to use `standardProductSubscription.pending_setup_intent`
     if (standardProductSubscription.status !== 'active')
-      throw new Error(
+      throw new ServiceException(
         `Subscription '${standardProductSubscription.id}' did not succeed: '${standardProductSubscription.status}'`,
       );
 
@@ -161,7 +164,7 @@ export class StripeBuySubscriptionService {
     // This might happen if 3DS requires user action and subscription cannot
     // complete, need to use `meteredProductSubscription.pending_setup_intent`
     if (meteredProductSubscription.status !== 'active')
-      throw new Error(
+      throw new ServiceException(
         `Subscription '${meteredProductSubscription.id}' did not succeed: '${meteredProductSubscription.status}'`,
       );
 

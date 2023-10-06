@@ -8,7 +8,10 @@ import { IOrgRepo, IStripeCustomerRepo } from '../../../DAL/index.js';
 import type { UserID, Org } from 'domain-model';
 
 // Exceptions
-import { InvalidInternalStateException } from '../../../exceptions/index.js';
+import {
+  InvalidInternalStateException,
+  ServiceException,
+} from '../../../exceptions/index.js';
 
 @Injectable()
 export class StripeCustomerService {
@@ -52,7 +55,9 @@ export class StripeCustomerService {
     });
 
     if (portalSession.url === null)
-      throw new Error(`Failed to get Stripe Customer Portal Session URL.`);
+      throw new ServiceException(
+        `Failed to get Stripe Customer Portal Session URL.`,
+      );
 
     return portalSession.url;
   }
