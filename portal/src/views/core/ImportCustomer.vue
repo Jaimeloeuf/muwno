@@ -1,8 +1,18 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { parse } from "papaparse";
+import { sf } from "simpler-fetch";
+import { getAuthHeader } from "../../firebase";
+import { useOrg, useLoader } from "../../store";
 import BackButton from "../components/BackButton.vue";
 
 const router = useRouter();
+const orgStore = useOrg();
+const loader = useLoader();
+
+const org = await orgStore.getOrg();
+const localFile = ref<File | null>(null);
 
 // Generate relative CSV url as cannot load from the URL directly in template.
 const customerTemplateUrl = new URL(
@@ -10,7 +20,57 @@ const customerTemplateUrl = new URL(
   import.meta.url
 ).href;
 
-async function parseUsers() {
+async function onFileChanged(event: Event) {
+  const target = event.target;
+  if (target === null) {
+    console.error("No target in onFileChanged event");
+    return;
+  }
+
+  const files = (target as HTMLInputElement).files;
+  if (files === null) {
+    console.error("No files in onFileChanged");
+    return;
+  }
+
+  const [file] = files;
+  if (file === undefined) {
+    console.error("Cannot get file in onFileChanged");
+    return;
+  }
+
+  localFile.value = file;
+}
+
+async function processFile() {
+  const file = localFile.value;
+  if (file === null) {
+    console.error("Missing file to process");
+    return;
+  }
+
+  loader.show();
+
+  const csvString = await file.text();
+  const result = parse<Array<string | undefined>>(csvString);
+
+  if (result.errors.length > 0) {
+    result.errors.forEach(console.error);
+    return;
+  }
+
+  const customers = [];
+
+  // Skip the 1st row of headers
+  for (let i = 1; i < result.data.length; i++) {
+    const [uid, name, email, phone] = result.data[i] ?? [];
+    customers.push({ uid, name, email, phone });
+  }
+
+  console.log(customers);
+
+  loader.hide();
+
   // @todo Accept a next route as URL Query
   router.back();
 }
@@ -20,31 +80,31 @@ async function parseUsers() {
   <div>
     <div class="mb-12 flex flex-row items-center border-b pb-4">
       <BackButton />
-      <span class="ml-4 text-4xl">Import Customers</span>
+      <span class="ml-4 text-4xl">Import Customers manually</span>
     </div>
 
     <div class="mx-auto w-full max-w-md">
       <div class="mb-10">
-        <p class="text-2xl">Import Customers manually</p>
-
         <!-- @todo Add a screenshot of the sample template -->
 
-        <p class="mb-6">
-          Download the template CSV, add in your customer details and upload it
-          to import users manually.
+        <p class="pb-2">
+          1. Download the template CSV, add in your customer details and upload
+          it to import users manually.
         </p>
 
         <a :href="customerTemplateUrl" download>
-          <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-xl">
+          <div
+            class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-center"
+          >
             Download Template CSV
           </div>
         </a>
       </div>
 
       <!-- @todo Change this into a file upload drop zone -->
-      <div class="mb-10">
+      <div>
         <label for="upload">
-          <label class="mb-2 block font-medium"> CSV with customer data </label>
+          <p class="pb-2">2. Upload CSV file filled with customer data</p>
 
           <div
             class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center"
@@ -64,25 +124,40 @@ async function parseUsers() {
               />
             </svg>
 
-            Upload
-            <input id="upload" type="file" class="hidden" />
+            Upload CSV File
+            <input
+              id="upload"
+              type="file"
+              class="hidden"
+              @change="onFileChanged($event)"
+            />
           </div>
         </label>
-      </div>
 
-      <div class="mb-10">
-        Customers you import will be saved automatically for you to reuse in the
-        future!
+        <div v-if="localFile" class="pt-2">
+          <p class="text-yellow-800">
+            Uploaded <i>{{ localFile.name }}</i>
+          </p>
+        </div>
       </div>
 
       <!-- @todo Add a youtube video to demo how to use it -->
 
-      <button
-        class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
-        @click="parseUsers"
-      >
-        Done
-      </button>
+      <div v-if="localFile !== null">
+        <hr class="my-10" />
+
+        <p class="pb-4">
+          Customers you import will be saved automatically for you to reuse in
+          the future!
+        </p>
+
+        <button
+          class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
+          @click="processFile"
+        >
+          Confirm
+        </button>
+      </div>
     </div>
   </div>
 </template>
