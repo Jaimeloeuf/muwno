@@ -7,13 +7,13 @@ export type Customer = {
   /**
    * Unique ID for this Customer in our system.
    */
-  uid: string;
+  id: string;
 
   /**
    * Customer's ID in the user's own system. A unique Customer ID string amongst
    * all of the Org's customers.
    */
-  id: string;
+  cid: string;
 
   /**
    * Time in which the Customer is created in our system.
