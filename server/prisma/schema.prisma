@@ -64,6 +64,9 @@ model org {
   // Relationship: ONE org, can have MANY products
   product product[]
 
+  // Relationship: ONE org, can have MANY Customers
+  customer customer[]
+
   // Relationship: ONE org, can have MANY pending team member invitations
   team_member_invitation team_member_invitation[]
 
@@ -174,6 +177,23 @@ model team_member_invitation {
   // Auto delete invitation if Org is deleted
   org    org    @relation(fields: [org_id], references: [id], onDelete: Cascade)
   org_id String
+}
+
+model customer {
+  id         String   @id
+  cid        String // Customer's ID within the Org's own system
+  created_at DateTime @default(now())
+  name       String?
+  email      String?
+  phone      String?
+
+  // Relationship: MANY customers belong to ONE Org
+  // Auto delete customers if Org is deleted
+  org    org    @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  org_id String
+
+  // cid should be unique within an Org.
+  @@unique([org_id, cid])
 }
 
 model stripe_webhook_event {
