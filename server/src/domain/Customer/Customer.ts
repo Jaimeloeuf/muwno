@@ -10,8 +10,8 @@ export type Customer = {
   uid: string;
 
   /**
-   * Customer's ID in the user's system. A unique string as the Customer's ID
-   * amongst all of the Org's customers.
+   * Customer's ID in the user's own system. A unique Customer ID string amongst
+   * all of the Org's customers.
    */
   id: string;
 
@@ -40,7 +40,7 @@ export type Customer = {
    * @todo
    * Tags
    */
-  tags: Array<string>;
+  // tags: Array<string>;
 
   // @todo Meta data like how many times has this customer been surveyed?
   // @todo If they respond to a survey we should count it...

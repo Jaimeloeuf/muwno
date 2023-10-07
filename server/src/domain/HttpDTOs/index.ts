@@ -26,3 +26,5 @@ export * from './ReadManyApiKeyDTO.js';
 export * from './CreateOneStripeSetupNextDTO.js';
 
 export * from './CreateOneContactFormSubmissionDTO.js';
+
+export * from './CreateOneCustomerDTO.js';
