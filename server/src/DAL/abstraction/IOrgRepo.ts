@@ -6,6 +6,11 @@ import type { Org, OrgID, CreateOneOrgDTO, UserID } from 'domain-model';
  */
 export abstract class IOrgRepo {
   /**
+   * Check if user have access permission to this Org.
+   */
+  abstract canUserAccessOrg(userID: UserID, orgID: OrgID): Promise<boolean>;
+
+  /**
    * Get a single Org Entity object back
    */
   abstract getOne(orgID: OrgID): Promise<Org | null>;

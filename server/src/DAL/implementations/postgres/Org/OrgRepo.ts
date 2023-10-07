@@ -15,6 +15,23 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class OrgRepo implements IOrgRepo {
   constructor(private readonly db: PrismaService) {}
 
+  async canUserAccessOrg(userID: UserID, orgID: OrgID) {
+    // Load the user's Org and check if it is the same as the given orgID.
+    return this.db.user
+      .findUnique({
+        where: { id: userID },
+
+        select: {
+          org: {
+            where: { id: orgID },
+            select: { id: true },
+          },
+        },
+      })
+      .then((user) => user?.org?.id)
+      .then((orgID) => orgID !== undefined);
+  }
+
   async getOne(id: OrgID) {
     return this.db.org
       .findUnique({ where: { id } })

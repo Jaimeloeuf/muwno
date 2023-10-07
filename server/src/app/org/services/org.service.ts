@@ -17,7 +17,10 @@ import { Role } from 'domain-model';
 import type { CreateOneOrgDTO } from 'domain-model';
 
 // Service layer Exceptions
-import { NotFoundException } from '../../../exceptions/index.js';
+import {
+  ForbiddenException,
+  NotFoundException,
+} from '../../../exceptions/index.js';
 
 @Injectable()
 export class OrgService {
@@ -29,6 +32,22 @@ export class OrgService {
     private readonly transactionalEmailService: ITransactionalEmailService,
     private readonly adminNotifService: IAdminNotifService,
   ) {}
+
+  /**
+   * Validate if a user have access permission to an Org. Throws the common
+   * `ForbiddenException` if user does not have access.
+   *
+   * Expects given `productID` to be validated already, will treat a invalid
+   * `productID` the same as a Forbidden request.
+   */
+  async validateUserAccess(userID: UserID, orgID: OrgID): Promise<void> {
+    const canAccess = await this.orgRepo.canUserAccessOrg(userID, orgID);
+
+    if (!canAccess)
+      throw new ForbiddenException(
+        `User ${userID} does not have permission to access Org '${orgID}'.`,
+      );
+  }
 
   /**
    * Get Org data of given orgID from data source.

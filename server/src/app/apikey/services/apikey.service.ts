@@ -69,6 +69,8 @@ export class ApiKeyService {
     if (apiKeyDetail === null)
       throw new NotFoundException(`API Key ${apiKeyID} does not exist.`);
 
+    await this.orgService.validateUserAccess(requestorID, apiKeyDetail.orgID);
+
     await this.apiKeyRepo.deleteOne(apiKeyID);
   }
 }
