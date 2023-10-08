@@ -5,6 +5,7 @@ export * from './IPmfscoreRepo.js';
 export * from './IFeedbackRepo.js';
 export * from './ITeamRepo.js';
 export * from './ITaskRepo.js';
+export * from './ICustomerRepo.js';
 export * from './IApiKeyRepo.js';
 export * from './ISubscriptionRepo.js';
 export * from './IStripeCustomerRepo.js';
