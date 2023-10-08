@@ -20,6 +20,7 @@ import type { CreateOneOrgDTO } from 'domain-model';
 import {
   ForbiddenException,
   NotFoundException,
+  InvalidOperationException,
 } from '../../../exceptions/index.js';
 
 @Injectable()
@@ -61,12 +62,19 @@ export class OrgService {
   }
 
   /**
-   * Get a user's Org Entity object back if they belong to an Org
+   * Get a user's Org Entity object back if they belong to an Org.
+   * Pass true for optional `expect` parameter to throw
+   * `InvalidOperationException` instead of `NotFoundException`.
    */
-  async getUserOrg(userID: UserID): Promise<Org> {
+  async getUserOrg(userID: UserID, expect = false): Promise<Org> {
     const org = await this.orgRepo.getUserOrg(userID);
     if (org === null)
-      throw new NotFoundException(`User '${userID}' does not have an Org!`);
+      if (expect)
+        throw new InvalidOperationException(
+          `User '${userID}' does not have an Org!`,
+        );
+      else
+        throw new NotFoundException(`User '${userID}' does not have an Org!`);
 
     return org;
   }

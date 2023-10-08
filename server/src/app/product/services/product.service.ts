@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ulid } from 'ulid';
 
-import { IProductRepo, IOrgRepo } from '../../../DAL/index.js';
+import { IProductRepo } from '../../../DAL/index.js';
+import { OrgService } from '../../org/services/org.service.js';
 
 // Entity Types
 import type {
@@ -16,7 +17,6 @@ import type {
 // Service layer Exceptions
 import {
   NotFoundException,
-  InvalidOperationException,
   ForbiddenException,
 } from '../../../exceptions/index.js';
 
@@ -24,7 +24,7 @@ import {
 export class ProductService {
   constructor(
     private readonly productRepo: IProductRepo,
-    private readonly orgRepo: IOrgRepo,
+    private readonly orgService: OrgService,
   ) {}
 
   /**
@@ -96,12 +96,7 @@ export class ProductService {
     userID: UserID,
     createOneProductDTO: CreateOneProductDTO,
   ): Promise<Product> {
-    const org = await this.orgRepo.getUserOrg(userID);
-    if (org === null)
-      throw new InvalidOperationException(
-        `User '${userID}' cannot create product without being in an Org`,
-      );
-
+    const org = await this.orgService.getUserOrg(userID, true);
     return this.productRepo.createOne(ulid(), org.id, createOneProductDTO);
   }
 
