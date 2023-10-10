@@ -34,7 +34,7 @@ export type Customer = {
   /**
    * Optional phone number of the Customer. Required to send SMS surveys.
    */
-  number?: string;
+  phone?: string;
 
   /**
    * @todo

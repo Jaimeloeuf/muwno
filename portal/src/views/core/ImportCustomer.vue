@@ -63,8 +63,8 @@ async function processFile() {
 
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
-    const [uid, name, email, phone] = result.data[i] ?? [];
-    customers.push({ uid, name, email, phone });
+    const [cid, name, email, phone] = result.data[i] ?? [];
+    customers.push({ cid, name, email, phone });
   }
 
   console.log(customers);
