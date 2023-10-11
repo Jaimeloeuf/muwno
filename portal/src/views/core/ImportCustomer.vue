@@ -6,6 +6,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useOrg, useLoader } from "../../store";
 import BackButton from "../components/BackButton.vue";
+import type { CreateOneCustomerDTO } from "@domain-model";
 
 const router = useRouter();
 const orgStore = useOrg();
@@ -52,14 +53,16 @@ async function processFile() {
   loader.show();
 
   const csvString = await file.text();
-  const result = parse<Array<string | undefined>>(csvString);
+  const result = parse<Array<string | undefined>>(csvString, {
+    skipEmptyLines: true,
+  });
 
   if (result.errors.length > 0) {
     result.errors.forEach(console.error);
     return;
   }
 
-  const customers = [];
+  const customers: Array<CreateOneCustomerDTO> = [];
 
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
