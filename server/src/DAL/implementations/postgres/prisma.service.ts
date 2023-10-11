@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 import { ConfigService } from '@nestjs/config';
@@ -14,25 +14,37 @@ import type { EnvironmentVariables } from '../../../config/types.js';
  */
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  constructor(configService: ConfigService<EnvironmentVariables, true>) {
-    // Turn on verbose mode if env var passed in
-    if (configService.get('PRISMA_VERBOSE', { infer: true })) {
-      super({ log: ['query'] });
-    } else {
-      super();
-    }
+  constructor(
+    private readonly configService: ConfigService<EnvironmentVariables, true>,
+    private readonly logger: Logger,
+  ) {
+    super(
+      configService.get('PRISMA_VERBOSE', { infer: true })
+        ? { log: ['query'] } // Log all queries in verbose mode
+        : undefined,
+    );
   }
 
   /**
-   * This is optional, and when defined, `onModuleInit` method is called when the
-   * GlobalModule is initialised. If this is not implemented, Prisma will connect
-   * lazily on its first call to the database.
+   * This is optional, and when defined, `onModuleInit` method is called when
+   * the GlobalModule is initialised.
    *
-   * Right now this is implemented to ensure that the DB can be connected the
-   * moment the service is started, without waiting for the first call to come
-   * through as a simple preliminary DB health check.
+   * Depending on `NODE_ENV`, this may eagerly connect to the DB when the
+   * application first starts as a simple preliminary DB health check instead of
+   * lazily connecting only on its first use.
    */
   async onModuleInit() {
-    await this.$connect();
+    // Only eagerly connect in production builds to ensure DB is up and running
+    // as soon as possible, which will benefit long running deployments, but
+    // lazily connect in non production builds to strain the serverless DB less.
+    if (this.configService.get('NODE_ENV', { infer: true }) === 'production') {
+      await this.$connect();
+      this.logger.verbose('Eagerly connected to DB', PrismaService.name);
+    } else {
+      this.logger.verbose(
+        'Waiting on first use to lazily connect to DB',
+        PrismaService.name,
+      );
+    }
   }
 }
