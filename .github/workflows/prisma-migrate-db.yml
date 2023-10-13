@@ -1,12 +1,14 @@
 # Reference: https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
 
-name: Run Prisma migrations on production DB
-run-name: ${{ github.actor }} is running migrations on Production DB 🚀
+name: Run Prisma migrations
+run-name: ${{ github.actor }} is running DB migrations 🚀
 
 on:
-  push:
-    branches:
-      - prod
+  workflow_call:
+    secrets:
+      DATABASE_URL:
+        description: Database URL for Prisma to run migrations on. Must be a Direct URL.
+        required: true
 
 jobs:
   migrate-db:
@@ -21,6 +23,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - run: echo "Running migrations using '${{ github.ref }}' branch"
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -29,12 +33,14 @@ jobs:
 
       # Only install dependencies needed to run prisma migrations.
       - name: Install prisma dependencies
-        run: npm install prisma
+        # Install the major version's latest minor version to match version
+        # specified in /server/package.json and to avoid breaking changes.
+        run: npm install prisma@^5.x.x
 
       - name: Apply all pending migrations to the database
         run: npx prisma migrate deploy
         env:
           # Since not using Prisma's data proxy, the DATABASE_URL is a
           # DIRECT_URL, therefore they use the same secret here.
-          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DATABASE_URL }}
