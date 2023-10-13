@@ -1,0 +1,40 @@
+# Reference: https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
+
+name: Run Prisma migrations on production DB
+run-name: ${{ github.actor }} is running migrations on Production DB 🚀
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  migrate-db:
+    runs-on: ubuntu-latest
+
+    # Use /server of the monorepo
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          # Using node 18 to match engine version specified in /server/package.json
+          node-version: "18"
+
+      # Only install dependencies needed to run prisma migrations.
+      - name: Install prisma dependencies
+        run: npm install prisma
+
+      - name: Apply all pending migrations to the database
+        run: npx prisma migrate deploy
+        env:
+          # Since not using Prisma's data proxy, the DATABASE_URL is a
+          # DIRECT_URL, therefore they use the same secret here.
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DATABASE_URL }}
