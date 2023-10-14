@@ -54,7 +54,8 @@ async function processFile() {
 
   const csvString = await file.text();
   const result = parse<Array<string | undefined>>(csvString, {
-    skipEmptyLines: true,
+    // Greedy will skip lines with all completely columns.
+    skipEmptyLines: "greedy",
   });
 
   if (result.errors.length > 0) {
@@ -64,10 +65,19 @@ async function processFile() {
 
   const customers: Array<CreateOneCustomerDTO> = [];
 
+  /** Convert empty strings and undefined values to null */
+  const convertToNull = (v: string | undefined) =>
+    v === "" || v === undefined ? null : v;
+
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
     const [cid, name, email, phone] = result.data[i] ?? [];
-    customers.push({ cid, name, email, phone });
+    customers.push({
+      cid: convertToNull(cid),
+      name: convertToNull(name),
+      email: convertToNull(email),
+      phone: convertToNull(phone),
+    });
   }
 
   console.log(customers);
