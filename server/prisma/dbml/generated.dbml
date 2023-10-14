@@ -14,6 +14,7 @@ Table org {
   plan SubscriptionPlan
   user user [not null]
   product product [not null]
+  customer customer [not null]
   team_member_invitation team_member_invitation [not null]
   api_key api_key [not null]
   stripe_customer stripe_customer
@@ -76,6 +77,21 @@ Table team_member_invitation {
   org_id String [not null]
 }
 
+Table customer {
+  id String [pk]
+  cid String [not null]
+  imported_at DateTime [default: `now()`, not null]
+  name String
+  email String
+  phone String
+  org org [not null]
+  org_id String [not null]
+
+  indexes {
+    (org_id, cid) [unique]
+  }
+}
+
 Table stripe_webhook_event {
   id String [pk]
   created_at DateTime [default: `now()`, not null]
@@ -131,6 +147,8 @@ Ref: task.response_id > pmf_survey_responses.id [delete: Cascade]
 Ref: team_member_invitation.inviter_id > user.id [delete: Cascade]
 
 Ref: team_member_invitation.org_id > org.id [delete: Cascade]
+
+Ref: customer.org_id > org.id [delete: Cascade]
 
 Ref: stripe_customer.org_id - org.id [delete: Cascade]
 

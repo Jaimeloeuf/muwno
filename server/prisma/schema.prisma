@@ -180,12 +180,12 @@ model team_member_invitation {
 }
 
 model customer {
-  id         String   @id
-  cid        String // Customer's ID within the Org's own system
-  created_at DateTime @default(now())
-  name       String?
-  email      String?
-  phone      String?
+  id          String   @id
+  cid         String // Customer's ID within the Org's own system
+  imported_at DateTime @default(now())
+  name        String?
+  email       String?
+  phone       String?
 
   // Relationship: MANY customers belong to ONE Org
   // Auto delete customers if Org is deleted
