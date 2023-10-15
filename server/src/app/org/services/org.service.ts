@@ -37,8 +37,8 @@ export class OrgService {
    * Validate if a user have access permission to an Org. Throws the common
    * `ForbiddenException` if user does not have access.
    *
-   * Expects given `productID` to be validated already, will treat a invalid
-   * `productID` the same as a Forbidden request.
+   * Expects given `orgID` to be validated already, will treat a invalid
+   * `orgID` the same as a Forbidden request.
    */
   async validateUserAccess(userID: UserID, orgID: OrgID): Promise<void> {
     const canAccess = await this.orgRepo.canUserAccessOrg(userID, orgID);

@@ -1,0 +1,2 @@
+# customer/
+Customer feature module

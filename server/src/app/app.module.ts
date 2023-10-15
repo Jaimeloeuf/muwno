@@ -6,6 +6,7 @@ import { StripeClient } from './stripe/infra/stripe-client.js';
 
 // Services
 import { ApiKeyService } from './apikey/services/apikey.service.js';
+import { CustomerService } from './customer/services/customer.service.js';
 import { FeedbackService } from './feedback/services/feedback.service.js';
 import { OrgService } from './org/services/org.service.js';
 import { PmfscoreService } from './pmfscore/services/pmfscore.service.js';
@@ -22,6 +23,7 @@ import { UserService } from './user/services/user.service.js';
 // Controllers
 import { BasicController } from './basic/controllers/basic.controller.js';
 import { ApiKeyController } from './apikey/controllers/apikey.controller.js';
+import { CustomerController } from './customer/controllers/customer.controller.js';
 import { FeedbackController } from './feedback/controllers/feedback.controller.js';
 import { FeedbackResponseController } from './feedback/controllers/feedback-response.controller.js';
 import { LandingController } from './landing/controllers/landing.controller.js';
@@ -48,6 +50,7 @@ import { UserController } from './user/controllers/user.controller.js';
 
     // App Services
     ApiKeyService,
+    CustomerService,
     FeedbackService,
     OrgService,
     PmfscoreService,
@@ -65,6 +68,7 @@ import { UserController } from './user/controllers/user.controller.js';
   controllers: [
     BasicController,
     ApiKeyController,
+    CustomerController,
     FeedbackController,
     FeedbackResponseController,
     LandingController,
