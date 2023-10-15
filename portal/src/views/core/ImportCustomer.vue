@@ -4,13 +4,17 @@ import { useRouter } from "vue-router";
 import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useOrg, useLoader } from "../../store";
+import { useOrg, useLoader, useNotif } from "../../store";
 import BackButton from "../components/BackButton.vue";
-import type { CreateOneCustomerDTO } from "@domain-model";
+import type {
+  CreateOneCustomerDTO,
+  CreateManyCustomerDTO,
+} from "@domain-model";
 
 const router = useRouter();
 const orgStore = useOrg();
 const loader = useLoader();
+const notif = useNotif();
 
 const org = await orgStore.getOrg();
 const localFile = ref<File | null>(null);
@@ -82,10 +86,32 @@ async function processFile() {
 
   console.log(customers);
 
+  if (customers.length === 0) {
+    alert("CSV cannot be empty!");
+    return;
+  }
+
+  await uploadCustomers(customers);
+
   loader.hide();
+
+  notif.setSnackbar(`Successfully imported ${customers.length} customers.`);
 
   // @todo Accept a next route as URL Query
   router.back();
+}
+
+async function uploadCustomers(customers: Array<CreateOneCustomerDTO>) {
+  const { res, err } = await sf
+    .useDefault()
+    .POST(`/customer/upload/batch/${org.id}`)
+    .bodyJSON<CreateManyCustomerDTO>({ customers })
+    .useHeader(getAuthHeader)
+    .runVoid();
+
+  if (err) throw err;
+  if (!res.ok)
+    throw new Error(`Failed to import customers: ${JSON.stringify(res)}`);
 }
 </script>
 
