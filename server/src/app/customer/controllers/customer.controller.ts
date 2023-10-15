@@ -12,7 +12,7 @@ import {
 import type { OrgID, FirebaseAuthUID } from 'domain-model';
 
 // DTO Validators
-import { ValidatedCreateOneCustomerDTO } from '../dto-validation/ValidatedCreateOneCustomerDTO.js';
+import { ValidatedCreateManyCustomerDTO } from '../dto-validation/ValidatedCreateManyCustomerDTO.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -24,18 +24,24 @@ export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
   /**
+   * Upload a batch of `Customer`
    */
-  @Post('upload/:orgID')
+  @Post('upload/batch/:orgID')
   @AllowAllRoles
-  async upload(
+  async batchUpload(
     @JWT_uid requestorID: FirebaseAuthUID,
     @Param('orgID') orgID: OrgID,
-    @Body() validatedCreateOneCustomerDTO: ValidatedCreateOneCustomerDTO,
+    @Body() validatedCreateManyCustomerDTO: ValidatedCreateManyCustomerDTO,
   ): Promise<void> {
-    await this.customerService.newCustomer(
-      requestorID,
-      orgID,
-      validatedCreateOneCustomerDTO,
+    await Promise.all(
+      validatedCreateManyCustomerDTO.customers.map(
+        (validatedCreateOneCustomerDTO) =>
+          this.customerService.newCustomer(
+            requestorID,
+            orgID,
+            validatedCreateOneCustomerDTO,
+          ),
+      ),
     );
   }
 }
