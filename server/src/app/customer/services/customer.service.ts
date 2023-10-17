@@ -5,7 +5,7 @@ import { ICustomerRepo } from '../../../DAL/index.js';
 import { OrgService } from '../../org/services/org.service.js';
 
 // Entity Types
-import type { UserID, OrgID, CustomerID } from 'domain-model';
+import type { UserID, OrgID } from 'domain-model';
 
 // DTO Types
 import type { CreateOneCustomerDTO } from 'domain-model';
@@ -27,7 +27,7 @@ export class CustomerService {
     requestorID: UserID,
     orgID: OrgID,
     createOneCustomerDTO: CreateOneCustomerDTO,
-  ): Promise<CustomerID> {
+  ): Promise<void> {
     // Since every property on createOneCustoemrDTO is nullable, ensure that it
     // not all of them is null at the same time.
     if (Object.values(createOneCustomerDTO).every((v) => v === null))
@@ -41,15 +41,10 @@ export class CustomerService {
 
     await this.customerRepo.newOne(orgID, {
       id,
-
-      // `cid` defaults to `id` if not provided.
       cid: createOneCustomerDTO.cid ?? id,
-
       name: createOneCustomerDTO.name,
       email: createOneCustomerDTO.email,
       phone: createOneCustomerDTO.phone,
     });
-
-    return id;
   }
 }
