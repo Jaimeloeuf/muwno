@@ -10,6 +10,9 @@ import type { UserID, OrgID, CustomerID } from 'domain-model';
 // DTO Types
 import type { CreateOneCustomerDTO } from 'domain-model';
 
+// Service layer Exceptions
+import { InvalidInputException } from '../../../exceptions/index.js';
+
 @Injectable()
 export class CustomerService {
   constructor(
@@ -25,6 +28,13 @@ export class CustomerService {
     orgID: OrgID,
     createOneCustomerDTO: CreateOneCustomerDTO,
   ): Promise<CustomerID> {
+    // Since every property on createOneCustoemrDTO is nullable, ensure that it
+    // not all of them is null at the same time.
+    if (Object.values(createOneCustomerDTO).every((v) => v === null))
+      throw new InvalidInputException(
+        'Cannot create Customer with all null properties',
+      );
+
     await this.orgService.validateUserAccess(requestorID, orgID);
 
     const id = ulid();
