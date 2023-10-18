@@ -33,15 +33,10 @@ export class CustomerController {
     @Param('orgID') orgID: OrgID,
     @Body() validatedCreateManyCustomerDTO: ValidatedCreateManyCustomerDTO,
   ): Promise<void> {
-    await Promise.all(
-      validatedCreateManyCustomerDTO.customers.map(
-        (validatedCreateOneCustomerDTO) =>
-          this.customerService.newCustomer(
-            requestorID,
-            orgID,
-            validatedCreateOneCustomerDTO,
-          ),
-      ),
+    await this.customerService.newCustomers(
+      requestorID,
+      orgID,
+      validatedCreateManyCustomerDTO.customers,
     );
   }
 }

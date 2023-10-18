@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ulid } from 'ulid';
 
 import { ICustomerRepo } from '../../../DAL/index.js';
@@ -10,12 +10,10 @@ import type { UserID, OrgID } from 'domain-model';
 // DTO Types
 import type { CreateOneCustomerDTO } from 'domain-model';
 
-// Service layer Exceptions
-import { InvalidInputException } from '../../../exceptions/index.js';
-
 @Injectable()
 export class CustomerService {
   constructor(
+    private readonly logger: Logger,
     private readonly customerRepo: ICustomerRepo,
     private readonly orgService: OrgService,
   ) {}
@@ -23,28 +21,33 @@ export class CustomerService {
   /**
    * Import a new `Customer`.
    */
-  async newCustomer(
+  async newCustomers(
     requestorID: UserID,
     orgID: OrgID,
-    createOneCustomerDTO: CreateOneCustomerDTO,
+    createOneCustomerDTOs: Array<CreateOneCustomerDTO>,
   ): Promise<void> {
-    // Since every property on createOneCustoemrDTO is nullable, ensure that it
-    // not all of them is null at the same time.
-    if (Object.values(createOneCustomerDTO).every((v) => v === null))
-      throw new InvalidInputException(
-        'Cannot create Customer with all null properties',
-      );
-
     await this.orgService.validateUserAccess(requestorID, orgID);
 
-    const id = ulid();
+    await Promise.all(
+      createOneCustomerDTOs.map((customer) => {
+        // Since every property on createOneCustoemrDTO is nullable, ensure that
+        // not all of them is null at the same time, and return early if so.
+        if (Object.values(customer).every((v) => v === null))
+          return this.logger.warn(
+            'Cannot create Customer with all null properties',
+            CustomerService.name,
+          );
 
-    await this.customerRepo.newOne(orgID, {
-      id,
-      cid: createOneCustomerDTO.cid ?? id,
-      name: createOneCustomerDTO.name,
-      email: createOneCustomerDTO.email,
-      phone: createOneCustomerDTO.phone,
-    });
+        const id = ulid();
+
+        return this.customerRepo.newOne(orgID, {
+          id,
+          cid: customer.cid ?? id,
+          name: customer.name,
+          email: customer.email,
+          phone: customer.phone,
+        });
+      }),
+    );
   }
 }
