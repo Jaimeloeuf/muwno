@@ -54,7 +54,10 @@ async function processFile() {
     return;
   }
 
-  loader.show();
+  if (!confirm("Do not close browser tab while processing and uploading!"))
+    return;
+
+  loader.show("Parsing Customer CSV");
 
   const csvString = await file.text();
   const result = parse<Array<string | undefined>>(csvString, {
@@ -84,14 +87,27 @@ async function processFile() {
     });
   }
 
-  console.log(customers);
-
   if (customers.length === 0) {
     alert("CSV cannot be empty!");
     return;
   }
 
-  await uploadCustomers(customers);
+  // Loop through the array in chunks of 100 elements at a time to upload them
+  // part by part instead of overwhelming the server or erroring out with
+  // 'request entity too large'
+  for (let i = 0; i < customers.length; i += 100) {
+    // Pagination limit
+    const pageLimit = i + 100 < customers.length ? i + 100 : customers.length;
+
+    console.log(
+      `Uploading customer ${i} - ${pageLimit} out of ${customers.length}`
+    );
+    loader.show(
+      `Keep this browser tab open! Uploading customer ${i} - ${pageLimit} out of ${customers.length}`
+    );
+
+    await uploadCustomers(customers.slice(i, pageLimit));
+  }
 
   loader.hide();
 
