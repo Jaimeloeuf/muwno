@@ -9,6 +9,8 @@ export type DBCreateOneCustomerDTO = Omit<Customer, 'importedAt'>;
 export abstract class ICustomerRepo {
   /**
    * Add a new Customer to data source.
+   *
+   * @todo Make sure this is idempotent for the same user with upsert or smth
    */
   abstract newOne(
     orgID: OrgID,
