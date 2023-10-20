@@ -2,6 +2,7 @@ name: Run Prisma migrations on STAGING DB
 run-name: ${{ github.actor }} is running prisma migrations on STAGING DB 🚀
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
