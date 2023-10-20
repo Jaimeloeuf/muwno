@@ -19,7 +19,7 @@ export class CustomerService {
   ) {}
 
   /**
-   * Import a new `Customer`.
+   * Import a batch of new `Customer`.
    */
   async newCustomers(
     requestorID: UserID,

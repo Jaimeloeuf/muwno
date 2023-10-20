@@ -53,3 +53,9 @@ export interface Customer {
  * Type alias for `Customer['id']`.
  */
 export type CustomerID = Customer['id'];
+
+/**
+ * An identifier of the `Customer` containing both the system's ID and the
+ * user's system's `cid`.
+ */
+export type CustomerIdentifier = { id: CustomerID; cid: Customer['cid'] };

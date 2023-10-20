@@ -6,7 +6,7 @@ import { CustomerApiService } from '../services/customer.api.service.js';
 import { GuardWithApiKey, ApiKeyOrg } from '../../../guards/apikey/index.js';
 
 // Entity Types
-import type { Org, CustomerID, Customer } from 'domain-model';
+import type { Org, CustomerIdentifier } from 'domain-model';
 
 // DTO Validators
 import { ValidatedCreateOneCustomerDTO } from '../dto-validation/ValidatedCreateOneCustomerDTO.js';
@@ -29,7 +29,7 @@ export class CustomerApiController {
   async upload(
     @ApiKeyOrg() org: Org,
     @Body() validatedCreateOneCustomerDTO: ValidatedCreateOneCustomerDTO,
-  ): Promise<{ id: CustomerID; cid: Customer['cid'] }> {
+  ): Promise<CustomerIdentifier> {
     return this.customerService.newCustomer(
       org.id,
       validatedCreateOneCustomerDTO,
@@ -38,20 +38,20 @@ export class CustomerApiController {
 
   /**
    * Upload a batch of `Customer`
+   *
+   * @todo
+   * Just like `CustomerController`, tell API users about the size limit per
+   * batch then tell them to loop through, or if they use our SDK, the SDK
+   * should do the batch splitting for them.
    */
   @Post('upload/batch')
   async batchUpload(
     @ApiKeyOrg() org: Org,
     @Body() validatedCreateManyCustomerDTO: ValidatedCreateManyCustomerDTO,
-  ): Promise<Array<{ id: CustomerID; cid: Customer['cid'] }>> {
-    return Promise.all(
-      validatedCreateManyCustomerDTO.customers.map(
-        (validatedCreateOneCustomerDTO) =>
-          this.customerService.newCustomer(
-            org.id,
-            validatedCreateOneCustomerDTO,
-          ),
-      ),
+  ): Promise<Array<CustomerIdentifier>> {
+    return this.customerService.newCustomers(
+      org.id,
+      validatedCreateManyCustomerDTO.customers,
     );
   }
 }
