@@ -19,6 +19,10 @@ export class CustomerApiService {
     private readonly customerRepo: ICustomerRepo,
   ) {}
 
+  async getCount(orgID: OrgID): Promise<number> {
+    return this.customerRepo.count(orgID);
+  }
+
   /**
    * Import a new `Customer`.
    */

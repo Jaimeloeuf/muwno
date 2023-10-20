@@ -13,6 +13,10 @@ import type { OrgID } from 'domain-model';
 export class CustomerRepo implements ICustomerRepo {
   constructor(private readonly db: PrismaService) {}
 
+  async count(org_id: OrgID) {
+    return this.db.customer.count({ where: { org_id } });
+  }
+
   async newOne(orgID: OrgID, customer: DBCreateOneCustomerDTO) {
     await this.db.customer.create({
       data: {

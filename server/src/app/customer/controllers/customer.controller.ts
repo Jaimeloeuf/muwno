@@ -11,6 +11,9 @@ import {
 // Entity Types
 import type { OrgID, FirebaseAuthUID } from 'domain-model';
 
+// DTO Types
+import type { ReadCustomerCountDTO } from 'domain-model';
+
 // DTO Validators
 import { ValidatedCreateManyCustomerDTO } from '../dto-validation/ValidatedCreateManyCustomerDTO.js';
 
@@ -22,6 +25,20 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 @UseHttpControllerFilters
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
+
+  /**
+   * Get the number of Customers currently stored.
+   */
+  @Get('count/:orgID')
+  @AllowAllRoles
+  async getCustomerCount(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('orgID') orgID: OrgID,
+  ): Promise<ReadCustomerCountDTO> {
+    return this.customerService
+      .getCount(requestorID, orgID)
+      .then((count) => ({ count }));
+  }
 
   /**
    * Upload a batch of `Customer`

@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 
 import { CustomerApiService } from '../services/customer.api.service.js';
@@ -7,6 +7,9 @@ import { GuardWithApiKey, ApiKeyOrg } from '../../../guards/apikey/index.js';
 
 // Entity Types
 import type { Org, CustomerIdentifier } from 'domain-model';
+
+// DTO Types
+import type { ReadCustomerCountDTO } from 'domain-model';
 
 // DTO Validators
 import { ValidatedCreateOneCustomerDTO } from '../dto-validation/ValidatedCreateOneCustomerDTO.js';
@@ -21,6 +24,14 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 @UseHttpControllerFilters
 export class CustomerApiController {
   constructor(private readonly customerService: CustomerApiService) {}
+
+  /**
+   * Get the number of Customers currently stored.
+   */
+  @Get('count')
+  async getCustomerCount(@ApiKeyOrg() org: Org): Promise<ReadCustomerCountDTO> {
+    return this.customerService.getCount(org.id).then((count) => ({ count }));
+  }
 
   /**
    * Upload a single `Customer`.

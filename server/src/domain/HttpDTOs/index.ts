@@ -27,5 +27,6 @@ export * from './CreateOneStripeSetupNextDTO.js';
 
 export * from './CreateOneContactFormSubmissionDTO.js';
 
+export * from './ReadCustomerCountDTO.js';
 export * from './CreateOneCustomerDTO.js';
 export * from './CreateManyCustomerDTO.js';

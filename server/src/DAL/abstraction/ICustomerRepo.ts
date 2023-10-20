@@ -16,4 +16,9 @@ export abstract class ICustomerRepo {
     orgID: OrgID,
     customer: DBCreateOneCustomerDTO,
   ): Promise<void>;
+
+  /**
+   * Get the number of Customers currently stored by a given Org.
+   */
+  abstract count(orgID: OrgID): Promise<number>;
 }

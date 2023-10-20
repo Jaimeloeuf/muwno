@@ -18,6 +18,11 @@ export class CustomerService {
     private readonly orgService: OrgService,
   ) {}
 
+  async getCount(requestorID: UserID, orgID: OrgID): Promise<number> {
+    await this.orgService.validateUserAccess(requestorID, orgID);
+    return this.customerRepo.count(orgID);
+  }
+
   /**
    * Import a batch of new `Customer`.
    */

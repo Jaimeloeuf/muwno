@@ -4,9 +4,24 @@ import { getAuthHeader } from "../../../firebase";
 import { useOrg } from "../../../store";
 import { ImportCustomerRoute } from "../../../router";
 import SideDrawerButton from "../../components/SideDrawerButton.vue";
+import type { ReadCustomerCountDTO } from "@domain-model";
 
 const orgStore = useOrg();
 const org = await orgStore.getOrg();
+
+async function getCustomerCount() {
+  const { res, err } = await sf
+    .useDefault()
+    .GET(`/customer/count/${org.id}`)
+    .useHeader(getAuthHeader)
+    .runJSON<ReadCustomerCountDTO>();
+
+  if (err) throw err;
+  if (!res.ok)
+    throw new Error(`Failed to get Customer Count: ${JSON.stringify(res)}`);
+
+  return res.data.count;
+}
 
 async function getCustomerGroups() {
   const { res, err } = await sf
@@ -22,6 +37,7 @@ async function getCustomerGroups() {
   return res.data.groups;
 }
 
+const customerCount = await getCustomerCount();
 const customerGroups = await getCustomerGroups();
 
 customerGroups;
@@ -35,7 +51,16 @@ customerGroups;
     </div>
 
     <div class="md:mx-6">
-      <div class="flex flex-row gap-6">
+      <div class="flex flex-col md:flex-row md:gap-6">
+        <div class="mb-6 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+          <p class="text-sm font-medium">Customers Stored</p>
+          <p class="text-right">
+            {{ Intl.NumberFormat().format(customerCount) }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:gap-6">
         <router-link
           :to="{}"
           class="mb-6 flex flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
