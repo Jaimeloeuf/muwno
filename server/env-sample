@@ -1,0 +1,30 @@
+#############################################
+# This is a sample .env file, follow this format to create a
+# new .env file before running the service.
+
+# Used by /version API controller
+# The version (git branch and commit hash) will be injected automatically in 'build' mode
+version=DEBUG_MODE_VERSION
+
+# Uncomment this to print Prisma verbose logs
+# PRISMA_VERBOSE=true
+
+RECAPTCHA_SECRET=
+POSTMARK_API_KEY=
+
+# Open AI
+OPENAI_API_KEY=
+OPENAI_ORG=
+
+# Stripe
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+STRIPE_WEBHOOK_PATH=test
+
+# Telegram
+TELE_BOT_TOKEN=
+TELE_ADMIN_CHAT_ID=
+
+# DB
+DATABASE_URL=postgres://postgres:postgrespw@localhost:49155
+DIRECT_URL=postgres://postgres:postgrespw@localhost:49155

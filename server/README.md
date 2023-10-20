@@ -11,7 +11,7 @@ Other than npm dependencies, `git` is also needed to be available in path for np
 
 
 ## Create the .env file
-Create a new .env file following this sample [.env.sample](./.env.sample) file.
+Create a new [.env file](./.env) following this [env-sample](./env-sample) file.
 
 
 ## Running the app
