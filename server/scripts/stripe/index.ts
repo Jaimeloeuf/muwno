@@ -1,5 +1,5 @@
 import { getArgv } from './utils/getArgv';
-import { loadEnvVarFromFile } from './utils/loadEnvVarFromFile';
+import { getCreds } from './utils/getCreds';
 import { createStripeClient } from './utils/createStripeClient';
 import { noOp, createIdempotentKeyFF } from './utils/createIdempotentKeyFF';
 
@@ -8,11 +8,10 @@ import { createResponse } from './createResponse';
 import { createEmail } from './createEmail';
 
 async function main() {
-  const { nodeEnv, ik } = getArgv();
+  const { ik } = getArgv();
 
-  loadEnvVarFromFile(nodeEnv);
-
-  const stripe = await createStripeClient();
+  const { STRIPE_SECRET_KEY } = await getCreds();
+  const stripe = await createStripeClient(STRIPE_SECRET_KEY);
 
   // Create with utility function with factory function
   const createIdempotentKey =
