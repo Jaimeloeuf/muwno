@@ -19,11 +19,13 @@ jobs:
         working-directory: ./server
 
     steps:
-      - name: "Migrating using '${{ github.ref }}' branch"
-        run: exit 0
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # Can only start the shell and run this command after cloning repo due to
+      # default working directory being inside the repo itself.
+      - name: "Migrating using '${{ github.ref }}' branch"
+        run: exit 0
 
       - name: Setup Node
         uses: actions/setup-node@v3
