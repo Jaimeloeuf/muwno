@@ -39,7 +39,7 @@ export const ConfigModule = _ConfigModule.forRoot({
      * Expect `version` to be a string made with build time git branch and
      * commit hash.
      */
-    version: Joi.string().required(),
+    version: Joi.string().default('DEBUG_MODE_VERSION'),
 
     /**
      * Expects the Recaptcha secret key.
