@@ -23,7 +23,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - run: "Running migrations using '${{ github.ref }}' branch"
+      - name: "Migrating using '${{ github.ref }}' branch"
+        run: exit 0
 
       - name: Setup Node
         uses: actions/setup-node@v3
