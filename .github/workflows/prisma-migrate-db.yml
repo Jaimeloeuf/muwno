@@ -1,7 +1,6 @@
 # Reference: https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
 
 name: Run Prisma migrations
-run-name: ${{ github.actor }} is running DB migrations 🚀
 
 on:
   workflow_call:
@@ -20,11 +19,11 @@ jobs:
         working-directory: ./server
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: "Migrating using '${{ github.ref }}' branch"
         run: exit 0
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v3

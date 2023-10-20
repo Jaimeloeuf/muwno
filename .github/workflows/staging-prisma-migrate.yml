@@ -1,4 +1,4 @@
-name: Run Prisma migrations on STAGING DB
+name: STAGING DB Prisma migrations
 run-name: ${{ github.actor }} is running prisma migrations on STAGING DB 🚀
 
 on:
@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  migrate-db:
+  migrate:
     uses: ./.github/workflows/prisma-migrate-db.yml
     secrets:
       DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
