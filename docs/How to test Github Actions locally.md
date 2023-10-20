@@ -16,6 +16,8 @@ cls; sudo act push -W '.github/workflows/prod-prisma-migrate.yml' -s PROD_DATABA
 Notes:
 - By using -s and the name of the secrets, act will require you to paste in the secrets in a secret input shell so that you wont leak it in shell history.
 - If you face an issue with credentials on MacOS, you might need to delete 'creds store'
-    - <https://stackoverflow.com/questions/71770693/error-saving-credentials-error-storing-credentials-err-exit-status-1-out>
-    - <https://github.com/docker/docker-credential-helpers/issues/60>
-    - <https://forums.docker.com/t/error-failed-to-solve-error-getting-credentials-err-exit-status-1-out/136124>
+    - tldr; edit <~/.docker/config.json> to delete creds store
+    - References
+        - <https://stackoverflow.com/questions/71770693/error-saving-credentials-error-storing-credentials-err-exit-status-1-out>
+        - <https://github.com/docker/docker-credential-helpers/issues/60>
+        - <https://forums.docker.com/t/error-failed-to-solve-error-getting-credentials-err-exit-status-1-out/136124>
