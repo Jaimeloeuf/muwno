@@ -5,7 +5,7 @@ This documents all the environment variables required by [server](../server/)
 ## Env Vars
 | Variable              | Description                                                                                                                | Default Value (if any) |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| GCP                   | Only set this to `true` when running service in Google Cloud Platform to use GCP's ADC.                                    |                        |
+| GCP                   | Only set this to `true` when running service in Google Cloud Platform to use GCP's ADC. (See [GCP ADC](./GCP%20ADC.md))    |                        |
 | NODE_ENV              | NODE_ENV String used by Node build tools.                                                                                  | development            |
 | version               | A string made with build time git branch and commit hash.                                                                  | DEBUG_MODE_VERSION     |
 | RECAPTCHA_SECRET      | Recaptcha secret key.                                                                                                      |                        |
