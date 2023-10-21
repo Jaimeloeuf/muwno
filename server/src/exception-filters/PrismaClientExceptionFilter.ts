@@ -1,4 +1,9 @@
-import { Catch, ArgumentsHost } from '@nestjs/common';
+import {
+  Catch,
+  ArgumentsHost,
+  Logger,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 
@@ -9,10 +14,22 @@ import { Prisma } from '@prisma/client';
  */
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
+  constructor() {
+    super();
+    this.logger = new Logger(PrismaClientExceptionFilter.name);
+  }
+
+  private readonly logger: Logger;
+
   override catch(
     exception: Prisma.PrismaClientKnownRequestError,
     host: ArgumentsHost,
   ) {
-    return super.catch(exception, host);
+    this.logger.error(`Code: ${exception.code}`, exception);
+
+    return super.catch(
+      new InternalServerErrorException(`DB Exception Code: ${exception.code}`),
+      host,
+    );
   }
 }
