@@ -19,7 +19,7 @@ export class StripeClient extends Stripe {
       {
         // API Version is hardcoded as updating this will usually require code
         // update and is not just a configuration change.
-        apiVersion: '2023-08-16',
+        apiVersion: '2023-10-16',
 
         // For support and debugging (not required for production)
         appInfo: {
