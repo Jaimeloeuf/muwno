@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Configuration, OpenAIApi } from 'openai';
+import OpenAI from 'openai';
 
 import type { IAiService } from '../../abstractions/IAiService.js';
 
@@ -22,14 +22,13 @@ export class OpenAIService implements IAiService {
   constructor(configService: ConfigService<EnvironmentVariables, true>) {
     const organization = configService.get('OPENAI_ORG', { infer: true });
     const apiKey = configService.get('OPENAI_API_KEY', { infer: true });
-
-    this.openai = new OpenAIApi(new Configuration({ organization, apiKey }));
+    this.openai = new OpenAI({ organization, apiKey });
   }
 
   /**
    * Hold the `OpenAIApi` client after creating it in constructor.
    */
-  private readonly openai: OpenAIApi;
+  private readonly openai: OpenAI;
 
   // @todo Handle errors once this uses OpenAI API for internal logging to monitor when things go wrong
   async isInvalidCustomerFeedback(customerFeedback: string) {
@@ -54,7 +53,7 @@ export class OpenAIService implements IAiService {
 
   // @todo Handle errors for internal logging to monitor when things go wrong
   async getActionableTask(validatedCustomerFeedback: string) {
-    const response = await this.openai.createChatCompletion({
+    const response = await this.openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
 
       // After experimenting, it seems like sending everything in 1 shot works
@@ -90,7 +89,7 @@ export class OpenAIService implements IAiService {
      * is always available since the API call explicitly request for exactly 1
      * response to be generated.
      */
-    const actionableTask = response.data.choices[0]?.message?.content ?? '';
+    const actionableTask = response.choices[0]?.message?.content ?? '';
 
     return actionableTask;
   }
