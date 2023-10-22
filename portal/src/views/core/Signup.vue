@@ -8,6 +8,7 @@ import {
 import { auth } from "../../firebase";
 import { useLoader, useUser } from "../../store";
 import { OnboardingRoute, LoginRoute } from "../../router";
+import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
 
 const router = useRouter();
 const loader = useLoader();
@@ -36,7 +37,9 @@ async function signup() {
     // Create a new User Entity with API
     await userStore.createUser(name.value);
 
-    await sendEmailVerification(user.user);
+    await sendEmailVerification(user.user, {
+      url: getAbsoluteUrlFromRoute(OnboardingRoute.name),
+    });
 
     router.push({ name: OnboardingRoute.name });
   } catch (error: any) {

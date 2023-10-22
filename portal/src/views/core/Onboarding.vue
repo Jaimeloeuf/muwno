@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import { sendEmailVerification } from "firebase/auth";
 import { auth } from "../../firebase";
 import {
@@ -9,14 +10,27 @@ import {
   useNotif,
 } from "../../store";
 import {
+  AllProductRoute,
   PendingInvitationRoute,
   CreateOrgRoute,
   BuySubscriptionPlanRoute,
+  OnboardingRoute,
 } from "../../router";
+import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
+
+const router = useRouter();
+const onboardingStore = useOnboarding();
+
+// If user already completed onboarding, ask them if they want to continue, else
+// redirect to the main logged in view.
+if (
+  !(await onboardingStore.isOnboarding()) &&
+  !confirm("You have already completed onboarding, start over?")
+)
+  router.push({ name: AllProductRoute.name });
 
 const teamInvitationStore = useTeamInvitation();
 const orgStore = useOrg();
-const onboardingStore = useOnboarding();
 const loader = useLoader();
 const notif = useNotif();
 
@@ -48,7 +62,9 @@ const faUser = auth.currentUser;
 
 async function sendVerificationEmail() {
   loader.show();
-  await sendEmailVerification(faUser);
+  await sendEmailVerification(faUser, {
+    url: getAbsoluteUrlFromRoute(OnboardingRoute.name),
+  });
   loader.hide();
   notif.setSnackbar("Email sent!");
 }
