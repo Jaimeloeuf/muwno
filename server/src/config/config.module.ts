@@ -89,7 +89,7 @@ export const ConfigModule = _ConfigModule.forRoot({
     /**
      * Arbitrary default TTL
      */
-    THROTTLE_TTL: Joi.number().default(3),
+    THROTTLE_TTL: Joi.number().default(3000),
 
     /**
      * Arbitrary default limit within each TTL period

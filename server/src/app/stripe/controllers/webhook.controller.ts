@@ -44,7 +44,7 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
  */
 @Controller('stripe/webhook')
 @UseHttpControllerFilters
-@Throttle(300, 3) // Relax throttler to ensure events are not missed
+@Throttle({ default: { limit: 300, ttl: 3000 } }) // Relax throttler to ensure events are not missed
 export class StripeWebhookController {
   constructor(
     private readonly logger: Logger,

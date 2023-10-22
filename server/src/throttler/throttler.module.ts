@@ -33,14 +33,16 @@ import type { EnvironmentVariables } from '../config/types.js';
  * References:
  * https://docs.nestjs.com/security/rate-limiting#proxies
  * https://expressjs.com/en/guide/behind-proxies.html
+ * https://github.com/nestjs/throttler#proxies
  */
 export const ThrottlerModule = _ThrottlerModule.forRootAsync({
   imports: [ConfigModule],
   inject: [ConfigService],
 
-  useFactory: (config: ConfigService<EnvironmentVariables, true>) => ({
-    // @todo To fix: After upgrading to Nest v10, return type became optional...
-    ttl: config.get('THROTTLE_TTL', { infer: true }) as number,
-    limit: config.get('THROTTLE_LIMIT', { infer: true }) as number,
-  }),
+  useFactory: (config: ConfigService<EnvironmentVariables, true>) => [
+    {
+      ttl: config.get('THROTTLE_TTL', { infer: true }),
+      limit: config.get('THROTTLE_LIMIT', { infer: true }),
+    },
+  ],
 });

@@ -20,7 +20,7 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 @Controller('api/customer')
 @GuardWithApiKey()
-@Throttle(600, 3)
+@Throttle({ default: { limit: 600, ttl: 3000 } })
 @UseHttpControllerFilters
 export class CustomerApiController {
   constructor(private readonly customerService: CustomerApiService) {}

@@ -68,7 +68,7 @@ export interface EnvironmentVariables {
   readonly TELE_ADMIN_CHAT_ID: string;
 
   /**
-   * Default Time To Live (TTL) value in seconds for throttler / rate-limiter.
+   * Default Time To Live (TTL) value in milliseconds for throttler.
    */
   readonly THROTTLE_TTL: number;
 
