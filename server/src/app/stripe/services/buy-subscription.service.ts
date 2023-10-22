@@ -111,9 +111,8 @@ export class StripeBuySubscriptionService {
     paymentInterval: 'yearly' | 'monthly',
     coupon: null | string,
   ) {
-    const standardProductPrice = await this.getStandardProductPrice(
-      paymentInterval,
-    );
+    const standardProductPrice =
+      await this.getStandardProductPrice(paymentInterval);
 
     const standardProductSubscription = await this.createSubsciption(
       stripeCustomerID,
