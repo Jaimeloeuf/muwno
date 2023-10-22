@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLoader, useUser, useOnboarding } from "../../store";
-import { AllProductRoute, OnboardingRoute, SignupRoute } from "../../router";
+import {
+  AllProductRoute,
+  OnboardingRoute,
+  SignupRoute,
+  LoginRoute,
+} from "../../router";
+import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
 
 const router = useRouter();
 const loader = useLoader();
@@ -58,6 +67,27 @@ async function login() {
     loader.hide();
   }
 }
+
+async function forgetPassword() {
+  if (email.value === "") return alert("Please enter a valid email!");
+
+  loader.show();
+
+  try {
+    await sendPasswordResetEmail(auth, email.value, {
+      url: getAbsoluteUrlFromRoute(LoginRoute.name),
+    });
+
+    alert(`Password reset email sent to ${email.value}`);
+  } catch (error) {
+    const errorCode = (error as { code?: string })?.code;
+    console.error(`sendPasswordResetEmail Error Code: ${errorCode}`);
+    console.error(error);
+    alert(errorCode);
+  }
+
+  loader.hide();
+}
 </script>
 
 <template>
@@ -91,6 +121,13 @@ async function login() {
           @keydown.enter="login"
         />
       </label>
+
+      <p
+        class="cursor-pointer pt-2 text-right font-thin"
+        @click="forgetPassword"
+      >
+        Forget Password?
+      </p>
     </div>
 
     <button
