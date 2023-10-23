@@ -39,11 +39,11 @@ Table product {
   name String [not null]
   org org [not null]
   org_id String [not null]
-  pmf_survey_responses pmf_survey_responses [not null]
+  pmf_survey_response pmf_survey_response [not null]
   task task [not null]
 }
 
-Table pmf_survey_responses {
+Table pmf_survey_response {
   id String [pk]
   created_at DateTime [default: `now()`, not null]
   a1 Int [not null]
@@ -63,7 +63,7 @@ Table task {
   done Boolean [not null, default: false]
   product product [not null]
   product_id String [not null]
-  response pmf_survey_responses [not null]
+  response pmf_survey_response [not null]
   response_id String [not null]
 }
 
@@ -138,11 +138,11 @@ Ref: user.org_id > org.id [delete: Cascade]
 
 Ref: product.org_id > org.id [delete: Cascade]
 
-Ref: pmf_survey_responses.product_id > product.id [delete: Cascade]
+Ref: pmf_survey_response.product_id > product.id [delete: Cascade]
 
 Ref: task.product_id > product.id [delete: Cascade]
 
-Ref: task.response_id > pmf_survey_responses.id [delete: Cascade]
+Ref: task.response_id > pmf_survey_response.id [delete: Cascade]
 
 Ref: team_member_invitation.inviter_id > user.id [delete: Cascade]
 

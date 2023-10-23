@@ -39,7 +39,7 @@ export class FeedbackRepo implements IFeedbackRepo {
     product_id: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ) {
-    return this.db.pmf_survey_responses
+    return this.db.pmf_survey_response
       .create({
         data: { ...response, id, product_id },
         select: { id: true },
@@ -48,13 +48,13 @@ export class FeedbackRepo implements IFeedbackRepo {
   }
 
   async getResponse(responseID: FeedbackResponseID) {
-    return this.db.pmf_survey_responses
+    return this.db.pmf_survey_response
       .findUnique({ where: { id: responseID } })
       .then(runMapperIfNotNull(mapFeedbackResponseModelToEntity));
   }
 
   async getResponses(product_id: ProductID) {
-    return this.db.pmf_survey_responses.findMany({
+    return this.db.pmf_survey_response.findMany({
       select: { created_at: true, a1: true, a2: true, a3: true, a4: true },
       where: {
         product_id,
@@ -69,7 +69,7 @@ export class FeedbackRepo implements IFeedbackRepo {
   }
 
   async getResponseProduct(responseID: FeedbackResponseID) {
-    return this.db.pmf_survey_responses
+    return this.db.pmf_survey_response
       .findUnique({
         where: { id: responseID },
         select: {

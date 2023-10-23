@@ -12,7 +12,7 @@ export class PmfscoreRepo implements IPmfscoreRepo {
   async PMFScoreOfPeriod(product_id: ProductID, start: string, end: string) {
     // Select all responses submitted during the given time period.
     // Group by a1 and count how many in each group.
-    const responses = await this.db.pmf_survey_responses.groupBy({
+    const responses = await this.db.pmf_survey_response.groupBy({
       by: ['a1'],
       _count: { a1: true },
       where: {

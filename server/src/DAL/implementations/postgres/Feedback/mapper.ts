@@ -1,6 +1,6 @@
 import type {
   product as ProductModel,
-  pmf_survey_responses as FeedbackResponseModel,
+  pmf_survey_response as FeedbackResponseModel,
 } from '@prisma/client';
 import type { FeedbackForm, FeedbackResponse } from 'domain-model';
 
