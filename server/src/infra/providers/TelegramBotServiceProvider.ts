@@ -1,15 +1,25 @@
-import type { Provider } from '@nestjs/common';
+import { type Provider, Logger } from '@nestjs/common';
+
+import { ConfigService } from '@nestjs/config';
+import type { EnvironmentVariables } from '../../config/types.js';
 
 // Abstraction
 import { ITelegramBotService } from '../abstractions/index.js';
 
 // Implementation
-import { TelegramBotService } from '../implementations/index.js';
+import {
+  TelegramBotService,
+  MockTelegramBotService,
+} from '../implementations/index.js';
 
-/**
- * Provides for `ITelegramBotService`
- */
 export const TelegramBotProvider = {
   provide: ITelegramBotService,
-  useClass: TelegramBotService,
+  inject: [ConfigService, Logger],
+  useFactory: (
+    configService: ConfigService<EnvironmentVariables, true>,
+    logger: Logger,
+  ) =>
+    configService.get('NODE_ENV', { infer: true }) === 'production'
+      ? new TelegramBotService(configService)
+      : new MockTelegramBotService(logger),
 } satisfies Provider;
