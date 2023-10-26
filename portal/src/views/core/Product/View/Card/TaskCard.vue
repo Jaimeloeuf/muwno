@@ -1,45 +1,25 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../../../firebase";
 import { useNotif } from "../../../../../store";
-import { SurveyResponseRoute } from "../../../../../router";
-import type { ProductID, ReadManyTaskDTO, TaskID } from "@domain-model";
+import { TaskController } from "../../../../../controller";
+import { AllTaskRoute, SurveyResponseRoute } from "../../../../../router";
+import type { ProductID, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 const notif = useNotif();
 
-async function getTasks() {
-  const { res, err } = await sf
-    .useDefault()
-    .GET(`/task/of-product/${props.productID}?count=3`)
-    .useHeader(getAuthHeader)
-    .runJSON<ReadManyTaskDTO>();
-
-  if (err) throw err;
-  if (!res.ok) throw new Error(`Failed to get Tasks: ${JSON.stringify(res)}`);
-
-  return res.data.tasks;
-}
-
 async function markTaskAsDone(taskID: TaskID) {
-  const { res, err } = await sf
-    .useDefault()
-    .POST(`/task/done/${taskID}`)
-    .useHeader(getAuthHeader)
-    .runVoid((res) => res.json());
+  if (!confirm("Confirm?")) return;
 
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to mark Task as done: ${JSON.stringify(res)}`);
+  await TaskController.markTaskAsDone(taskID);
 
   notif.setSnackbar("Task completed! Updating task list ...");
 
   // Update list of tasks
-  tasks.value = await getTasks();
+  tasks.value = await TaskController.getTasks(props.productID, 3);
 }
 
-const tasks = ref(await getTasks());
+const tasks = ref(await TaskController.getTasks(props.productID, 3));
 </script>
 
 <template>
@@ -52,17 +32,13 @@ const tasks = ref(await getTasks());
   >
     <div class="flex flex-row items-center justify-between">
       <p class="text-sm font-semibold">Top Tasks</p>
-      <!--
-        Might not use this since we do not want to encourage users to use that
-        and try to choose / priortize tasks themselves.
-      -->
-      <!-- <router-link
+      <router-link
         v-if="tasks.length !== 0"
-        :to="{}"
-        class="rounded-lg bg-zinc-200 p-1 px-3 text-sm font-semibold text-white"
+        :to="{ name: AllTaskRoute.name }"
+        class="rounded-lg border border-zinc-200 p-1 px-6 text-sm text-zinc-700"
       >
         See All
-      </router-link> -->
+      </router-link>
     </div>
 
     <div v-if="tasks.length === 0" class="pt-2 text-xl font-extralight">
