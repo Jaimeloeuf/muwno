@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - prod
+    paths:
+      - /server/prisma/**
 
 jobs:
   migrate:
