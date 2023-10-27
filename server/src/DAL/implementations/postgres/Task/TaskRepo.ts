@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 
 import type {
   ITaskRepo,
@@ -14,6 +15,7 @@ import { mapTaskModelToEntity, mapTaskModelsToEntity } from './mapper.js';
 
 // Utils
 import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
+import { optionallyPaginateWithCursor } from '../utils/optionallyPaginateWithCursor.js';
 
 @Injectable()
 export class TaskRepo implements ITaskRepo {
@@ -39,26 +41,36 @@ export class TaskRepo implements ITaskRepo {
       .then(mapTaskModelsToEntity);
   }
 
-  async getTasksOfProduct(product_id: ProductID, count: number) {
+  async getTasksOfProduct(
+    product_id: ProductID,
+    count: number,
+    optionalPaginationID?: TaskID,
+  ) {
+    const queryArgs = {
+      where: {
+        product_id,
+        // Get all non completed tasks
+        done: false,
+      },
+
+      // Sort by highest score and oldest first.
+      orderBy: [
+        { score: 'desc' },
+
+        // Get the oldest task first so the task list will not keep changing
+        // unless the user actually marks the oldest task as done.
+        { created_at: 'asc' },
+      ],
+
+      take: count,
+    } satisfies Prisma.taskFindManyArgs;
+
     return this.db.task
-      .findMany({
-        where: {
-          product_id,
-          // Get all non completed tasks
-          done: false,
-        },
-
-        // Sort by highest score and oldest first.
-        orderBy: [
-          { score: 'desc' },
-
-          // Get the oldest task first so the task list will not keep changing
-          // unless the user actually marks the oldest task as done.
-          { created_at: 'asc' },
-        ],
-
-        take: count,
-      })
+      .findMany(
+        optionallyPaginateWithCursor(optionalPaginationID, queryArgs, {
+          id: optionalPaginationID,
+        }),
+      )
       .then(mapTaskModelsToEntity);
   }
 

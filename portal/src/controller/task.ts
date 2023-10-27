@@ -3,10 +3,19 @@ import { getAuthHeader } from "../firebase";
 import type { ProductID, ReadManyTaskDTO, TaskID } from "@domain-model";
 
 export class TaskController {
-  static async getTasks(productID: ProductID, count: number) {
+  static async getTasks(
+    productID: ProductID,
+    count: number,
+    paginationID?: TaskID
+  ) {
     const { res, err } = await sf
       .useDefault()
-      .GET(`/task/of-product/${productID}?count=${count}`)
+      .GET(`/task/of-product/${productID}`)
+      .useQuery(
+        paginationID !== undefined
+          ? { count: count.toString(), paginationID }
+          : { count: count.toString() }
+      )
       .useHeader(getAuthHeader)
       .runJSON<ReadManyTaskDTO>();
 

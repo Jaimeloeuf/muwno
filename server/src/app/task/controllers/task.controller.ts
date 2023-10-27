@@ -53,11 +53,7 @@ export class TaskController {
   /**
    * Get tasks of product.
    *
-   * Use required URL query param to specify how many tasks to load, can be
-   * between 3 for card showing most important tasks or to 25 when seeing all
-   * and doing pagination.
-   *
-   * @todo Add pagination support
+   * Use required URL query param to specify how many tasks to load (up to 15).
    */
   @Get('of-product/:productID')
   @AllowAllRoles
@@ -65,14 +61,16 @@ export class TaskController {
     @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
     @Query('count', ParseIntPipe) count: number,
+    @Query('paginationID') optionalPaginationID?: TaskID,
   ): Promise<ReadManyTaskDTO> {
-    if (count > 25)
+    // Must be within +/-15 since negative values are used to paginate backwards
+    if (count > 15 || count < -15)
       throw new BadRequestException(
-        `Cannot request for more than 25 tasks at a time. Requested for ${count}`,
+        `Cannot request for more than 15 tasks at a time. Requested for ${count}`,
       );
 
     return this.taskService
-      .getTasksOfProduct(requestorID, productID, count)
+      .getTasksOfProduct(requestorID, productID, count, optionalPaginationID)
       .then((tasks) => ({ tasks }));
   }
 

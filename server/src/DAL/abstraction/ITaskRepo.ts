@@ -25,6 +25,7 @@ export abstract class ITaskRepo {
   abstract getTasksOfProduct(
     productID: ProductID,
     count: number,
+    optionalPaginationID?: TaskID,
   ): Promise<Array<Task>>;
 
   /**

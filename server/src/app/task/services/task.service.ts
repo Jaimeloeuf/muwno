@@ -79,13 +79,18 @@ export class TaskService {
     requestorID: UserID,
     productID: ProductID,
     count: number,
+    optionalPaginationID?: TaskID,
   ): Promise<Array<Task>> {
     await this.productService.validateProductID(productID);
 
     // Validate if user can access this product, and in extension, its tasks.
     await this.productService.validateUserAccess(requestorID, productID);
 
-    return this.taskRepo.getTasksOfProduct(productID, count);
+    return this.taskRepo.getTasksOfProduct(
+      productID,
+      count,
+      optionalPaginationID,
+    );
   }
 
   /**
