@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import { CustomerRoute, SurveyMethodsRoute } from "../../../../../router";
+import {
+  SurveyMethodsRoute,
+  MoreProductFeatureRoute,
+} from "../../../../../router";
 import type { ProductID } from "@domain-model";
 
 defineProps<{ productID: ProductID }>();
 </script>
 
 <template>
-  <div class="flex flex-row justify-between gap-6">
+  <div class="flex flex-col gap-6 sm:flex-row">
     <router-link
       :to="{
-        name: CustomerRoute.name,
+        name: SurveyMethodsRoute.name,
         params: { productID },
       }"
       class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
     >
-      Manage Customers
+      Survey Methods
 
       <svg
         class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
@@ -34,13 +37,10 @@ defineProps<{ productID: ProductID }>();
     </router-link>
 
     <router-link
-      :to="{
-        name: SurveyMethodsRoute.name,
-        params: { productID },
-      }"
+      :to="{ name: MoreProductFeatureRoute.name, params: { productID } }"
       class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
     >
-      Survey Methods
+      <span class="pr-4">More</span>
 
       <svg
         class="h-3 w-3 shrink-0 rotate-90 transition duration-150"

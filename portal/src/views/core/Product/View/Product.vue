@@ -6,8 +6,7 @@ import PMFLiveScoreCard from "./Card/PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
 // import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
 import SurveyLinkCard from "./Card/SurveyLinkCard.vue";
-import CustomerAndSurveyMethodButtonsCard from "./Card/CustomerAndSurveyMethodButtonsCard.vue";
-import MoreButton from "./Card/MoreButton.vue";
+import SurveyMethodAndMoreButtonsCard from "./Card/SurveyMethodAndMoreButtonsCard.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -27,16 +26,17 @@ setInterval(() => window.location.reload(), 8.64e7);
       <span class="ml-4 text-4xl font-light">{{ product.name }}</span>
     </div>
 
-    <div class="flex flex-col-reverse xl:flex-row">
-      <PMFChart class="m-4 my-12 grow lg:m-12" :product="product" />
+    <div class="flex flex-col-reverse gap-6 xl:flex-row">
+      <div class="grow sm:px-2 lg:basis-3/4">
+        <PMFChart :product="product" />
+      </div>
 
-      <div class="mx-4 flex max-w-lg flex-col gap-6 lg:mx-0 lg:basis-1/4">
-        <PMFLiveScoreCard class="w-full" :productID="product.id" />
+      <div class="flex max-w-lg flex-col gap-6 lg:mx-0 lg:basis-1/4">
+        <PMFLiveScoreCard :productID="product.id" />
         <TaskCard :productID="product.id" />
         <SurveyLinkCard :product="product" />
         <!-- <SurveyStatsCard :product="product" /> -->
-        <CustomerAndSurveyMethodButtonsCard :productID="product.id" />
-        <MoreButton :productID="product.id" />
+        <SurveyMethodAndMoreButtonsCard :productID="product.id" />
       </div>
     </div>
   </div>
