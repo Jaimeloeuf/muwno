@@ -82,6 +82,7 @@ Table customer {
   id String [pk]
   cid String [not null]
   imported_at DateTime [default: `now()`, not null]
+  created_at DateTime [default: `now()`, not null]
   name String
   email String
   phone String

@@ -22,6 +22,14 @@ export class CustomerRepo implements ICustomerRepo {
       data: {
         ...customer,
         org_id: orgID,
+
+        // Forcing use of undefined through invalid type casting to rely on DB
+        // to generate default timestamp, with the alternative being to create
+        // default date in JS land to satisfy TS which is more inefficient.
+        // By using DB for timestamp, it also ensures both imported_at and
+        // created_at to be the same, which is more semantically correct.
+        // created_at: customer.created_at ?? new Date(),
+        created_at: customer.created_at ?? (undefined as unknown as string),
       },
     });
   }

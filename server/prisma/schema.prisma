@@ -179,6 +179,7 @@ model customer {
   id          String   @id
   cid         String // Customer's ID within the Org's own system
   imported_at DateTime @default(now())
+  created_at  DateTime @default(now())
   name        String?
   email       String?
   phone       String?

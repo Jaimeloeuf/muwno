@@ -24,6 +24,12 @@ export interface Customer {
   importedAt: ISODateTimeString;
 
   /**
+   * ISODateTimeString of when the Customer is created in our user's system.
+   * Defaults to time of import if not specified on creation.
+   */
+  createdAt: ISODateTimeString;
+
+  /**
    * Optional name of the Customer. If available, will be used for things like
    * personalizing the surveys sent to them.
    */

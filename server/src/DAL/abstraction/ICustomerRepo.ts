@@ -1,6 +1,14 @@
 import type { Customer, OrgID } from 'domain-model';
 
-export type DBCreateOneCustomerDTO = Omit<Customer, 'importedAt'>;
+export type DBCreateOneCustomerDTO = Omit<
+  Customer,
+  'importedAt' | 'createdAt'
+> & {
+  /**
+   * `created_at` is optional during creation.
+   */
+  created_at: Customer['createdAt'] | null;
+};
 
 /**
  * Data Repository interface used as an abstraction over a collection of

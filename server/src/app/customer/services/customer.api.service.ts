@@ -46,6 +46,7 @@ export class CustomerApiService {
       name: createOneCustomerDTO.name,
       email: createOneCustomerDTO.email,
       phone: createOneCustomerDTO.phone,
+      created_at: createOneCustomerDTO.createdAt,
     });
 
     return { id, cid };
@@ -77,6 +78,7 @@ export class CustomerApiService {
           name: customer.name,
           email: customer.email,
           phone: customer.phone,
+          created_at: customer.createdAt,
         });
 
         return { id, cid } satisfies CustomerIdentifier;

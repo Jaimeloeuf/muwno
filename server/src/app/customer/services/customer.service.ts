@@ -51,6 +51,7 @@ export class CustomerService {
           name: customer.name,
           email: customer.email,
           phone: customer.phone,
+          created_at: customer.createdAt,
         });
       }),
     );

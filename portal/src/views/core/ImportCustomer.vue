@@ -78,12 +78,13 @@ async function processFile() {
 
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
-    const [cid, name, email, phone] = result.data[i] ?? [];
+    const [cid, name, email, phone, createdAt] = result.data[i] ?? [];
     customers.push({
       cid: convertToNull(cid),
       name: convertToNull(name),
       email: convertToNull(email),
       phone: convertToNull(phone),
+      createdAt: convertToNull(createdAt),
     });
   }
 

@@ -1,1 +1,1 @@
-Optional unique user identifier (use this if you would like to search for this customer later on),Optional Name,Optional Email,Optional Phone Number
+Optional unique user identifier (use this if you would like to search for this customer later on),Optional Name,Optional Email,Optional Phone Number,Optional Created At in ISO DateTime String format

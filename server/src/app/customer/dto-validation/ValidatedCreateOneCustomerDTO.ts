@@ -1,6 +1,12 @@
 import type { CreateOneCustomerDTO } from 'domain-model';
 
-import { IsString, MaxLength, IsEmail, ValidateIf } from 'class-validator';
+import {
+  IsString,
+  MaxLength,
+  IsEmail,
+  IsISO8601,
+  ValidateIf,
+} from 'class-validator';
 
 /**
  * The TS not null assertion operator is used as these are supposed to be
@@ -32,4 +38,9 @@ export class ValidatedCreateOneCustomerDTO implements CreateOneCustomerDTO {
   // Allow value to be nullable by skipping all checks if it is null
   @ValidateIf((_, value) => value !== null)
   readonly phone!: string | null;
+
+  @IsISO8601({ strict: true })
+  // Allow value to be nullable by skipping all checks if it is null
+  @ValidateIf((_, value) => value !== null)
+  readonly createdAt!: string | null;
 }
