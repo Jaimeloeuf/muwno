@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
-import { useStripe, useOrg } from "../../../../store";
+import { useOrg } from "../../../../store";
 import { AllProductRoute } from "../../../../router";
 
 const router = useRouter();
@@ -28,7 +29,14 @@ async function isSubscribed() {
 
   if (res.data.subscribed) {
     // Start countdown to redirect to AllProduct page
-    setTimeout(() => router.push({ name: AllProductRoute.name }), 5000);
+    const timerID = setTimeout(
+      () => router.push({ name: AllProductRoute.name }),
+      5000
+    );
+
+    // Clear timeout to prevent route change even when user navigated away
+    // to somewhere else after AllProduct route.
+    onUnmounted(() => clearTimeout(timerID));
   } else {
     // If not yet processed, check with API again in a second
     await new Promise((resolve) => setTimeout(resolve, 1000));

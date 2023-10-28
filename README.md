@@ -4,13 +4,13 @@
 
 ## Project structure
 - [portal](./portal/README.md)
-    - Project directory for PWA made with Vue3/TS/Tailwind
+    - Built with TS/Vue3/Tailwind
 - [form](./form/README.md)
-    - Project directory for PWA made with Vue3/TS/Tailwind
+    - Built with TS/Vue3/Tailwind
 - [landing](./landing/README.md)
-    - Project directory for landing page made with Vue3/TS/Tailwind
+    - Built with TS/Vue3/Tailwind
 - [server](./server/README.md)
-    - Project directory for API server built with NestJS/TS/PostgreSQL
+    - API server built with TS/NestJS/PostgreSQL
 - [docs](./docs/README.md)
     - Technical documentation version controlled together with code
 

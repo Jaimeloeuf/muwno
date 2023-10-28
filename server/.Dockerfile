@@ -26,7 +26,7 @@ ENV NODE_ENV production
 
 WORKDIR /server
 
-# @todo
+# @todo Remove this and remove from .dockerignore
 COPY ./serviceAccountKey.json ./serviceAccountKey.json
 
 # Copy dependency files for "npm ci"
@@ -36,7 +36,8 @@ COPY ./package*.json ./
 COPY ./prisma/schema.prisma ./prisma/schema.prisma
 
 # 'clean install' dependencies after copying dependency file so that changes in
-# source code in later docker layers will not invalidate this layer.
+# source code in later docker layers will not invalidate this layer. This only
+# installs dependencies and skip devDependencies as NODE_ENV is 'production'.
 RUN npm ci
 
 # Copy build output files

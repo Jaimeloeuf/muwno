@@ -15,12 +15,14 @@ export async function seedProduct(prisma: PrismaClient) {
         org_id: '__TEST_ORG_ID__',
         created_at: generateIsoDateTimeString(-246400000),
         name: 'Product X',
+        description: 'sample description',
       },
       {
         id: ulid(),
         org_id: '__TEST_ORG_ID__',
         created_at: generateIsoDateTimeString(-246400000),
         name: 'thepmftool',
+        description: 'sample description',
       },
     ],
   });

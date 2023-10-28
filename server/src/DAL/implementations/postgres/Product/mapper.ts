@@ -7,6 +7,7 @@ export const mapProductModelToEntity = (
   id: productModel.id,
   createdAt: productModel.created_at.toISOString(),
   name: productModel.name,
+  description: productModel.description,
 });
 
 export function mapProductModelsToEntity(
