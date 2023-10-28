@@ -37,6 +37,7 @@ Table product {
   id String [pk]
   created_at DateTime [default: `now()`, not null]
   name String [not null]
+  description String [not null]
   org org [not null]
   org_id String [not null]
   pmf_survey_response pmf_survey_response [not null]

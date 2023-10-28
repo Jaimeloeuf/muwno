@@ -10,6 +10,7 @@ export type Product = {
   id: string;
   createdAt: ISODateTimeString;
   name: string;
+  description: string;
 };
 
 /**

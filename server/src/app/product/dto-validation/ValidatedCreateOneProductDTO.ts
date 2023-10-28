@@ -10,4 +10,9 @@ export class ValidatedCreateOneProductDTO implements CreateOneProductDTO {
   @MaxLength(200)
   @IsNotEmpty()
   readonly name!: string;
+
+  @IsString()
+  @MaxLength(500)
+  @IsNotEmpty()
+  readonly description!: string;
 }

@@ -28,6 +28,9 @@ setInterval(() => window.location.reload(), 8.64e7);
 
     <div class="flex flex-col-reverse gap-6 xl:flex-row">
       <div class="grow sm:px-2 lg:basis-3/4">
+        <p v-if="product.description !== ''" class="pb-6 font-extralight">
+          {{ product.description }}
+        </p>
         <PMFChart :product="product" />
       </div>
 

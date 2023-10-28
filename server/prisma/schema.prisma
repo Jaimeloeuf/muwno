@@ -103,9 +103,10 @@ model user {
 }
 
 model product {
-  id         String   @id
-  created_at DateTime @default(now())
-  name       String
+  id          String   @id
+  created_at  DateTime @default(now())
+  name        String
+  description String
 
   // Relationship: MANY products, belong to ONE (the same) org
   // Auto delete product if Org is deleted

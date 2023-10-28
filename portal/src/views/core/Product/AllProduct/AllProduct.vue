@@ -107,7 +107,13 @@ const { searchInput, results, clearSearchInput } = useSearch(
           class="rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-zinc-900"
         >
           <div class="flex flex-col justify-between sm:flex-row">
-            <p class="p-3 pr-4 text-3xl">{{ product.name }}</p>
+            <div class="p-3 sm:pr-4">
+              <p class="text-3xl">{{ product.name }}</p>
+              <p class="font-extralight">
+                {{ product.description }}
+              </p>
+            </div>
+
             <SimplePMFLiveScoreCard
               :productID="product.id"
               :cacheKey="pmfLiveScoreCacheKey"
