@@ -8,8 +8,8 @@ export async function createStripeClient(STRIPE_SECRET_KEY: string) {
 
     // For support and debugging
     appInfo: {
-      name: `thepmftool-cli-setup-script`,
-      url: 'https://github.com/Jaimeloeuf/thepmftool',
+      name: `muwno-cli-setup-script`,
+      url: 'https://github.com/Jaimeloeuf/muwno',
     },
   });
 }

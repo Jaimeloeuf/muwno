@@ -10,7 +10,7 @@ export class BasicController {
 
   @Get()
   home(): string {
-    return '<a href="https://github.com/Jaimeloeuf/thepmftool">thepmftool</a> API service';
+    return '<a href="https://github.com/Jaimeloeuf/muwno">muwno</a> API service';
   }
 
   /**

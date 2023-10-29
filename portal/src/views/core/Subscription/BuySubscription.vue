@@ -165,9 +165,9 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
                 <a
                   class="italic underline decoration-zinc-200 underline-offset-4"
                   target="_blank"
-                  href="mailto:sales@thepmftool.com"
+                  href="mailto:sales@muwno.com"
                 >
-                  sales@thepmftool.com
+                  sales@muwno.com
                 </a>
                 for more details.
               </p>
@@ -181,9 +181,9 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
               <a
                 class="italic underline decoration-zinc-300 underline-offset-4"
                 target="_blank"
-                href="mailto:sales@thepmftool.com"
+                href="mailto:sales@muwno.com"
               >
-                sales@thepmftool.com
+                sales@muwno.com
               </a>
             </p>
           </div>

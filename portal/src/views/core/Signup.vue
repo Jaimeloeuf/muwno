@@ -9,6 +9,7 @@ import { auth } from "../../firebase";
 import { useLoader, useUser } from "../../store";
 import { OnboardingRoute, LoginRoute } from "../../router";
 import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
+import { landingLink } from "../../utils/links";
 
 const router = useRouter();
 const loader = useLoader();
@@ -76,7 +77,7 @@ async function signup() {
 <template>
   <div class="mx-auto flex h-[90vh] w-full max-w-lg flex-col justify-center">
     <a
-      href="https://thepmftool.com"
+      :href="landingLink"
       target="_blank"
       class="flex w-max flex-row items-center gap-1 pb-6"
     >
@@ -140,11 +141,11 @@ async function signup() {
 
     <div class="pt-6 text-sm font-thin md:pt-12">
       By signing up, you agree to our
-      <a href="https://thepmftool.com/TC.pdf" target="_blank" class="underline"
+      <a :href="`${landingLink}/TC.pdf`" target="_blank" class="underline"
         >Terms & Conditions</a
       >
       and
-      <a href="https://thepmftool.com/PP.pdf" target="_blank" class="underline">
+      <a :href="`${landingLink}/PP.pdf`" target="_blank" class="underline">
         Privacy Policy
       </a>
     </div>

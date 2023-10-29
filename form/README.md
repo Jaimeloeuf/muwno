@@ -1,5 +1,5 @@
 # Form
-PMF Survey Form
+Survey Form webapp
 
 
 ## Create the .env file

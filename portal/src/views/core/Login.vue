@@ -14,6 +14,7 @@ import {
   LoginRoute,
 } from "../../router";
 import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
+import { landingLink } from "../../utils/links";
 
 const router = useRouter();
 const loader = useLoader();
@@ -92,7 +93,7 @@ async function forgetPassword() {
 
 <template>
   <div class="mx-auto flex h-[90vh] w-full max-w-lg flex-col justify-center">
-    <a href="https://thepmftool.com" target="_blank" class="w-max pb-6">
+    <a :href="landingLink" target="_blank" class="w-max pb-6">
       <img src="../../assets/logo.svg" alt="logo" />
     </a>
 

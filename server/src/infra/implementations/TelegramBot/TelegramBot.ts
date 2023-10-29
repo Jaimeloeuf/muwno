@@ -26,7 +26,7 @@ export class TelegramBotService implements ITelegramBotService {
   private readonly apiUrl: string;
 
   /**
-   * Chat ID of thepmftool's admin telegram group chat
+   * Chat ID of the team's telegram admin chat for notifications.
    */
   private readonly TELE_ADMIN_CHAT_ID: string;
 

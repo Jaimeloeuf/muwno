@@ -5,6 +5,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif } from "../../../store";
 import { TeamRoute } from "../../../router";
+import { portalLink } from "../../../utils/links";
 import BackButton from "../../components/BackButton.vue";
 import type { CreateOneTeamMemberInvitationDTO } from "@domain-model";
 
@@ -73,10 +74,10 @@ async function invite() {
             can go to
             <a
               target="_blank"
-              href="https://portal.thepmftool.com/#/signup"
+              :href="`${portalLink}/#/signup`"
               class="font-bold underline"
             >
-              portal.thepmftool.com/#/signup
+              {{ `${portalLink}/#/signup` }}
             </a>
             to sign up directly.
           </li>

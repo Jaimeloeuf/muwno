@@ -1,6 +1,5 @@
-# thepmftool
-***thepmftool*** helps *Product Teams* survey their customers so that they can measure their *PMF (Product Market Fit)* and get summarised key *actionable insights* from the feedbacks automatically.
-
+# muwno
+***muwno*** help *Product Teams* get Product Market Fit to earn more, by gathering and analysing their *customers' feedback* to automatically generate and prioritise *actionable tasks* based on what their customers would actually pay for.
 
 ## Project structure
 - [portal](./portal/README.md)

@@ -44,7 +44,7 @@ model org {
   phone      String?
   address    String?
 
-  // Boolean flag to indicate if Org has been verified by `thepmftool` admins.
+  // Boolean flag to indicate if Org has been verified by admins.
   verified Boolean
 
   // Boolean flag to indicate if Org has an active subscription

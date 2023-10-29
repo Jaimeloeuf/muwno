@@ -51,13 +51,10 @@ async function downloadRawResponseCSV() {
       </button>
     </div>
 
-    <!-- @todo Add a link to a request form to fill up -->
     <p v-if="showHelp" class="mb-4 border-t border-zinc-200 pt-2 font-light">
       Download up to 1000 rows of your raw survey response data sorted by newest
       first. If you need more or all historical data, reach out to us at
-      <a class="underline" href="mailto:help@thepmftool.com">
-        help@thepmftool.com
-      </a>
+      <a class="underline" href="mailto:help@muwno.com">help@muwno.com</a>
       to generate it for you.
     </p>
 

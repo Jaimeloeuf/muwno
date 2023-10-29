@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import { useForm } from "./useForm";
 import { FeedbackSubmittedRoute } from "../../router";
+import { landingLink } from "../../utils/links";
 
 const props = defineProps<{ formID: string; defaultA1?: string }>();
 
@@ -122,12 +123,11 @@ async function submit() {
 
     <div class="mt-6 text-center">
       <a
-        href="https://thepmftool.com"
+        :href="landingLink"
         target="_blank"
         class="text-xs text-zinc-500 underline"
       >
-        &copy;2023 - {{ new Date().getFullYear() }} thepmftool. All rights
-        reserved.
+        &copy;2023 - {{ new Date().getFullYear() }} muwno. All rights reserved.
       </a>
     </div>
 

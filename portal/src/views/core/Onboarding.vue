@@ -175,9 +175,9 @@ async function sendVerificationEmail() {
           <a
             class="font-light italic underline underline-offset-4"
             target="_blank"
-            href="mailto:help@thepmftool.com"
+            href="mailto:help@muwno.com"
           >
-            help@thepmftool.com
+            help@muwno.com
           </a>
         </p>
       </div>

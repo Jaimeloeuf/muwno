@@ -6,6 +6,9 @@
 interface ImportMetaEnv {
   readonly VITE_API_URL: string;
   readonly VITE_STRIPE_PK: string;
+  readonly VITE_LANDING_LINK: string;
+  readonly VITE_PORTAL_LINK: string;
+  readonly VITE_FORM_LINK: string;
 
   // Add more env variables as needed...
 }

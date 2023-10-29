@@ -17,7 +17,7 @@ export class MockTransactionalEmailService
     this.logger.debug(
       {
         // @todo Set this with env var
-        From: 'robot@thepmftool.com',
+        From: 'robot@muwno.com',
         To: recipient,
         Subject: subject,
         HtmlBody: body,

@@ -6,3 +6,6 @@
 # Use this to set the production API base URL,
 # this does not need to be set for development builds.
 VITE_API_URL="https://api.example.com"
+
+# Link to the project landing page
+VITE_LANDING_LINK="https://muwno.com"

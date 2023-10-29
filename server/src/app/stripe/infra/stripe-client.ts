@@ -23,9 +23,9 @@ export class StripeClient extends Stripe {
 
         // For support and debugging (not required for production)
         appInfo: {
-          name: `thepmftool-${nodeEnv}-${version}`,
+          name: `muwno-${nodeEnv}-${version}`,
           version,
-          url: 'https://thepmftool.com',
+          url: 'https://muwno.com',
         },
       },
     );

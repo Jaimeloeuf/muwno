@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { landingLink } from "../utils/links";
+
 defineProps<{ globalError: Error }>();
 </script>
 
@@ -30,7 +32,7 @@ defineProps<{ globalError: Error }>();
       </a>
 
       <a
-        href="https://thepmftool.com"
+        :href="landingLink"
         class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-xl text-zinc-800"
       >
         Home

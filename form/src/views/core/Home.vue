@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { landingLink } from "../../utils/links";
+
 // There is no home page for form/ so just redirect to landing page directly.
-window.location.href = "https://thepmftool.com";
+window.location.href = landingLink;
 </script>
 
 <template>
@@ -11,10 +13,10 @@ window.location.href = "https://thepmftool.com";
   -->
   <div class="flex h-screen flex-row items-center justify-center">
     <a
-      href="https://thepmftool.com"
+      :href="landingLink"
       class="rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-2 text-4xl"
     >
-      thepmftool.com
+      muwno landing page
     </a>
   </div>
 </template>

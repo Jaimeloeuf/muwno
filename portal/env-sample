@@ -9,3 +9,9 @@ VITE_API_URL="https://api.example.com"
 
 # Get the Stripe publishable key from the Stripe dashboard.
 VITE_STRIPE_PK="pk_test_15NfigeCwCgAVGV8OzeCE2lxUyUzQkWYG07nMOUb1VtCxIllIQF3FipLcalQ9sJwegVDL7GZZOoXILfKUJQ7cMlEk009gLCW5mT"
+
+# Link to the project landing page
+VITE_LANDING_LINK="https://muwno.com"
+
+# Link to the form domain
+VITE_FORM_LINK="https://form.muwno.com"

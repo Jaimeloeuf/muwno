@@ -21,7 +21,7 @@ export async function seedProduct(prisma: PrismaClient) {
         id: ulid(),
         org_id: '__TEST_ORG_ID__',
         created_at: generateIsoDateTimeString(-246400000),
-        name: 'thepmftool',
+        name: 'Another Product',
         description: 'sample description',
       },
     ],

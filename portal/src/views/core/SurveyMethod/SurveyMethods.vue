@@ -24,8 +24,7 @@ const product = await productStore.getProduct(props.productID);
     <div class="md:mx-6">
       <div class="flex flex-col items-center justify-between lg:flex-row">
         <p class="mb-2 text-xl">
-          <b>Survey Methods</b> is how <i>thepmftool</i> helps you gather
-          feedback.
+          <b>Survey Methods</b> is how <i>muwno</i> helps you gather feedback.
           <br />
           You can choose what to use based on the type of your product.
         </p>

@@ -57,7 +57,7 @@ export const ConfigModule = _ConfigModule.forRoot({
     OPENAI_API_KEY: Joi.string().required(),
 
     /**
-     * Expects the Org ID of thepmftool's OpenAI API org.
+     * Expects the OpenAI Org ID.
      */
     OPENAI_ORG: Joi.string().required(),
 
@@ -82,7 +82,7 @@ export const ConfigModule = _ConfigModule.forRoot({
     TELE_BOT_TOKEN: Joi.string().required(),
 
     /**
-     * Expects the chat ID of thepmftool's telegram admin chat.
+     * Expects the chat ID of the team's telegram admin chat for notifications.
      */
     TELE_ADMIN_CHAT_ID: Joi.string().required(),
 

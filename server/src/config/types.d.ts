@@ -63,7 +63,7 @@ export interface EnvironmentVariables {
   readonly TELE_BOT_TOKEN: string;
 
   /**
-   * Chat ID of thepmftool's telegram admin chat.
+   * Chat ID of the team's telegram admin chat for notifications.
    */
   readonly TELE_ADMIN_CHAT_ID: string;
 

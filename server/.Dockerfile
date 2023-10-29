@@ -2,8 +2,8 @@
 # from remote repo to build.
 # 
 # To build and run container with this Dockerfile:
-# docker build -t thepmftool-api -f ./.Dockerfile .
-# docker run -d --rm -p 3000:3000 --name thepmftool-api thepmftool-api
+# docker build -t muwno-api -f ./.Dockerfile .
+# docker run -d --rm -p 3000:3000 --name muwno-api muwno-api
 # Alternativly, use docker compose in root to run this service
 #
 # Why build the server before the image?

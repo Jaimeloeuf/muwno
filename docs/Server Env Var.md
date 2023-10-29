@@ -16,7 +16,7 @@ This documents all the environment variables required by [server](../server/)
 | STRIPE_WEBHOOK_SECRET | Stripe's Webhook Secret                                                                                                    |                        |
 | STRIPE_WEBHOOK_PATH   | Stripe's Webhook Path Secret used as a simple way to ensure that the caller is actually Stripe by knowing the secret path. |                        |
 | TELE_BOT_TOKEN        | Telegram bot's token.                                                                                                      |                        |
-| TELE_ADMIN_CHAT_ID    | Chat ID of thepmftool's telegram admin chat.                                                                               |                        |
+| TELE_ADMIN_CHAT_ID    | Chat ID of the team's telegram admin chat for notifications.                                                               |                        |
 | THROTTLE_TTL          | Default Time To Live (TTL) value in milliseconds for throttler.                                                            | 3000                   |
 | THROTTLE_LIMIT        | Default max limit of requests within each `THROTTLE_TTL` period.                                                           | 150                    |
 | PRISMA_VERBOSE        | Flag to enable Prisma's verbose mode.                                                                                      | false                  |

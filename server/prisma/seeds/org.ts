@@ -5,7 +5,7 @@ export async function seedOrg(prisma: PrismaClient) {
     data: {
       id: '__TEST_ORG_ID__',
       name: 'HB30',
-      email: 'test@thepmftool.com',
+      email: 'test@muwno.com',
       plan: 'Standard',
       subscribed: true,
       verified: true,

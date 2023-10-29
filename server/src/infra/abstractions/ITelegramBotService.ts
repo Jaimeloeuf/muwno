@@ -11,7 +11,7 @@ export abstract class ITelegramBotService {
   abstract sendOne(recipient: string, message: string): Promise<boolean>;
 
   /**
-   * Send ONE message to thepmftool admins' telegram group chat using the bot.
+   * Send ONE message to admins' telegram group chat using the bot.
    *
    * Returns boolean to indicate if method succeeded.
    */
