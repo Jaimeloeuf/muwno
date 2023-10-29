@@ -5,6 +5,9 @@
 // Location of this file is defined in tsconfig.json
 interface ImportMetaEnv {
   readonly VITE_API_URL: string;
+  readonly VITE_LOGIN_LINK: string;
+  readonly VITE_SIGNUP_LINK: string;
+  readonly VITE_DEMO_YT_LINK: string;
 
   // Add more env variables as needed...
 }

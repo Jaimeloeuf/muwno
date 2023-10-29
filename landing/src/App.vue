@@ -3,6 +3,7 @@ import { ref, onErrorCaptured } from "vue";
 
 import { useLoader } from "./store";
 import GlobalErrorView from "./views/GlobalError.vue";
+import SideDrawer from "./views/components/SideDrawer.vue";
 import Loader from "./views/components/Loader.vue";
 
 const loader = useLoader();
@@ -81,8 +82,11 @@ function clearError() {
           https://caniuse.com/css-display-contents
         -->
         <div>
-          <Loader v-if="loader.showLoader" />
+          <SideDrawer />
           <component :is="Component" />
+
+          <!-- Conditionally loaded `fixed` positioned components -->
+          <Loader v-if="loader.showLoader" />
         </div>
 
         <!-- loading UI -->
