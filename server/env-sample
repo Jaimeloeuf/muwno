@@ -1,6 +1,7 @@
 #############################################
 # This is a sample .env file, follow this format to create a
 # new .env file before running the service.
+# Values can be wrapped in quotes to escape special characters like '#'
 
 # Used by /version API controller
 # The version (git branch and commit hash) will be injected automatically in 'build' mode

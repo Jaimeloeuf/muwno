@@ -1,7 +1,8 @@
 #############################################
 # This is a sample .env file, follow this format to create a
 # new .env file for the app to work.
+# Values are wrapped in quotes to escape special characters like '#'
 
 # Use this to set the production API base URL,
 # this does not need to be set for development builds.
-VITE_API_URL=https://api.example.com
+VITE_API_URL="https://api.example.com"
