@@ -24,5 +24,5 @@ export const TransactionalEmailServiceProvider = {
   ) =>
     configService.get('NODE_ENV', { infer: true }) === 'production'
       ? new PostmarkTransactionalEmailService(configService)
-      : new MockTransactionalEmailService(logger),
+      : new MockTransactionalEmailService(configService, logger),
 } satisfies Provider;

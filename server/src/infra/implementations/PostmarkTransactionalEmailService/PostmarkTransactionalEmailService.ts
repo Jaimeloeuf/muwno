@@ -16,18 +16,24 @@ export class PostmarkTransactionalEmailService
    */
   private client: ServerClient;
 
-  constructor(
-    private readonly configService: ConfigService<EnvironmentVariables, true>,
-  ) {
+  /**
+   * Email address used for the sender/from.
+   */
+  private senderAddress: string;
+
+  constructor(configService: ConfigService<EnvironmentVariables, true>) {
     this.client = new ServerClient(
-      this.configService.get('POSTMARK_API_KEY', { infer: true }),
+      configService.get('POSTMARK_API_KEY', { infer: true }),
     );
+
+    this.senderAddress = configService.get('EMAIL_ADDRESS_TRANSACTIONAL', {
+      infer: true,
+    });
   }
 
   private async send(recipient: string, subject: string, body: string) {
     const emailResponse = await this.client.sendEmail({
-      // @todo Set this with env var
-      From: 'robot@muwno.com',
+      From: this.senderAddress,
       To: recipient,
       Subject: subject,
       HtmlBody: body,

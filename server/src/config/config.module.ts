@@ -52,6 +52,13 @@ export const ConfigModule = _ConfigModule.forRoot({
     POSTMARK_API_KEY: Joi.string().required(),
 
     /**
+     * Expects the email address used for transactional emails.
+     */
+    EMAIL_ADDRESS_TRANSACTIONAL: Joi.string()
+      .email()
+      .default('robot@muwno.com'),
+
+    /**
      * Expects the API key to access OpenAI's API.
      */
     OPENAI_API_KEY: Joi.string().required(),

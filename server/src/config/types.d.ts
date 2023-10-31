@@ -31,6 +31,11 @@ export interface EnvironmentVariables {
   readonly POSTMARK_API_KEY: string;
 
   /**
+   * Email Address used for transactional emails.
+   */
+  readonly EMAIL_ADDRESS_TRANSACTIONAL: string;
+
+  /**
    * API key to access OpenAI's API.
    */
   readonly OPENAI_API_KEY: string;

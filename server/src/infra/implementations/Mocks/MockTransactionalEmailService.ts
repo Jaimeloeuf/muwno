@@ -2,6 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import type { ITransactionalEmailService } from '../../abstractions/ITransactionalEmailService.js';
 
+import { ConfigService } from '@nestjs/config';
+import type { EnvironmentVariables } from '../../../config/types.js';
+
 /**
  * MockTransactionalEmailService implements the ITransactionalEmailService to
  * mock a transactional email service while doing testing by just logging all
@@ -11,13 +14,24 @@ import type { ITransactionalEmailService } from '../../abstractions/ITransaction
 export class MockTransactionalEmailService
   implements ITransactionalEmailService
 {
-  constructor(private readonly logger: Logger) {}
+  /**
+   * Email address used for the sender/from.
+   */
+  private senderAddress: string;
+
+  constructor(
+    configService: ConfigService<EnvironmentVariables, true>,
+    private readonly logger: Logger,
+  ) {
+    this.senderAddress = configService.get('EMAIL_ADDRESS_TRANSACTIONAL', {
+      infer: true,
+    });
+  }
 
   private async send(recipient: string, subject: string, body: string) {
     this.logger.debug(
       {
-        // @todo Set this with env var
-        From: 'robot@muwno.com',
+        From: this.senderAddress,
         To: recipient,
         Subject: subject,
         HtmlBody: body,
