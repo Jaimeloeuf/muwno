@@ -12,6 +12,8 @@ export const listOfNoFeedbackStrings = [
   '-nil',
   '-nil-',
   'no feedback',
+  'test',
+  'testing',
 ];
 
 /**
