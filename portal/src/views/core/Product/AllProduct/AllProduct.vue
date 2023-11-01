@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useOrg, useProduct } from "../../../../store";
 import { ProductRoute, AddProductRoute } from "../../../../router";
-import SideDrawerButton from "../../../components/SideDrawerButton.vue";
+import TopNavbar from "../../../components/TopNavbar.vue";
 import SimplePMFLiveScoreCard from "./SimplePMFLiveScoreCard.vue";
 import { useSearch } from "./SearchComposable";
 
@@ -26,14 +26,9 @@ const { searchInput, results, clearSearchInput } = useSearch(
 
 <template>
   <div>
-    <div class="mb-6 flex flex-row border-b pb-4">
-      <SideDrawerButton />
-      <span class="ml-4 text-4xl">
-        Products
-        <span class="font-extralight"> ({{ products.length }}) </span>
-        of <span class="font-medium">{{ org.name }}</span>
-      </span>
-    </div>
+    <TopNavbar sideDrawer>
+      All Products ({{ products.length }}) of {{ org.name }}
+    </TopNavbar>
 
     <div class="md:mx-12">
       <div
@@ -62,13 +57,13 @@ const { searchInput, results, clearSearchInput } = useSearch(
         <div class="flex-shrink-0">
           <router-link
             :to="{ name: AddProductRoute.name }"
-            class="inline-flex cursor-pointer items-center justify-between rounded-lg border border-zinc-200 px-6 py-2"
+            class="inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-zinc-200 px-6 py-2 sm:w-max"
             :class="{
               'bg-white text-green-600 ': products.length !== 0,
               'bg-green-600 text-white': products.length === 0,
             }"
           >
-            <p class="pr-6 text-2xl">Add Product</p>
+            <p class="pr-6 text-xl">Add Product</p>
 
             <svg
               class="h-8 w-8"
@@ -108,7 +103,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
         >
           <div class="flex flex-col justify-between sm:flex-row">
             <div class="p-3 sm:pr-4">
-              <p class="text-3xl">{{ product.name }}</p>
+              <p class="text-2xl">{{ product.name }}</p>
               <p class="font-extralight">
                 {{ product.description }}
               </p>

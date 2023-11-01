@@ -6,7 +6,7 @@ import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif } from "../../../store";
 import { TeamRoute } from "../../../router";
 import { portalLink } from "../../../utils/links";
-import BackButton from "../../components/BackButton.vue";
+import TopNavbar from "../../components/TopNavbar.vue";
 import type { CreateOneTeamMemberInvitationDTO } from "@domain-model";
 
 const router = useRouter();
@@ -40,15 +40,12 @@ async function invite() {
 
 <template>
   <div>
-    <div class="mb-12 flex flex-row items-center border-b pb-4">
-      <BackButton />
-      <span class="ml-4 text-4xl">Invite new Team Member</span>
-    </div>
+    <TopNavbar back>Invite Team</TopNavbar>
 
     <div class="mx-auto w-full max-w-xl">
       <div class="mb-10">
         <label>
-          <p class="text-3xl">Email</p>
+          <p class="text-2xl">Email</p>
           <p>They will need to create an account and login with this email!</p>
 
           <input
@@ -63,8 +60,8 @@ async function invite() {
       <!-- @todo Customise role type -->
 
       <div class="mb-10">
-        <p class="text-3xl">What's next?</p>
-        <ul class="list-decimal px-5 text-lg">
+        <p class="text-2xl">What's next?</p>
+        <ul class="list-decimal px-5">
           <li>
             Click <b>Invite</b> to send an email invite to your team member.
           </li>

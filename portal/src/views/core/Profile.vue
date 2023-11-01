@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { auth } from "../../firebase";
 import { useOrg } from "../../store";
-import SideDrawerButton from "../components/SideDrawerButton.vue";
+import TopNavbar from "../components/TopNavbar.vue";
 import { type Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();
@@ -12,10 +12,7 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
 
 <template>
   <div>
-    <div class="mb-6 border-b pb-4">
-      <SideDrawerButton />
-      <span class="ml-4 text-4xl">Profile</span>
-    </div>
+    <TopNavbar sideDrawer>Profile</TopNavbar>
 
     <div class="mx-6 mb-10 flex flex-col justify-between lg:flex-row">
       <div class="w-full">

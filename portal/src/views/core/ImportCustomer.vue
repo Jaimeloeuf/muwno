@@ -5,7 +5,7 @@ import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useOrg, useLoader, useNotif } from "../../store";
-import BackButton from "../components/BackButton.vue";
+import TopNavbar from "../components/TopNavbar.vue";
 import type {
   CreateOneCustomerDTO,
   CreateManyCustomerDTO,
@@ -134,10 +134,7 @@ async function uploadCustomers(customers: Array<CreateOneCustomerDTO>) {
 
 <template>
   <div>
-    <div class="mb-12 flex flex-row items-center border-b pb-4">
-      <BackButton />
-      <span class="ml-4 text-4xl">Import Customers manually</span>
-    </div>
+    <TopNavbar back>Manual Import</TopNavbar>
 
     <div class="mx-auto w-full max-w-md">
       <div class="mb-10">

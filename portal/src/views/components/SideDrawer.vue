@@ -40,9 +40,8 @@ function closeAndLogout() {
     :class="{ 'w-5/6 translate-x-0 shadow-2xl': drawer.showDrawer }"
   >
     <div class="flex h-full flex-col items-start justify-between bg-white p-4">
-      <button class="w-full border-b border-zinc-200 py-4" @click="drawer.hide">
-        <span class="text-2xl">Product Market Fit</span>
-        <span class="ml-3 text-2xl">📈</span>
+      <button class="w-full border-b border-zinc-200 py-2" @click="drawer.hide">
+        <img src="../../assets/logo.svg" class="h-8" />
       </button>
 
       <div class="w-full pt-2">
@@ -72,7 +71,7 @@ function closeAndLogout() {
           <span class="ml-3 flex-1 text-left">Customers</span>
         </router-link>
 
-        <div class="mb-4 mt-8 w-full border-b border-zinc-200"></div>
+        <div class="my-4 w-full border-b border-zinc-200"></div>
 
         <router-link
           :to="{ name: OrgUsageRoute.name }"

@@ -3,7 +3,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useUser } from "../../../store";
 import { InviteMemberRoute } from "../../../router";
-import SideDrawerButton from "../../components/SideDrawerButton.vue";
+import TopNavbar from "../../components/TopNavbar.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 
@@ -28,18 +28,17 @@ const teamMembers = res.data.users;
 
 <template>
   <div>
-    <div class="mb-6 border-b pb-4">
-      <SideDrawerButton />
-      <span class="ml-4 text-4xl">{{ org.name }}</span>
-    </div>
+    <TopNavbar sideDrawer>{{ org.name }}</TopNavbar>
 
     <!-- @todo -->
     <!-- OrgOwner/OrgAdmin can see all active invites that have not been accepted -->
     <!-- OrgOwner/OrgAdmin should be able to remove a team member -->
 
     <div class="mx-auto max-w-4xl">
-      <div class="mx-6 flex flex-col items-center justify-between md:flex-row">
-        <p class="mr-2 w-full text-3xl md:mr-12">
+      <div
+        class="mx-6 flex flex-col items-center justify-between gap-3 md:flex-row"
+      >
+        <p class="mr-2 w-full text-xl md:mr-12">
           Team Members ({{ teamMembers.length }})
         </p>
 
@@ -52,7 +51,7 @@ const teamMembers = res.data.users;
             'border-green-600 text-green-600': teamMembers.length === 1,
           }"
         >
-          <div class="text-2xl">Invite Team Member</div>
+          <div class="text-lg">Invite Team Member</div>
           <svg
             class="h-8 w-8"
             aria-hidden="true"

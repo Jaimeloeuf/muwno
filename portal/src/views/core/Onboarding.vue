@@ -17,6 +17,7 @@ import {
   OnboardingRoute,
 } from "../../router";
 import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
+import TopNavbar from "../../views/components/TopNavbar.vue";
 
 const router = useRouter();
 const onboardingStore = useOnboarding();
@@ -72,9 +73,7 @@ async function sendVerificationEmail() {
 
 <template>
   <div>
-    <div class="mb-12 border-b pb-4">
-      <span class="ml-4 text-4xl">Onboarding</span>
-    </div>
+    <TopNavbar><span class="text-3xl">Onboarding</span></TopNavbar>
 
     <div class="mx-auto max-w-xl">
       <div v-if="!faUser.emailVerified" class="pb-12">

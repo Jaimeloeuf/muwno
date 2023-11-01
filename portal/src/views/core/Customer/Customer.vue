@@ -3,7 +3,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg } from "../../../store";
 import { ImportCustomerRoute } from "../../../router";
-import SideDrawerButton from "../../components/SideDrawerButton.vue";
+import TopNavbar from "../../components/TopNavbar.vue";
 import type { ReadCustomerCountDTO } from "@domain-model";
 
 const orgStore = useOrg();
@@ -45,10 +45,7 @@ customerGroups;
 
 <template>
   <div>
-    <div class="mb-6 border-b pb-4">
-      <SideDrawerButton />
-      <span class="ml-4 text-4xl">Customers</span>
-    </div>
+    <TopNavbar sideDrawer>Customers</TopNavbar>
 
     <div class="md:mx-6">
       <div class="flex flex-col md:flex-row md:gap-6">

@@ -2,8 +2,8 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useOrg, useUser, useLoader, useNotif } from "../../store";
-import SideDrawerButton from "../components/SideDrawerButton.vue";
+import { useUser, useLoader, useNotif } from "../../store";
+import TopNavbar from "../components/TopNavbar.vue";
 import CopyOnClick from "../components/CopyOnClick.vue";
 import { getDateString } from "../../utils/date-formatting/getDateString";
 import { Role } from "@domain-model";
@@ -13,12 +13,10 @@ import type {
   ApiKeyDetailID,
 } from "@domain-model";
 
-const orgStore = useOrg();
 const userStore = useUser();
 const loader = useLoader();
 const notif = useNotif();
 
-const org = await orgStore.getOrg();
 const user = await userStore.getUser();
 const isAdmin = user.role === Role.OrgOwner || user.role === Role.OrgAdmin;
 
@@ -91,7 +89,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
   <div>
     <div
       v-if="showModal && newApiKey !== null"
-      class="fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-white p-40"
+      class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-white p-40"
     >
       <div class="flex flex-col font-light">
         <p class="text-2xl">Click to copy your new API Key</p>
@@ -110,12 +108,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
       </div>
     </div>
 
-    <div class="mb-12 flex flex-row items-center border-b pb-4">
-      <SideDrawerButton />
-      <span class="ml-4 text-4xl">
-        <span class="font-light">API Keys for</span> <b>{{ org.name }}</b>
-      </span>
-    </div>
+    <TopNavbar sideDrawer>API Keys</TopNavbar>
 
     <div class="mx-auto w-full max-w-5xl">
       <div

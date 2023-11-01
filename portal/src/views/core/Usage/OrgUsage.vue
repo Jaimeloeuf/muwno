@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import SideDrawerButton from "../../components/SideDrawerButton.vue";
+import TopNavbar from "../../components/TopNavbar.vue";
 </script>
 
 <template>
   <div>
-    <div class="mb-6 border-b pb-4">
-      <SideDrawerButton />
-      <span class="ml-4 text-4xl">Organisation Usage</span>
-    </div>
+    <TopNavbar sideDrawer>Organisation Usage</TopNavbar>
 
     <div class="mx-auto flex max-w-2xl flex-col gap-6">
       <p class="text-2xl font-light">

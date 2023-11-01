@@ -2,7 +2,7 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useProduct } from "../../store";
-import BackButton from "../components/BackButton.vue";
+import TopNavbar from "../components/TopNavbar.vue";
 import { getDateTimeString } from "../../utils/date-formatting/getDateTimeString";
 import type {
   ProductID,
@@ -62,12 +62,7 @@ const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
 
 <template>
   <div>
-    <div class="mb-6 flex flex-row items-center border-b pb-4">
-      <BackButton />
-      <span class="ml-4 text-4xl">
-        <span class="font-light">Survey Response</span>
-      </span>
-    </div>
+    <TopNavbar back>Survey Response</TopNavbar>
 
     <div class="flex flex-col justify-between gap-8 lg:mx-12 lg:flex-row">
       <div class="lg:basis-1/2">

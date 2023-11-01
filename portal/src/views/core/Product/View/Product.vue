@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProduct } from "../../../../store";
-import SideDrawerButton from "../../../components/SideDrawerButton.vue";
+import TopNavbar from "../../../components/TopNavbar.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "./Card/PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
@@ -21,10 +21,7 @@ setInterval(() => window.location.reload(), 8.64e7);
 
 <template>
   <div>
-    <div class="mb-2">
-      <SideDrawerButton />
-      <span class="ml-4 text-4xl font-light">{{ product.name }}</span>
-    </div>
+    <TopNavbar sideDrawer>{{ product.name }}</TopNavbar>
 
     <div class="flex flex-col-reverse gap-6 xl:flex-row">
       <div class="grow sm:px-2 lg:basis-3/4">

@@ -14,16 +14,11 @@ const product = await productStore.getProduct(props.productID);
 
 <template>
   <div>
-    <div class="mb-6 flex flex-row items-center border-b pb-4">
-      <BackButton />
-      <span class="ml-4 text-4xl">
-        <b>{{ product.name }}</b> <span class="font-light">Survey Methods</span>
-      </span>
-    </div>
+    <TopNavbar back>Survey Methods</TopNavbar>
 
     <div class="md:mx-6">
       <div class="flex flex-col items-center justify-between lg:flex-row">
-        <p class="mb-2 text-xl">
+        <p class="mb-2 text-lg">
           <b>Survey Methods</b> is how <i>muwno</i> helps you gather feedback.
           <br />
           You can choose what to use based on the type of your product.

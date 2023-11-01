@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useNotif, useLoader } from "../../../../store";
 import { SurveyResponseRoute } from "../../../../router";
 import { TaskController } from "../../../../controller";
-import BackButton from "../../../components/BackButton.vue";
+import TopNavbar from "../../../components/TopNavbar.vue";
 import type { ProductID, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -84,10 +84,7 @@ async function next() {
 
 <template>
   <div>
-    <div class="mb-6 flex flex-row items-center border-b pb-4">
-      <BackButton />
-      <span class="ml-4 text-4xl">All Tasks</span>
-    </div>
+    <TopNavbar back>All Tasks</TopNavbar>
 
     <div class="mx-auto flex max-w-7xl flex-col gap-6">
       <div class="flex flex-col gap-3 md:flex-row">

@@ -3,7 +3,11 @@ import { useRouter } from "vue-router";
 import type { PublicRouteNames, PrivateRouteNames } from "../../router";
 
 const props = defineProps<{
-  routeName?: PublicRouteNames | PrivateRouteNames;
+  /**
+   * Custom back route can be specified instead of just going back one step in
+   * navigation history.
+   */
+  routeName?: PublicRouteNames | PrivateRouteNames | undefined;
 }>();
 
 const router = useRouter();
@@ -16,12 +20,9 @@ const back = () => {
 </script>
 
 <template>
-  <button
-    class="rounded-lg bg-zinc-100 px-4 py-1.5 font-light text-zinc-900"
-    @click="back"
-  >
+  <button class="rounded-lg bg-zinc-100 px-4 py-1.5" @click="back">
     <svg
-      class="inline-block h-6 w-6 rotate-180 text-zinc-700"
+      class="inline-block h-6 w-6 rotate-180 text-zinc-600"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

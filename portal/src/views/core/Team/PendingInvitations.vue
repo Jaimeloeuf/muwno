@@ -10,7 +10,7 @@ import {
 } from "../../../store";
 import { AllProductRoute } from "../../../router";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
-import BackButton from "../../components/BackButton.vue";
+import TopNavbar from "../../components/TopNavbar.vue";
 
 const router = useRouter();
 const teamInvitationStore = useTeamInvitation();
@@ -63,24 +63,16 @@ async function rejectInvitation(invitationID: string) {
 
 <template>
   <div>
-    <div class="mb-6 flex flex-row items-center border-b pb-4">
-      <BackButton />
-      <p class="ml-4 text-4xl">
-        Pending Team Invitation<span
-          v-if="teamInvitationStore.invitations.length > 1"
-          >s
-        </span>
-      </p>
-    </div>
+    <TopNavbar back>Pending Invitations</TopNavbar>
 
     <div class="mx-auto max-w-4xl">
       <div class="mx-6 mr-2 flex flex-row justify-between md:mr-12">
-        <p class="text-3xl">
+        <p class="text-2xl">
           Invitations ({{ teamInvitationStore.invitations.length }})
         </p>
 
         <button
-          class="rounded-lg bg-zinc-100 px-4 font-light text-zinc-900"
+          class="rounded-lg bg-zinc-100 px-4 text-zinc-900"
           @click="teamInvitationStore.checkForPendingTeamInvitations"
         >
           refresh
@@ -94,7 +86,7 @@ async function rejectInvitation(invitationID: string) {
           class="my-3 rounded-lg bg-zinc-100 p-6 text-zinc-900"
         >
           <div class="flex flex-row items-center">
-            <p class="pr-3 text-2xl">
+            <p class="pr-3 text-xl">
               {{ index + 1 }}
             </p>
 
