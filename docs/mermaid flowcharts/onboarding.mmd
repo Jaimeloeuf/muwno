@@ -1,0 +1,52 @@
+---
+title: Onboarding Flow
+---
+flowchart TB
+    A(Signup Page) -- Click Signup button --> B
+
+    subgraph Verify Email
+    B(Verify Email Page)
+    B --> C{User goes to verify email}
+
+    C -- Verification Failed --> D
+    D(Request to resend verification email)
+    D -- Try again --> C
+    end
+
+    subgraph Onboarding
+    C -- Verification Succeded --> E
+    E(Onboarding Page)
+
+    E --> F{Choose onboarding action}
+
+    F --> G(Create Org)
+    F --> H(See Pending Invites)
+    end
+
+    subgraph Org Creation
+    G --> I(Create Org Page)
+    end
+
+    subgraph Buy Subscription
+    I -- Enter Org details --> J
+    J(Buy Subscription Page)
+
+    J --> K{Enter coupon +
+    Choose payment schedule}
+    end
+
+    subgraph Setup Payment Method
+    K -- Monthly --> N
+    K -- Yearly --> N
+
+    N(Setup Payment Method Page) -- Enter payment details --> O
+    O{Wait for Stripe to Process,
+    and our API to charge them}
+
+    O -- Failed --> J
+    O -- Success --> P(Payment Success Page)
+    end
+
+    subgraph Products
+    P --> Q(All Products Page)
+    end
