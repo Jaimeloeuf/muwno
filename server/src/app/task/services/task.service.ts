@@ -56,6 +56,34 @@ export class TaskService {
   }
 
   /**
+   * Get task.
+   */
+  async getTask(requestorID: UserID, taskID: TaskID): Promise<Task> {
+    const task = await this.taskRepo.getTask(taskID);
+    if (task === null)
+      throw new NotFoundException(`Task '${taskID}' not found`);
+
+    // Validate if user can access this product, and in extension, its tasks.
+    await this.productService.validateUserAccess(requestorID, task.productID);
+
+    return task;
+  }
+
+  /**
+   * Update a task.
+   */
+  async updateTask(requestorID: UserID, taskID: TaskID, task: string) {
+    const productID = await this.taskRepo.getTaskProduct(taskID);
+    if (productID === null)
+      throw new NotFoundException(`Task '${taskID}' not found`);
+
+    // Validate if user can access this product, and in extension, its tasks.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    await this.taskRepo.updateTask(taskID, task);
+  }
+
+  /**
    * Get tasks of response.
    */
   async getTasksOfResponse(

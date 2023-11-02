@@ -35,6 +35,16 @@ export class TaskRepo implements ITaskRepo {
       .then(mapTaskModelToEntity);
   }
 
+  async getTask(id: TaskID) {
+    return this.db.task
+      .findUnique({ where: { id } })
+      .then(runMapperIfNotNull(mapTaskModelToEntity));
+  }
+
+  async updateTask(id: TaskID, task: string) {
+    await this.db.task.update({ where: { id }, data: { task } });
+  }
+
   async getTasksOfResponse(response_id: FeedbackResponseID) {
     return this.db.task
       .findMany({ where: { response_id } })

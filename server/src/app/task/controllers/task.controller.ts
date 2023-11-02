@@ -1,7 +1,9 @@
 import {
   Controller,
   Get,
+  Patch,
   Post,
+  Body,
   Param,
   Query,
   ParseIntPipe,
@@ -25,7 +27,10 @@ import type {
 } from 'domain-model';
 
 // DTO Types
-import type { ReadManyTaskDTO } from 'domain-model';
+import type { ReadManyTaskDTO, ReadOneTaskDTO } from 'domain-model';
+
+// DTO Validators
+import { ValidatedUpdateOneTaskDTO } from '../dto-validation/ValidatedUpdateOneTaskDTO.js';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -35,6 +40,37 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 @UseHttpControllerFilters
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
+
+  /**
+   * Get task.
+   */
+  @Get(':taskID')
+  @AllowAllRoles
+  async getTask(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('taskID') taskID: TaskID,
+  ): Promise<ReadOneTaskDTO> {
+    return this.taskService
+      .getTask(requestorID, taskID)
+      .then((task) => ({ task }));
+  }
+
+  /**
+   * Update a task.
+   */
+  @Patch(':taskID')
+  @AllowAllRoles
+  async updateTask(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('taskID') taskID: TaskID,
+    @Body() validatedUpdateOneTaskDTO: ValidatedUpdateOneTaskDTO,
+  ): Promise<void> {
+    await this.taskService.updateTask(
+      requestorID,
+      taskID,
+      validatedUpdateOneTaskDTO.task,
+    );
+  }
 
   /**
    * Get tasks of response.

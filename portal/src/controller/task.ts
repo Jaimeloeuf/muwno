@@ -1,8 +1,39 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
-import type { ProductID, ReadManyTaskDTO, TaskID } from "@domain-model";
+import type {
+  ProductID,
+  ReadOneTaskDTO,
+  ReadManyTaskDTO,
+  TaskID,
+} from "@domain-model";
 
 export class TaskController {
+  static async getTask(taskID: TaskID) {
+    const { res, err } = await sf
+      .useDefault()
+      .GET(`/task/${taskID}`)
+      .useHeader(getAuthHeader)
+      .runJSON<ReadOneTaskDTO>();
+
+    if (err) throw err;
+    if (!res.ok) throw new Error(`Failed to get Task: ${JSON.stringify(res)}`);
+
+    return res.data.task;
+  }
+
+  static async updateTask(taskID: TaskID, task: string) {
+    const { res, err } = await sf
+      .useDefault()
+      .PATCH(`/task/${taskID}`)
+      .useHeader(getAuthHeader)
+      .bodyJSON<{ task: string }>({ task })
+      .runVoid();
+
+    if (err) throw err;
+    if (!res.ok)
+      throw new Error(`Failed to update Task: ${JSON.stringify(res)}`);
+  }
+
   static async getTasks(
     productID: ProductID,
     count: number,

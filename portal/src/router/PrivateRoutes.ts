@@ -85,6 +85,14 @@ export const AllTaskRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const EditTaskRoute = <const>{
+  name: "product-task-edit",
+  path: "/product/task/edit/:taskID",
+  props: true,
+  component: () => import("../views/core/Product/View/EditTask.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /* ========================== Survey Module Routes ========================== */
 
 export const SurveyResponseRoute = <const>{
@@ -222,6 +230,7 @@ const PrivateRoutes = [
   ProductRoute,
   MoreProductFeatureRoute,
   AllTaskRoute,
+  EditTaskRoute,
   SurveyResponseRoute,
   AddProductRoute,
   SurveyMethodsRoute,

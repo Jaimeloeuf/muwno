@@ -13,6 +13,16 @@ export abstract class ITaskRepo {
   abstract createOne(createOneTaskDTO: DBCreateOneTaskDTO): Promise<Task>;
 
   /**
+   * Get Task from data source.
+   */
+  abstract getTask(taskID: TaskID): Promise<Task | null>;
+
+  /**
+   * Update Task in data source.
+   */
+  abstract updateTask(taskID: TaskID, task: string): Promise<void>;
+
+  /**
    * Get Tasks of response from data source.
    */
   abstract getTasksOfResponse(
@@ -29,7 +39,7 @@ export abstract class ITaskRepo {
   ): Promise<Array<Task>>;
 
   /**
-   * Mark a task as done in data source.
+   * Get a task's `ProductID`.
    */
   abstract getTaskProduct(taskID: TaskID): Promise<ProductID | null>;
 

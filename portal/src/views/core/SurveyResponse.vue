@@ -2,6 +2,7 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useProduct } from "../../store";
+import { EditTaskRoute } from "../../router";
 import TopNavbar from "../components/TopNavbar.vue";
 import { getDateTimeString } from "../../utils/date-formatting/getDateTimeString";
 import type {
@@ -88,12 +89,12 @@ const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
             >?
           </p>
 
-          <textarea
-            :value="response.a2"
-            rows="2"
+          <div
             class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
+            :class="{ 'h-12 bg-zinc-50': response.a2 === '' }"
           >
-          </textarea>
+            {{ response.a2 }}
+          </div>
         </div>
 
         <div class="mb-6">
@@ -103,12 +104,12 @@ const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
             >?
           </p>
 
-          <textarea
-            :value="response.a3"
-            rows="4"
+          <div
             class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
+            :class="{ 'h-12 bg-zinc-50': response.a3 === '' }"
           >
-          </textarea>
+            {{ response.a3 }}
+          </div>
         </div>
 
         <div class="mb-6">
@@ -118,13 +119,12 @@ const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
             for you?
           </p>
 
-          <textarea
-            :value="response.a4"
-            rows="4"
+          <div
             class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
-            readonly
+            :class="{ 'h-12 bg-zinc-50': response.a4 === '' }"
           >
-          </textarea>
+            {{ response.a4 }}
+          </div>
         </div>
       </div>
 
@@ -134,9 +134,16 @@ const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
           <div
             v-for="(task, i) in tasks"
             :key="task.id"
-            class="mb-4 rounded-lg border border-zinc-200 p-3 text-lg"
+            class="relative mb-4 rounded-lg border border-zinc-200 p-3 text-lg"
           >
-            {{ i + 1 }}. {{ task.task }}
+            <router-link
+              :to="{ name: EditTaskRoute.name, params: { taskID: task.id } }"
+              class="absolute right-0 top-0 rounded-bl-lg bg-zinc-200 px-2 font-light text-zinc-800"
+            >
+              edit
+            </router-link>
+
+            <p class="pr-10 font-light">{{ i + 1 }}. {{ task.task }}</p>
             <p v-if="task.id === taskID" class="pt-1 text-sm">
               Page opened by clicking this task's
               <span
