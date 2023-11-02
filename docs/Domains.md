@@ -10,3 +10,4 @@ This documents all the places which are needed when updating the domain.
 | Stripe        | Stripe Webhook link                                        |
 | Postmark      | Postmark email service                                     |
 | Mail provider | Gmail                                                      |
+| Recaptcha     | Need to register the domain in Recaptcha settings          |
