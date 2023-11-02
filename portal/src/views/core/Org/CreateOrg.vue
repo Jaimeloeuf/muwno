@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useOrg, useUser, useLoader } from "../../../store";
 import { AllProductRoute, BuySubscriptionPlanRoute } from "../../../router";
+import TopNavbar from "../../components/TopNavbar.vue";
 
 const router = useRouter();
 const orgStore = useOrg();
@@ -48,9 +49,7 @@ async function createOrg() {
 
 <template>
   <div>
-    <div class="mb-12 border-b pb-4">
-      <span class="text-4xl">Create Organisation</span>
-    </div>
+    <TopNavbar back>Create Organisation</TopNavbar>
 
     <div class="mx-auto w-full max-w-lg">
       <div class="pb-10">

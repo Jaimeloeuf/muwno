@@ -79,7 +79,7 @@ async function pay() {
         .GET(
           `/stripe/setup-intent/redirect-on-confirmation?redirectTo=${redirectTo}`
         )
-        .getURL(),
+        .getUrl(),
     },
   });
 

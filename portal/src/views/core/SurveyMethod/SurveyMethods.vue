@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useProduct } from "../../../store";
 import { CustomerRoute } from "../../../router";
-import BackButton from "../../components/BackButton.vue";
+import TopNavbar from "../../components/TopNavbar.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
 import { type ProductID, SurveyMethodsArray } from "@domain-model";
 
