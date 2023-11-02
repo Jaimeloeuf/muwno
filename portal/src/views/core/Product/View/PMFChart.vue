@@ -1,38 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import type { Product } from "@domain-model";
+import { useChart } from "../../../../store";
 import Chart from "./Chart.vue";
+import { type ProductID, IntervalType } from "@domain-model";
 
-defineProps<{ product: Product }>();
+defineProps<{ productID: ProductID }>();
 
-/**
- * Show this lastNIntervals
- * Default to 5 for weeks
- * Default to 3 for month and year
- *
- * @todo
- * This should be some user setting stored locally so that on refresh it is not
- * gone, and no need to store on the server.
- */
-const intervals = ref<number>(5);
-
-/**
- * This is the list of allowed values if the weekly interval type is choosen.
- * @todo Need to implement the check in the API too.
- */
-const weeklyIntervalValues = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-/**
- * This is the list of allowed values if the monthly interval type is choosen.
- * @todo Need to implement the check in the API too.
- */
-// const monthlyIntervalValues = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-/**
- * This is the list of allowed values if the yearly interval type is choosen.
- * @todo Need to implement the check in the API too.
- */
-// const yearlyIntervalValues = [2, 3, 4, 5];
+const chartStore = useChart();
 </script>
 
 <template>
@@ -41,30 +14,37 @@ const weeklyIntervalValues = [2, 3, 4, 5, 6, 7, 8, 9, 10];
       <p class="text-3xl font-thin">PMF Performance</p>
 
       <div>
-        Show past
+        Past
         <select
-          v-model="intervals"
-          class="mx-2 rounded-lg bg-zinc-100 px-3 py-1"
+          v-model="chartStore.intervals"
+          class="mx-1 rounded-lg bg-zinc-100 px-3 py-1"
         >
           <option
-            v-for="intervalsToShow in weeklyIntervalValues"
-            :key="intervalsToShow"
-            :value="intervalsToShow"
-            :selected="intervalsToShow === intervals"
+            v-for="interval in chartStore.intervalValues"
+            :key="interval"
+            :value="interval"
+            :selected="interval === chartStore.intervals"
           >
-            {{ intervalsToShow }}
+            {{ interval }}
           </option>
         </select>
-        weeks
+
+        <select
+          v-model="chartStore.intervalType"
+          class="rounded-lg bg-zinc-100 py-1 pl-3"
+        >
+          <option
+            v-for="intervalType in IntervalType"
+            :key="intervalType"
+            :value="intervalType"
+            :selected="intervalType === chartStore.intervalType"
+          >
+            {{ intervalType }}
+          </option>
+        </select>
       </div>
     </div>
 
-    <!-- @todo
-      Tmp using intervals as the key also, so that on `intervals` value update,
-      the entire Chart component will be reloaded/refreshed, without having to
-      do any state watching within itself, and rely on vue to re-create the
-      component and therefore re-running the setup function to get the data.
-    -->
-    <Chart :key="intervals" :product="product" :intervals="intervals" />
+    <Chart :productID="productID" />
   </div>
 </template>

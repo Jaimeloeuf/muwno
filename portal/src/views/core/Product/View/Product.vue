@@ -28,7 +28,7 @@ setInterval(() => window.location.reload(), 8.64e7);
         <p v-if="product.description !== ''" class="pb-6 font-extralight">
           {{ product.description }}
         </p>
-        <PMFChart :product="product" />
+        <PMFChart :productID="product.id" />
       </div>
 
       <div class="flex max-w-lg flex-col gap-6 lg:mx-0 lg:basis-1/4">

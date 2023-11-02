@@ -7,5 +7,6 @@ export * from "./onboarding.store";
 export * from "./user.store";
 export * from "./org.store";
 export * from "./product.store";
+export * from "./chart.store";
 export * from "./team-invitation.store";
 export * from "./stripe-payment.store";

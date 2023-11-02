@@ -6,6 +6,11 @@
  */
 export enum IntervalType {
   /**
+   * 24 hours, starting at 00:00 (locale aware)
+   */
+  day = 'day',
+
+  /**
    * First day of the current week, 00:00 (locale aware)
    */
   week = 'week',
