@@ -9,3 +9,9 @@ VITE_API_URL="https://api.example.com"
 
 # Link to the project landing page
 VITE_LANDING_LINK="https://muwno.com"
+
+# Get auto generated firebaseConfig in project settings
+VITE_FB_APIKEY="AIzalzrEzq8swnlrbsywOh2B0jSDvOLRlksfX6C"
+VITE_FB_AUTHDOMAIN="muwno.firebaseapp.com"
+VITE_FB_PROJECTID="muwno"
+VITE_FB_APPID="1:980460922898:web:3e9a46c31ab9da15ded214"

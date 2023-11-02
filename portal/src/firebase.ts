@@ -2,15 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
-// firebaseConfig auto generated in project settings
+// Get auto generated firebaseConfig in project settings and put in .env file
 const firebaseApp = initializeApp({
-  apiKey: "AIzaSyBDrlOR6jzqOkvfElrssnbXLCwl8zsh2w0",
-  authDomain: "thepmftool.firebaseapp.com",
-  projectId: "thepmftool",
-  storageBucket: "thepmftool.appspot.com",
-  messagingSenderId: "894898920260",
-  appId: "1:894898920260:web:491c2b369d3aeda4aed511",
-  measurementId: "G-0SKW8HDG7Z",
+  apiKey: import.meta.env.VITE_FB_APIKEY,
+  authDomain: import.meta.env.VITE_FB_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_FB_PROJECTID,
+  appId: import.meta.env.VITE_FB_APPID,
 });
 
 export const auth = getAuth(firebaseApp);

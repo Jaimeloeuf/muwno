@@ -10,6 +10,12 @@ interface ImportMetaEnv {
   readonly VITE_PORTAL_LINK: string;
   readonly VITE_FORM_LINK: string;
 
+  // Firebase config values
+  readonly VITE_FB_APIKEY: string;
+  readonly VITE_FB_AUTHDOMAIN: string;
+  readonly VITE_FB_PROJECTID: string;
+  readonly VITE_FB_APPID: string;
+
   // Add more env variables as needed...
 }
 
