@@ -3,34 +3,21 @@
  *
  * Inspired by the dayjs interval types
  * https://day.js.org/docs/en/manipulate/start-of#docsNav
+ *
+ * For each of the interval types, whether they all use rolling time windows or
+ * fixed time windows is dependent of the PMF score service calculation, this
+ * only provides the definition of the different interval types.
  */
 export enum IntervalType {
-  /**
-   * 24 hours, starting at 00:00 (locale aware)
-   */
   day = 'day',
-
-  /**
-   * First day of the current week, 00:00 (locale aware)
-   */
   week = 'week',
-
-  /**
-   * First day of the current month, 00:00
-   */
   month = 'month',
+  year = 'year',
 
   /**
-   * Beginning of the current quarter, 1st day of months, 00:00
-   *
    * This is dependent QuarterOfYear plugin of dayjs and currently unimplemented
    */
   // quarter = 'quarter',
-
-  /**
-   * January 1st, 00:00 of the current year
-   */
-  year = 'year',
 }
 
 export const isValidIntervalType = (s: string): s is IntervalType =>
