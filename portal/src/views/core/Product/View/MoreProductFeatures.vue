@@ -2,6 +2,7 @@
 import { useProduct, useUser } from "../../../../store";
 import TopNavbar from "../../../components/TopNavbar.vue";
 import DownloadRawResponseButton from "./Card/DownloadRawResponseButton.vue";
+import TransferProductButton from "./Card/TransferProductButton.vue";
 import DeleteProductButton from "./Card/DeleteProductButton.vue";
 import { type ProductID, Role } from "@domain-model";
 
@@ -19,13 +20,19 @@ const user = await userStore.getUser();
     <TopNavbar back>{{ product.name }}</TopNavbar>
 
     <div class="mx-auto flex max-w-lg flex-col gap-6">
-      <p class="text-3xl">More Features</p>
+      <p class="text-xl">More Features</p>
       <DownloadRawResponseButton :product="product" />
 
       <template
         v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin"
       >
-        <div class="py-6"></div>
+        <p class="pt-6 text-xl">Destructive Actions</p>
+
+        <TransferProductButton
+          v-if="user.role === Role.OrgOwner"
+          :product="product"
+        />
+
         <DeleteProductButton :product="product" />
       </template>
     </div>

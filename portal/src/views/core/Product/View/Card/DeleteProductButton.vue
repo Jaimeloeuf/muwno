@@ -33,7 +33,7 @@ async function deleteProduct() {
   <div>
     <div
       v-if="showConfirmationModal"
-      class="fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-white p-40"
+      class="fixed left-0 top-0 z-30 flex h-screen w-screen items-center justify-center bg-white p-40"
     >
       <div class="flex flex-col font-light">
         <p class="text-2xl">
@@ -46,7 +46,7 @@ async function deleteProduct() {
 
         <div class="flex flex-row justify-between gap-6">
           <button
-            class="rounded-lg border border-red-200 bg-red-50 p-3 text-red-900"
+            class="rounded-lg border border-red-200 bg-red-50 p-3 text-red-600"
             @click="deleteProduct"
           >
             Delete
@@ -63,7 +63,7 @@ async function deleteProduct() {
     </div>
 
     <button
-      class="w-full rounded-lg border border-red-200 bg-red-50 p-4 text-left text-red-900"
+      class="w-full rounded-lg border border-red-200 bg-red-50 p-4 text-left text-red-600"
       @click="showConfirmationModal = true"
     >
       Delete

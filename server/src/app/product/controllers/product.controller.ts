@@ -11,7 +11,7 @@ import {
 } from '../../../guards/index.js';
 
 // Entity Types
-import type { FirebaseAuthUID, ProductID } from 'domain-model';
+import type { FirebaseAuthUID, ProductID, OrgID } from 'domain-model';
 import { Role } from 'domain-model';
 
 // DTO Types
@@ -81,6 +81,23 @@ export class ProductController {
     @Param('productID') productID: ProductID,
   ) {
     await this.productService.deleteProduct(userID, productID);
+
+    // Return empty object so that client can parse as JSON,
+    // in case there is any errors thrown and returned as JSON.
+    return {};
+  }
+
+  /**
+   * Transfer product to a different Org.
+   */
+  @Post('transfer/:productID/to/:orgID')
+  @RolesRequired(Role.OrgOwner)
+  async transferProduct(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Param('productID') productID: ProductID,
+    @Param('orgID') orgID: OrgID,
+  ) {
+    await this.productService.transferProduct(userID, productID, orgID);
 
     // Return empty object so that client can parse as JSON,
     // in case there is any errors thrown and returned as JSON.

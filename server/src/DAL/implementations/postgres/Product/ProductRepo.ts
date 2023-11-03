@@ -111,4 +111,8 @@ export class ProductRepo implements IProductRepo {
   async deleteOne(productID: ProductID) {
     await this.db.product.delete({ where: { id: productID } });
   }
+
+  async transfer(id: ProductID, org_id: OrgID) {
+    await this.db.product.update({ where: { id }, data: { org_id } });
+  }
 }

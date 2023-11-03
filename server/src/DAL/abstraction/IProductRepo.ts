@@ -56,4 +56,9 @@ export abstract class IProductRepo {
    * Delete a single product.
    */
   abstract deleteOne(productID: ProductID): Promise<void>;
+
+  /**
+   * Transfer product to a different Org.
+   */
+  abstract transfer(productID: ProductID, orgID: OrgID): Promise<void>;
 }

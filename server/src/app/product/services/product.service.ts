@@ -112,4 +112,22 @@ export class ProductService {
     await this.validateUserAccess(userID, productID);
     await this.productRepo.deleteOne(productID);
   }
+
+  /**
+   * Transfer product to a different Org.
+   */
+  async transferProduct(
+    requestorID: UserID,
+    productID: ProductID,
+    orgID: OrgID,
+  ): Promise<void> {
+    await this.validateUserAccess(requestorID, productID);
+
+    // This only requires permission from the current owner, since OrgID should
+    // be unguessable, it works as some sort of one time password to accept the
+    // transfer to their Org.
+    await this.productRepo.transfer(productID, orgID);
+
+    // @todo All usage should now be updated to point to the new Org.
+  }
 }

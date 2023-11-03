@@ -7,6 +7,7 @@ import {
   ProfileRoute,
   OrgUsageRoute,
   TeamRoute,
+  OrgRoute,
   ApiKeyRoute,
 } from "../../router";
 import { useOnboarding, useSidedrawer } from "../../store";
@@ -44,7 +45,7 @@ function closeAndLogout() {
         <img src="../../assets/logo.svg" class="h-8" />
       </button>
 
-      <div class="w-full pt-2">
+      <div class="w-full pt-3">
         <router-link
           :to="{ name: AllProductRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
@@ -99,19 +100,6 @@ function closeAndLogout() {
           <span class="ml-3 flex-1">Team</span>
         </router-link>
 
-        <!-- Hidden as there is nothing to show for now. -->
-        <!-- <router-link
-          :to="{ name: OrgRoute.name }"
-          class="group flex w-full rounded-lg p-2 text-zinc-900"
-          :class="{
-            'border border-zinc-200 bg-zinc-50': route.name === OrgRoute.name,
-          }"
-          @click="drawer.hide"
-        >
-          <img src="../../assets/SideDrawerIcon/Org.svg" class="h-6 w-6" />
-          <span class="ml-3 flex-1 text-left">Organisation</span>
-        </router-link> -->
-
         <router-link
           :to="{ name: ManageSubscriptionRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
@@ -126,6 +114,18 @@ function closeAndLogout() {
             class="h-6 w-6"
           />
           <span class="ml-3 flex-1 text-left">Subscription</span>
+        </router-link>
+
+        <router-link
+          :to="{ name: OrgRoute.name }"
+          class="group flex w-full rounded-lg p-2 text-zinc-900"
+          :class="{
+            'border border-zinc-200 bg-zinc-50': route.name === OrgRoute.name,
+          }"
+          @click="drawer.hide"
+        >
+          <img src="../../assets/SideDrawerIcon/Org.svg" class="h-6 w-6" />
+          <span class="ml-3 flex-1 text-left">Organisation</span>
         </router-link>
 
         <router-link

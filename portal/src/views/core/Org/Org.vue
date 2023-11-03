@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useOrg } from "../../../store";
 import TopNavbar from "../../components/TopNavbar.vue";
+import CopyOnClick from "../../components/CopyOnClick.vue";
 
 const orgStore = useOrg();
 
@@ -11,18 +12,20 @@ const org = await orgStore.getOrg();
   <div>
     <TopNavbar sideDrawer>{{ org.name }}</TopNavbar>
 
-    <div class="mx-6 mb-10 md:mx-12">
-      <p class="mb-2 text-xl">Details</p>
+    <div class="max-w-md md:mx-12">
+      <p class="mb-2 text-2xl">Details</p>
 
-      <div class="flex flex-row gap-6">
-        <!-- Not showing org.plan until we have more than 1 type of plan -->
-        <!-- <div class="w-max rounded-lg border border-zinc-200 p-6">
-          <p>Plan</p>
+      <div class="rounded-lg border border-zinc-200 p-3">
+        <p class="mb-3 border-b border-zinc-200 pb-2 text-lg">
+          Organisation ID
+        </p>
 
-          <p class="text-4xl font-light">
-            {{ org.plan }}
+        <CopyOnClick>
+          <p class="break-words">
+            {{ org.id }}
           </p>
-        </div> -->
+          <p class="font-extralight">Click to copy ID</p>
+        </CopyOnClick>
       </div>
     </div>
   </div>

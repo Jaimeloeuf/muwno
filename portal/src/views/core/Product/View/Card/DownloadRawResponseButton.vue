@@ -59,7 +59,7 @@ async function downloadRawResponseCSV() {
     </p>
 
     <button
-      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-2"
+      class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-2"
       @click="downloadRawResponseCSV"
     >
       Download
