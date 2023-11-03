@@ -105,19 +105,46 @@ export const useProduct = defineStore("product", {
      * Create a new Product
      */
     async createNewProduct(
-      productName: Product["name"],
+      name: Product["name"],
       description: Product["description"]
     ) {
       const { res, err } = await sf
         .useDefault()
         .POST(`/product`)
         .useHeader(getAuthHeader)
-        .bodyJSON<CreateOneProductDTO>({ name: productName, description })
+        .bodyJSON<CreateOneProductDTO>({ name, description })
         .runJSON<ReadOneProductDTO>();
 
       if (err) throw err;
       if (!res.ok)
         throw new Error(`Failed to add Product: ${JSON.stringify(res)}`);
+
+      const { product } = res.data;
+
+      this.products[product.id] = product;
+      this.productCacheTime[product.id] = unixseconds();
+
+      return product;
+    },
+
+    /**
+     * Update a Product
+     */
+    async updateProduct(
+      productID: ProductID,
+      name: Product["name"],
+      description: Product["description"]
+    ) {
+      const { res, err } = await sf
+        .useDefault()
+        .PUT(`/product/${productID}`)
+        .useHeader(getAuthHeader)
+        .bodyJSON<CreateOneProductDTO>({ name, description })
+        .runJSON<ReadOneProductDTO>();
+
+      if (err) throw err;
+      if (!res.ok)
+        throw new Error(`Failed to update Product: ${JSON.stringify(res)}`);
 
       const { product } = res.data;
 

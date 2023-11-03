@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Body,
+  Delete,
+} from '@nestjs/common';
 
 import { ProductService } from '../services/product.service.js';
 
@@ -67,6 +75,21 @@ export class ProductController {
   ): Promise<ReadOneProductDTO> {
     return this.productService
       .createProduct(userID, createOneProductDTO)
+      .then((product) => ({ product }));
+  }
+
+  /**
+   * Update a Product
+   */
+  @Put(':productID')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  async updateProduct(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Param('productID') productID: ProductID,
+    @Body() createOneProductDTO: ValidatedCreateOneProductDTO,
+  ): Promise<ReadOneProductDTO> {
+    return this.productService
+      .updateProduct(userID, productID, createOneProductDTO)
       .then((product) => ({ product }));
   }
 

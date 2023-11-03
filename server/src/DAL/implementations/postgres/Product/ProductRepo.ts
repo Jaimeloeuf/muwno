@@ -99,12 +99,18 @@ export class ProductRepo implements IProductRepo {
   }
 
   async createOne(
-    id: string,
+    id: ProductID,
     org_id: OrgID,
     createOneProductDTO: CreateOneProductDTO,
   ) {
     return this.db.product
       .create({ data: { ...createOneProductDTO, id, org_id } })
+      .then(mapProductModelToEntity);
+  }
+
+  async update(id: ProductID, data: CreateOneProductDTO) {
+    return this.db.product
+      .update({ where: { id }, data })
       .then(mapProductModelToEntity);
   }
 

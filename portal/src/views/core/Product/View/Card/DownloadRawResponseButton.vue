@@ -40,8 +40,8 @@ async function downloadRawResponseCSV() {
 
 <template>
   <div class="rounded-lg border border-zinc-200 p-4 text-left">
-    <div class="mb-2 flex flex-row items-center justify-between gap-6">
-      <p>Raw response data as CSV file</p>
+    <div class="mb-4 flex flex-row items-center justify-between gap-6">
+      <p>Survey Responses</p>
 
       <button
         class="rounded-lg bg-zinc-100 px-3 font-light text-zinc-900"
@@ -52,8 +52,9 @@ async function downloadRawResponseCSV() {
     </div>
 
     <p v-if="showHelp" class="mb-4 border-t border-zinc-200 pt-2 font-light">
-      Download up to 1000 rows of your raw survey response data sorted by newest
-      first. If you need more or all historical data, reach out to us at
+      Download up to 1000 rows of your raw survey response data in CSV file
+      format sorted by newest first. If you need more or all historical data,
+      reach out to us at
       <a class="underline" href="mailto:help@muwno.com">help@muwno.com</a>
       to generate it for you.
     </p>

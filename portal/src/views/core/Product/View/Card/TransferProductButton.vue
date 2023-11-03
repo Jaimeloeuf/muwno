@@ -62,7 +62,7 @@ async function transfer() {
       <input
         v-model.trim="newOrgID"
         type="text"
-        class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3 focus:outline-none"
+        class="w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
         placeholder="New OrgID"
       />
 

@@ -106,6 +106,18 @@ export class ProductService {
   }
 
   /**
+   * Update a Product.
+   */
+  async updateProduct(
+    userID: UserID,
+    productID: ProductID,
+    updateOneProductDTO: CreateOneProductDTO,
+  ): Promise<Product> {
+    await this.validateUserAccess(userID, productID);
+    return this.productRepo.update(productID, updateOneProductDTO);
+  }
+
+  /**
    * Delete a single product.
    */
   async deleteProduct(userID: UserID, productID: ProductID): Promise<void> {
