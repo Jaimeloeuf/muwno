@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useProduct } from "../../store";
+import { useProduct, useLoader, useNotif } from "../../store";
 import { EditTaskRoute } from "../../router";
+import { TaskController } from "../../controller";
 import TopNavbar from "../components/TopNavbar.vue";
 import { getDateTimeString } from "../../utils/date-formatting/getDateTimeString";
 import type {
@@ -19,6 +21,8 @@ const props = defineProps<{
   taskID?: TaskID;
 }>();
 
+const loader = useLoader();
+const notif = useNotif();
 const productStore = useProduct();
 
 const product = await productStore.getProduct(props.productID);
@@ -51,14 +55,21 @@ async function getTask(responseID: FeedbackResponseID) {
 }
 
 const response = await getResponse(props.responseID);
-const tasks = await getTask(props.responseID);
-
-// @todo Might use this to show different UI based on what task user clicked in from
-// const mainTask = tasks.filter((task) => task.id === props.taskID);
-// const otherTasks = tasks.filter((task) => task.id !== props.taskID);
+const tasks = ref(await getTask(props.responseID));
 
 /** Mapping to convert q1 answers stored as 1, 2, 3 in DB into text */
 const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
+
+async function deleteTask(taskID: TaskID) {
+  if (!confirm("Delete?")) return;
+  loader.show();
+
+  await TaskController.deleteTask(taskID);
+  tasks.value = tasks.value.filter((task) => task.id !== taskID);
+
+  notif.setSnackbar("Task deleted!");
+  loader.hide();
+}
 </script>
 
 <template>
@@ -131,19 +142,35 @@ const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
       <div class="lg:basis-1/2">
         <div class="pb-6">
           <p class="pb-2 text-2xl">Generated Tasks</p>
+
+          <p
+            v-if="tasks.length === 0"
+            class="rounded-lg border border-zinc-200 p-3 text-lg font-light"
+          >
+            There is no tasks generated for this Survey Response.
+          </p>
+
           <div
             v-for="(task, i) in tasks"
             :key="task.id"
             class="relative mb-4 rounded-lg border border-zinc-200 p-3 text-lg"
           >
-            <router-link
-              :to="{ name: EditTaskRoute.name, params: { taskID: task.id } }"
-              class="absolute right-0 top-0 rounded-bl-lg bg-zinc-200 px-2 font-light text-zinc-800"
-            >
-              edit
-            </router-link>
+            <div class="absolute right-0 top-0 flex flex-col font-light">
+              <router-link
+                :to="{ name: EditTaskRoute.name, params: { taskID: task.id } }"
+                class="rounded-tr bg-zinc-200 px-4 text-zinc-800"
+              >
+                edit
+              </router-link>
+              <button
+                class="rounded-bl-lg bg-red-100 px-2 text-red-800"
+                @click="deleteTask(task.id)"
+              >
+                delete
+              </button>
+            </div>
 
-            <p class="pr-10 font-light">{{ i + 1 }}. {{ task.task }}</p>
+            <p class="pr-12 font-light">{{ i + 1 }}. {{ task.task }}</p>
             <p v-if="task.id === taskID" class="pt-1 text-sm">
               Page opened by clicking this task's
               <span

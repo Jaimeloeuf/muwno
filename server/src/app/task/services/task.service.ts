@@ -84,6 +84,20 @@ export class TaskService {
   }
 
   /**
+   * Delete task.
+   */
+  async deleteTask(requestorID: UserID, taskID: TaskID) {
+    const productID = await this.taskRepo.getTaskProduct(taskID);
+    if (productID === null)
+      throw new NotFoundException(`Task '${taskID}' not found`);
+
+    // Validate if user can access this product, and in extension, its tasks.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    await this.taskRepo.deleteTask(taskID);
+  }
+
+  /**
    * Get tasks of response.
    */
   async getTasksOfResponse(

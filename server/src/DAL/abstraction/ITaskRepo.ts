@@ -23,6 +23,11 @@ export abstract class ITaskRepo {
   abstract updateTask(taskID: TaskID, task: string): Promise<void>;
 
   /**
+   * Delete Task in data source.
+   */
+  abstract deleteTask(taskID: TaskID): Promise<void>;
+
+  /**
    * Get Tasks of response from data source.
    */
   abstract getTasksOfResponse(

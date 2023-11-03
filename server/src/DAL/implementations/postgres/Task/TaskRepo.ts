@@ -45,6 +45,10 @@ export class TaskRepo implements ITaskRepo {
     await this.db.task.update({ where: { id }, data: { task } });
   }
 
+  async deleteTask(id: TaskID) {
+    await this.db.task.delete({ where: { id } });
+  }
+
   async getTasksOfResponse(response_id: FeedbackResponseID) {
     return this.db.task
       .findMany({ where: { response_id } })

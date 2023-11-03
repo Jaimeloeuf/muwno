@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Patch,
+  Delete,
   Post,
   Body,
   Param,
@@ -70,6 +71,18 @@ export class TaskController {
       taskID,
       validatedUpdateOneTaskDTO.task,
     );
+  }
+
+  /**
+   * Delete task.
+   */
+  @Delete(':taskID')
+  @AllowAllRoles
+  async deleteTask(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('taskID') taskID: TaskID,
+  ): Promise<void> {
+    await this.taskService.deleteTask(requestorID, taskID);
   }
 
   /**

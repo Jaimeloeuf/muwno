@@ -34,6 +34,18 @@ export class TaskController {
       throw new Error(`Failed to update Task: ${JSON.stringify(res)}`);
   }
 
+  static async deleteTask(taskID: TaskID) {
+    const { res, err } = await sf
+      .useDefault()
+      .DEL(`/task/${taskID}`)
+      .useHeader(getAuthHeader)
+      .runVoid();
+
+    if (err) throw err;
+    if (!res.ok)
+      throw new Error(`Failed to delete Task: ${JSON.stringify(res)}`);
+  }
+
   static async getTasks(
     productID: ProductID,
     count: number,
