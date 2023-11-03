@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => ({
       devOptions: { enabled: true },
 
       registerType: "autoUpdate",
-      manifest: { name: "PMF" },
+      manifest: { name: "muwno" },
     }),
 
     // Enable https by default as ios requires https connections to give camera access
