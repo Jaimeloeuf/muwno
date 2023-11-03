@@ -116,6 +116,15 @@ export const SurveyMethodsRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const ManualEmailBlastRoute = <const>{
+  name: "survey-methods-email-manual",
+  path: "/survey/methods/:productID/email/manual",
+  props: true,
+  component: () =>
+    import("../views/core/SurveyMethod/ManualEmailBlast/ManualEmailBlast.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /* ========================= Customer Module Routes ========================= */
 
 export const CustomerRoute = <const>{
@@ -236,6 +245,7 @@ export const OrgUsageRoute = <const>{
   SurveyResponseRoute,
   AddProductRoute,
   SurveyMethodsRoute,
+  ManualEmailBlastRoute,
   CustomerRoute,
   ImportCustomerRoute,
   TeamRoute,

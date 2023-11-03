@@ -7,6 +7,17 @@ import { ManualSmsBlast } from './ManualSmsBlast/ManualSmsBlast.js';
 import { AutoSmsBlast } from './AutoSmsBlast/AutoSmsBlast.js';
 
 /**
+ * Re-export all of this
+ */
+export {
+  ManualEmailBlast,
+  AutoEmailBlast,
+  WebsitePopup,
+  ManualSmsBlast,
+  AutoSmsBlast,
+};
+
+/**
  * A mapping of `SurveyMethod['id']` to `SurveyMethod`
  */
 export const SurveyMethods = {

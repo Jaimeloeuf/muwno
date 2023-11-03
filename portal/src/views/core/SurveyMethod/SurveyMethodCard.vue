@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Accordion from "../../components/Accordion.vue";
+import type { RouteName } from "../../../router";
 import type { ProductID, SurveyMethod } from "@domain-model";
 
 defineProps<{
   index: number;
   productID: ProductID;
   surveyMethod: SurveyMethod;
+  routeName: RouteName;
 }>();
 </script>
 
@@ -21,12 +23,13 @@ defineProps<{
       <p v-if="surveyMethod.unimplemented" class="text-xl text-yellow-500">
         Coming Soon
       </p>
-      <button
+      <router-link
         v-else
+        :to="{ name: routeName }"
         class="rounded-lg border border-green-600 px-8 py-0.5 text-xl text-green-600"
       >
         Use
-      </button>
+      </router-link>
     </div>
 
     <div class="pb-2">

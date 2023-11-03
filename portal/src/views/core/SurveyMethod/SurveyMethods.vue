@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import { useProduct } from "../../../store";
-import { CustomerRoute } from "../../../router";
+import { CustomerRoute, type RouteName } from "../../../router";
+import { ManualEmailBlastRoute, NotFoundRoute } from "../../../router";
 import TopNavbar from "../../components/TopNavbar.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
-import { type ProductID, SurveyMethodsArray } from "@domain-model";
+import { flags } from "../../../utils/flags";
+import {
+  type ProductID,
+  SurveyMethods,
+  SurveyMethodsArray,
+  ManualEmailBlast,
+} from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 
 const productStore = useProduct();
 
 const product = await productStore.getProduct(props.productID);
+
+/** A mapping of SurveyMethodIDs to Route for that survey method  */
+const routeMap = {
+  [ManualEmailBlast.id]: ManualEmailBlastRoute.name,
+} as const satisfies Record<keyof typeof SurveyMethods, RouteName>;
 </script>
 
 <template>
@@ -58,6 +70,7 @@ const product = await productStore.getProduct(props.productID);
           :index="i + 1"
           :productID="productID"
           :surveyMethod="surveyMethod"
+          :routeName="routeMap[surveyMethod.id] ?? NotFoundRoute.name"
         />
       </div>
     </div>
