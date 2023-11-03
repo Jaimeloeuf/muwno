@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import type { PublicRouteNames, PrivateRouteNames } from "../../router";
+import type { RouteName } from "../../router";
 
 const props = defineProps<{
   /**
    * Custom back route can be specified instead of just going back one step in
    * navigation history.
    */
-  routeName?: PublicRouteNames | PrivateRouteNames | undefined;
+  routeName?: RouteName | undefined;
 }>();
 
 const router = useRouter();

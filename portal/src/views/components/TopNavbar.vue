@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SideDrawerButton from "./SideDrawerButton.vue";
 import BackButton from "./BackButton.vue";
-import type { PublicRouteNames, PrivateRouteNames } from "../../router";
+import type { RouteName } from "../../router";
 
 defineProps<{
   /**
@@ -18,7 +18,7 @@ defineProps<{
    * Custom back route can be specified which will be passed to the `BackButton`
    * component.
    */
-  backRoute?: PublicRouteNames | PrivateRouteNames;
+  backRoute?: RouteName;
 }>();
 </script>
 

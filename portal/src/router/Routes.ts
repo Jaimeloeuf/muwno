@@ -26,6 +26,7 @@ import {
   ApiKeyRoute,
   OrgUsageRoute,
 } from "./PrivateRoutes";
+import { NotFoundRoute } from "./NotFoundRoute";
 
 /**
  * All the **USER DEFINED** route objects to be registered with the router.
@@ -69,9 +70,16 @@ export const Routes = (<const>[
   /* Public Only Routes */
   // ...
 
+  NotFoundRoute,
+
   // `satisfies` operator is used to typecheck all RouteObjects to ensure
   // that the AuthRequirements field is defined in the meta field.
 ]) satisfies ReadonlyArray<RouteObject>;
+
+/**
+ * Union type of all allowed Route names.
+ */
+export type RouteName = (typeof Routes)[number]["name"];
 
 // =======================================================================
 // Only run this router check while in development mode
