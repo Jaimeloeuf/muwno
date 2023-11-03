@@ -4,15 +4,16 @@ import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif } from "../../../store";
-import { TeamRoute } from "../../../router";
-import { portalLink } from "../../../utils/links";
+import { SignupRoute, TeamRoute } from "../../../router";
 import TopNavbar from "../../components/TopNavbar.vue";
+import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
 import type { CreateOneTeamMemberInvitationDTO } from "@domain-model";
 
 const router = useRouter();
 const loader = useLoader();
 const notif = useNotif();
 
+const portalLink = getAbsoluteUrlFromRoute(SignupRoute.name);
 const email = ref<string>("");
 
 async function invite() {
