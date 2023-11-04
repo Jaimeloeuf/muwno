@@ -37,6 +37,7 @@ const routeMap = {
         </p>
 
         <router-link
+          v-if="flags.devMode"
           :to="{
             name: CustomerRoute.name,
             params: { productID: product.id },

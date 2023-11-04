@@ -3,6 +3,7 @@ import {
   SurveyMethodsRoute,
   MoreProductFeatureRoute,
 } from "../../../../../router";
+import { flags } from "../../../../../utils/flags";
 import type { ProductID } from "@domain-model";
 
 defineProps<{ productID: ProductID }>();
@@ -11,6 +12,7 @@ defineProps<{ productID: ProductID }>();
 <template>
   <div class="flex flex-col gap-6 sm:flex-row">
     <router-link
+      v-if="flags.devMode"
       :to="{
         name: SurveyMethodsRoute.name,
         params: { productID },

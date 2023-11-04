@@ -11,6 +11,7 @@ import {
   ApiKeyRoute,
 } from "../../router";
 import { useOnboarding, useSidedrawer } from "../../store";
+import { flags } from "../../utils/flags";
 import { logout } from "../../utils/logout";
 
 const route = useRoute();
@@ -60,6 +61,7 @@ function closeAndLogout() {
         </router-link>
 
         <router-link
+          v-if="flags.devMode"
           :to="{ name: CustomerRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
