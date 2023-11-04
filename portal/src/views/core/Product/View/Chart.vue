@@ -39,6 +39,9 @@ Chart.register(
 const chartOptions = {
   responsive: true,
 
+  /** Interpolate to fill gaps even if there is no responses for that period */
+  spanGaps: true,
+
   // Smoothen out the curves just abit so they are not so jarring
   tension: 0.2,
 
