@@ -27,7 +27,20 @@ export class FeedbackResponseController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
   /**
-   * Get survey responses as CSV string to download as a CSV file on the client.
+   * Get a Product's survey response stats.
+   */
+  @Get('stats/:productID')
+  @AllowAllRoles
+  async getResponseStats(
+    @Param('productID') productID: ProductID,
+  ): Promise<{ stats: number }> {
+    return this.feedbackService
+      .getResponseStats(productID)
+      .then((stats) => ({ stats }));
+  }
+
+  /**
+   * Get a single survey response.
    */
   @Get(':responseID')
   @AllowAllRoles

@@ -4,7 +4,7 @@ import TopNavbar from "../../../components/TopNavbar.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "./Card/PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
-// import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
+import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
 import SurveyLinkCard from "./Card/SurveyLinkCard.vue";
 import SurveyMethodAndMoreButtonsCard from "./Card/SurveyMethodAndMoreButtonsCard.vue";
 import type { ProductID } from "@domain-model";
@@ -35,7 +35,7 @@ setInterval(() => window.location.reload(), 8.64e7);
         <PMFLiveScoreCard :productID="product.id" />
         <TaskCard :productID="product.id" />
         <SurveyLinkCard :product="product" />
-        <!-- <SurveyStatsCard :product="product" /> -->
+        <SurveyStatsCard :productID="product.id" />
         <SurveyMethodAndMoreButtonsCard :productID="product.id" />
       </div>
     </div>

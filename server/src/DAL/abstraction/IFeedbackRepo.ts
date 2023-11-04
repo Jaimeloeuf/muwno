@@ -33,6 +33,11 @@ export abstract class IFeedbackRepo {
   ): Promise<FeedbackResponseID>;
 
   /**
+   * Get a Product's survey response stats.
+   */
+  abstract getResponseStats(productID: ProductID): Promise<number>;
+
+  /**
    * Get a single response.
    */
   abstract getResponse(

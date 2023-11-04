@@ -55,6 +55,13 @@ export class FeedbackService {
   }
 
   /**
+   * Get a Product's survey response stats.
+   */
+  async getResponseStats(productID: ProductID): Promise<number> {
+    return this.feedbackRepo.getResponseStats(productID);
+  }
+
+  /**
    * Get a single response.
    */
   async getResponse(responseID: FeedbackResponseID): Promise<FeedbackResponse> {

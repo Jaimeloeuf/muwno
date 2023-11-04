@@ -57,7 +57,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
         <div class="flex-shrink-0">
           <router-link
             :to="{ name: AddProductRoute.name }"
-            class="inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-zinc-200 px-6 py-2 sm:w-max"
+            class="inline-flex w-full items-center justify-between rounded-lg border border-zinc-200 px-6 py-2 sm:w-max"
             :class="{
               'bg-white text-green-600 ': products.length !== 0,
               'bg-green-600 text-white': products.length === 0,

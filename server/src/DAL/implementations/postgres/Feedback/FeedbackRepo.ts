@@ -47,6 +47,12 @@ export class FeedbackRepo implements IFeedbackRepo {
       .then(({ id }) => id);
   }
 
+  async getResponseStats(productID: ProductID) {
+    return this.db.pmf_survey_response.count({
+      where: { product_id: productID },
+    });
+  }
+
   async getResponse(responseID: FeedbackResponseID) {
     return this.db.pmf_survey_response
       .findUnique({ where: { id: responseID } })

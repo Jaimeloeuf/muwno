@@ -23,9 +23,9 @@ async function generateQR() {
 <template>
   <div class="w-full rounded-lg border border-zinc-200 p-4">
     <div
-      class="mb-2 flex flex-row items-center justify-between border-b border-zinc-300 pb-2"
+      class="mb-2 flex flex-row items-center justify-between border-b border-zinc-200 pb-2"
     >
-      <p class="font-medium">Survey Link</p>
+      <p>Survey Link</p>
 
       <button
         v-if="imageDataUrl === ''"

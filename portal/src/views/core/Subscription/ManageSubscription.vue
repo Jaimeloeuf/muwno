@@ -57,13 +57,13 @@ async function goToBillingPortal() {
           </div>
         </div> -->
 
-        <div
-          class="cursor-pointer rounded-lg border border-zinc-200 p-4"
+        <buton
+          class="rounded-lg border border-zinc-200 p-4"
           @click="goToBillingPortal"
         >
           <p class="text-sm">Manage your billing information</p>
           <p class="text-4xl font-light">Billing Portal</p>
-        </div>
+        </buton>
       </div>
     </div>
 
