@@ -24,10 +24,11 @@ export class ValidatedCreateOneOrgDTO implements CreateOneOrgDTO {
   @IsNotEmpty()
   readonly email!: string;
 
+  // @todo Add phone validation
   @IsString()
   @MaxLength(30)
-  @IsOptional()
-  readonly phone!: string | null;
+  @IsNotEmpty()
+  readonly phone!: string;
 
   @IsString()
   @MaxLength(300)

@@ -31,13 +31,14 @@ async function createOrg() {
     return alert("Please enter a valid Organisation name!");
   if (email.value === "")
     return alert("Please enter a valid Organisation email!");
+  if (phone.value === "") return alert("Please enter a valid Phone Number!");
 
   loader.show();
 
   await orgStore.createOrg({
     name: name.value,
     email: email.value,
-    phone: phone.value !== "" ? phone.value : null,
+    phone: phone.value,
     address: address.value !== "" ? address.value : null,
   });
 
@@ -54,7 +55,7 @@ async function createOrg() {
     <div class="mx-auto w-full max-w-lg">
       <div class="pb-10">
         <label>
-          <p class="text-3xl">Name</p>
+          <p class="text-xl">Name</p>
           <p>This is what your customer's will see</p>
 
           <input
@@ -68,7 +69,7 @@ async function createOrg() {
 
       <div class="pb-10">
         <label>
-          <p class="text-3xl">Administrative Email</p>
+          <p class="text-xl">Administrative Email</p>
           <ul class="list-decimal px-5">
             <li>
               Main administrative email address used for things like
@@ -88,9 +89,7 @@ async function createOrg() {
 
       <div class="pb-10">
         <label>
-          <p class="text-3xl">
-            Phone Number <span class="pl-3 text-2xl font-thin">*Optional</span>
-          </p>
+          <p class="text-xl">Phone Number</p>
           <ul class="list-decimal px-5">
             <li>
               Main administrative phone number used for things like subscription
@@ -114,8 +113,8 @@ async function createOrg() {
 
       <div class="pb-10">
         <label>
-          <p class="text-3xl">
-            Address <span class="pl-3 text-2xl font-thin">*Optional</span>
+          <p class="text-xl">
+            Address <span class="pl-3 font-thin">*Optional</span>
           </p>
           <ul class="list-decimal px-5">
             <li>

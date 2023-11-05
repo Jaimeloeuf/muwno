@@ -12,7 +12,7 @@ export type Org = {
   createdAt: ISODateTimeString;
   name: string;
   email: string;
-  phone: string | null;
+  phone: string;
   address: string | null;
   plan: SubscriptionPlan | null;
   verified: boolean;
