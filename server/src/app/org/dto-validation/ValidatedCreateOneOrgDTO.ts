@@ -1,4 +1,4 @@
-import { type CreateOneOrgDTO, orgSizes } from 'domain-model';
+import { type CreateOneOrgDTO, type OrgSize, orgSizes } from 'domain-model';
 
 import {
   IsNotEmpty,
@@ -38,5 +38,5 @@ export class ValidatedCreateOneOrgDTO implements CreateOneOrgDTO {
 
   @IsIn(orgSizes)
   @IsOptional()
-  readonly size!: string | null;
+  readonly size!: OrgSize | null;
 }
