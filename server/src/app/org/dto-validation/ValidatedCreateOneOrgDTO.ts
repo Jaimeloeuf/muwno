@@ -1,4 +1,4 @@
-import type { CreateOneOrgDTO } from 'domain-model';
+import { type CreateOneOrgDTO, orgSizes } from 'domain-model';
 
 import {
   IsNotEmpty,
@@ -6,6 +6,7 @@ import {
   MaxLength,
   IsEmail,
   IsOptional,
+  IsIn,
 } from 'class-validator';
 
 /**
@@ -34,4 +35,8 @@ export class ValidatedCreateOneOrgDTO implements CreateOneOrgDTO {
   @MaxLength(300)
   @IsOptional()
   readonly address!: string | null;
+
+  @IsIn(orgSizes)
+  @IsOptional()
+  readonly size!: string | null;
 }

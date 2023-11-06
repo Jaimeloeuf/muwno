@@ -8,4 +8,5 @@ export type CreateOneOrgDTO = {
   email: Org['email'];
   phone: Org['phone'];
   address: Org['address'];
+  size: Org['size'];
 };

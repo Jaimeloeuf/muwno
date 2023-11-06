@@ -1,4 +1,5 @@
 import type { ISODateTimeString } from '../utils/Timestamp.js';
+import type { OrgSize } from './OrgSize.js';
 import type { SubscriptionPlan } from '../SubscriptionPlan/index.js';
 
 /**
@@ -14,6 +15,7 @@ export type Org = {
   email: string;
   phone: string;
   address: string | null;
+  size: OrgSize | null;
   plan: SubscriptionPlan | null;
   verified: boolean;
 };

@@ -43,6 +43,7 @@ model org {
   email      String
   phone      String
   address    String?
+  size       String?
 
   // Boolean flag to indicate if Org has been verified by admins.
   verified Boolean

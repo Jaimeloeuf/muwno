@@ -9,6 +9,7 @@ Table org {
   email String [not null]
   phone String [not null]
   address String
+  size String
   verified Boolean [not null]
   subscribed Boolean [not null]
   plan SubscriptionPlan

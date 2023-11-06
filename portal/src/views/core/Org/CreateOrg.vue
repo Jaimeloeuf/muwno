@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { useOrg, useUser, useLoader } from "../../../store";
 import { AllProductRoute, BuySubscriptionPlanRoute } from "../../../router";
 import TopNavbar from "../../components/TopNavbar.vue";
+import { type OrgSize, orgSizes } from "@domain-model";
 
 const router = useRouter();
 const orgStore = useOrg();
@@ -16,6 +17,7 @@ const name = ref("");
 const email = ref(user.email); // Defaults to the Org Owner's email
 const phone = ref("");
 const address = ref("");
+const selectedOrgSize = ref<OrgSize | null>(null);
 
 // If user already have an organisation, ask them if they want to continue, else
 // redirect to their original Org's home view.
@@ -40,6 +42,7 @@ async function createOrg() {
     email: email.value,
     phone: phone.value,
     address: address.value !== "" ? address.value : null,
+    size: selectedOrgSize.value,
   });
 
   loader.hide();
@@ -108,6 +111,36 @@ async function createOrg() {
             class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
             placeholder="Phone Number"
           />
+        </label>
+      </div>
+
+      <div class="pb-10">
+        <label>
+          <p class="text-xl">
+            Organisation Size
+            <span class="pl-3 font-thin">*Optional</span>
+          </p>
+          <ul class="list-decimal px-5">
+            <li>
+              Help us understand your Organisation better to customize your
+              experience.
+            </li>
+          </ul>
+
+          <select
+            v-model="selectedOrgSize"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-4"
+          >
+            <option selected disabled>Choose Estimate</option>
+            <option
+              v-for="orgSize in orgSizes"
+              :key="orgSize"
+              :value="orgSize"
+              :selected="orgSize === selectedOrgSize"
+            >
+              {{ orgSize }}
+            </option>
+          </select>
         </label>
       </div>
 
