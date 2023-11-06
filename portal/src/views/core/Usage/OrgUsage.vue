@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { flags } from "../../../utils/flags";
 import TopNavbar from "../../components/TopNavbar.vue";
 </script>
 
@@ -18,18 +19,6 @@ import TopNavbar from "../../components/TopNavbar.vue";
       </div>
 
       <div class="rounded-lg border border-zinc-200 p-6">
-        <p>Emails sent</p>
-
-        <p>{{}}</p>
-      </div>
-
-      <div class="rounded-lg border border-zinc-200 p-6">
-        <p>SMS sent</p>
-
-        <p>{{}}</p>
-      </div>
-
-      <div class="rounded-lg border border-zinc-200 p-6">
         <p>Responses stored</p>
 
         <p>{{}}</p>
@@ -37,6 +26,18 @@ import TopNavbar from "../../components/TopNavbar.vue";
 
       <div class="rounded-lg border border-zinc-200 p-6">
         <p>Customers stored</p>
+
+        <p>{{}}</p>
+      </div>
+
+      <div class="rounded-lg border border-zinc-200 p-6">
+        <p>Emails sent</p>
+
+        <p>{{}}</p>
+      </div>
+
+      <div v-if="flags.devMode" class="rounded-lg border border-zinc-200 p-6">
+        <p>SMS sent</p>
 
         <p>{{}}</p>
       </div>

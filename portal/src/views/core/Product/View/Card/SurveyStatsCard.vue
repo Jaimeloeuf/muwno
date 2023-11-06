@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../../firebase";
+import { flags } from "../../../../../utils/flags";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -39,7 +40,11 @@ getStats().then((stats) => (responses.value = stats));
       <p>Survey Stats</p>
 
       <!-- @todo Page with more in depth analytics -->
-      <router-link :to="{}" class="rounded-lg bg-zinc-100 px-3 font-light">
+      <router-link
+        v-if="flags.devMode"
+        :to="{}"
+        class="rounded-lg bg-zinc-100 px-3 font-light"
+      >
         Details
       </router-link>
     </div>

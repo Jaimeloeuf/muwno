@@ -30,7 +30,9 @@ withDefaults(defineProps<{ show?: boolean }>(), { show: true });
           />
         </svg>
 
-        <p class="mt-12 bg-zinc-50 p-2 text-4xl font-medium">... loading ...</p>
+        <p class="mt-12 rounded-lg bg-zinc-50 p-2 text-4xl font-medium">
+          ... loading ...
+        </p>
       </div>
     </div>
   </slot>

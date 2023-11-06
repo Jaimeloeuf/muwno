@@ -20,7 +20,7 @@ const { PMFScore, reliability } = await useLiveScore(props.productID);
     <template v-if="PMFScore.score === null">
       <div class="mb-1 flex flex-row items-center justify-between">
         <p class="text-sm font-medium">
-          Live PMF Score<span class="pl-1.5 font-light">(Aim for 40)</span>
+          Live Score<span class="pl-1.5 font-light">(Aim for 40)</span>
         </p>
 
         <button
@@ -53,7 +53,7 @@ const { PMFScore, reliability } = await useLiveScore(props.productID);
       <div>
         <div class="mb-1 flex flex-row items-center justify-between">
           <p class="pr-3 text-sm font-medium">
-            Live PMF Score<span class="pl-1.5 font-light">(Aim for 40)</span>
+            Live Score<span class="pl-1.5 font-light">(Aim for 40)</span>
           </p>
 
           <button

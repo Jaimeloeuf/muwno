@@ -2,8 +2,9 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLoader, useStripe } from "../../../store";
-import { SetupPaymentMethodRoute } from "../../../router";
+import { SetupPaymentMethodRoute, OnboardingRoute } from "../../../router";
 import Accordion from "../../components/Accordion.vue";
+import TopNavbar from "../../components/TopNavbar.vue";
 import CouponCodeInput from "./Stripe/CouponCodeInput.vue";
 import { PlanDetails } from "@domain-model";
 
@@ -51,14 +52,14 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
 
 <template>
   <div>
-    <div class="mb-6 flex flex-row border-b pb-4">
-      <span class="text-4xl">Buy Subscription Plan</span>
-    </div>
+    <TopNavbar back :backRoute="OnboardingRoute.name">
+      Buy Subscription Plan
+    </TopNavbar>
 
     <div
-      class="mx-auto flex max-w-7xl flex-col justify-between gap-6 md:flex-row lg:gap-12"
+      class="mx-auto flex max-w-screen-xl flex-col justify-between gap-6 lg:flex-row lg:gap-12"
     >
-      <div class="w-full basis-1/2">
+      <div class="w-full">
         <div class="p-3 font-light sm:p-6">
           <div class="pb-6">
             <p class="text-xl">
@@ -68,7 +69,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
             </p>
           </div>
 
-          <Accordion class="pb-2">
+          <Accordion class="pb-2" defaultState="show">
             <template #summary>
               <p class="text-left text-xl font-normal">
                 What is included every month?
@@ -190,7 +191,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
         </div>
       </div>
 
-      <div class="w-full basis-1/2">
+      <div class="w-full">
         <div class="flex flex-col gap-6 font-light">
           <CouponCodeInput @coupon-used="useCoupon" />
 

@@ -37,7 +37,7 @@ withDefaults(defineProps<{ show?: boolean }>(), { show: true });
 
         <p
           v-if="loaderStore.customLoaderMessage === null"
-          class="mt-12 bg-zinc-50 px-2 text-4xl font-medium"
+          class="mt-12 rounded-lg bg-zinc-50 px-2 text-4xl font-medium"
         >
           ... loading ...
         </p>
