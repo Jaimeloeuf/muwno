@@ -7,7 +7,7 @@ Table org {
   created_at DateTime [default: `now()`, not null]
   name String [not null]
   email String [not null]
-  phone String
+  phone String [not null]
   address String
   verified Boolean [not null]
   subscribed Boolean [not null]

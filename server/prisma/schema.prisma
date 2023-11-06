@@ -41,7 +41,7 @@ model org {
   created_at DateTime @default(now())
   name       String
   email      String
-  phone      String?
+  phone      String
   address    String?
 
   // Boolean flag to indicate if Org has been verified by admins.
