@@ -94,7 +94,19 @@ function clearError() {
 
           <!-- Conditionally loaded `fixed` positioned components -->
           <Loader v-if="loader.showLoader" />
-          <Snackbar v-if="notif.showSnackbar" />
+
+          <!--
+            A list that only renders the first component.
+            Instead of checking for length, it checks for the first element so
+            that TS will cast it as not undefined for the 2 props.
+          -->
+          <Snackbar
+            v-if="notif.snackBarMessages[0] !== undefined"
+            :key="notif.snackBarMessages[0].msg"
+            :msg="notif.snackBarMessages[0].msg"
+            :timeout="notif.snackBarMessages[0].timeout"
+            @close="notif.removeOldestMessage"
+          />
         </div>
 
         <!-- loading UI -->
