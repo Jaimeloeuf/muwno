@@ -67,15 +67,8 @@ export class ProductRepo implements IProductRepo {
           },
         },
       })
-      .then((user) => user?.org?.product)
-      .then(runMapperIfNotNull((products) => products[0]))
+      .then((user) => user?.org?.product[0])
       .then(runMapperIfNotNull(mapProductModelToEntity));
-  }
-
-  async getOrgProducts(org_id: OrgID) {
-    return this.db.product
-      .findMany({ where: { org_id }, orderBy: { created_at: 'asc' } })
-      .then(mapProductModelsToEntity);
   }
 
   async getUserOrgProducts(userID: UserID) {

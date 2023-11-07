@@ -3,10 +3,15 @@ import { Throttle } from '@nestjs/throttler';
 
 import { FeedbackService } from '../services/feedback.service.js';
 
-import { GuardWithRBAC, AllowAllRoles } from '../../../guards/index.js';
+import {
+  GuardWithRBAC,
+  AllowAllRoles,
+  JWT_uid,
+} from '../../../guards/index.js';
 
 // Entity Types
 import type {
+  FirebaseAuthUID,
   ProductID,
   FeedbackResponseID,
   FeedbackResponse,
@@ -32,10 +37,11 @@ export class FeedbackResponseController {
   @Get('stats/:productID')
   @AllowAllRoles
   async getResponseStats(
+    @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
   ): Promise<{ stats: number }> {
     return this.feedbackService
-      .getResponseStats(productID)
+      .getResponseStats(requestorID, productID)
       .then((stats) => ({ stats }));
   }
 
@@ -45,10 +51,11 @@ export class FeedbackResponseController {
   @Get(':responseID')
   @AllowAllRoles
   async getResponse(
+    @JWT_uid requestorID: FirebaseAuthUID,
     @Param('responseID') responseID: FeedbackResponseID,
   ): Promise<{ response: FeedbackResponse }> {
     return this.feedbackService
-      .getResponse(responseID)
+      .getResponse(requestorID, responseID)
       .then((response) => ({ response }));
   }
 
@@ -61,8 +68,9 @@ export class FeedbackResponseController {
   // Highly rate limited since this is an expensive DB operation
   @Throttle({ default: { limit: 3, ttl: 1000 } })
   async getResponseCsvString(
+    @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
   ): Promise<string> {
-    return this.feedbackService.getResponseCsvString(productID);
+    return this.feedbackService.getResponseCsvString(requestorID, productID);
   }
 }

@@ -74,15 +74,6 @@ export class ProductService {
   }
 
   /**
-   * Get all products of an Org.
-   */
-  async getOrgProducts(orgID: OrgID): Promise<Products> {
-    // @todo Validate orgID, and if user have permission to this org
-
-    return this.productRepo.getOrgProducts(orgID);
-  }
-
-  /**
    * Get all products of the user's Org.
    */
   async getUserOrgProducts(userID: UserID): Promise<Products> {

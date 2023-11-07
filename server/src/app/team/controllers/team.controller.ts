@@ -8,6 +8,7 @@ import {
   JWT_uid,
   RolesRequired,
   NoRoleRequired,
+  StrictRBAC,
 } from '../../../guards/index.js';
 
 // Entity Types
@@ -50,6 +51,7 @@ export class TeamController {
    */
   @Post('member/invite')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  @StrictRBAC
   async inviteMember(
     @JWT_uid userID: FirebaseAuthUID,
     @Body()

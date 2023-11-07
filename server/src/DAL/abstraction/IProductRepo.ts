@@ -34,11 +34,6 @@ export abstract class IProductRepo {
   ): Promise<null | Product>;
 
   /**
-   * Get all products of an Org.
-   */
-  abstract getOrgProducts(orgID: OrgID): Promise<Products>;
-
-  /**
    * Get all products of the user's Org.
    */
   abstract getUserOrgProducts(userID: UserID): Promise<Products>;

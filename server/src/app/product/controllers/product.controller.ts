@@ -83,6 +83,7 @@ export class ProductController {
    */
   @Put(':productID')
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  @StrictRBAC
   async updateProduct(
     @JWT_uid userID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
@@ -115,6 +116,7 @@ export class ProductController {
    */
   @Post('transfer/:productID/to/:orgID')
   @RolesRequired(Role.OrgOwner)
+  @StrictRBAC
   async transferProduct(
     @JWT_uid userID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,

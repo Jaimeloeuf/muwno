@@ -3,9 +3,11 @@ import { ulid } from 'ulid';
 
 import { IFeedbackRepo } from '../../../DAL/index.js';
 import { TaskService } from '../../task/services/task.service.js';
+import { ProductService } from '../../product/services/product.service.js';
 
 // Entity Types
 import type {
+  UserID,
   ProductID,
   FeedbackForm,
   FeedbackResponseID,
@@ -23,6 +25,7 @@ export class FeedbackService {
   constructor(
     private readonly feedbackRepo: IFeedbackRepo,
     private readonly taskService: TaskService,
+    private readonly productService: ProductService,
   ) {}
 
   /**
@@ -57,17 +60,32 @@ export class FeedbackService {
   /**
    * Get a Product's survey response stats.
    */
-  async getResponseStats(productID: ProductID): Promise<number> {
+  async getResponseStats(
+    requestorID: UserID,
+    productID: ProductID,
+  ): Promise<number> {
+    // Validate if user can access this product, and in extension, its stats.
+    await this.productService.validateUserAccess(requestorID, productID);
+
     return this.feedbackRepo.getResponseStats(productID);
   }
 
   /**
    * Get a single response.
    */
-  async getResponse(responseID: FeedbackResponseID): Promise<FeedbackResponse> {
+  async getResponse(
+    requestorID: UserID,
+    responseID: FeedbackResponseID,
+  ): Promise<FeedbackResponse> {
     const response = await this.feedbackRepo.getResponse(responseID);
     if (response === null)
       throw new NotFoundException(`Cannot find response: ${responseID}`);
+
+    // Validate if user can access this product, and in extension its responses.
+    await this.productService.validateUserAccess(
+      requestorID,
+      response.productID,
+    );
 
     return response;
   }
@@ -75,7 +93,13 @@ export class FeedbackService {
   /**
    * Get survey responses as CSV string to download as a CSV file on the client.
    */
-  async getResponseCsvString(productID: ProductID): Promise<string> {
+  async getResponseCsvString(
+    requestorID: UserID,
+    productID: ProductID,
+  ): Promise<string> {
+    // Validate if user can access this product, and in extension its responses.
+    await this.productService.validateUserAccess(requestorID, productID);
+
     const { productName } = await this.getForm(productID);
 
     // Do string interpolation once so it is not repeated during response mapping

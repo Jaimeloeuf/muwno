@@ -2,10 +2,14 @@ import { Controller, Get, Param } from '@nestjs/common';
 
 import { SubscriptionService } from '../services/subscription.service.js';
 
-import { GuardWithRBAC, NoRoleRequired } from '../../../guards/index.js';
+import {
+  GuardWithRBAC,
+  NoRoleRequired,
+  JWT_uid,
+} from '../../../guards/index.js';
 
 // Entity Types
-import type { OrgID } from 'domain-model';
+import type { FirebaseAuthUID, OrgID } from 'domain-model';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -24,10 +28,11 @@ export class SubscriptionController {
   // subscription status even when they have not subscribed yet.
   @NoRoleRequired
   async checkSubscriptionStatus(
+    @JWT_uid requestorID: FirebaseAuthUID,
     @Param('orgID') orgID: OrgID,
   ): Promise<{ subscribed: boolean }> {
     return this.subscriptionService
-      .isSubscribed(orgID)
+      .isSubscribed(requestorID, orgID)
       .then((subscribed) => ({ subscribed }));
   }
 }

@@ -6,6 +6,7 @@ import {
   GuardWithRBAC,
   JWT_uid,
   RolesRequired,
+  StrictRBAC,
 } from '../../../guards/index.js';
 
 // Entity Types
@@ -29,6 +30,7 @@ export class StripeCustomerController {
    * string for client to redirect to.
    */
   @Post('create-portal-session')
+  @StrictRBAC
   @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
   async createPortalSession(
     @JWT_uid userID: FirebaseAuthUID,

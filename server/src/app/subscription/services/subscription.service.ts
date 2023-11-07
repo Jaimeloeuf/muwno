@@ -1,21 +1,27 @@
 import { Injectable } from '@nestjs/common';
 
 import { ISubscriptionRepo } from '../../../DAL/index.js';
+import { OrgService } from '../../org/services/org.service.js';
 
 // Entity Types
-import type { OrgID } from 'domain-model';
+import type { UserID, OrgID } from 'domain-model';
 
 /**
  * `SubscriptionService` handles all subscription related business logic.
  */
 @Injectable()
 export class SubscriptionService {
-  constructor(private readonly subscriptionRepo: ISubscriptionRepo) {}
+  constructor(
+    private readonly subscriptionRepo: ISubscriptionRepo,
+    private readonly orgService: OrgService,
+  ) {}
 
   /**
    * Check if the `Org` is subscribed.
    */
-  async isSubscribed(orgID: OrgID) {
+  async isSubscribed(requestorID: UserID, orgID: OrgID) {
+    // Validate if user can access this Org
+    await this.orgService.validateUserAccess(requestorID, orgID);
     return this.subscriptionRepo.isSubscribed(orgID);
   }
 
