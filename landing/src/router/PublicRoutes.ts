@@ -1,7 +1,7 @@
 export const HomeRoute = <const>{
   name: "home",
   path: "/",
-  component: () => import("../views/Home.vue"),
+  component: () => import("../views/Home/Home.vue"),
 };
 
 export const DebugRoute = <const>{

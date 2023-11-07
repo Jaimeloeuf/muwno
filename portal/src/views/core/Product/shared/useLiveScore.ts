@@ -3,10 +3,10 @@ import { getAuthHeader } from "../../../../firebase";
 import type { ProductID, ReadOnePMFScoreDTO } from "@domain-model";
 
 function getReliability(totalResponses: number) {
-  if (totalResponses >= 40) return "Very reliable" as const;
-  else if (totalResponses < 40 && totalResponses >= 30)
+  if (totalResponses >= 100) return "Very reliable" as const;
+  else if (totalResponses < 100 && totalResponses >= 35)
     return "Reliable" as const;
-  else if (totalResponses < 30 && totalResponses >= 15)
+  else if (totalResponses < 35 && totalResponses >= 10)
     return "Somewhat reliable" as const;
   else return "Less reliable" as const;
 }

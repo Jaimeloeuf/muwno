@@ -61,13 +61,11 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
     >
       <div class="w-full">
         <div class="p-3 font-light sm:p-6">
-          <div class="pb-6">
-            <p class="text-xl">
-              Our subscription charges you a <i>base price</i> plus any
-              <i>extra usage</i> over what is included. Just like a telco
-              subscription!
-            </p>
-          </div>
+          <p class="pb-6 text-xl">
+            Our subscription charges you a <i>base price</i> plus any
+            <i>extra usage</i> over what is included. Just like a telco
+            subscription!
+          </p>
 
           <Accordion class="pb-2" defaultState="show">
             <template #summary>
