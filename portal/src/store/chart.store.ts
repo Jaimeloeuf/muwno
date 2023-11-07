@@ -42,10 +42,20 @@ export const useChart = defineStore("chart", {
 
   getters: {
     intervalValues(state) {
-      // Using getter hook on `state.intervalType` reactive state change to
-      // update the default intervals value based on the new intervalType.
-      state.intervals = defaultIntervals[state.intervalType];
       return allIntervalValues[state.intervalType];
+    },
+  },
+
+  actions: {
+    /**
+     * Run this action on `state.intervalType` reactive state change to update
+     * the default intervals value based on the new intervalType using a watcher
+     * defined in component setup instead of on the store directly to simplify
+     * use since pinia does not have a simple way to define watcher for options
+     * stores and would require a change to composable stores.
+     */
+    onIntervalTypeChange() {
+      this.intervals = defaultIntervals[this.intervalType];
     },
   },
 

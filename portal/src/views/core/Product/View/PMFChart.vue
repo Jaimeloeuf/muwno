@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { watch } from "vue";
+import { storeToRefs } from "pinia";
 import { useChart } from "../../../../store";
 import Chart from "./Chart.vue";
 import { type ProductID, IntervalType } from "@domain-model";
@@ -6,6 +8,9 @@ import { type ProductID, IntervalType } from "@domain-model";
 defineProps<{ productID: ProductID }>();
 
 const chartStore = useChart();
+
+const { intervalType: storeIntervalType } = storeToRefs(chartStore);
+watch(storeIntervalType, chartStore.onIntervalTypeChange);
 </script>
 
 <template>
