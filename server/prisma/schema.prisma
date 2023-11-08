@@ -164,6 +164,7 @@ model team_member_invitation {
   id            String   @id
   created_at    DateTime @default(now())
   invitee_email String   @unique
+  role          Role
 
   // Relationship: MANY Invitations, made by ONE (the same) User
   // Auto delete invitation if Inviter's account is deleted

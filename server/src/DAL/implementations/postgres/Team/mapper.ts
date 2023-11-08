@@ -27,6 +27,7 @@ export function mapToTeamInvitation(
     id: invite.id,
     createdAt: invite.created_at.toISOString(),
     inviteeEmail: invite.invitee_email,
+    role: DbRoleEnumToRoleTypeMapping[invite.role],
     inviter: {
       name: invite.inviter.name,
       role: DbRoleEnumToRoleTypeMapping[invite.inviter.role],

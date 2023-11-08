@@ -23,6 +23,11 @@ export interface TeamInvitation {
   inviteeEmail: User['email'];
 
   /**
+   * The role for the invitee.
+   */
+  role: Role;
+
+  /**
    * Details of inviter that invited the user to join the team.
    */
   inviter: {

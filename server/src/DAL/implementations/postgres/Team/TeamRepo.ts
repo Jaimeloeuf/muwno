@@ -19,6 +19,7 @@ import {
 
 // Utils
 import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
+import { RoleTypeToDbRoleEnumMapping } from '../utils/dbRoleMapper.js';
 
 @Injectable()
 export class TeamRepo implements ITeamRepo {
@@ -45,6 +46,9 @@ export class TeamRepo implements ITeamRepo {
       create: {
         id: invitationID,
         invitee_email: createOneTeamMemberInvitationDTO.inviteeEmail,
+        role: RoleTypeToDbRoleEnumMapping[
+          createOneTeamMemberInvitationDTO.role
+        ],
         inviter_id: inviterUserID,
         org_id,
       },

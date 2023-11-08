@@ -73,6 +73,7 @@ Table team_member_invitation {
   id String [pk]
   created_at DateTime [default: `now()`, not null]
   invitee_email String [unique, not null]
+  role Role [not null]
   inviter user [not null]
   inviter_id String [not null]
   org org [not null]

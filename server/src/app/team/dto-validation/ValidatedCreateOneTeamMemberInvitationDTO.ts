@@ -1,5 +1,5 @@
-import type { CreateOneTeamMemberInvitationDTO } from 'domain-model';
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { type CreateOneTeamMemberInvitationDTO, Role } from 'domain-model';
+import { IsNotEmpty, IsString, IsIn, MaxLength } from 'class-validator';
 
 /**
  * The TS not null assertion operator is used as these are supposed to be
@@ -12,4 +12,8 @@ export class ValidatedCreateOneTeamMemberInvitationDTO
   @MaxLength(120)
   @IsNotEmpty()
   readonly inviteeEmail!: string;
+
+  @IsIn(Object.values(Role))
+  @IsNotEmpty()
+  readonly role!: Role;
 }

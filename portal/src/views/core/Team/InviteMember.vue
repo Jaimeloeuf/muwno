@@ -7,7 +7,11 @@ import { useLoader, useNotif } from "../../../store";
 import { SignupRoute, TeamRoute } from "../../../router";
 import TopNavbar from "../../components/TopNavbar.vue";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
-import type { CreateOneTeamMemberInvitationDTO } from "@domain-model";
+import {
+  Role,
+  roleMapper,
+  type CreateOneTeamMemberInvitationDTO,
+} from "@domain-model";
 
 const router = useRouter();
 const loader = useLoader();
@@ -15,6 +19,7 @@ const notif = useNotif();
 
 const portalLink = getAbsoluteUrlFromRoute(SignupRoute.name);
 const email = ref<string>("");
+const selectedRole = ref<Role>(Role.OrgUser);
 
 async function invite() {
   if (email.value === "") return alert("Email cannot be empty!");
@@ -24,7 +29,10 @@ async function invite() {
   const { res, err } = await sf
     .useDefault()
     .POST(`/team/member/invite`)
-    .bodyJSON<CreateOneTeamMemberInvitationDTO>({ inviteeEmail: email.value })
+    .bodyJSON<CreateOneTeamMemberInvitationDTO>({
+      inviteeEmail: email.value,
+      role: selectedRole.value,
+    })
     .useHeader(getAuthHeader)
     .runVoid((res) => res.json());
 
@@ -44,7 +52,7 @@ async function invite() {
     <TopNavbar back>Invite Team</TopNavbar>
 
     <div class="mx-auto w-full max-w-xl">
-      <div class="mb-10">
+      <div class="pb-10">
         <label>
           <p class="text-2xl">Email</p>
           <p>They will need to create an account and login with this email!</p>
@@ -52,15 +60,45 @@ async function invite() {
           <input
             v-model.trim="email"
             type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
             placeholder="janedoe@gmail.com"
           />
         </label>
       </div>
 
-      <!-- @todo Customise role type -->
+      <div class="pb-10">
+        <label>
+          <p class="text-2xl">Role</p>
+          <ul class="list-decimal px-5">
+            <li>
+              'User' can view and manage Product details like score and tasks
+              without any destructive rights like renaming or deleting a
+              Product.
+            </li>
+            <li>
+              'Organisation Admin' can do almost everything except for
+              destructive actions like deleting the entire Organisation.
+            </li>
+            <li>'Organisation Owner' can do everything.</li>
+          </ul>
 
-      <div class="mb-10">
+          <select
+            v-model="selectedRole"
+            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+          >
+            <option
+              v-for="role in Role"
+              :key="role"
+              :value="role"
+              :selected="role === selectedRole"
+            >
+              {{ roleMapper[role] }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <div class="pb-10">
         <p class="text-2xl">What's next?</p>
         <ul class="list-decimal px-5">
           <li>
@@ -72,10 +110,10 @@ async function invite() {
             can go to
             <a
               target="_blank"
-              :href="`${portalLink}/#/signup`"
+              :href="`${portalLink}`"
               class="font-bold underline"
             >
-              {{ `${portalLink}/#/signup` }}
+              {{ `${portalLink}` }}
             </a>
             to sign up directly.
           </li>

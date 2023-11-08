@@ -12,6 +12,7 @@ import {
 import { AllProductRoute } from "../../../router";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import TopNavbar from "../../components/TopNavbar.vue";
+import { roleMapper } from "@domain-model";
 
 const router = useRouter();
 const teamInvitationStore = useTeamInvitation();
@@ -98,8 +99,9 @@ async function rejectInvitation(invitationID: string) {
 
             <div class="flex-grow border-l border-zinc-200 pl-3">
               <p class="mb-2">
-                <b>{{ invitation.inviter.name }}</b> has invited you to join
-                <b>{{ invitation.team.name }}</b> on
+                <b>{{ invitation.inviter.name }}</b> invited you to join
+                <b>{{ invitation.team.name }}</b> as
+                {{ roleMapper[invitation.role] }} on
                 {{ getDateString(invitation.createdAt) }}
               </p>
 

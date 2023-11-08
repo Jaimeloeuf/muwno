@@ -9,7 +9,6 @@ import {
 
 // Entity Types
 import type { User, UserID, TeamInvitation } from 'domain-model';
-import { Role } from 'domain-model';
 
 // DTO Types
 import type { CreateOneTeamMemberInvitationDTO } from 'domain-model';
@@ -118,13 +117,12 @@ export class TeamService {
     // Update invitee's OrgID and Role in data source
     await this.userRepo.updateOne(inviteeID, {
       org_id: invitation.team.id,
-      role: Role.OrgUser,
+      role: invitation.role,
     });
 
     // Set custom claims onto the invitee's JWT
     await this.authService.setCustomClaims(inviteeID, {
-      // @todo Defaults to OrgUser until we let inviters select the role
-      roles: [Role.OrgUser],
+      roles: [invitation.role],
     });
 
     // Delete the invite
