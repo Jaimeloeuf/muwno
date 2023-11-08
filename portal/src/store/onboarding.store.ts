@@ -8,6 +8,7 @@ import { getAuthHeader } from "../firebase";
  */
 interface State {
   /**
+   * User's onboarding status. Is null when it has not been loaded from API yet.
    */
   onboarding: boolean | null;
 

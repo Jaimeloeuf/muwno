@@ -5,6 +5,7 @@ import { getAuthHeader } from "../../../firebase";
 import {
   useTeamInvitation,
   useUser,
+  useOnboarding,
   useLoader,
   useNotif,
 } from "../../../store";
@@ -15,6 +16,7 @@ import TopNavbar from "../../components/TopNavbar.vue";
 const router = useRouter();
 const teamInvitationStore = useTeamInvitation();
 const userStore = useUser();
+const onboardingStore = useOnboarding();
 const loader = useLoader();
 const notif = useNotif();
 
@@ -36,6 +38,10 @@ async function acceptInvitation(invitationID: string) {
   await teamInvitationStore.removeInvitation(invitationID);
 
   loader.hide();
+
+  // Force refresh user's onboarding status now that they accepted the invite,
+  // so that the route guard will not redirect them to Onboarding view again.
+  onboardingStore.isOnboarding(true);
 
   router.push({ name: AllProductRoute.name });
 }
@@ -66,7 +72,7 @@ async function rejectInvitation(invitationID: string) {
     <TopNavbar back>Pending Invitations</TopNavbar>
 
     <div class="mx-auto max-w-4xl">
-      <div class="mx-6 mr-2 flex flex-row justify-between md:mr-12">
+      <div class="mx-6 flex flex-row justify-between pb-6">
         <p class="text-2xl">
           Invitations ({{ teamInvitationStore.invitations.length }})
         </p>
@@ -79,11 +85,11 @@ async function rejectInvitation(invitationID: string) {
         </button>
       </div>
 
-      <div class="mx-6 flex flex-col">
+      <div class="mx-6 flex flex-col gap-6">
         <div
           v-for="(invitation, index) in teamInvitationStore.invitations"
           :key="invitation.id"
-          class="my-3 rounded-lg bg-zinc-100 p-6 text-zinc-900"
+          class="rounded-lg border border-zinc-300 p-6 text-zinc-900"
         >
           <div class="flex flex-row items-center">
             <p class="pr-3 text-xl">
@@ -101,13 +107,13 @@ async function rejectInvitation(invitationID: string) {
 
               <div class="flex flex-row space-x-6">
                 <button
-                  class="rounded-lg bg-red-700 p-2 text-white"
+                  class="rounded-lg border border-zinc-200 p-3"
                   @click="rejectInvitation(invitation.id)"
                 >
-                  reject
+                  Reject
                 </button>
                 <button
-                  class="w-full rounded-lg bg-lime-500 p-2 text-white"
+                  class="w-full rounded-lg border border-green-600 p-2 text-lg text-green-600"
                   @click="acceptInvitation(invitation.id)"
                 >
                   Accept
