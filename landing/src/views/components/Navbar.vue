@@ -8,7 +8,7 @@ const drawer = useSidedrawer();
 <template>
   <header class="fixed top-0 z-30 w-full bg-white shadow-sm">
     <div class="flex flex-row items-center justify-between px-8 py-6 lg:px-20">
-      <img src="/logo.svg" class="sm:w-52" />
+      <a href="#"><img src="/logo.svg" class="sm:w-52" /></a>
 
       <div class="flex flex-row items-center gap-6">
         <div class="hidden flex-row gap-6 md:flex">
@@ -51,5 +51,5 @@ const drawer = useSidedrawer();
     </div>
   </header>
 
-  <div class="py-12 md:py-20 lg:py-24"></div>
+  <div class="py-14"></div>
 </template>

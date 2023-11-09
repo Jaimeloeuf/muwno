@@ -11,7 +11,7 @@ import Footer from "../components/Footer.vue";
 
 <template>
   <Navbar />
-  <Hero class="pb-24 lg:pb-40" />
+  <Hero class="pb-24 md:pt-4 lg:pb-40 lg:pt-8" />
   <Benefits class="pb-24 lg:pb-40" />
   <Example class="pb-20 md:pb-24" />
   <How class="pb-6 md:pb-24" />
