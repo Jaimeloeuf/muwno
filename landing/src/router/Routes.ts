@@ -1,6 +1,6 @@
 import type { RouteObject } from "./RouteTypes";
 
-import { HomeRoute, DebugRoute } from "./PublicRoutes";
+import { HomeRoute, PricingRoute, DebugRoute } from "./PublicRoutes";
 
 /**
  * All the **USER DEFINED** route objects to be registered with the router.
@@ -13,6 +13,7 @@ import { HomeRoute, DebugRoute } from "./PublicRoutes";
 export const Routes = (<const>[
   /* Public Routes */
   HomeRoute,
+  PricingRoute,
   DebugRoute,
 
   // `satisfies` operator is used to typecheck all RouteObjects to ensure

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { loginLink, signupLink } from "../../utils/links";
 import { useSidedrawer } from "../../store";
+import { HomeRoute } from "../../router";
 
 const drawer = useSidedrawer();
 </script>
@@ -8,7 +9,9 @@ const drawer = useSidedrawer();
 <template>
   <header class="fixed top-0 z-30 w-full bg-white shadow-sm">
     <div class="flex flex-row items-center justify-between px-8 py-6 lg:px-20">
-      <a href="#"><img src="/logo.svg" class="sm:w-52" /></a>
+      <router-link :to="{ name: HomeRoute.name }">
+        <img src="/logo.svg" class="sm:w-52" />
+      </router-link>
 
       <div class="flex flex-row items-center gap-6">
         <div class="hidden flex-row gap-6 md:flex">

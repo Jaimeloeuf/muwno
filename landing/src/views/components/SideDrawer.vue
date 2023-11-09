@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSidedrawer } from "../../store";
+import { PricingRoute } from "../../router";
 import { loginLink, signupLink } from "../../utils/links";
 
 const drawer = useSidedrawer();
@@ -42,6 +43,16 @@ const drawer = useSidedrawer();
         >
           <p class="p-2">Sign up</p>
         </a>
+
+        <hr class="my-2" />
+
+        <router-link
+          :to="{ name: PricingRoute.name }"
+          class="w-full text-xl text-zinc-600"
+          @click="drawer.hide"
+        >
+          <p class="p-2">Pricing</p>
+        </router-link>
       </div>
 
       <!-- Spacer divider that takes up all the space in the middle -->
