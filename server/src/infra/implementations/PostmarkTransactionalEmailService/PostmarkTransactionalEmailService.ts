@@ -21,12 +21,21 @@ export class PostmarkTransactionalEmailService
    */
   private senderAddress: string;
 
+  /**
+   * Email address used for reply to field.
+   */
+  private replyAddress: string;
+
   constructor(configService: ConfigService<EnvironmentVariables, true>) {
     this.client = new ServerClient(
       configService.get('POSTMARK_API_KEY', { infer: true }),
     );
 
-    this.senderAddress = configService.get('EMAIL_ADDRESS_TRANSACTIONAL', {
+    this.senderAddress = configService.get('EMAIL_TRANSACTIONAL_ADDRESS', {
+      infer: true,
+    });
+
+    this.replyAddress = configService.get('EMAIL_TRANSACTIONAL_REPLY', {
       infer: true,
     });
   }
@@ -34,6 +43,7 @@ export class PostmarkTransactionalEmailService
   private async send(recipient: string, subject: string, body: string) {
     const emailResponse = await this.client.sendEmail({
       From: this.senderAddress,
+      ReplyTo: this.replyAddress,
       To: recipient,
       Subject: subject,
       HtmlBody: body,

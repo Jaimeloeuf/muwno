@@ -33,7 +33,12 @@ export interface EnvironmentVariables {
   /**
    * Email Address used for transactional emails.
    */
-  readonly EMAIL_ADDRESS_TRANSACTIONAL: string;
+  readonly EMAIL_TRANSACTIONAL_ADDRESS: string;
+
+  /**
+   * Email Address used for user replies to transactional emails.
+   */
+  readonly EMAIL_TRANSACTIONAL_REPLY: string;
 
   /**
    * API key to access OpenAI's API.

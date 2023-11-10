@@ -54,9 +54,14 @@ export const ConfigModule = _ConfigModule.forRoot({
     /**
      * Expects the email address used for transactional emails.
      */
-    EMAIL_ADDRESS_TRANSACTIONAL: Joi.string()
+    EMAIL_TRANSACTIONAL_ADDRESS: Joi.string()
       .email()
       .default('robot@muwno.com'),
+
+    /**
+     * Expects the email address for user replies to transactional emails.
+     */
+    EMAIL_TRANSACTIONAL_REPLY: Joi.string().email().default('help@muwno.com'),
 
     /**
      * Expects the API key to access OpenAI's API.

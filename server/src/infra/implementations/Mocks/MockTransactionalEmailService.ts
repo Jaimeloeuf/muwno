@@ -23,7 +23,7 @@ export class MockTransactionalEmailService
     configService: ConfigService<EnvironmentVariables, true>,
     private readonly logger: Logger,
   ) {
-    this.senderAddress = configService.get('EMAIL_ADDRESS_TRANSACTIONAL', {
+    this.senderAddress = configService.get('EMAIL_TRANSACTIONAL_ADDRESS', {
       infer: true,
     });
   }

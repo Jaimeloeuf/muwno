@@ -10,7 +10,8 @@ This documents all the environment variables required by [server](../server/)
 | version                     | A string made with build time git branch and commit hash.                                                                  | DEBUG_MODE_VERSION     |
 | RECAPTCHA_SECRET            | Recaptcha secret key.                                                                                                      |                        |
 | POSTMARK_API_KEY            | POSTMARK Email Service API key.                                                                                            |                        |
-| EMAIL_ADDRESS_TRANSACTIONAL | Email Address used for transactional emails.                                                                               | robot@muwno.com        |
+| EMAIL_TRANSACTIONAL_ADDRESS | Email Address used for transactional emails.                                                                               | robot@muwno.com        |
+| EMAIL_TRANSACTIONAL_REPLY   | Email Address used for user replies to transactional emails.                                                               | help@muwno.com         |
 | OPENAI_API_KEY              | API key to access OpenAI's API.                                                                                            |                        |
 | OPENAI_ORG                  | OpenAI Org ID to know which Org does usage of OpenAI API count towards with the `OPENAI_API_KEY`.                          |                        |
 | STRIPE_SECRET_KEY           | Stripe's Secret Key                                                                                                        |                        |
