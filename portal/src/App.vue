@@ -77,80 +77,89 @@ function clearRouterError() {
     @acknowledged="clearRouterError"
   />
 
-  <!--
-    Using path as key so that when a URL param is updated, it is treated a new
-    page instead of just reusing the same page without updating anything.
-  -->
-  <RouterView v-else v-slot="{ Component }" :key="$route.path">
-    <!-- Render dynamically selected router component when it is ready -->
-    <template v-if="Component">
-      <!--
-        A timeout MUST BE specified for the fallback content to be shown by default.
-        Arbitrary timeout of 10 milliseconds to account for super quick
-        dynamic route loading or flush behaviour to prevent flickering.
+  <template v-else>
+    <!--
+      All the top level components that uses `fixed` positioning to position
+      themselves relative to the browser window and is not related to the Router
+      page component directly, are placed outside of <RouterView>.
+    -->
 
-        References:
-        https://github.com/vuejs/router/issues/560
-        https://github.com/vuejs/core/issues/2142
-      -->
-      <Suspense :timeout="10">
-        <!--
-          Main dynamic content from router-view.
+    <SideDrawer />
 
-          Suspense slots expect a single root node and cannot support fragments
-          in components, therefore an extra `div` is used to wrap it to only
-          have a single element passed to Suspense's default slot.
-
-          A template tag cannot be used instead as it is compiled away and will
-          just end up exposing the fragment to Suspense again. Therefore a div
-          has to be used. A `template` tag would also require the #default slot
-          name to be specified since the template tag is part of the slot API
-          and cannot be used directly without any slot name since that will just
-          mean that the default slot becomes empty.
-
-          References:
-          https://github.com/vuejs/core/issues/2143
-          https://github.com/vuejs/core/issues/3795
-          https://v2.vuejs.org/v2/guide/conditional.html#Conditional-Groups-with-v-if-on-lt-template-gt
-          https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
-          https://caniuse.com/css-display-contents
-
-          The p-6 padding will only be applied to `<component :is="Component" />`
-          since both Loader and Snackbar uses `fixed` positioning to position
-          themselves relative to the browser window and is not affected by the
-          padding at all.
-        -->
-        <div class="p-6">
-          <SideDrawer />
-          <component :is="Component" />
-
-          <!-- Conditionally loaded `fixed` positioned components -->
-          <Loader v-if="loader.showLoader" />
-
-          <!--
-            A list that only renders the first component.
-            Instead of checking for length, it checks for the first element so
-            that TS will cast it as not undefined for the 2 props.
-          -->
-          <Snackbar
-            v-if="notif.snackBarMessages[0] !== undefined"
-            :key="notif.snackBarMessages[0].msg"
-            :msg="notif.snackBarMessages[0].msg"
-            :timeout="notif.snackBarMessages[0].timeout"
-            @close="notif.removeOldestMessage"
-          />
-        </div>
-
-        <!-- loading UI -->
-        <template #fallback><Loader /></template>
-      </Suspense>
-    </template>
+    <Loader v-if="loader.showLoader" />
 
     <!--
-      Show loader when router-view component is not ready, most likely while
-      waiting for RouteGuard to asynchronously get onboarding status from API,
-      instead of showing a blank screen.
+      Instead of checking for length to see if there are any notifs to show, it
+      checks for the first element so that TS will cast it as not undefined for
+      the 2 props.
     -->
-    <Loader v-else />
-  </RouterView>
+    <Snackbar
+      v-if="notif.snackBarMessages[0] !== undefined"
+      :key="notif.snackBarMessages[0].msg"
+      :msg="notif.snackBarMessages[0].msg"
+      :timeout="notif.snackBarMessages[0].timeout"
+      @close="notif.removeOldestMessage"
+    />
+
+    <!--
+      Dynamic page view component injected by the Router.
+      Using path as key so that when a URL param is updated, it is treated a new
+      page instead of just reusing the same page without updating anything.
+    -->
+    <RouterView v-slot="{ Component }" :key="$route.path">
+      <!-- Render dynamically selected router component when it is ready -->
+      <template v-if="Component">
+        <!--
+          Wrap in suspense since Page level components can have top level await
+          in setup functions, therefore suspense shows loader while awaiting.
+
+          A timeout MUST BE specified for the fallback content to be shown by
+          default. Arbitrary timeout of 10 milliseconds to account for super
+          quick dynamic route loading or flush behaviour to prevent flickering.
+          References:
+          https://github.com/vuejs/router/issues/560
+          https://github.com/vuejs/core/issues/2142
+        -->
+        <Suspense :timeout="10">
+          <!--
+            Main dynamic content from router-view.
+
+            Suspense slots expect a single root node and does not support
+            fragments components, therefore an extra `div` is used to wrap it
+            to only have a single element passed to Suspense's default slot.
+
+            A template tag cannot be used instead as it is compiled away and
+            will just end up exposing the fragment to Suspense again. Therefore
+            a div has to be used. A `template` tag would also require the
+            #default slot name to be specified since the template tag is part of
+            the slot API and cannot be used directly without any slot name since
+            that will just mean that the default slot is empty.
+
+            References:
+            https://github.com/vuejs/core/issues/2143
+            https://github.com/vuejs/core/issues/3795
+            https://v2.vuejs.org/v2/guide/conditional.html#Conditional-Groups-with-v-if-on-lt-template-gt
+            https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
+            https://caniuse.com/css-display-contents
+          -->
+          <div class="p-6">
+            <component :is="Component" />
+          </div>
+
+          <!--
+            Show loader when waiting for a top level await in the RouterView
+            component's setup function.
+          -->
+          <template #fallback><Loader /></template>
+        </Suspense>
+      </template>
+
+      <!--
+        Show loader when router-view component is not ready, most likely while
+        waiting for RouteGuard to asynchronously get onboarding status from API,
+        instead of showing a blank screen.
+      -->
+      <Loader v-else />
+    </RouterView>
+  </template>
 </template>

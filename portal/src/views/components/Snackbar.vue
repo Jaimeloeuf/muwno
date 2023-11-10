@@ -53,7 +53,7 @@ countdown();
 <template>
   <div
     v-if="show"
-    class="fixed bottom-4 right-0 pr-4"
+    class="fixed bottom-4 right-0 z-40 pr-4"
     @mouseenter="hover = true"
     @mouseleave="mouseleave"
   >
