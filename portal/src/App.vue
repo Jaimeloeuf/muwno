@@ -50,7 +50,7 @@ function clearError() {
     page instead of just reusing the same page without updating anything.
   -->
   <RouterView v-else v-slot="{ Component }" :key="$route.path">
-    <!-- This is needed to ensure that the loading state renders properly. -->
+    <!-- Render dynamically selected router component when it is ready -->
     <template v-if="Component">
       <!--
         A timeout MUST BE specified for the fallback content to be shown by default.
@@ -113,5 +113,12 @@ function clearError() {
         <template #fallback><Loader /></template>
       </Suspense>
     </template>
+
+    <!--
+      Show loader when router-view component is not ready, most likely while
+      waiting for RouteGuard to asynchronously get onboarding status from API,
+      instead of showing a blank screen.
+    -->
+    <Loader v-else />
   </RouterView>
 </template>
