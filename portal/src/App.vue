@@ -134,11 +134,9 @@ function clearRouterError() {
             #default slot name to be specified since the template tag is part of
             the slot API and cannot be used directly without any slot name since
             that will just mean that the default slot is empty.
-
             References:
             https://github.com/vuejs/core/issues/2143
             https://github.com/vuejs/core/issues/3795
-            https://v2.vuejs.org/v2/guide/conditional.html#Conditional-Groups-with-v-if-on-lt-template-gt
             https://stackoverflow.com/questions/10704575/is-there-any-html-element-without-any-style
             https://caniuse.com/css-display-contents
           -->
@@ -155,9 +153,9 @@ function clearRouterError() {
       </template>
 
       <!--
-        Show loader when router-view component is not ready, most likely while
-        waiting for RouteGuard to asynchronously get onboarding status from API,
-        instead of showing a blank screen.
+        Show loader when router-view component is not ready instead of showing a
+        blank screen while waiting for RouteGuard to asynchronously resolve,
+        most likely while loading onboarding status from API.
       -->
       <Loader v-else />
     </RouterView>
