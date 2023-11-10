@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import { Routes } from "./Routes";
-import { NotFoundRoute } from "./PublicRoutes";
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -15,32 +14,5 @@ export const router = createRouter({
     else return { top: 0 };
   },
 
-  /**
-   * Register the array of Routes object with the Router and add in the
-   * custom 404 page with a wildcard pattern as the last Route Object.
-   *
-   * Routes can use lazily loaded components with route level code-splitting
-   * this generates a separate chunk (about.[hash].js) for this route
-   * which is lazy-loaded when the route is visited.
-   *
-   * Alternative way to do this without spreading the array, however both
-   * are not the most efficient, just that the spread operator makes this
-   * more readable.
-   * ```typescript
-   * routes: [
-   *   // 404 Catch all route handler
-   *   {
-   *     path: "/:pathMatch(.*)*",
-   *     name: "404",
-   *     component: () => import("../views/404.vue"),
-   *   },
-   * ].concat(Routes),
-   * ```
-   */
-  routes: [
-    ...Routes,
-
-    /* 404 Catch all route handler */
-    NotFoundRoute,
-  ],
+  routes: Routes,
 });

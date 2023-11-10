@@ -1,6 +1,11 @@
 import type { RouteObject } from "./RouteTypes";
 
-import { HomeRoute, PricingRoute, DebugRoute } from "./PublicRoutes";
+import {
+  HomeRoute,
+  PricingRoute,
+  DebugRoute,
+  NotFoundRoute,
+} from "./PublicRoutes";
 
 /**
  * All the **USER DEFINED** route objects to be registered with the router.
@@ -15,6 +20,8 @@ export const Routes = (<const>[
   HomeRoute,
   PricingRoute,
   DebugRoute,
+
+  NotFoundRoute,
 
   // `satisfies` operator is used to typecheck all RouteObjects to ensure
   // that the AuthRequirements field is defined in the meta field.

@@ -5,6 +5,7 @@ import {
   DebugRoute,
   FeedbackRoute,
   FeedbackSubmittedRoute,
+  NotFoundRoute,
 } from "./PublicRoutes";
 
 /**
@@ -21,6 +22,8 @@ export const Routes = (<const>[
   DebugRoute,
   FeedbackRoute,
   FeedbackSubmittedRoute,
+
+  NotFoundRoute,
 
   // `satisfies` operator is used to typecheck all RouteObjects to ensure
   // that the AuthRequirements field is defined in the meta field.

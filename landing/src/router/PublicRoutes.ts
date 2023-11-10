@@ -1,3 +1,9 @@
+export const NotFoundRoute = <const>{
+  path: "/:pathMatch(.*)*",
+  name: "404",
+  component: () => import("../views/404.vue"),
+};
+
 export const HomeRoute = <const>{
   name: "home",
   path: "/",
