@@ -2,6 +2,7 @@
 import { ref, onErrorCaptured } from "vue";
 
 import { useLoader, useNotif } from "./store";
+import { routerError } from "./router";
 import GlobalErrorView from "./views/GlobalError.vue";
 import SideDrawer from "./views/components/SideDrawer.vue";
 import Loader from "./views/components/Loader.vue";
@@ -11,6 +12,9 @@ const loader = useLoader();
 const notif = useNotif();
 
 const globalError = ref<Error | null>(null);
+
+// Captures any errors that bubbled up from child components and set it on the
+// globalError variable so that it can be shown to users.
 onErrorCaptured((e) => {
   globalError.value = e;
 });
@@ -18,7 +22,7 @@ onErrorCaptured((e) => {
 /**
  * Clear the global error flag and loader.
  */
-function clearError() {
+function clearGlobalError() {
   // This is wrapped in setTimeout because if the 'v-if' conditional rendering
   // updates before the `router.back()` can change the router-view's dynamic
   // component, the router-view component is showed again with the page that
@@ -36,13 +40,41 @@ function clearError() {
   // the error is cleared.
   loader.hide();
 }
+
+/**
+ * Clear `routerError` and loader.
+ */
+function clearRouterError() {
+  // This is wrapped in setTimeout because if the 'v-if' conditional rendering
+  // updates before the `router.back()` can change the router-view's dynamic
+  // component, the router-view component is showed again with the page that
+  // errored before it is navigated away will cause the error to be thrown and
+  // bubbled up here again, even if the URL has changed to navigate user to the
+  // last working page, it still shows the global error view component.
+  //
+  // The 100 milliseconds timeout value is arbitrary, it needs to be long enough
+  // for the router-back update to take effect but not too long that it seems
+  // like the clear error action froze, and 100ms is a good in between.
+  setTimeout(() => (routerError.value = null), 100);
+
+  // Clears any loader still shown too, since an error might be thrown before
+  // loader can be hidden again, making it always show the loader even after
+  // the error is cleared.
+  loader.hide();
+}
 </script>
 
 <template>
   <GlobalErrorView
     v-if="globalError !== null"
     :globalError="globalError"
-    @acknowledged="clearError"
+    @acknowledged="clearGlobalError"
+  />
+
+  <GlobalErrorView
+    v-else-if="routerError !== null"
+    :globalError="routerError"
+    @acknowledged="clearRouterError"
   />
 
   <!--
