@@ -76,12 +76,10 @@ async function submit() {
         >?
       </p>
 
-      <textarea
+      <input
         v-model.trim="a2"
-        rows="2"
         class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
-      >
-      </textarea>
+      />
     </div>
 
     <div class="mb-6">

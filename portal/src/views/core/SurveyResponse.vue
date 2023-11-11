@@ -141,7 +141,10 @@ async function deleteTask(taskID: TaskID) {
 
       <div class="lg:basis-1/2">
         <div class="pb-6">
-          <p class="pb-2 text-2xl">Generated Tasks</p>
+          <p class="text-2xl">Generated Tasks</p>
+          <p class="pb-4 font-light">
+            A single survey response can cause more than 1 task to be generated.
+          </p>
 
           <p
             v-if="tasks.length === 0"

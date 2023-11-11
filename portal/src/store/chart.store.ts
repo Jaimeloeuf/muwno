@@ -6,7 +6,11 @@ import { IntervalType } from "@domain-model";
  * @todo Need to implement the check in the API too.
  */
 const allIntervalValues = {
-  [IntervalType.day]: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  /** Supports up to 4 weeks in day by day view */
+  [IntervalType.day]: [
+    2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+    23, 24, 25, 26, 27, 28,
+  ],
   [IntervalType.week]: [2, 3, 4, 5, 6, 7, 8, 9, 10],
   [IntervalType.month]: [2, 3, 4, 5, 6],
   [IntervalType.year]: [2, 3],

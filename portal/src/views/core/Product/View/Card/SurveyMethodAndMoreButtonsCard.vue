@@ -17,7 +17,7 @@ defineProps<{ productID: ProductID }>();
         name: SurveyMethodsRoute.name,
         params: { productID },
       }"
-      class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+      class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3"
     >
       Survey Methods
 
@@ -40,7 +40,7 @@ defineProps<{ productID: ProductID }>();
 
     <router-link
       :to="{ name: MoreProductFeatureRoute.name, params: { productID } }"
-      class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+      class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3"
     >
       <span class="pr-4">More</span>
 
