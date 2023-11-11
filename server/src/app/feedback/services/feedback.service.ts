@@ -12,6 +12,7 @@ import type {
   FeedbackForm,
   FeedbackResponseID,
   FeedbackResponse,
+  FeedbackA2WordOccurrence,
 } from 'domain-model';
 
 // DTO Types
@@ -19,6 +20,9 @@ import type { CreateOneFeedbackResponseDTO } from 'domain-model';
 
 // Service layer Exceptions
 import { NotFoundException } from '../../../exceptions/index.js';
+
+// Utils
+import { stopwords } from './utils/stopwords.js';
 
 @Injectable()
 export class FeedbackService {
@@ -88,6 +92,50 @@ export class FeedbackService {
     );
 
     return response;
+  }
+
+  /**
+   * Get Product's word occurrence data for feedback response `a2` to generate
+   * word cloud.
+   */
+  async getA2WordOccurrence(
+    requestorID: UserID,
+    productID: ProductID,
+  ): Promise<FeedbackA2WordOccurrence> {
+    // Validate if user can access this product and in extension, its responses.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    const peoples = await this.feedbackRepo.getResponseA2(productID);
+
+    const wordOccurences = peoples
+      // Split it by word, process each word and create a single new array
+      .flatMap((people) =>
+        people.split(' ').map((word) =>
+          word
+            // Remove punctuations
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+            // Remove excess spaces
+            .replace(/\s{2,}/g, ' ')
+            .toLowerCase(),
+        ),
+      )
+      // Reduce it into a map of words and their occurence
+      .reduce(
+        (acc, cur) => (
+          acc[cur] === undefined ? (acc[cur] = 1) : (acc[cur] += 1), acc
+        ),
+        // @todo might be more performant to use a Map instead
+        {} as Record<string, number>,
+      );
+
+    // Filter out all the stop words
+    for (const stopword of stopwords) delete wordOccurences[stopword];
+
+    // This is if somehow the last field has an empty space, it will split into
+    // an empty string '', even if the vue form uses v-model.trim="variable"
+    delete wordOccurences[''];
+
+    return wordOccurences;
   }
 
   /**
