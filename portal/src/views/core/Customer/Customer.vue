@@ -3,7 +3,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg } from "../../../store";
 import { ImportCustomerRoute } from "../../../router";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ReadCustomerCountDTO } from "@domain-model";
 
 const orgStore = useOrg();

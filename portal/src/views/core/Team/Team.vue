@@ -3,7 +3,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useUser } from "../../../store";
 import { InviteMemberRoute } from "../../../router";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 

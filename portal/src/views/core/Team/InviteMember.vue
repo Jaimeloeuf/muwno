@@ -5,7 +5,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif } from "../../../store";
 import { SignupRoute, TeamRoute } from "../../../router";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
 import {
   Role,

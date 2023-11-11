@@ -3,8 +3,8 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLoader, useStripe } from "../../../store";
 import { SetupPaymentMethodRoute, OnboardingRoute } from "../../../router";
-import Accordion from "../../components/Accordion.vue";
-import TopNavbar from "../../components/TopNavbar.vue";
+import Accordion from "../../shared/Accordion.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import CouponCodeInput from "./Stripe/CouponCodeInput.vue";
 import { PlanDetails } from "@domain-model";
 

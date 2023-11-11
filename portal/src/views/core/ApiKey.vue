@@ -3,8 +3,8 @@ import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useUser, useLoader, useNotif } from "../../store";
-import TopNavbar from "../components/TopNavbar.vue";
-import CopyOnClick from "../components/CopyOnClick.vue";
+import TopNavbar from "../shared/TopNavbar.vue";
+import CopyOnClick from "../shared/CopyOnClick.vue";
 import { getDateString } from "../../utils/date-formatting/getDateString";
 import { Role } from "@domain-model";
 import type {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { flags } from "../../../utils/flags";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 </script>
 
 <template>

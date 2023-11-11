@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useProduct, useUser } from "../../../../store";
-import TopNavbar from "../../../components/TopNavbar.vue";
+import TopNavbar from "../../../shared/TopNavbar.vue";
 import DownloadRawResponseButton from "./Card/DownloadRawResponseButton.vue";
 import EditProductDetails from "./Card/EditProductDetails.vue";
 import TransferProductButton from "./Card/TransferProductButton.vue";

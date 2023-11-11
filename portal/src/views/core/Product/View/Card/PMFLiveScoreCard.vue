@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useProduct } from "../../../../../store";
-import { useLiveScore } from "../../shared/useLiveScore";
+import { useLiveScore } from "../../../../../composable";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();

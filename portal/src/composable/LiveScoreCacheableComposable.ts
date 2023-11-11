@@ -1,4 +1,4 @@
-import { useLiveScore } from "../shared/useLiveScore";
+import { useLiveScore } from "./LiveScoreComposable";
 import type { ProductID, PMFScore } from "@domain-model";
 
 let cacheKey = "";

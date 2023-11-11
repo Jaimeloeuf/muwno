@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCacheableLiveScore } from "./useCacheableLiveScore";
+import { useCacheableLiveScore } from "../../../../composable";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID; cacheKey: string }>();

@@ -5,7 +5,7 @@ import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useOrg, useLoader, useNotif } from "../../store";
-import TopNavbar from "../components/TopNavbar.vue";
+import TopNavbar from "../shared/TopNavbar.vue";
 import type {
   CreateOneCustomerDTO,
   CreateManyCustomerDTO,

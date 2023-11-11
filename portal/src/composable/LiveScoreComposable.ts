@@ -1,5 +1,5 @@
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../../firebase";
+import { getAuthHeader } from "../firebase";
 import type { ProductID, ReadOnePMFScoreDTO } from "@domain-model";
 
 function getReliability(totalResponses: number) {

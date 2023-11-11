@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useOrg, useUser, useLoader } from "../../../store";
 import { AllProductRoute, BuySubscriptionPlanRoute } from "../../../router";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import { type OrgSize, orgSizes } from "@domain-model";
 
 const router = useRouter();

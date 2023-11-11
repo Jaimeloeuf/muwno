@@ -17,7 +17,7 @@ import {
   OnboardingRoute,
 } from "../../router";
 import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
-import TopNavbar from "../../views/components/TopNavbar.vue";
+import TopNavbar from "../shared/TopNavbar.vue";
 
 const router = useRouter();
 const onboardingStore = useOnboarding();

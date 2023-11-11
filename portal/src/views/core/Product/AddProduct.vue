@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useProduct, useLoader } from "../../../store";
 import { ProductRoute } from "../../../router";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 
 const router = useRouter();
 const productStore = useProduct();

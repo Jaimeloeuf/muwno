@@ -4,9 +4,9 @@ import { ref, onErrorCaptured } from "vue";
 import { useLoader, useNotif } from "./store";
 import { routerError } from "./router";
 import GlobalErrorView from "./views/GlobalError.vue";
-import SideDrawer from "./views/components/SideDrawer.vue";
-import Loader from "./views/components/Loader.vue";
-import Snackbar from "./views/components/Snackbar.vue";
+import SideDrawer from "./views/shared/SideDrawer.vue";
+import Loader from "./views/shared/Loader.vue";
+import Snackbar from "./views/shared/Snackbar.vue";
 
 const loader = useLoader();
 const notif = useNotif();

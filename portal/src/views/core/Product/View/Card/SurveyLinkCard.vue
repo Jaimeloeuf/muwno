@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import QRCode, { type QRCodeToDataURLOptions } from "qrcode";
 import type { Product } from "@domain-model";
-import CopyOnClick from "../../../../components/CopyOnClick.vue";
+import CopyOnClick from "../../../../shared/CopyOnClick.vue";
 import { formLink } from "../../../../../utils/links";
 
 const props = defineProps<{ product: Product }>();

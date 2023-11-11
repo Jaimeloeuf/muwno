@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { auth } from "../../firebase";
 import { useOrg } from "../../store";
-import TopNavbar from "../components/TopNavbar.vue";
+import TopNavbar from "../shared/TopNavbar.vue";
 import { type Role, roleMapper } from "@domain-model";
 
 const orgStore = useOrg();

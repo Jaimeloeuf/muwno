@@ -5,7 +5,7 @@ import { getAuthHeader } from "../../firebase";
 import { useProduct, useLoader, useNotif } from "../../store";
 import { EditTaskRoute } from "../../router";
 import { TaskController } from "../../controller";
-import TopNavbar from "../components/TopNavbar.vue";
+import TopNavbar from "../shared/TopNavbar.vue";
 import { getDateTimeString } from "../../utils/date-formatting/getDateTimeString";
 import type {
   ProductID,

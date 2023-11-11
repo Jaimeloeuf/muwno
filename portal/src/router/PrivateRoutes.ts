@@ -77,19 +77,21 @@ export const MoreProductFeatureRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+/* ============================ Task Module Routes ========================= */
+
 export const AllTaskRoute = <const>{
-  name: "product-task-all",
-  path: "/product/task/all/:productID",
+  name: "task-all",
+  path: "/task/all/:productID",
   props: true,
-  component: () => import("../views/core/Product/View/AllTask.vue"),
+  component: () => import("../views/core/Task/AllTask.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
 export const EditTaskRoute = <const>{
-  name: "product-task-edit",
-  path: "/product/task/edit/:taskID",
+  name: "task-edit",
+  path: "/task/edit/:taskID",
   props: true,
-  component: () => import("../views/core/Product/View/EditTask.vue"),
+  component: () => import("../views/core/Task/EditTask.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Accordion from "../../components/Accordion.vue";
+import Accordion from "../../shared/Accordion.vue";
 import type { RouteName } from "../../../router";
 import type { ProductID, SurveyMethod } from "@domain-model";
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProduct } from "../../../../store";
-import TopNavbar from "../../../components/TopNavbar.vue";
+import TopNavbar from "../../../shared/TopNavbar.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "./Card/PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";

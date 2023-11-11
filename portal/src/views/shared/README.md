@@ -1,0 +1,2 @@
+# views/shared/
+Folder for all the shared vue component files. A vue component should only be defined here if the component is shared/reused in multiple views or is a generic component not specific to the application. E.g. A button or form component, a shared user details card component.

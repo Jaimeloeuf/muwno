@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useNotif, useLoader } from "../../../../store";
-import { SurveyResponseRoute } from "../../../../router";
-import { TaskController } from "../../../../controller";
-import TopNavbar from "../../../components/TopNavbar.vue";
+import { useNotif, useLoader } from "../../../store";
+import { SurveyResponseRoute } from "../../../router";
+import { TaskController } from "../../../controller";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ProductID, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();

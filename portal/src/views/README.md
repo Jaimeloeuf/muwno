@@ -1,2 +1,2 @@
 # views/
-Folder for all view component files.
+Folder for all vue Single File Component (SFC) files.

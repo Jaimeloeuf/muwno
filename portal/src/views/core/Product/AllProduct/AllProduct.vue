@@ -2,9 +2,9 @@
 import { ref } from "vue";
 import { useOrg, useProduct } from "../../../../store";
 import { ProductRoute, AddProductRoute } from "../../../../router";
-import TopNavbar from "../../../components/TopNavbar.vue";
+import TopNavbar from "../../../shared/TopNavbar.vue";
 import SimplePMFLiveScoreCard from "./SimplePMFLiveScoreCard.vue";
-import { useSearch } from "./SearchComposable";
+import { useSearch } from "../../../../composable";
 
 const orgStore = useOrg();
 const productStore = useProduct();
@@ -39,6 +39,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
           <p class="font-medium">Product Name</p>
           <div class="flex max-w-md flex-row gap-3">
             <input
+              ref="searchField"
               v-model.trim="searchInput"
               type="text"
               class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3 focus:outline-none"

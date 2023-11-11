@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useOrg } from "../../../store";
-import TopNavbar from "../../components/TopNavbar.vue";
-import CopyOnClick from "../../components/CopyOnClick.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
+import CopyOnClick from "../../shared/CopyOnClick.vue";
 
 const orgStore = useOrg();
 

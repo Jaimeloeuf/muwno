@@ -11,7 +11,7 @@ import {
 } from "../../../store";
 import { AllProductRoute } from "../../../router";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import { roleMapper } from "@domain-model";
 
 const router = useRouter();

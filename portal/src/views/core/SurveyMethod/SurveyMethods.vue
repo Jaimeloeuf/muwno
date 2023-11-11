@@ -2,7 +2,7 @@
 import { useProduct } from "../../../store";
 import { CustomerRoute, type RouteName } from "../../../router";
 import { ManualEmailBlastRoute, NotFoundRoute } from "../../../router";
-import TopNavbar from "../../components/TopNavbar.vue";
+import TopNavbar from "../../shared/TopNavbar.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
 import { flags } from "../../../utils/flags";
 import {
