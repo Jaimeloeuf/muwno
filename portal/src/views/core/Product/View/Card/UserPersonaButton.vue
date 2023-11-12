@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { UserPersonaRoute } from "../../../../../router";
-import { flags } from "../../../../../utils/flags";
 import type { ProductID } from "@domain-model";
 
 defineProps<{ productID: ProductID }>();
@@ -8,7 +7,6 @@ defineProps<{ productID: ProductID }>();
 
 <template>
   <router-link
-    v-if="flags.devMode"
     :to="{
       name: UserPersonaRoute.name,
       params: { productID },
