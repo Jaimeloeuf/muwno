@@ -24,38 +24,35 @@ const tasks = ref(await TaskController.getTasks(props.productID, 3));
 
 <template>
   <div
-    class="mb-2 w-full"
-    :class="{
-      'pb-3': tasks.length !== 0,
-      'rounded-lg border border-zinc-200 p-4': tasks.length === 0,
-    }"
+    class="rounded-lg border border-zinc-200 p-3"
+    :class="{ 'pb-0': tasks.length !== 0 }"
   >
-    <div class="flex flex-row items-center justify-between">
-      <p class="text-sm font-semibold">Top Tasks</p>
+    <div
+      class="mb-2 flex flex-row items-center justify-between border-b border-zinc-200 pb-2"
+    >
+      <p class="font-medium">Tasks</p>
       <router-link
         v-if="tasks.length !== 0"
         :to="{ name: AllTaskRoute.name }"
-        class="rounded-lg border border-zinc-200 p-1 px-6 text-sm text-zinc-700"
+        class="rounded-lg border border-zinc-200 p-1 px-6 text-sm font-light"
       >
-        See All
+        All
       </router-link>
     </div>
 
-    <div v-if="tasks.length === 0" class="pt-2 text-xl font-extralight">
+    <div v-if="tasks.length === 0" class="text-xl font-extralight">
       <!-- @todo Should also say all done if there are tasks jus all completed! -->
       This will be automatically generated once there are survey responses.
     </div>
 
-    <div v-else>
-      <div
-        v-for="(task, i) in tasks"
-        :key="task.id"
-        class="mt-3 w-full rounded-lg border border-zinc-200 p-3"
-      >
-        <div
-          class="mb-2 flex flex-row items-center justify-between gap-3 border-b border-zinc-200 pb-2"
-        >
-          <p class="w-full">Priority {{ i + 1 }}</p>
+    <div v-else class="divide-y divide-solid">
+      <div v-for="(task, i) in tasks" :key="task.id" class="w-full p-1 py-2">
+        <div class="mb-1 flex flex-row items-center justify-between gap-3">
+          <p
+            class="w-full font-light underline decoration-zinc-200 underline-offset-2"
+          >
+            Priority {{ i + 1 }}
+          </p>
 
           <router-link
             :to="{
@@ -68,13 +65,13 @@ const tasks = ref(await TaskController.getTasks(props.productID, 3));
                 taskID: task.id,
               },
             }"
-            class="rounded-lg border border-zinc-200 px-3 text-center font-light text-zinc-900"
+            class="rounded-lg border border-zinc-200 px-2 text-center font-extralight"
           >
             Details
           </router-link>
 
           <button
-            class="w-full rounded-lg bg-zinc-100 font-light text-zinc-900"
+            class="rounded-lg border border-zinc-200 bg-zinc-100 px-3 font-light"
             @click="markTaskAsDone(task.id)"
           >
             Done

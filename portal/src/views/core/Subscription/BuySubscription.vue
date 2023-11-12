@@ -6,6 +6,11 @@ import { SetupPaymentMethodRoute, OnboardingRoute } from "../../../router";
 import Accordion from "../../shared/Accordion.vue";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import CouponCodeInput from "./Stripe/CouponCodeInput.vue";
+import {
+  numberFormatter,
+  normalMoneyFormatter,
+  smallMoneyFormatter,
+} from "../../../utils/numericalFormatter";
 import { PlanDetails } from "@domain-model";
 
 const loader = useLoader();
@@ -14,23 +19,6 @@ const stripeStore = useStripe();
 
 const coupon = ref<null | string>(null);
 const useCoupon = (newCoupon: null | string) => (coupon.value = newCoupon);
-
-const numberFormatter = Intl.NumberFormat().format;
-
-/** Currency formatter to format up to 2dp */
-const normalMoneyFormatter = Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "SGD",
-  minimumFractionDigits: 0,
-}).format;
-
-/** Currency formatter with support up to 3dp instead of the default 2dp */
-const smallMoneyFormatter = Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "SGD",
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 3,
-}).format;
 
 async function buyPlan(paymentInterval: "yearly" | "monthly") {
   loader.show("Waiting for payment provider...");

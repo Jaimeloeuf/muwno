@@ -124,6 +124,14 @@ export const SurveyResponseRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const SurveyStatsRoute = <const>{
+  name: "survey-stats",
+  path: "/survey/stats/:productID",
+  props: true,
+  component: () => import("../views/core/SurveyStats/SurveyStats.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /* ====================== Survey Method Module Routes ====================== */
 
 export const SurveyMethodsRoute = <const>{
@@ -263,6 +271,7 @@ export const OrgUsageRoute = <const>{
   AllTaskRoute,
   EditTaskRoute,
   SurveyResponseRoute,
+  SurveyStatsRoute,
   AddProductRoute,
   SurveyMethodsRoute,
   ManualEmailBlastRoute,

@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { useProduct } from "../../../../store";
+import {
+  UserPersonaRoute,
+  BenefitsRoute,
+  SurveyStatsRoute,
+  SurveyMethodsRoute,
+  MoreProductFeatureRoute,
+} from "../../../../router";
+
 import TopNavbar from "../../../shared/TopNavbar.vue";
+import EnterButton from "../../../shared/EnterButton.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "./Card/PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
-import SurveyStatsCard from "./Card/SurveyStatsCard.vue";
 import SurveyLinkCard from "./Card/SurveyLinkCard.vue";
-import SurveyMethodAndMoreButtonsCard from "./Card/SurveyMethodAndMoreButtonsCard.vue";
-import UserPersonaButton from "./Card/UserPersonaButton.vue";
-import BenefitsButton from "./Card/BenefitsButton.vue";
+
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -25,22 +31,46 @@ setInterval(() => window.location.reload(), 8.64e7);
   <div>
     <TopNavbar sideDrawer>{{ product.name }}</TopNavbar>
 
-    <div class="flex flex-col-reverse gap-6 xl:flex-row">
-      <div class="grow sm:px-2 lg:basis-3/4">
+    <div class="flex flex-col gap-6 xl:flex-row">
+      <div class="sm:px-2 xl:basis-2/3">
         <p v-if="product.description !== ''" class="pb-6 font-extralight">
           {{ product.description }}
         </p>
+        <PMFLiveScoreCard class="mb-6 max-w-md" :productID="product.id" />
         <PMFChart :productID="product.id" />
       </div>
 
-      <div class="flex max-w-lg flex-col gap-6 lg:mx-0 lg:basis-1/4">
-        <PMFLiveScoreCard :productID="product.id" />
-        <TaskCard :productID="product.id" />
+      <div class="flex flex-col gap-6 xl:basis-1/3">
         <SurveyLinkCard :product="product" />
-        <SurveyStatsCard :productID="product.id" />
-        <UserPersonaButton :productID="product.id" />
-        <BenefitsButton :productID="product.id" />
-        <SurveyMethodAndMoreButtonsCard :productID="product.id" />
+        <TaskCard :productID="product.id" />
+
+        <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <EnterButton
+            :to="{ name: UserPersonaRoute.name, params: { productID } }"
+          >
+            User Personas
+          </EnterButton>
+          <EnterButton
+            :to="{ name: BenefitsRoute.name, params: { productID } }"
+          >
+            Benefits
+          </EnterButton>
+          <EnterButton
+            :to="{ name: SurveyStatsRoute.name, params: { productID } }"
+          >
+            Survey Stats
+          </EnterButton>
+          <EnterButton
+            :to="{ name: SurveyMethodsRoute.name, params: { productID } }"
+          >
+            Survey Methods
+          </EnterButton>
+          <EnterButton
+            :to="{ name: MoreProductFeatureRoute.name, params: { productID } }"
+          >
+            More
+          </EnterButton>
+        </div>
       </div>
     </div>
   </div>

@@ -9,69 +9,69 @@ const props = defineProps<{ product: Product }>();
 
 const surveyLink = `${formLink}/#/feedback/${props.product.id}`;
 
+const showModal = ref<boolean>(false);
 const imageDataUrl = ref<string>("");
 
-async function generateQR() {
-  imageDataUrl.value = await QRCode.toDataURL(surveyLink, {
-    errorCorrectionLevel: "H",
-    width: 1024,
-    height: 1024,
-  } as QRCodeToDataURLOptions);
-}
+// Run this with a promise so it doesnt block the main Dashboard from loading
+// because of the Suspense block waiting for all top level awaits to resolve.
+QRCode.toDataURL(surveyLink, {
+  errorCorrectionLevel: "H",
+  width: 1024,
+  height: 1024,
+} as QRCodeToDataURLOptions).then((img) => (imageDataUrl.value = img));
 </script>
 
 <template>
-  <div class="w-full rounded-lg border border-zinc-200 p-4">
-    <div
-      class="mb-2 flex flex-row items-center justify-between border-b border-zinc-200 pb-2"
-    >
-      <p>Survey Link</p>
+  <div
+    v-if="showModal"
+    class="fixed inset-0 z-30 flex h-screen w-screen items-center justify-center bg-white py-12"
+    @click="showModal = false"
+  >
+    <div class="flex flex-col font-light lg:flex-row lg:gap-6" @click.stop>
+      <div class="flex flex-col gap-8">
+        <div class="flex flex-row justify-between">
+          <p class="text-2xl">Survey Link & QR Code</p>
 
-      <button
-        v-if="imageDataUrl === ''"
-        class="rounded-lg bg-zinc-100 px-3 text-center font-light"
-        @click="generateQR()"
-      >
-        Show QR Code
-      </button>
-      <button
-        v-else
-        class="rounded-lg bg-zinc-100 px-3 text-center font-light"
-        @click="imageDataUrl = ''"
-      >
-        Hide QR Code
-      </button>
-    </div>
+          <button
+            class="rounded-lg border border-zinc-200 bg-zinc-100 px-6 font-normal text-zinc-800"
+            @click="showModal = false"
+          >
+            Close
+          </button>
+        </div>
 
-    <div class="text-right">
-      <CopyOnClick>
-        <p class="break-words text-sm font-extralight">
-          {{ surveyLink }}
-        </p>
-        <p class="font-normal">Click to copy link</p>
-      </CopyOnClick>
-    </div>
-
-    <div v-if="imageDataUrl !== ''" class="mt-4">
-      <img :src="imageDataUrl" />
-
-      <div class="flex flex-row gap-6">
-        <button
-          class="w-full rounded-lg border border-zinc-200 py-1 text-center font-light text-zinc-900"
-          @click="imageDataUrl = ''"
-        >
-          Close
-        </button>
+        <CopyOnClick :textToCopy="surveyLink">
+          <div class="w-full rounded-lg border border-zinc-200 p-4">
+            {{ surveyLink }}
+            <p class="font-medium">Click to copy link</p>
+          </div>
+        </CopyOnClick>
 
         <a
           target="_blank"
           :href="imageDataUrl"
           :download="`Survey QR Code for ${product.name}`"
-          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 py-1 text-center"
         >
-          Download
+          <p
+            class="w-full rounded-lg border border-green-600 p-3 text-center text-green-600"
+          >
+            Download QR Code
+          </p>
         </a>
       </div>
+
+      <img v-if="imageDataUrl !== ''" class="w-64" :src="imageDataUrl" />
+      <p v-else class="text-xl font-medium">... Generating QR Code ...</p>
     </div>
   </div>
+
+  <button
+    class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-1 text-left"
+    @click="showModal = true"
+  >
+    <div class="flex flex-row items-center justify-between">
+      <p>Survey Link & QR Code</p>
+      <img class="inline w-8" :src="imageDataUrl" />
+    </div>
+  </button>
 </template>

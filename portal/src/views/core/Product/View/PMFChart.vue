@@ -15,7 +15,9 @@ watch(storeIntervalType, chartStore.onIntervalTypeChange);
 
 <template>
   <div>
-    <div class="flex flex-col justify-between lg:flex-row lg:items-center">
+    <div
+      class="flex flex-col justify-between lg:flex-row lg:items-center lg:pr-4"
+    >
       <p class="text-3xl font-thin">PMF Performance</p>
 
       <div>

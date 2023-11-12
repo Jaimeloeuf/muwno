@@ -4,6 +4,7 @@ import { getAuthHeader } from "../../../firebase";
 import { useOrg } from "../../../store";
 import { ImportCustomerRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
+import { numberFormatter } from "../../../utils/numericalFormatter";
 import type { ReadCustomerCountDTO } from "@domain-model";
 
 const orgStore = useOrg();
@@ -52,7 +53,7 @@ customerGroups;
         <div class="mb-6 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
           <p class="text-sm font-medium">Customers Stored</p>
           <p class="text-right">
-            {{ Intl.NumberFormat().format(customerCount) }}
+            {{ numberFormatter(customerCount) }}
           </p>
         </div>
       </div>

@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { BenefitsRoute } from "../../../../../router";
-import type { ProductID } from "@domain-model";
+import type { RouteLocationRaw } from "vue-router";
 
-defineProps<{ productID: ProductID }>();
+defineProps<{
+  /**
+   * Pass through for the router-link component's `to` prop.
+   */
+  to: RouteLocationRaw;
+}>();
 </script>
 
 <template>
   <router-link
-    :to="{
-      name: BenefitsRoute.name,
-      params: { productID },
-    }"
-    class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3"
+    :to="to"
+    class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2.5"
   >
-    Benefits
+    <slot></slot>
 
     <svg
       class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
