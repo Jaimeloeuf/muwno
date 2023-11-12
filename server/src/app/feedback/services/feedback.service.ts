@@ -147,6 +147,58 @@ export class FeedbackService {
   }
 
   /**
+   * Get Product's word occurrence data for feedback response `a3`.
+   */
+  async getA3WordOccurrence(
+    requestorID: UserID,
+    productID: ProductID,
+    timeRange: number,
+  ): Promise<FeedbackWordOccurrence> {
+    // Validate if user can access this product and in extension, its responses.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    if (timeRange > 2.592e6)
+      throw new InvalidInputException(
+        `Time range cannot be larger than 2.592e6`,
+      );
+
+    const benefits = await this.feedbackRepo.getResponseA3(
+      productID,
+      timeRange,
+    );
+
+    const wordOccurences = benefits
+      // Split it by word, process each word and create a single new array
+      .flatMap((benefit) =>
+        benefit.split(' ').map((word) =>
+          word
+            // Remove punctuations
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+            // Remove excess spaces
+            .replace(/\s{2,}/g, ' ')
+            .toLowerCase(),
+        ),
+      )
+      // Reduce it into a map of words and their occurence
+      .reduce(
+        (acc, cur) => (
+          acc[cur] === undefined ? (acc[cur] = 1) : (acc[cur] += 1), acc
+        ),
+        // @todo might be more performant to use a Map instead
+        {} as Record<string, number>,
+      );
+
+    // Filter out all the stop words
+    for (const stopword of stopwords) delete wordOccurences[stopword];
+
+    // This is if somehow the last field has an empty space, it will split into
+    // an empty string '', even if the vue form uses v-model.trim="variable"
+    delete wordOccurences[''];
+
+    return wordOccurences;
+  }
+
+  /**
    * Get survey responses as CSV string to download as a CSV file on the client.
    */
   async getResponseCsvString(

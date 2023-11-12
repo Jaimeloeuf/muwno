@@ -88,6 +88,34 @@ export class FeedbackRepo implements IFeedbackRepo {
       .then((responses) => responses.map((response) => response.a2));
   }
 
+  async getResponseA3(product_id: ProductID, timeRange: number) {
+    return this.db.pmf_survey_response
+      .findMany({
+        // Only load the "Main benefit of Product" answer
+        select: { a3: true },
+
+        where: {
+          product_id,
+
+          created_at:
+            timeRange === 0
+              ? {} // 0 means no filtering.
+              : // Filter for today to (today - timeRange seconds)
+                { gt: dayjs().subtract(timeRange, 'seconds').toISOString() },
+
+          // @todo Should this filtering be done at DB level or compute level?
+          a3: { not: '' },
+        },
+
+        // Sort by importance and oldest first.
+        orderBy: [{ a1: 'desc' }, { created_at: 'asc' }],
+
+        // Up to 1000 responses, @todo might make this number smaller
+        take: 1000,
+      })
+      .then((responses) => responses.map((response) => response.a3));
+  }
+
   async getResponses(product_id: ProductID) {
     return this.db.pmf_survey_response.findMany({
       select: { created_at: true, a1: true, a2: true, a3: true, a4: true },

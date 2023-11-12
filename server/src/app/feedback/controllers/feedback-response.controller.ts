@@ -78,6 +78,21 @@ export class FeedbackResponseController {
   }
 
   /**
+   * Get Product's word occurrence data for feedback response `a3`.
+   */
+  @Get('word-occurrence/a3/:productID')
+  @AllowAllRoles
+  async getA3WordOccurrence(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('productID') productID: ProductID,
+    @Query('timeRange', ParseIntPipe) timeRange: number,
+  ): Promise<ReadWordOccurrenceDTO> {
+    return this.feedbackService
+      .getA3WordOccurrence(requestorID, productID, timeRange)
+      .then((wordOccurences) => ({ wordOccurences }));
+  }
+
+  /**
    * Get survey responses as CSV string to download as a CSV file on the client.
    */
   @Get('download/:productID')
