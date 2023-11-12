@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref, type Ref, computed } from "vue";
 import Fuse from "fuse.js";
 
 type SearchOptions = {
@@ -22,7 +22,7 @@ type SearchOptions = {
  * Composable to encapsulate commonly used search logic built with `fuse.js` lib
  */
 export function useSearch<T>(
-  searchables: Array<T>,
+  searchables: Ref<Array<T>>,
   searchOptions: SearchOptions,
   clearSearchInputHandler: () => unknown
 ) {
@@ -30,18 +30,12 @@ export function useSearch<T>(
   const searchInput = ref<string>("");
 
   /** Create Fuse object and use computed to update on search input update */
-  const fuse = computed(
-    () =>
-      new Fuse(searchables, {
-        keys: searchOptions.keys,
-        threshold: searchOptions.threshold,
-      })
-  );
+  const fuse = computed(() => new Fuse(searchables.value, searchOptions));
 
   /** Continously search as user input changes. */
   const results = computed(() =>
     searchInput.value === ""
-      ? searchables
+      ? searchables.value
       : fuse.value
           .search(searchInput.value, { limit: searchOptions.resultLimit })
           .map((result) => result.item)

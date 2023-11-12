@@ -54,7 +54,7 @@ const wordOccurrences = ref(await getWordOccurrence());
 const searchField = ref<HTMLInputElement | null>(null);
 
 const { searchInput, results, clearSearchInput } = useSearch(
-  wordOccurrences.value,
+  wordOccurrences,
   { keys: ["word"], threshold: 0.5, resultLimit: 10 },
   () => searchField.value?.focus()
 );

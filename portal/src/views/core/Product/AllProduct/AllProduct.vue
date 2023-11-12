@@ -10,7 +10,7 @@ const orgStore = useOrg();
 const productStore = useProduct();
 
 const org = await orgStore.getOrg();
-const products = await productStore.getAllProducts();
+const products = ref(await productStore.getAllProducts());
 
 const pmfLiveScoreCacheKey = Date.now().toString();
 
