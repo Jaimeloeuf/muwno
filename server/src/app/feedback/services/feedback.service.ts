@@ -12,7 +12,7 @@ import type {
   FeedbackForm,
   FeedbackResponseID,
   FeedbackResponse,
-  FeedbackA2WordOccurrence,
+  FeedbackWordOccurrence,
 } from 'domain-model';
 
 // DTO Types
@@ -98,14 +98,13 @@ export class FeedbackService {
   }
 
   /**
-   * Get Product's word occurrence data for feedback response `a2` to generate
-   * word cloud.
+   * Get Product's word occurrence data for feedback response `a2`.
    */
   async getA2WordOccurrence(
     requestorID: UserID,
     productID: ProductID,
     timeRange: number,
-  ): Promise<FeedbackA2WordOccurrence> {
+  ): Promise<FeedbackWordOccurrence> {
     // Validate if user can access this product and in extension, its responses.
     await this.productService.validateUserAccess(requestorID, productID);
 
@@ -114,7 +113,7 @@ export class FeedbackService {
         `Time range cannot be larger than 2.592e6`,
       );
 
-    const peoples = await this.feedbackRepo.getResponseA2(productID);
+    const peoples = await this.feedbackRepo.getResponseA2(productID, timeRange);
 
     const wordOccurences = peoples
       // Split it by word, process each word and create a single new array

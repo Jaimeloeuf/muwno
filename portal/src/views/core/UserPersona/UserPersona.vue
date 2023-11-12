@@ -5,7 +5,7 @@ import { useLoader } from "../../../store";
 import { getAuthHeader } from "../../../firebase";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import type { ProductID } from "@domain-model";
+import type { ProductID, ReadWordOccurrenceDTO } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 
@@ -28,12 +28,12 @@ async function getWordOccurrence() {
 
   const { res, err } = await sf
     .useDefault()
-    .GET(`/feedback/response/word-occurrence/${props.productID}`)
+    .GET(`/feedback/response/word-occurrence/a2/${props.productID}`)
     .useQuery<{ timeRange: string }>({
       timeRange: selectedTimeRange.value.toString(),
     })
     .useHeader(getAuthHeader)
-    .runJSON<{ wordOccurences: Record<string, number> }>();
+    .runJSON<ReadWordOccurrenceDTO>();
 
   loader.hide();
 

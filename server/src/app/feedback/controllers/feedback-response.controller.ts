@@ -18,7 +18,7 @@ import type {
 } from 'domain-model';
 
 // DTO Types
-import type { ReadA2WordOccurrenceDTO } from 'domain-model';
+import type { ReadWordOccurrenceDTO } from 'domain-model';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -63,16 +63,15 @@ export class FeedbackResponseController {
   }
 
   /**
-   * Get Product's word occurrence data for feedback response `a2` to generate
-   * word cloud.
+   * Get Product's word occurrence data for feedback response `a2`.
    */
-  @Get('word-occurrence/:productID')
+  @Get('word-occurrence/a2/:productID')
   @AllowAllRoles
   async getA2WordOccurrence(
     @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
     @Query('timeRange', ParseIntPipe) timeRange: number,
-  ): Promise<ReadA2WordOccurrenceDTO> {
+  ): Promise<ReadWordOccurrenceDTO> {
     return this.feedbackService
       .getA2WordOccurrence(requestorID, productID, timeRange)
       .then((wordOccurences) => ({ wordOccurences }));
