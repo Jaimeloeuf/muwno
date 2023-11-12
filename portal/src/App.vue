@@ -92,10 +92,15 @@ function clearRouterError() {
       Instead of checking for length to see if there are any notifs to show, it
       checks for the first element so that TS will cast it as not undefined for
       the 2 props.
+
+      Key is random to force component to re-render every time snackBarMessage
+      changes, since the message and timeout can be the exact same value, which
+      would cause a bug where subsequent notifs are not shown as vue thinks they
+      are the same, but notif is already hidden when user presses 'got it'.
     -->
     <Snackbar
       v-if="notif.snackBarMessages[0] !== undefined"
-      :key="notif.snackBarMessages[0].msg"
+      :key="Math.random()"
       :msg="notif.snackBarMessages[0].msg"
       :timeout="notif.snackBarMessages[0].timeout"
       @close="notif.removeOldestMessage"
