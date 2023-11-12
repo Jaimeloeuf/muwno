@@ -48,7 +48,10 @@ export abstract class IFeedbackRepo {
    * Get feedback response data `a2` of the given productID, sorted by most
    * important and oldest first, and up to the first 1000 answers.
    */
-  abstract getResponseA2(productID: ProductID): Promise<Array<string>>;
+  abstract getResponseA2(
+    productID: ProductID,
+    timeRange: number,
+  ): Promise<Array<string>>;
 
   /**
    * Get all survey responses of the selected product.

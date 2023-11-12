@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { sf } from "simpler-fetch";
 import { useLoader } from "../../../store";
 import { getAuthHeader } from "../../../firebase";
@@ -29,6 +29,9 @@ async function getWordOccurrence() {
   const { res, err } = await sf
     .useDefault()
     .GET(`/feedback/response/word-occurrence/${props.productID}`)
+    .useQuery<{ timeRange: string }>({
+      timeRange: selectedTimeRange.value.toString(),
+    })
     .useHeader(getAuthHeader)
     .runJSON<{ wordOccurences: Record<string, number> }>();
 
@@ -48,7 +51,11 @@ async function getWordOccurrence() {
   return sortedWordOccurrence;
 }
 
-const wordOccurrences = ref(await getWordOccurrence());
+const wordOccurrences = ref<Awaited<ReturnType<typeof getWordOccurrence>>>([]);
+
+// Use watchEffect to update wordOccurrences on any reactive data change. This
+// will also trigger the first initial run to get the data.
+watchEffect(async () => (wordOccurrences.value = await getWordOccurrence()));
 
 /** Ref to the DOM element so that it can be cleared by `clearSearchInputHandler` */
 const searchField = ref<HTMLInputElement | null>(null);
@@ -122,7 +129,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
     >
       <thead class="bg-zinc-200 text-zinc-800">
         <tr>
-          <th class="border border-zinc-300 p-2">Word</th>
+          <th class="border border-zinc-300 p-2">Keyword</th>
           <th class="border border-zinc-300 p-2">Count</th>
         </tr>
       </thead>

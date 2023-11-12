@@ -19,7 +19,10 @@ import type {
 import type { CreateOneFeedbackResponseDTO } from 'domain-model';
 
 // Service layer Exceptions
-import { NotFoundException } from '../../../exceptions/index.js';
+import {
+  NotFoundException,
+  InvalidInputException,
+} from '../../../exceptions/index.js';
 
 // Utils
 import { stopwords } from './utils/stopwords.js';
@@ -101,9 +104,15 @@ export class FeedbackService {
   async getA2WordOccurrence(
     requestorID: UserID,
     productID: ProductID,
+    timeRange: number,
   ): Promise<FeedbackA2WordOccurrence> {
     // Validate if user can access this product and in extension, its responses.
     await this.productService.validateUserAccess(requestorID, productID);
+
+    if (timeRange > 2.592e6)
+      throw new InvalidInputException(
+        `Time range cannot be larger than 2.592e6`,
+      );
 
     const peoples = await this.feedbackRepo.getResponseA2(productID);
 

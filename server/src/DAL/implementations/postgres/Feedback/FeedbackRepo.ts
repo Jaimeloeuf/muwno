@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import dayjs from 'dayjs';
 
 import type {
   IFeedbackRepo,
@@ -59,7 +60,7 @@ export class FeedbackRepo implements IFeedbackRepo {
       .then(runMapperIfNotNull(mapFeedbackResponseModelToEntity));
   }
 
-  async getResponseA2(product_id: ProductID) {
+  async getResponseA2(product_id: ProductID, timeRange: number) {
     return this.db.pmf_survey_response
       .findMany({
         // Only load the "People that would benefit from Product" answer
@@ -67,6 +68,12 @@ export class FeedbackRepo implements IFeedbackRepo {
 
         where: {
           product_id,
+
+          created_at:
+            timeRange === 0
+              ? {} // 0 means no filtering.
+              : // Filter for today to (today - timeRange seconds)
+                { gt: dayjs().subtract(timeRange, 'seconds').toISOString() },
 
           // @todo Should this filtering be done at DB level or compute level?
           a2: { not: '' },

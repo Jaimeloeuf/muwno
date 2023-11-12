@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 
 import { FeedbackService } from '../services/feedback.service.js';
@@ -71,9 +71,10 @@ export class FeedbackResponseController {
   async getA2WordOccurrence(
     @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
+    @Query('timeRange', ParseIntPipe) timeRange: number,
   ): Promise<ReadA2WordOccurrenceDTO> {
     return this.feedbackService
-      .getA2WordOccurrence(requestorID, productID)
+      .getA2WordOccurrence(requestorID, productID, timeRange)
       .then((wordOccurences) => ({ wordOccurences }));
   }
 
