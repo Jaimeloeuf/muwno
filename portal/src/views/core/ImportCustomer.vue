@@ -5,6 +5,7 @@ import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useOrg, useLoader, useNotif } from "../../store";
+import { convertToNull } from "../../utils/convertToNull";
 import TopNavbar from "../shared/TopNavbar.vue";
 import type {
   CreateOneCustomerDTO,
@@ -72,10 +73,6 @@ async function processFile() {
 
   const customers: Array<CreateOneCustomerDTO> = [];
 
-  /** Convert empty strings and undefined values to null */
-  const convertToNull = (v: string | undefined) =>
-    v === "" || v === undefined ? null : v;
-
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
     const [cid, name, email, phone, createdAt] = result.data[i] ?? [];
@@ -90,6 +87,7 @@ async function processFile() {
 
   if (customers.length === 0) {
     alert("CSV cannot be empty!");
+    loader.hide();
     return;
   }
 
@@ -156,7 +154,7 @@ async function uploadCustomers(customers: Array<CreateOneCustomerDTO>) {
 
       <!-- @todo Change this into a file upload drop zone -->
       <div>
-        <label for="upload">
+        <label class="cursor-pointer" for="upload">
           <p class="pb-2">2. Upload CSV file filled with customer data</p>
 
           <div

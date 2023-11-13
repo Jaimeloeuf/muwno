@@ -34,3 +34,5 @@ export * from './CreateOneCustomerDTO.js';
 export * from './CreateManyCustomerDTO.js';
 
 export * from './ReadWordOccurrenceDTO.js';
+
+export * from './CreateManualEmailBlastDTO.js';

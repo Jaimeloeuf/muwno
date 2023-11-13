@@ -4,17 +4,20 @@ import { useRouter } from "vue-router";
 import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
-import { useOrg, useLoader, useNotif } from "../../../../store";
+import { useProduct, useLoader, useNotif } from "../../../../store";
+import { convertToNull } from "../../../../utils/convertToNull";
 import TopNavbar from "../../../shared/TopNavbar.vue";
+import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
 
-type CreateOneSurveyEmailDTO = { name: string | null; email: string | null };
+const props = defineProps<{ productID: ProductID }>();
 
 const router = useRouter();
-const orgStore = useOrg();
+const productStore = useProduct();
 const loader = useLoader();
 const notif = useNotif();
 
-const org = await orgStore.getOrg();
+const product = await productStore.getProduct(props.productID);
+
 const localFile = ref<File | null>(null);
 
 // Generate relative CSV url as cannot load from the URL directly in template.
@@ -67,23 +70,21 @@ async function processFile() {
     return;
   }
 
-  const customers: Array<CreateOneSurveyEmailDTO> = [];
-
-  /** Convert empty strings and undefined values to null */
-  const convertToNull = (v: string | undefined) =>
-    v === "" || v === undefined ? null : v;
+  const customers: CreateManualEmailBlastDTO["customers"] = [];
 
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
     const [name, email] = result.data[i] ?? [];
-    customers.push({
-      name: convertToNull(name),
-      email: convertToNull(email),
-    });
+
+    // Skip rows with empty email field
+    if (email === undefined) continue;
+
+    customers.push({ email, name: convertToNull(name) });
   }
 
   if (customers.length === 0) {
     alert("CSV cannot be empty!");
+    loader.hide();
     return;
   }
 
@@ -111,8 +112,17 @@ async function processFile() {
   router.back();
 }
 
-async function emailCustomers(data: Array<CreateOneSurveyEmailDTO>) {
-  data;
+async function emailCustomers(data: CreateManualEmailBlastDTO["customers"]) {
+  const { res, err } = await sf
+    .useDefault()
+    .POST(`/survey-method/email/manual/blast/${product.id}`)
+    .bodyJSON<CreateManualEmailBlastDTO>({ customers: data })
+    .useHeader(getAuthHeader)
+    .runJSON<unknown>();
+
+  if (err) throw err;
+  if (!res.ok)
+    throw new Error(`Failed to email customers: ${JSON.stringify(res)}`);
 }
 </script>
 
@@ -141,7 +151,7 @@ async function emailCustomers(data: Array<CreateOneSurveyEmailDTO>) {
       </div>
 
       <div>
-        <label for="upload">
+        <label class="cursor-pointer" for="upload">
           <p class="pb-2">2. Upload CSV file filled with customer data</p>
 
           <div
@@ -181,18 +191,16 @@ async function emailCustomers(data: Array<CreateOneSurveyEmailDTO>) {
 
       <!-- @todo Add a youtube video to demo how to use it -->
 
-      <hr class="my-10" />
+      <div v-if="localFile !== null">
+        <hr class="my-10" />
 
-      <button
-        class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
-        :disabled="localFile === null"
-        :class="{
-          'border-zinc-200 bg-zinc-50 text-zinc-600': localFile === null,
-        }"
-        @click="processFile"
-      >
-        Send
-      </button>
+        <button
+          class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
+          @click="processFile"
+        >
+          Send
+        </button>
+      </div>
     </div>
   </div>
 </template>
