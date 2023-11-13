@@ -40,7 +40,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
 
 <template>
   <div>
-    <TopNavbar back :backRoute="OnboardingRoute.name">
+    <TopNavbar back :backRoute="{ name: OnboardingRoute.name }">
       Buy Subscription Plan
     </TopNavbar>
 
