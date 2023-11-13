@@ -4,27 +4,27 @@ import { ConfigService } from '@nestjs/config';
 import type { EnvironmentVariables } from '../../config/types.js';
 
 // Abstraction
-import { ITransactionalEmailService } from '../abstractions/index.js';
+import { IEmailBlastService } from '../abstractions/index.js';
 
 // Implementation
 import {
   PostmarkClient,
-  PostmarkTransactionalEmailService,
-  MockTransactionalEmailService,
+  PostmarkEmailBlastService,
+  MockEmailBlastService,
 } from '../implementations/index.js';
 
 /**
- * Provides for `ITransactionalEmailService`
+ * Provides for `IEmailBlastService`
  */
-export const TransactionalEmailServiceProvider = {
-  provide: ITransactionalEmailService,
+export const EmailBlastServiceProvider = {
+  provide: IEmailBlastService,
   inject: [ConfigService, Logger, PostmarkClient],
   useFactory: (
     configService: ConfigService<EnvironmentVariables, true>,
     logger: Logger,
-    postmarkClient: PostmarkClient,
+    postmarkEmailClient: PostmarkClient,
   ) =>
     configService.get('NODE_ENV', { infer: true }) === 'production'
-      ? new PostmarkTransactionalEmailService(configService, postmarkClient)
-      : new MockTransactionalEmailService(configService, logger),
+      ? new PostmarkEmailBlastService(configService, postmarkEmailClient)
+      : new MockEmailBlastService(configService, logger),
 } satisfies Provider;

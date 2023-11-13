@@ -64,6 +64,18 @@ export const ConfigModule = _ConfigModule.forRoot({
     EMAIL_TRANSACTIONAL_REPLY: Joi.string().email().default('help@muwno.com'),
 
     /**
+     * Expects the email address used for survey email blasts.
+     */
+    EMAIL_BLAST_ADDRESS: Joi.string()
+      .email()
+      .default('survey-blasts@muwno.com'),
+
+    /**
+     * Expects the email address for user replies to email blast emails.
+     */
+    EMAIL_BLAST_REPLY: Joi.string().email().default('help@muwno.com'),
+
+    /**
      * Expects the API key to access OpenAI's API.
      */
     OPENAI_API_KEY: Joi.string().required(),

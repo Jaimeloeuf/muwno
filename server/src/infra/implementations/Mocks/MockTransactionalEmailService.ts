@@ -19,11 +19,20 @@ export class MockTransactionalEmailService
    */
   private senderAddress: string;
 
+  /**
+   * Email address used for reply to field.
+   */
+  private readonly replyAddress: string;
+
   constructor(
     configService: ConfigService<EnvironmentVariables, true>,
     private readonly logger: Logger,
   ) {
     this.senderAddress = configService.get('EMAIL_TRANSACTIONAL_ADDRESS', {
+      infer: true,
+    });
+
+    this.replyAddress = configService.get('EMAIL_TRANSACTIONAL_REPLY', {
       infer: true,
     });
   }
@@ -32,6 +41,7 @@ export class MockTransactionalEmailService
     this.logger.debug(
       {
         From: this.senderAddress,
+        ReplyTo: this.replyAddress,
         To: recipient,
         Subject: subject,
         HtmlBody: body,

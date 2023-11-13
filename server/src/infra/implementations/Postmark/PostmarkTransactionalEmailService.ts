@@ -11,26 +11,19 @@ export class PostmarkTransactionalEmailService
   implements ITransactionalEmailService
 {
   /**
-   * Postmark Server Client instance variable to cache it so that it is only
-   * created once and reused.
-   */
-  private client: ServerClient;
-
-  /**
    * Email address used for the sender/from.
    */
-  private senderAddress: string;
+  private readonly senderAddress: string;
 
   /**
    * Email address used for reply to field.
    */
-  private replyAddress: string;
+  private readonly replyAddress: string;
 
-  constructor(configService: ConfigService<EnvironmentVariables, true>) {
-    this.client = new ServerClient(
-      configService.get('POSTMARK_API_KEY', { infer: true }),
-    );
-
+  constructor(
+    configService: ConfigService<EnvironmentVariables, true>,
+    private readonly client: ServerClient,
+  ) {
     this.senderAddress = configService.get('EMAIL_TRANSACTIONAL_ADDRESS', {
       infer: true,
     });

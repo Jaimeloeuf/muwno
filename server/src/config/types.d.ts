@@ -41,6 +41,16 @@ export interface EnvironmentVariables {
   readonly EMAIL_TRANSACTIONAL_REPLY: string;
 
   /**
+   * Email Address used for survey email blasts.
+   */
+  readonly EMAIL_BLAST_ADDRESS: string;
+
+  /**
+   * Email Address used for user replies to email blast emails.
+   */
+  readonly EMAIL_BLAST_REPLY: string;
+
+  /**
    * API key to access OpenAI's API.
    */
   readonly OPENAI_API_KEY: string;
