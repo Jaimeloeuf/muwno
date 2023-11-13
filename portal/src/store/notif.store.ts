@@ -9,6 +9,14 @@ interface State {
    */
   snackBarMessages: Array<{
     /**
+     * A unique `id` is used as the Vue component key to ensure that the
+     * component re-renders even if the message and timeout are the same across
+     * 2 sequential `snackBarMessages` value, and also to ensure that it does
+     * not get re-rendered across page changes.
+     */
+    id: number;
+
+    /**
      * String message to display on snack bar when shown
      */
     msg: string;
@@ -32,7 +40,11 @@ export const useNotif = defineStore("notif", {
      * Display a snack bar notification
      */
     setSnackbar(msg: string, timeoutInSeconds = 5) {
-      this.snackBarMessages.push({ msg, timeout: timeoutInSeconds * 1000 });
+      this.snackBarMessages.push({
+        id: Math.random(),
+        msg,
+        timeout: timeoutInSeconds * 1000,
+      });
     },
 
     removeOldestMessage() {
