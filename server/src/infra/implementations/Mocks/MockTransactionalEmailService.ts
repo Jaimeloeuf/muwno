@@ -37,34 +37,19 @@ export class MockTransactionalEmailService
     });
   }
 
-  private async send(recipient: string, subject: string, body: string) {
+  async email(To: string, Subject: string, HtmlBody: string) {
     this.logger.debug(
       {
         From: this.senderAddress,
         ReplyTo: this.replyAddress,
-        To: recipient,
-        Subject: subject,
-        HtmlBody: body,
+
+        To,
+        Subject,
+        HtmlBody,
       },
       MockTransactionalEmailService.name,
     );
 
     return true;
-  }
-
-  async teamInvite(
-    recipientEmail: string,
-    inviterName: string,
-    orgName: string,
-  ) {
-    return this.send(recipientEmail, inviterName, orgName);
-  }
-
-  async welcomeNewUser(recipientEmail: string, name: string) {
-    return this.send(recipientEmail, name, name);
-  }
-
-  async newOrgCreated(recipientEmail: string, orgName: string) {
-    return this.send(recipientEmail, orgName, orgName);
   }
 }

@@ -15,6 +15,12 @@ import type { CreateOneUserDTO } from 'domain-model';
 // Service layer Exceptions
 import { NotFoundException } from '../../../exceptions/index.js';
 
+// Utils
+import {
+  userSignupNotifBuilder,
+  userWelcomeEmailBuilder,
+} from '../../../utils/index.js';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -55,11 +61,18 @@ export class UserService {
       email,
     });
 
-    this.transactionalEmailService.welcomeNewUser(email, createOneUserDTO.name);
-    this.adminNotifService.userSignup(
-      createOneUserDTO.name,
+    this.adminNotifService.send(
+      userSignupNotifBuilder(
+        createOneUserDTO.name,
+        email,
+        createOneUserDTO.phone,
+      ),
+    );
+
+    this.transactionalEmailService.email(
       email,
-      createOneUserDTO.phone,
+      userWelcomeEmailBuilder.subject(createOneUserDTO.name),
+      userWelcomeEmailBuilder.body(createOneUserDTO.name),
     );
 
     return user;

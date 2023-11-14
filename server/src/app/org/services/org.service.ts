@@ -22,6 +22,12 @@ import {
   NotFoundException,
 } from '../../../exceptions/index.js';
 
+// Utils
+import {
+  orgCreatedNotifBuilder,
+  orgCreatedEmailBuilder,
+} from '../../../utils/index.js';
+
 @Injectable()
 export class OrgService {
   constructor(
@@ -96,8 +102,15 @@ export class OrgService {
     // a Stripe Customer, even if it is not subscribed yet.
     await this.stripeCustomerService.createCustomer(org);
 
-    this.transactionalEmailService.newOrgCreated(org.email, org.name);
-    this.adminNotifService.orgCreated(org.id, createOneOrgDTO);
+    this.adminNotifService.send(
+      orgCreatedNotifBuilder(org.id, createOneOrgDTO),
+    );
+
+    this.transactionalEmailService.email(
+      org.email,
+      orgCreatedEmailBuilder.subject(org.name),
+      orgCreatedEmailBuilder.body(org.name),
+    );
 
     return org;
   }

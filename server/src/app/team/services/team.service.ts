@@ -21,6 +21,9 @@ import {
   ForbiddenException,
 } from '../../../exceptions/index.js';
 
+// Utils
+import { teamInviteEmailBuilder } from '../../../utils/index.js';
+
 @Injectable()
 export class TeamService {
   constructor(
@@ -73,10 +76,10 @@ export class TeamService {
     if (!inviteCreated)
       throw new ServiceException('Failed to create team member invite');
 
-    this.transactionalEmailService.teamInvite(
+    this.transactionalEmailService.email(
       createOneTeamMemberInvitationDTO.inviteeEmail,
-      inviter.name,
-      inviterOrg.name,
+      teamInviteEmailBuilder.subject(inviter.name, inviterOrg.name),
+      teamInviteEmailBuilder.body(inviter.name, inviterOrg.name),
     );
   }
 

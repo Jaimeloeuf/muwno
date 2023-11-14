@@ -38,6 +38,13 @@ import type {
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
+// Utils
+import {
+  stripeWebhookErrorNotifBuilder,
+  stripeWebhookPaidNotifBuilder,
+  stripeWebhookPaymentFailedNotifBuilder,
+} from '../../../utils/index.js';
+
 /**
  * HTTP Webhook Controller for Stripe webhooks.
  * https://stripe.com/docs/webhooks#register-webhook
@@ -151,7 +158,9 @@ export class StripeWebhookController {
         } Stripe event: ${event.type} -> ${event.id}`;
 
         this.logger.error(errMsg, error, StripeWebhookController.name);
-        this.adminNotifService.webhookError(errMsg, error);
+        this.adminNotifService.send(
+          stripeWebhookErrorNotifBuilder(errMsg, error),
+        );
       }),
     );
   }
@@ -301,17 +310,19 @@ export class StripeWebhookController {
 
       // @todo If invoiceUrl contains all the data needed already, then dont have
       // to send all the other data to chat.
-      this.adminNotifService.webhookPaid({
-        customerName: stripeInvoiceData.customer_name ?? 'UNDEFINED',
-        amountPaid: stripeInvoiceData.amount_paid,
-        currency: stripeInvoiceData.currency,
-        orgID: stripeCustomer.orgID,
-        stripeCustomerID: stripeCustomer.id,
-        customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
-        customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
-        subscriptionID: invoice.subscription,
-        invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
-      });
+      this.adminNotifService.send(
+        stripeWebhookPaidNotifBuilder({
+          customerName: stripeInvoiceData.customer_name ?? 'UNDEFINED',
+          amountPaid: stripeInvoiceData.amount_paid,
+          currency: stripeInvoiceData.currency,
+          orgID: stripeCustomer.orgID,
+          stripeCustomerID: stripeCustomer.id,
+          customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
+          customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
+          subscriptionID: invoice.subscription,
+          invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
+        }),
+      );
     },
 
     // ==================== Deactivate Subscription Events ====================
@@ -363,17 +374,19 @@ export class StripeWebhookController {
 
       // @todo If invoiceUrl contains all the data needed already, then dont have
       // to send all the other data to chat.
-      this.adminNotifService.webhookPaymentFailed({
-        customerName: stripeInvoiceData.customer_name ?? 'UNDEFINED',
-        amountPaid: stripeInvoiceData.amount_paid,
-        currency: stripeInvoiceData.currency,
-        orgID: stripeCustomer.orgID,
-        stripeCustomerID: stripeCustomer.id,
-        customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
-        customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
-        subscriptionID: invoice.subscription,
-        invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
-      });
+      this.adminNotifService.send(
+        stripeWebhookPaymentFailedNotifBuilder({
+          customerName: stripeInvoiceData.customer_name ?? 'UNDEFINED',
+          amountPaid: stripeInvoiceData.amount_paid,
+          currency: stripeInvoiceData.currency,
+          orgID: stripeCustomer.orgID,
+          stripeCustomerID: stripeCustomer.id,
+          customerEmail: stripeInvoiceData.customer_email ?? 'UNDEFINED',
+          customerPhone: stripeInvoiceData.customer_phone ?? 'UNDEFINED',
+          subscriptionID: invoice.subscription,
+          invoiceUrl: stripeInvoiceData.hosted_invoice_url ?? 'UNDEFINED',
+        }),
+      );
     },
 
     /**
@@ -405,7 +418,7 @@ export class StripeWebhookController {
 
       const msg = `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, ended their subscription ${subscription.id}`;
       this.logger.verbose(msg, StripeWebhookController.name);
-      this.adminNotifService.custom(msg);
+      this.adminNotifService.send(msg);
     },
 
     /**
@@ -437,7 +450,7 @@ export class StripeWebhookController {
 
       const msg = `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, subscription schedule cancelled ${subscriptionSchedule.id}`;
       this.logger.verbose(msg, StripeWebhookController.name);
-      this.adminNotifService.custom(msg);
+      this.adminNotifService.send(msg);
     },
 
     // =================== Other Subscription related Events ===================

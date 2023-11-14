@@ -10,6 +10,9 @@ import { ValidatedContactFormDetailsDTO } from '../dto-validation/ValidatedConta
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
+// Utils
+import { landingPageContactFormNotifBuilder } from '../../../utils/index.js';
+
 @Controller('landing')
 @GuardWithRecaptcha()
 @UseHttpControllerFilters
@@ -21,7 +24,9 @@ export class LandingController {
    */
   @Post('contact-form/submit')
   async createUser(@Body() details: ValidatedContactFormDetailsDTO) {
-    await this.adminNotifService.landingPageContactForm(details);
+    await this.adminNotifService.send(
+      landingPageContactFormNotifBuilder(details),
+    );
 
     // Return empty object so that client can parse as JSON
     return {};

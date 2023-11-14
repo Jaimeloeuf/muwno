@@ -1,0 +1,2 @@
+# utils/email-builders/
+Template strings used to build Email content (HTML / text). Email builders are placed in utils/ since it is neither a part of the email infra (as it can be swapped out), nor is it part of core business logic (in app/).
