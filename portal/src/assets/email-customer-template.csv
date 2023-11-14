@@ -1,1 +1,1 @@
-Email (required),Optional Name
+Email (required),Optional Name (defaults to 'Customer' if not provided)

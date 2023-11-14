@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useProduct } from "../../../store";
 import { CustomerRoute, type RouteName } from "../../../router";
 import { ManualEmailBlastRoute, NotFoundRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
@@ -12,11 +11,7 @@ import {
   ManualEmailBlast,
 } from "@domain-model";
 
-const props = defineProps<{ productID: ProductID }>();
-
-const productStore = useProduct();
-
-const product = await productStore.getProduct(props.productID);
+defineProps<{ productID: ProductID }>();
 
 /** A mapping of SurveyMethodIDs to Route for that survey method  */
 const routeMap = {
@@ -38,10 +33,7 @@ const routeMap = {
 
         <router-link
           v-if="flags.devMode"
-          :to="{
-            name: CustomerRoute.name,
-            params: { productID: product.id },
-          }"
+          :to="{ name: CustomerRoute.name }"
           class="mb-6 flex w-max flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
         >
           Import your customers to survey them

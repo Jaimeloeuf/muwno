@@ -11,14 +11,17 @@ const { PMFScore, reliability } = await useCacheableLiveScore(
 </script>
 
 <template>
-  <div class="w-max rounded-lg border border-zinc-200 bg-white p-4 font-light">
+  <div
+    class="rounded-lg border border-zinc-200 bg-white p-4 font-light"
+    :class="{ 'w-full max-w-xs': PMFScore.score !== null }"
+  >
     <p v-if="PMFScore.score === null" class="text-lg font-extralight">
       No live score yet,
       <br />
       waiting for responses.
     </p>
 
-    <div v-else>
+    <template v-else>
       <p class="text-lg">
         Live Score,
         <span
@@ -45,6 +48,6 @@ const { PMFScore, reliability } = await useCacheableLiveScore(
         </span>
         with {{ PMFScore.totalResponses }} responses.
       </p>
-    </div>
+    </template>
   </div>
 </template>

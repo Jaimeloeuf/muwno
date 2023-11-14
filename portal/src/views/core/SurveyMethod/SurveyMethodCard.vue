@@ -25,7 +25,7 @@ defineProps<{
       </p>
       <router-link
         v-else
-        :to="{ name: routeName }"
+        :to="{ name: routeName, params: { productID } }"
         class="rounded-lg border border-green-600 px-8 py-0.5 text-xl text-green-600"
       >
         Use
