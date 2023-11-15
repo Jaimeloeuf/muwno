@@ -127,6 +127,11 @@ export const ConfigModule = _ConfigModule.forRoot({
      * Use this to run Prisma with verbose mode, defaults to false.
      */
     PRISMA_VERBOSE: Joi.boolean().default(false),
+
+    /**
+     * Expet the Form's root link.
+     */
+    FORM_LINK: Joi.string().uri().required(),
   } satisfies JoiEnvVarValidationSchema),
 
   // Strict Joi validation options

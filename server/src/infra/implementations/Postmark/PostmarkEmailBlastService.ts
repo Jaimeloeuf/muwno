@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ServerClient } from 'postmark';
+import type { ServerClient, Message } from 'postmark';
 import { PostmarkClientSingleton } from './PostmarkClient.js';
 
 import type { IEmailBlastService } from '../../abstractions/IEmailBlastService.js';
@@ -36,16 +36,27 @@ export class PostmarkEmailBlastService implements IEmailBlastService {
     });
   }
 
-  private async send(recipient: string, subject: string, body: string) {
-    const emailResponse = await this.client.sendEmail({
+  async sendBatch(
+    emailMessages: Array<{ to: string; subject: string; body: string }>,
+  ) {
+    const baseMessage = {
       From: this.senderAddress,
       ReplyTo: this.replyAddress,
-      To: recipient,
-      Subject: subject,
-      HtmlBody: body,
       MessageStream: 'broadcast',
-    });
+    } satisfies Partial<Message>;
 
-    return emailResponse.ErrorCode === 0;
+    const emailResponses = await this.client.sendEmailBatch(
+      emailMessages.map(({ to: To, subject: Subject, body: HtmlBody }) => ({
+        ...baseMessage,
+        To,
+        Subject,
+        HtmlBody,
+      })),
+    );
+
+    // Treat as success only if every single email is successfully sent
+    return emailResponses.every(
+      (emailResponse) => emailResponse.ErrorCode === 0,
+    );
   }
 }

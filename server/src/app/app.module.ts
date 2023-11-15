@@ -17,6 +17,7 @@ import { StripeBuySubscriptionService } from './stripe/services/buy-subscription
 import { StripeCustomerService } from './stripe/services/customer.service.js';
 import { StripeSetupintentService } from './stripe/services/setupintent.service.js';
 import { SubscriptionService } from './subscription/services/subscription.service.js';
+import { SurveyMethodManualEmailBlastService } from './surveymethod/services/email-manual.service.js';
 import { TaskService } from './task/services/task.service.js';
 import { TeamService } from './team/services/team.service.js';
 import { UserService } from './user/services/user.service.js';
@@ -37,6 +38,7 @@ import { StripeSetupintentController } from './stripe/controllers/setupintent.co
 import { StripeSubscriptionController } from './stripe/controllers/subscription.controller.js';
 import { StripeWebhookController } from './stripe/controllers/webhook.controller.js';
 import { SubscriptionController } from './subscription/controllers/subscription.controller.js';
+import { SurveyMethodManualEmailBlastController } from './surveymethod/controllers/email-manual.controller.js';
 import { TaskController } from './task/controllers/task.controller.js';
 import { TeamController } from './team/controllers/team.controller.js';
 import { UserController } from './user/controllers/user.controller.js';
@@ -63,6 +65,7 @@ import { UserController } from './user/controllers/user.controller.js';
     StripeCustomerService,
     StripeSetupintentService,
     SubscriptionService,
+    SurveyMethodManualEmailBlastService,
     TaskService,
     TeamService,
     UserService,
@@ -84,6 +87,7 @@ import { UserController } from './user/controllers/user.controller.js';
     StripeSubscriptionController,
     StripeWebhookController,
     SubscriptionController,
+    SurveyMethodManualEmailBlastController,
     TaskController,
     TeamController,
     UserController,

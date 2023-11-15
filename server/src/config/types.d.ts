@@ -104,6 +104,11 @@ export interface EnvironmentVariables {
    * Flag to enable Prisma's verbose mode.
    */
   readonly PRISMA_VERBOSE: boolean;
+
+  /**
+   * Form's root link.
+   */
+  readonly FORM_LINK: string;
 }
 
 /**

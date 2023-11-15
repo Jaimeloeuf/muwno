@@ -34,17 +34,20 @@ export class MockEmailBlastService implements IEmailBlastService {
     });
   }
 
-  private async send(recipient: string, subject: string, body: string) {
-    this.logger.debug(
-      {
-        From: this.senderAddress,
-        ReplyTo: this.replyAddress,
-        To: recipient,
-        Subject: subject,
-        HtmlBody: body,
-      },
-      MockEmailBlastService.name,
-    );
+  async sendBatch(
+    emailMessages: Array<{ to: string; subject: string; body: string }>,
+  ) {
+    for (const emailMessage of emailMessages)
+      this.logger.debug(
+        {
+          From: this.senderAddress,
+          ReplyTo: this.replyAddress,
+          To: emailMessage.to,
+          Subject: emailMessage.subject,
+          HtmlBody: emailMessage.body,
+        },
+        MockEmailBlastService.name,
+      );
 
     return true;
   }
