@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ServerClient } from 'postmark';
+import { PostmarkClientSingleton } from './PostmarkClient.js';
 
 import type { IEmailBlastService } from '../../abstractions/IEmailBlastService.js';
 
@@ -8,6 +9,11 @@ import type { EnvironmentVariables } from '../../../config/types.js';
 
 @Injectable()
 export class PostmarkEmailBlastService implements IEmailBlastService {
+  /**
+   * Postmark client
+   */
+  private readonly client: ServerClient;
+
   /**
    * Email address used for the sender/from.
    */
@@ -18,10 +24,9 @@ export class PostmarkEmailBlastService implements IEmailBlastService {
    */
   private readonly replyAddress: string;
 
-  constructor(
-    configService: ConfigService<EnvironmentVariables, true>,
-    private readonly client: ServerClient,
-  ) {
+  constructor(configService: ConfigService<EnvironmentVariables, true>) {
+    this.client = PostmarkClientSingleton.getClient(configService);
+
     this.senderAddress = configService.get('EMAIL_BLAST_ADDRESS', {
       infer: true,
     });

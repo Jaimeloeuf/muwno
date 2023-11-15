@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ServerClient } from 'postmark';
+import { PostmarkClientSingleton } from './PostmarkClient.js';
 
 import type { ITransactionalEmailService } from '../../abstractions/ITransactionalEmailService.js';
 
@@ -11,6 +12,11 @@ export class PostmarkTransactionalEmailService
   implements ITransactionalEmailService
 {
   /**
+   * Postmark client
+   */
+  private readonly client: ServerClient;
+
+  /**
    * Email address used for the sender/from.
    */
   private readonly senderAddress: string;
@@ -20,10 +26,9 @@ export class PostmarkTransactionalEmailService
    */
   private readonly replyAddress: string;
 
-  constructor(
-    configService: ConfigService<EnvironmentVariables, true>,
-    private readonly client: ServerClient,
-  ) {
+  constructor(configService: ConfigService<EnvironmentVariables, true>) {
+    this.client = PostmarkClientSingleton.getClient(configService);
+
     this.senderAddress = configService.get('EMAIL_TRANSACTIONAL_ADDRESS', {
       infer: true,
     });

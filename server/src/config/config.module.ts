@@ -48,8 +48,9 @@ export const ConfigModule = _ConfigModule.forRoot({
 
     /**
      * Expects the POSTMARK Email Service API key.
+     * This is optional for development environments as it will be mocked.
      */
-    POSTMARK_API_KEY: Joi.string().required(),
+    POSTMARK_API_KEY: Joi.string().optional(),
 
     /**
      * Expects the email address used for transactional emails.
@@ -102,13 +103,15 @@ export const ConfigModule = _ConfigModule.forRoot({
 
     /**
      * Expects the telegram bot's token.
+     * This is optional for development environments as it will be mocked.
      */
-    TELE_BOT_TOKEN: Joi.string().required(),
+    TELE_BOT_TOKEN: Joi.string().optional(),
 
     /**
      * Expects the chat ID of the team's telegram admin chat for notifications.
+     * This is optional for development environments as it will be mocked.
      */
-    TELE_ADMIN_CHAT_ID: Joi.string().required(),
+    TELE_ADMIN_CHAT_ID: Joi.string().optional(),
 
     /**
      * Arbitrary default TTL

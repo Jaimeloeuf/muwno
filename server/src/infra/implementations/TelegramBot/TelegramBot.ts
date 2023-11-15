@@ -9,15 +9,25 @@ import type { EnvironmentVariables } from '../../../config/types.js';
 @Injectable()
 export class TelegramBotService implements ITelegramBotService {
   constructor(configService: ConfigService<EnvironmentVariables, true>) {
-    const TELE_BOT_TOKEN = configService.get('TELE_BOT_TOKEN', {
+    // These env var are optional and only checked here, as they are not
+    // required for local dev since this service will be mocked.
+
+    const TELE_BOT_TOKEN = configService.get('TELE_BOT_TOKEN', { infer: true });
+    if (TELE_BOT_TOKEN === undefined)
+      throw new Error(
+        `env var 'TELE_BOT_TOKEN' cannot be undefined in Production`,
+      );
+
+    const TELE_ADMIN_CHAT_ID = configService.get('TELE_ADMIN_CHAT_ID', {
       infer: true,
     });
+    if (TELE_ADMIN_CHAT_ID === undefined)
+      throw new Error(
+        `env var 'TELE_ADMIN_CHAT_ID' cannot be undefined in Production`,
+      );
 
     this.apiUrl = `https://api.telegram.org/bot${TELE_BOT_TOKEN}/`;
-
-    this.TELE_ADMIN_CHAT_ID = configService.get('TELE_ADMIN_CHAT_ID', {
-      infer: true,
-    });
+    this.TELE_ADMIN_CHAT_ID = TELE_ADMIN_CHAT_ID;
   }
 
   /**

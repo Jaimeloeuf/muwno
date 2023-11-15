@@ -17,7 +17,7 @@ export class MockTelegramBotService implements ITelegramBotService {
   }
 
   async notifyAdmin(message: string) {
-    this.logger.debug(message, MockTelegramBotService.name);
+    this.sendOne('MOCK_ADMIN_CHAT_ID', message);
     return true;
   }
 }

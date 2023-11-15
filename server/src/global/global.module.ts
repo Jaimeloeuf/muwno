@@ -6,7 +6,6 @@ import {
   AuthServiceProvider,
   TelegramBotProvider,
   AdminNotifServiceProvider,
-  PostmarkClient,
   TransactionalEmailServiceProvider,
   EmailBlastServiceProvider,
 } from '../infra/index.js';
@@ -20,7 +19,6 @@ const GloballySharedProviders: Provider[] = [
   AuthServiceProvider,
   TelegramBotProvider,
   AdminNotifServiceProvider,
-  PostmarkClient,
   TransactionalEmailServiceProvider,
   EmailBlastServiceProvider,
 ];

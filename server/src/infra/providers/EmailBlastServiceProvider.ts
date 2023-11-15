@@ -8,7 +8,6 @@ import { IEmailBlastService } from '../abstractions/index.js';
 
 // Implementation
 import {
-  PostmarkClient,
   PostmarkEmailBlastService,
   MockEmailBlastService,
 } from '../implementations/index.js';
@@ -18,13 +17,12 @@ import {
  */
 export const EmailBlastServiceProvider = {
   provide: IEmailBlastService,
-  inject: [ConfigService, Logger, PostmarkClient],
+  inject: [ConfigService, Logger],
   useFactory: (
     configService: ConfigService<EnvironmentVariables, true>,
     logger: Logger,
-    postmarkEmailClient: PostmarkClient,
   ) =>
     configService.get('NODE_ENV', { infer: true }) === 'production'
-      ? new PostmarkEmailBlastService(configService, postmarkEmailClient)
+      ? new PostmarkEmailBlastService(configService)
       : new MockEmailBlastService(configService, logger),
 } satisfies Provider;

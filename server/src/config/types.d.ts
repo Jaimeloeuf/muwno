@@ -27,8 +27,9 @@ export interface EnvironmentVariables {
 
   /**
    * POSTMARK Email Service API key.
+   * This is optional for development environments as it will be mocked.
    */
-  readonly POSTMARK_API_KEY: string;
+  readonly POSTMARK_API_KEY: string | undefined;
 
   /**
    * Email Address used for transactional emails.
@@ -79,13 +80,15 @@ export interface EnvironmentVariables {
 
   /**
    * Telegram bot's token.
+   * This is optional for development environments as it will be mocked.
    */
-  readonly TELE_BOT_TOKEN: string;
+  readonly TELE_BOT_TOKEN: string | undefined;
 
   /**
    * Chat ID of the team's telegram admin chat for notifications.
+   * This is optional for development environments as it will be mocked.
    */
-  readonly TELE_ADMIN_CHAT_ID: string;
+  readonly TELE_ADMIN_CHAT_ID: string | undefined;
 
   /**
    * Default Time To Live (TTL) value in milliseconds for throttler.

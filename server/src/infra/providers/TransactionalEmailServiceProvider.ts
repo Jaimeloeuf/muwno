@@ -8,7 +8,6 @@ import { ITransactionalEmailService } from '../abstractions/index.js';
 
 // Implementation
 import {
-  PostmarkClient,
   PostmarkTransactionalEmailService,
   MockTransactionalEmailService,
 } from '../implementations/index.js';
@@ -18,13 +17,12 @@ import {
  */
 export const TransactionalEmailServiceProvider = {
   provide: ITransactionalEmailService,
-  inject: [ConfigService, Logger, PostmarkClient],
+  inject: [ConfigService, Logger],
   useFactory: (
     configService: ConfigService<EnvironmentVariables, true>,
     logger: Logger,
-    postmarkClient: PostmarkClient,
   ) =>
     configService.get('NODE_ENV', { infer: true }) === 'production'
-      ? new PostmarkTransactionalEmailService(configService, postmarkClient)
+      ? new PostmarkTransactionalEmailService(configService)
       : new MockTransactionalEmailService(configService, logger),
 } satisfies Provider;
