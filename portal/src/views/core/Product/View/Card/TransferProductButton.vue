@@ -45,7 +45,7 @@ async function transfer() {
       <p class="text-red-600">Transfer Product</p>
 
       <button
-        class="rounded-lg bg-zinc-100 px-3 font-light text-zinc-900"
+        class="rounded-lg border border-zinc-200 bg-zinc-50 px-3 font-light text-zinc-900"
         @click="showHelp = !showHelp"
       >
         Help
@@ -62,7 +62,7 @@ async function transfer() {
       <input
         v-model.trim="newOrgID"
         type="text"
-        class="w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
+        class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
         placeholder="New OrgID"
       />
 

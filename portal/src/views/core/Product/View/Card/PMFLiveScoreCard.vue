@@ -24,7 +24,7 @@ const { PMFScore, reliability } = await useLiveScore(props.productID);
         </p>
 
         <button
-          class="flex rounded-lg bg-zinc-100 px-3 font-light text-zinc-900"
+          class="flex rounded-lg border border-zinc-200 bg-zinc-50 px-3 font-light text-zinc-900"
           @click="showHelp = !showHelp"
         >
           Help
@@ -57,7 +57,7 @@ const { PMFScore, reliability } = await useLiveScore(props.productID);
           </p>
 
           <button
-            class="flex rounded-lg bg-zinc-100 px-3 font-light text-zinc-900"
+            class="flex rounded-lg border border-zinc-200 bg-zinc-50 px-3 font-light text-zinc-900"
             @click="showHelp = !showHelp"
           >
             Help

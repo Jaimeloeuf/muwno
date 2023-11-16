@@ -3,8 +3,7 @@ import { useRoute } from "vue-router";
 import {
   AllProductRoute,
   CustomerRoute,
-  ManageSubscriptionRoute,
-  ProfileRoute,
+  AccountRoute,
   OrgUsageRoute,
   TeamRoute,
   OrgRoute,
@@ -38,12 +37,13 @@ function closeAndLogout() {
   -->
   <nav
     v-if="onboardingStore.onboarding === false"
-    class="fixed left-0 top-0 z-40 h-screen max-w-xs -translate-x-full transition-transform"
-    :class="{ 'w-5/6 translate-x-0 shadow-2xl': drawer.showDrawer }"
+    class="fixed left-0 top-0 z-40 h-screen w-52 -translate-x-full transition-transform"
+    :class="{ 'translate-x-0 shadow-2xl': drawer.showDrawer }"
   >
     <div class="flex h-full flex-col items-start justify-between bg-white p-4">
       <button class="w-full border-b border-zinc-200 py-2" @click="drawer.hide">
         <img src="../../assets/logo.svg" class="h-8" />
+        <p class="py-1 text-left font-semibold">Public Beta</p>
       </button>
 
       <div class="w-full pt-3">
@@ -57,7 +57,7 @@ function closeAndLogout() {
           @click="drawer.hide"
         >
           <img src="../../assets/SideDrawerIcon/Product.svg" class="h-6 w-6" />
-          <span class="ml-3 flex-1 text-left">Products</span>
+          <span class="pl-3">Products</span>
         </router-link>
 
         <router-link
@@ -71,7 +71,7 @@ function closeAndLogout() {
           @click="drawer.hide"
         >
           <img src="../../assets/SideDrawerIcon/Customer.svg" class="h-6 w-6" />
-          <span class="ml-3 flex-1 text-left">Customers</span>
+          <span class="pl-3">Customers</span>
         </router-link>
 
         <div class="my-4 w-full border-b border-zinc-200"></div>
@@ -86,7 +86,7 @@ function closeAndLogout() {
           @click="drawer.hide"
         >
           <img src="../../assets/SideDrawerIcon/Usage.svg" class="h-6 w-6" />
-          <span class="ml-3 flex-1 text-left">Usage</span>
+          <span class="pl-3">Usage</span>
         </router-link>
 
         <router-link
@@ -99,23 +99,7 @@ function closeAndLogout() {
         >
           <img src="../../assets/SideDrawerIcon/Team.svg" class="h-6 w-6" />
 
-          <span class="ml-3 flex-1">Team</span>
-        </router-link>
-
-        <router-link
-          :to="{ name: ManageSubscriptionRoute.name }"
-          class="group flex w-full rounded-lg p-2 text-zinc-900"
-          :class="{
-            'border border-zinc-200 bg-zinc-50':
-              route.name === ManageSubscriptionRoute.name,
-          }"
-          @click="drawer.hide"
-        >
-          <img
-            src="../../assets/SideDrawerIcon/Subscription.svg"
-            class="h-6 w-6"
-          />
-          <span class="ml-3 flex-1 text-left">Subscription</span>
+          <span class="pl-3">Team</span>
         </router-link>
 
         <router-link
@@ -127,7 +111,7 @@ function closeAndLogout() {
           @click="drawer.hide"
         >
           <img src="../../assets/SideDrawerIcon/Org.svg" class="h-6 w-6" />
-          <span class="ml-3 flex-1 text-left">Organisation</span>
+          <span class="pl-3">Organisation</span>
         </router-link>
 
         <router-link
@@ -140,7 +124,7 @@ function closeAndLogout() {
           @click="drawer.hide"
         >
           <img src="../../assets/SideDrawerIcon/ApiKey.svg" class="h-6 w-6" />
-          <span class="ml-3 flex-1 text-left">API Keys</span>
+          <span class="pl-3">API Keys</span>
         </router-link>
       </div>
 
@@ -148,15 +132,15 @@ function closeAndLogout() {
       <div class="grow"></div>
 
       <router-link
-        :to="{ name: ProfileRoute.name }"
+        :to="{ name: AccountRoute.name }"
         class="flex w-full rounded-lg p-2 text-start text-zinc-800"
         :class="{
-          'border border-zinc-200 bg-zinc-50': route.name === ProfileRoute.name,
+          'border border-zinc-200 bg-zinc-50': route.name === AccountRoute.name,
         }"
         @click="drawer.hide"
       >
         <img src="../../assets/SideDrawerIcon/Profile.svg" class="h-6 w-6" />
-        <span class="ml-3 flex-1">Profile</span>
+        <span class="pl-3">Account</span>
       </router-link>
 
       <!-- <router-link
@@ -169,7 +153,7 @@ function closeAndLogout() {
         @click="drawer.hide"
       >
         <img src="../../assets/SideDrawerIcon/Settings.svg" class="h-6 w-6" />
-        <span class="ml-3 flex-1">Settings</span>
+        <span class="pl-3">Settings</span>
       </router-link> -->
 
       <!-- @todo Create link -->
@@ -179,7 +163,7 @@ function closeAndLogout() {
         @click="drawer.hide"
       >
         <img src="../../assets/SideDrawerIcon/Help.svg" class="h-6 w-6" />
-        <span class="ml-3 flex-1">Help me!</span>
+        <span class="pl-3">Help me!</span>
       </a>
 
       <button
@@ -187,7 +171,7 @@ function closeAndLogout() {
         @click="closeAndLogout"
       >
         <img src="../../assets/SideDrawerIcon/logout.svg" class="h-6 w-6" />
-        <span class="ml-3 flex-1">Logout</span>
+        <span class="pl-3">Logout</span>
       </button>
     </div>
   </nav>

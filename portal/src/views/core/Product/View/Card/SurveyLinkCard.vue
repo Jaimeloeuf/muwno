@@ -10,24 +10,29 @@ const props = defineProps<{ product: Product }>();
 const surveyLink = `${formLink}/#/feedback/${props.product.id}`;
 
 const showModal = ref<boolean>(false);
-const imageDataUrl = ref<string>("");
+const imageDataUrl = ref<string | null>(null);
 
-// Run this with a promise so it doesnt block the main Dashboard from loading
-// because of the Suspense block waiting for all top level awaits to resolve.
-QRCode.toDataURL(surveyLink, {
-  errorCorrectionLevel: "H",
-  width: 1024,
-  height: 1024,
-} as QRCodeToDataURLOptions).then((img) => (imageDataUrl.value = img));
+async function generateQrCodeAndShowModal() {
+  showModal.value = true;
+  imageDataUrl.value = await QRCode.toDataURL(surveyLink, {
+    errorCorrectionLevel: "H",
+    width: 1024,
+    height: 1024,
+  } as QRCodeToDataURLOptions);
+}
 </script>
 
 <template>
   <div
     v-if="showModal"
-    class="fixed inset-0 z-30 flex h-screen w-screen items-center justify-center bg-white py-12"
+    class="fixed inset-0 z-30 flex flex-col items-center justify-center bg-white py-12"
     @click="showModal = false"
   >
-    <div class="flex flex-col font-light lg:flex-row lg:gap-6" @click.stop>
+    <div
+      v-if="imageDataUrl !== null"
+      class="flex flex-col font-light lg:flex-row lg:gap-6"
+      @click.stop
+    >
       <div class="flex flex-col gap-8">
         <div class="flex flex-row justify-between">
           <p class="text-2xl">Survey Link & QR Code</p>
@@ -60,18 +65,17 @@ QRCode.toDataURL(surveyLink, {
         </a>
       </div>
 
-      <img v-if="imageDataUrl !== ''" class="w-64" :src="imageDataUrl" />
-      <p v-else class="text-xl font-medium">... Generating QR Code ...</p>
+      <img class="max-w-[15rem]" :src="imageDataUrl" />
     </div>
+    <p v-else class="text-xl font-medium">... Generating QR Code ...</p>
   </div>
 
   <button
     class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-1 text-left"
-    @click="showModal = true"
+    @click="generateQrCodeAndShowModal"
   >
     <div class="flex flex-row items-center justify-between">
-      <p>Survey Link & QR Code</p>
-      <img class="inline w-8" :src="imageDataUrl" />
+      <p>Show Survey Link & QR Code</p>
     </div>
   </button>
 </template>

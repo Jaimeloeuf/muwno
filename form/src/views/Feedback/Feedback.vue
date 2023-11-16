@@ -37,7 +37,9 @@ async function submit() {
 
 <template>
   <div class="m-6">
-    <h1 class="mb-6 text-3xl font-extrabold tracking-tight text-zinc-900">
+    <h1
+      class="pb-6 text-3xl font-extrabold tracking-tight text-zinc-900 sm:pt-6"
+    >
       {{ productName }} feedback form
     </h1>
 
@@ -45,26 +47,25 @@ async function submit() {
       <p class="mb-2">
         <span class="mr-1">Q1.</span> How would you feel if
         <span class="font-semibold">{{ productName }}</span>
-        no longer exists? <span class="text-red-500">*</span>
+        no longer exists?
+        <span class="text-lg font-medium text-red-500">*</span>
       </p>
 
-      <div
-        v-for="option in radioOptions"
-        :key="option.value"
-        class="mb-3 flex rounded-lg border border-zinc-200 p-4 py-3"
-      >
+      <div v-for="option in radioOptions" :key="option.value" class="pb-3">
         <label
-          class="w-full cursor-pointer font-light"
+          class="w-full cursor-pointer select-none font-light"
           @click="a1 = option.value"
         >
-          <input
-            type="radio"
-            name="bordered-radio"
-            class="h-3 w-3 accent-lime-600"
-            :checked="a1 === option.value"
-          />
+          <div class="rounded-lg border border-zinc-200 p-4 py-3">
+            <input
+              type="radio"
+              name="bordered-radio"
+              class="h-3 w-3 accent-lime-600"
+              :checked="a1 === option.value"
+            />
 
-          <span class="ml-2 font-normal">{{ option.text }}</span> disappointed
+            <span class="ml-2 font-normal">{{ option.text }}</span> disappointed
+          </div>
         </label>
       </div>
     </div>
@@ -78,7 +79,7 @@ async function submit() {
 
       <input
         v-model.trim="a2"
-        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
+        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light focus:outline-none"
       />
     </div>
 
@@ -113,40 +114,40 @@ async function submit() {
     </div>
 
     <button
-      class="w-full rounded bg-lime-500 py-2 font-bold text-white"
+      class="w-full rounded-lg border border-green-600 py-2 text-xl text-green-600"
       @click="submit"
     >
       Submit
     </button>
 
-    <div class="mt-6 text-center">
+    <div class="pt-12 text-xs">
       <a
         :href="landingLink"
         target="_blank"
-        class="text-xs text-zinc-500 underline"
+        class="font-extralight underline decoration-zinc-300 decoration-0 underline-offset-2"
       >
-        &copy;2023 - {{ new Date().getFullYear() }} muwno. All rights reserved.
+        All rights reserved. &copy; muwno since 2023
       </a>
-    </div>
 
-    <div class="mt-6 text-center text-xs font-extralight">
-      This site is protected by reCAPTCHA and the Google
-      <a
-        target="_blank"
-        class="text-blue-800"
-        href="https://policies.google.com/privacy"
-      >
-        Privacy Policy
-      </a>
-      and
-      <a
-        target="_blank"
-        class="text-blue-800"
-        href="https://policies.google.com/terms"
-      >
-        Terms of Service
-      </a>
-      apply.
+      <p class="pt-1 font-thin">
+        This site is protected by reCAPTCHA and the Google
+        <a
+          target="_blank"
+          class="text-blue-800"
+          href="https://policies.google.com/privacy"
+        >
+          Privacy Policy
+        </a>
+        and
+        <a
+          target="_blank"
+          class="text-blue-800"
+          href="https://policies.google.com/terms"
+        >
+          Terms of Service
+        </a>
+        apply.
+      </p>
     </div>
   </div>
 </template>

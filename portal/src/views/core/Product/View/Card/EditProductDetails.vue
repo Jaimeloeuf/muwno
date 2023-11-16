@@ -52,7 +52,7 @@ async function saveChanges() {
 
 <template>
   <div class="rounded-lg border border-zinc-200 p-4 text-left">
-    <p class="mb-4 border-b pb-1 text-lg">Edit Product Details</p>
+    <p class="mb-4 w-full border-b pb-2 text-lg">Edit Product Details</p>
 
     <div class="pb-6">
       <label>
@@ -62,20 +62,20 @@ async function saveChanges() {
         <input
           v-model.trim="name"
           type="text"
-          class="mt-2 w-full rounded-lg border border-zinc-200 p-3"
+          class="mt-2 w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
           placeholder="Product Name"
         />
       </label>
     </div>
 
-    <div>
+    <div class="pb-4">
       <label>
         <p>Description <span class="font-extralight">*Optional</span></p>
         <ul class="list-decimal px-5 font-light">
+          <li>This is not shown to your customers.</li>
           <li>
-            Give a short internal (not shown to your customers) description of
-            your product if you want to create multiple products of the same
-            name.
+            Give a short internal description of your product if you want to
+            create multiple products of the same name.
           </li>
           <li>
             Useful if you need to create multiple products of the same name for
@@ -87,35 +87,23 @@ async function saveChanges() {
 
         <textarea
           v-model.trim="description"
-          rows="3"
-          class="mt-2 w-full resize-none rounded-lg border border-zinc-200 p-3"
+          rows="2"
+          class="mt-2 w-full resize-none rounded-lg border border-zinc-200 p-3 focus:outline-none"
           placeholder="E.g. This 'Facebook' product is used to survey our advertisers."
         ></textarea>
       </label>
     </div>
 
     <button
-      v-if="isChanged"
-      class="mt-4 flex w-full flex-row items-center justify-between rounded-lg border bg-green-600 p-2 text-white"
+      class="w-full rounded-lg border py-1 text-center"
+      :class="{
+        'bg-green-600 text-white': isChanged,
+        'bg-zinc-50 font-light text-zinc-500': !isChanged,
+      }"
+      :disabled="!isChanged"
       @click="saveChanges"
     >
-      <span class="pr-3">Save Changes</span>
-
-      <svg
-        class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 10 6"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5 5 1 1 5"
-        />
-      </svg>
+      Save Changes
     </button>
   </div>
 </template>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useUser } from "../../../store";
 import { InviteMemberRoute } from "../../../router";
+import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
+import Accordion from "../../shared/Accordion.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
 
@@ -23,7 +26,16 @@ const { res, err } = await sf
 if (err) throw err;
 if (!res.ok) throw new Error("Failed to load Team Members");
 
-const teamMembers = res.data.users;
+const teamMembers = ref(res.data.users);
+
+/** Ref to the DOM element so that it can be cleared by `clearSearchInputHandler` */
+const searchField = ref<HTMLInputElement | null>(null);
+
+const { searchInput, results, clearSearchInput } = useSearch(
+  teamMembers,
+  { keys: ["name"], threshold: 0.5, resultLimit: 5 },
+  () => searchField.value?.focus()
+);
 </script>
 
 <template>
@@ -35,23 +47,34 @@ const teamMembers = res.data.users;
     <!-- OrgOwner/OrgAdmin should be able to remove a team member -->
 
     <div class="mx-auto max-w-4xl">
+      <p class="pb-4 text-xl">Team Members ({{ teamMembers.length }})</p>
+
       <div
-        class="mx-6 flex flex-col items-center justify-between gap-3 md:flex-row"
+        class="flex flex-col items-center justify-between gap-3 pb-6 md:flex-row"
       >
-        <p class="mr-2 w-full text-xl md:mr-12">
-          Team Members ({{ teamMembers.length }})
-        </p>
+        <div class="flex w-full max-w-md flex-row gap-3">
+          <input
+            ref="searchField"
+            v-model.trim="searchInput"
+            type="text"
+            class="w-full rounded-lg border border-zinc-200 p-2 px-4 focus:outline-none"
+            placeholder="Search by Name"
+          />
+
+          <button
+            class="rounded-lg bg-zinc-100 px-4 text-sm font-light text-zinc-900"
+            @click="clearSearchInput"
+          >
+            clear
+          </button>
+        </div>
 
         <router-link
           v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin"
           :to="{ name: InviteMemberRoute.name }"
-          class="inline-flex w-full items-center justify-between rounded-lg border px-8 py-2"
-          :class="{
-            'border-zinc-200 text-zinc-900': teamMembers.length > 1,
-            'border-green-600 text-green-600': teamMembers.length === 1,
-          }"
+          class="inline-flex w-full max-w-xs items-center justify-between rounded-lg border border-green-600 px-4 py-1 text-green-600"
         >
-          <div class="text-lg">Invite Team Member</div>
+          <div>Invite Team Member</div>
           <svg
             class="h-8 w-8"
             aria-hidden="true"
@@ -70,30 +93,37 @@ const teamMembers = res.data.users;
         </router-link>
       </div>
 
-      <div class="mx-6 flex flex-col">
-        <div
-          v-for="(teamMember, index) in teamMembers"
-          :key="teamMember.id"
-          class="my-3 rounded-lg border border-zinc-200 p-6 text-zinc-900"
-        >
-          <div class="flex flex-row items-center">
-            <p class="pr-3 text-2xl">
-              {{ index + 1 }}
-            </p>
+      <p
+        v-if="searchInput !== '' && results.length === 0"
+        class="text-2xl font-thin"
+      >
+        No user matches your search.
+      </p>
 
-            <div class="flex-grow border-l border-zinc-200 pl-3">
-              <p class="mb-2 text-xl">{{ teamMember.name }}</p>
-              <p v-if="teamMember.role !== undefined" class="mb-2">
+      <div class="flex flex-col gap-4">
+        <div
+          v-for="teamMember in results"
+          :key="teamMember.id"
+          class="rounded-lg border border-zinc-200 px-4 text-zinc-800 md:px-6"
+        >
+          <Accordion>
+            <template #summary>
+              <p class="text-lg">
+                {{ teamMember.name }}
+              </p>
+            </template>
+
+            <template #content>
+              <p v-if="teamMember.role !== undefined" class="pb-2">
                 {{ roleMapper[teamMember.role] }}
               </p>
-              <hr class="my-2" />
-              <p class="mb-2">{{ teamMember.email }}</p>
-              <p class="mb-2">
+              <p class="pb-2">{{ teamMember.email }}</p>
+              <p class="pb-2">
                 Joined on {{ getDateString(teamMember.createdAt) }}
               </p>
-              <p class="mb-2">{{ teamMember.phone }}</p>
-            </div>
-          </div>
+              <p>{{ teamMember.phone }}</p>
+            </template>
+          </Accordion>
         </div>
       </div>
     </div>

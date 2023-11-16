@@ -42,12 +42,12 @@ const { searchInput, results, clearSearchInput } = useSearch(
               ref="searchField"
               v-model.trim="searchInput"
               type="text"
-              class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3 focus:outline-none"
+              class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
               :placeholder="`E.g. ${products[0]?.name ?? 'Spotify'}`"
             />
 
             <button
-              class="rounded-lg bg-zinc-100 px-4 font-light text-zinc-900"
+              class="rounded-lg bg-zinc-100 px-4 text-sm font-light text-zinc-900"
               @click="clearSearchInput"
             >
               clear
@@ -58,7 +58,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
         <div class="flex-shrink-0">
           <router-link
             :to="{ name: AddProductRoute.name }"
-            class="inline-flex w-full items-center justify-between rounded-lg border border-zinc-200 px-6 py-2 sm:w-max"
+            class="inline-flex w-full items-center justify-between rounded-lg border border-zinc-200 px-6 py-1 sm:w-max"
             :class="{
               'bg-white text-green-600 ': products.length !== 0,
               'bg-green-600 text-white': products.length === 0,

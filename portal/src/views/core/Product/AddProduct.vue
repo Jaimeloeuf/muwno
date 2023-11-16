@@ -51,8 +51,8 @@ async function addProduct() {
           <input
             v-model.trim="name"
             type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-6"
-            placeholder="Product Name"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-4"
+            placeholder="For example, Spotify"
             @keydown.enter="addProduct"
           />
         </label>
@@ -64,10 +64,10 @@ async function addProduct() {
             Description <span class="pl-3 text-2xl font-thin">*Optional</span>
           </p>
           <ul class="list-decimal px-5">
+            <li>This is not shown to your customers.</li>
             <li>
-              Give a short internal (not shown to your customers) description of
-              your product if you want to create multiple products of the same
-              name.
+              Give a short internal description of your product if you want to
+              create multiple products of the same name.
             </li>
             <li>
               Useful if you need to create multiple products of the same name
@@ -79,8 +79,8 @@ async function addProduct() {
 
           <textarea
             v-model.trim="description"
-            rows="3"
-            class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-6"
+            rows="2"
+            class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-4"
             placeholder="E.g. This 'Facebook' product is used to survey our advertisers."
           >
           </textarea>

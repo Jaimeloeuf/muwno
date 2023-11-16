@@ -7,6 +7,9 @@ import {
 } from "./utils";
 import { PlanDetails } from "@domain-model";
 
+const props = defineProps<{ payYearly: boolean }>();
+const emit = defineEmits(["reset"]);
+
 const responses = ref<number>(PlanDetails.included.response);
 const responsesPrice = computed(
   () =>
@@ -31,22 +34,35 @@ const responsesStoredPrice = computed(
     PlanDetails.overage.responseStored.price.SGD,
 );
 
-const baseSubscriptionPrice = PlanDetails.price.SGD.yearly / 12;
+const baseSubscriptionPrice = computed(() =>
+  props.payYearly
+    ? PlanDetails.price.SGD.yearly / 12
+    : PlanDetails.price.SGD.monthly,
+);
 const overagePrice = computed(
   () =>
     responsesPrice.value + emailsSentPrice.value + responsesStoredPrice.value,
 );
-const totalPrice = computed(() => baseSubscriptionPrice + overagePrice.value);
+const totalPrice = computed(
+  () => baseSubscriptionPrice.value + overagePrice.value,
+);
 </script>
 
 <template>
   <div class="w-full rounded-lg border border-zinc-200 p-6">
-    <div class="pb-6">
+    <div class="flex flex-row items-center justify-between pb-6">
       <p class="font-medium">Pricing Estimate (by month)</p>
+
+      <button
+        class="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-0.5 shadow"
+        @click="$emit('reset')"
+      >
+        reset
+      </button>
     </div>
 
     <div class="pb-6">
-      <label for="default-range" class="mb-2">
+      <label class="mb-2">
         <p>Survey Responses: {{ numberFormatter(responses) }}</p>
         <p>
           Overage Price:
@@ -66,12 +82,12 @@ const totalPrice = computed(() => baseSubscriptionPrice + overagePrice.value);
         :min="PlanDetails.included.response"
         max="100000"
         step="100"
-        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+        class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
       />
     </div>
 
     <div class="pb-6">
-      <label for="default-range" class="mb-2">
+      <label class="mb-2">
         <p>Emails sent: {{ numberFormatter(emailsSent) }}</p>
         <p>
           Overage Price:
@@ -91,12 +107,12 @@ const totalPrice = computed(() => baseSubscriptionPrice + overagePrice.value);
         :min="PlanDetails.included.email"
         max="1000000"
         step="1000"
-        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+        class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
       />
     </div>
 
-    <div class="pb-6">
-      <label for="default-range" class="mb-2">
+    <div class="pb-4">
+      <label class="mb-2">
         <p>Responses Stored: {{ numberFormatter(responsesStored) }}</p>
         <p>
           Overage Price:
@@ -125,22 +141,30 @@ const totalPrice = computed(() => baseSubscriptionPrice + overagePrice.value);
         :min="PlanDetails.included.responseStored"
         max="1000000"
         step="1000"
-        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+        class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
       />
     </div>
 
-    <div class="pt-4">
-      Price
+    <div>
+      <p class="font-medium">Price</p>
 
       <div class="flex flex-row justify-between">
-        <p>Base Subscription (paid yearly)</p>
+        <p>
+          Base Subscription
+          <span
+            v-if="payYearly"
+            class="block text-xs font-extralight md:inline"
+          >
+            ({{ normalMoneyFormatter(PlanDetails.price.SGD.yearly) }} / Year)
+          </span>
+        </p>
         <p>{{ normalMoneyFormatter(baseSubscriptionPrice) }} / month</p>
       </div>
       <div class="flex flex-row justify-between">
         <p>Overage</p>
         <p>{{ normalMoneyFormatter(overagePrice) }} / month</p>
       </div>
-      <div class="flex flex-row justify-between pt-4 font-medium">
+      <div class="flex flex-row justify-between py-2 font-semibold">
         <p>Total</p>
         <p>{{ normalMoneyFormatter(totalPrice) }} / month</p>
       </div>

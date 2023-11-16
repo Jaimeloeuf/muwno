@@ -76,7 +76,7 @@ async function forgetPassword() {
 
   try {
     await sendPasswordResetEmail(auth, email.value, {
-      url: getAbsoluteUrlFromRoute(LoginRoute.name),
+      url: getAbsoluteUrlFromRoute({ name: LoginRoute.name }),
     });
 
     alert(`Password reset email sent to ${email.value}`);

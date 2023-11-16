@@ -5,6 +5,7 @@ import { getAuthHeader } from "../../firebase";
 import { useUser, useLoader, useNotif } from "../../store";
 import TopNavbar from "../shared/TopNavbar.vue";
 import CopyOnClick from "../shared/CopyOnClick.vue";
+import Accordion from "../shared/Accordion.vue";
 import { getDateString } from "../../utils/date-formatting/getDateString";
 import { Role } from "@domain-model";
 import type {
@@ -55,10 +56,15 @@ async function createApiKey() {
   apiKeyDetails.value.unshift(res.data);
 
   loader.hide();
-  notif.setSnackbar("API Key Created");
 
   newApiKey.value = res.data.key;
   showModal.value = true;
+}
+
+function keyCopied() {
+  showModal.value = false;
+  newApiKey.value = null;
+  notif.setSnackbar("API Key Created");
 }
 
 async function deleteApiKey(apiKeyID: ApiKeyDetailID) {
@@ -100,9 +106,10 @@ const apiKeyDetails = ref(await getApiKeyDetails());
         <CopyOnClick :textToCopy="newApiKey">
           <div
             class="rounded-lg border border-zinc-200 bg-zinc-50 p-6"
-            @click="(showModal = false), (newApiKey = null)"
+            @click="keyCopied"
           >
             {{ newApiKey }}
+            <p class="font-thin">Click to copy ID</p>
           </div>
         </CopyOnClick>
       </div>
@@ -118,7 +125,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
           No API Keys right now.
         </p>
         <p v-else class="text-xl">
-          API Keys ({{ apiKeyDetails.length }}) for this Organisation
+          {{ apiKeyDetails.length }} API Keys for this Organisation
         </p>
 
         <button
@@ -133,31 +140,33 @@ const apiKeyDetails = ref(await getApiKeyDetails());
         </div>
       </div>
 
-      <template v-if="apiKeyDetails.length !== 0">
+      <div v-if="apiKeyDetails.length !== 0" class="flex flex-col gap-4 pt-8">
         <div
           v-for="(apiKeyDetail, i) in apiKeyDetails"
-          :key="i"
-          class="flex w-full flex-col gap-3 border-t border-zinc-200 p-4 text-xl font-light sm:flex-row sm:items-center sm:justify-between"
+          :key="apiKeyDetail.id"
+          class="rounded-lg border border-zinc-200 px-4 text-zinc-800 md:px-6"
         >
-          <p class="pr-4">
-            {{ i + 1 }}. <i>{{ apiKeyDetail.prefix }}</i>
-          </p>
+          <Accordion class="w-full">
+            <template #summary>
+              <p class="text-xl tracking-widest">
+                {{ i + 1 }}. <i>{{ apiKeyDetail.prefix }}</i>
+              </p>
+            </template>
 
-          <p class="flex-grow">
-            Created By <u>{{ apiKeyDetail.createdBy }}</u>
-          </p>
-
-          <p>{{ getDateString(apiKeyDetail.createdAt) }}</p>
-
-          <button
-            v-if="isAdmin"
-            class="rounded-lg border border-red-700 px-2 py-0.5 font-extralight text-red-700"
-            @click="deleteApiKey(apiKeyDetail.id)"
-          >
-            delete
-          </button>
+            <template #content>
+              <p class="pb-2">Created by, {{ apiKeyDetail.createdBy }}</p>
+              <p class="pb-3">{{ getDateString(apiKeyDetail.createdAt) }}</p>
+              <button
+                v-if="isAdmin"
+                class="rounded-lg border border-red-700 px-2 text-red-700"
+                @click="deleteApiKey(apiKeyDetail.id)"
+              >
+                delete
+              </button>
+            </template>
+          </Accordion>
         </div>
-      </template>
+      </div>
     </div>
   </div>
 </template>

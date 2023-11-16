@@ -50,9 +50,6 @@ const orgName = orgWaitingForSubscription
   ? (await orgStore.getOrg()).name
   : undefined;
 
-const joinOrg = () =>
-  alert("Please ask your team's Owner or Admin to invite you as a member!");
-
 const reloadPage = () => window.location.reload();
 
 if (auth.currentUser === null) {
@@ -64,7 +61,7 @@ const faUser = auth.currentUser;
 async function sendVerificationEmail() {
   loader.show();
   await sendEmailVerification(faUser, {
-    url: getAbsoluteUrlFromRoute(OnboardingRoute.name),
+    url: getAbsoluteUrlFromRoute({ name: OnboardingRoute.name }),
   });
   loader.hide();
   notif.setSnackbar("Email sent!");
@@ -131,18 +128,6 @@ async function sendVerificationEmail() {
           </div>
         </router-link>
 
-        <button
-          v-else
-          class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
-          @click="joinOrg"
-        >
-          <p class="mb-2 text-2xl">Join Organisation</p>
-          <p class="font-light">
-            Join an existing Organisation by getting your Organisation Admin or
-            Owner to send you a team invitation in <i>Team > Invite Member</i>.
-          </p>
-        </button>
-
         <router-link
           v-if="orgWaitingForSubscription"
           :to="{ name: BuySubscriptionPlanRoute.name }"
@@ -165,6 +150,14 @@ async function sendVerificationEmail() {
             <p class="font-light">Create a new Organisation Account.</p>
           </div>
         </router-link>
+
+        <div v-if="teamInvitationStore.invitations.length === 0" class="w-full">
+          <p class="mb-2 text-2xl">Joining an Organisation?</p>
+          <p class="font-light">
+            Join an existing Organisation by asking your Organisation Admin to
+            invite you as a member in <i>Team &gt; Invite Member</i>.
+          </p>
+        </div>
       </div>
 
       <div>

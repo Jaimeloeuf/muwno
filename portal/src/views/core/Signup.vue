@@ -39,7 +39,7 @@ async function signup() {
     await userStore.createUser(name.value);
 
     await sendEmailVerification(user.user, {
-      url: getAbsoluteUrlFromRoute(OnboardingRoute.name),
+      url: getAbsoluteUrlFromRoute({ name: OnboardingRoute.name }),
     });
 
     router.push({ name: OnboardingRoute.name });

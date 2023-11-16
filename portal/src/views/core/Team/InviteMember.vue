@@ -17,7 +17,7 @@ const router = useRouter();
 const loader = useLoader();
 const notif = useNotif();
 
-const portalLink = getAbsoluteUrlFromRoute(SignupRoute.name);
+const portalLink = getAbsoluteUrlFromRoute({ name: SignupRoute.name });
 const email = ref<string>("");
 const selectedRole = ref<Role>(Role.OrgUser);
 

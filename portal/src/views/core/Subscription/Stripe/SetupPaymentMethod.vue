@@ -65,7 +65,7 @@ async function pay() {
 
   /** Redirect to this route on setup success */
   const redirectTo = encodeURIComponent(
-    getAbsoluteUrlFromRoute(SetupSuccessPaymentRoute.name)
+    getAbsoluteUrlFromRoute({ name: SetupSuccessPaymentRoute.name })
   );
 
   // Confirm the SetupIntent using the details collected by the Payment Element

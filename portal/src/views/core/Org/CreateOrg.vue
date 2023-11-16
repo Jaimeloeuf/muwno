@@ -55,120 +55,120 @@ async function createOrg() {
   <div>
     <TopNavbar back>Create Organisation</TopNavbar>
 
-    <div class="mx-auto w-full max-w-lg">
-      <div class="pb-10">
-        <label>
-          <p class="text-xl">Name</p>
-          <p>This is what your customer's will see</p>
+    <div class="flex w-full flex-col gap-10 lg:flex-row lg:px-12">
+      <div class="w-full">
+        <div class="pb-10">
+          <label>
+            <p class="text-xl">Name</p>
+            <p>This is what your customer's will see</p>
 
-          <input
-            v-model.trim="name"
-            type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
-            placeholder="Name"
-          />
-        </label>
+            <input
+              v-model.trim="name"
+              type="text"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              placeholder="Name"
+            />
+          </label>
+        </div>
+
+        <div class="pb-10">
+          <label>
+            <p class="text-xl">Administrative Email</p>
+            <ul class="list-decimal px-5">
+              <li>
+                Administrative email address used for subscription payment,
+                invoicing and more.
+              </li>
+              <li>Defaults to Organisation Owner's email.</li>
+            </ul>
+
+            <input
+              v-model.trim="email"
+              type="text"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              placeholder="Organisation Email"
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <p class="text-xl">Phone Number</p>
+            <ul class="list-decimal px-5">
+              <li>
+                Administrative phone number used for subscription payment,
+                invoicing and more.
+              </li>
+              <li>Please include country and area code too.</li>
+            </ul>
+
+            <input
+              v-model.trim="phone"
+              type="text"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              placeholder="Phone Number"
+            />
+          </label>
+        </div>
       </div>
 
-      <div class="pb-10">
-        <label>
-          <p class="text-xl">Administrative Email</p>
-          <ul class="list-decimal px-5">
-            <li>
-              Main administrative email address used for things like
-              subscription payment and invoicing.
-            </li>
-            <li>Defaults to Organisation Owner's email.</li>
-          </ul>
+      <div class="w-full">
+        <div class="pb-10">
+          <label>
+            <p class="text-xl">
+              Organisation Size
+              <span class="pl-3 font-thin">*Optional</span>
+            </p>
+            <ul class="list-decimal px-5">
+              <li>
+                Help us understand your Organisation to improve your experience.
+              </li>
+            </ul>
 
-          <input
-            v-model.trim="email"
-            type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
-            placeholder="Organisation Email"
-          />
-        </label>
-      </div>
-
-      <div class="pb-10">
-        <label>
-          <p class="text-xl">Phone Number</p>
-          <ul class="list-decimal px-5">
-            <li>
-              Main administrative phone number used for things like subscription
-              payment and invoicing.
-            </li>
-            <li>Please include the country and area code too.</li>
-            <li>
-              Providing this will also help us speed up your account
-              verification process.
-            </li>
-          </ul>
-
-          <input
-            v-model.trim="phone"
-            type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 p-6"
-            placeholder="Phone Number"
-          />
-        </label>
-      </div>
-
-      <div class="pb-10">
-        <label>
-          <p class="text-xl">
-            Organisation Size
-            <span class="pl-3 font-thin">*Optional</span>
-          </p>
-          <ul class="list-decimal px-5">
-            <li>
-              Help us understand your Organisation better to customize your
-              experience.
-            </li>
-          </ul>
-
-          <select
-            v-model="selectedOrgSize"
-            class="mt-4 w-full rounded-lg border border-zinc-200 p-4"
-          >
-            <option selected disabled>Choose Estimate</option>
-            <option
-              v-for="orgSize in orgSizes"
-              :key="orgSize"
-              :value="orgSize"
-              :selected="orgSize === selectedOrgSize"
+            <select
+              v-model="selectedOrgSize"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-4"
             >
-              {{ orgSize }}
-            </option>
-          </select>
-        </label>
+              <option selected disabled>Choose Estimate</option>
+              <option
+                v-for="orgSize in orgSizes"
+                :key="orgSize"
+                :value="orgSize"
+                :selected="orgSize === selectedOrgSize"
+              >
+                {{ orgSize }}
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div class="pb-10">
+          <label>
+            <p class="text-xl">
+              Address <span class="pl-3 font-thin">*Optional</span>
+            </p>
+            <ul class="list-decimal px-5">
+              <li>
+                Organisation address is optional but required for you to join
+                our highly effective gamification programmes.
+              </li>
+              <li>
+                Providing this will also speed up your account verification.
+              </li>
+            </ul>
+
+            <textarea
+              v-model.trim="address"
+              rows="3"
+              class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-3"
+            >
+            </textarea>
+          </label>
+        </div>
       </div>
+    </div>
 
-      <div class="pb-10">
-        <label>
-          <p class="text-xl">
-            Address <span class="pl-3 font-thin">*Optional</span>
-          </p>
-          <ul class="list-decimal px-5">
-            <li>
-              Organisation address is optional, but required if you would like
-              to join our highly effective gamification programmes.
-            </li>
-            <li>
-              Providing this will also help us speed up your account
-              verification process.
-            </li>
-          </ul>
-
-          <textarea
-            v-model.trim="address"
-            rows="3"
-            class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-6"
-          >
-          </textarea>
-        </label>
-      </div>
-
+    <div class="mx-auto max-w-lg pt-12">
       <button
         class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
         @click="createOrg"

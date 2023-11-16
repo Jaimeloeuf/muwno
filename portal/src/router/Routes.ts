@@ -3,7 +3,7 @@ import type { RouteObject } from "./RouteTypes";
 import { LoginRoute, SignupRoute, DebugRoute } from "./PublicRoutes";
 import {
   OnboardingRoute,
-  ProfileRoute,
+  AccountRoute,
   OrgRoute,
   CreateOrgRoute,
   AllProductRoute,
@@ -26,7 +26,6 @@ import {
   BuySubscriptionPlanRoute,
   SetupPaymentMethodRoute,
   SetupSuccessPaymentRoute,
-  ManageSubscriptionRoute,
   ApiKeyRoute,
   OrgUsageRoute,
 } from "./PrivateRoutes";
@@ -43,7 +42,7 @@ import { NotFoundRoute } from "./NotFoundRoute";
 export const Routes = (<const>[
   // Private Routes
   OnboardingRoute,
-  ProfileRoute,
+  AccountRoute,
   OrgRoute,
   CreateOrgRoute,
   AllProductRoute,
@@ -66,7 +65,6 @@ export const Routes = (<const>[
   BuySubscriptionPlanRoute,
   SetupPaymentMethodRoute,
   SetupSuccessPaymentRoute,
-  ManageSubscriptionRoute,
   ApiKeyRoute,
   OrgUsageRoute,
 

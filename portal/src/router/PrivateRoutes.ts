@@ -22,10 +22,10 @@ export const OnboardingRoute = <const>{
   meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
-export const ProfileRoute = <const>{
-  name: "profile",
-  path: "/profile",
-  component: () => import("../views/core/Profile.vue"),
+export const AccountRoute = <const>{
+  name: "account",
+  path: "/account",
+  component: () => import("../views/core/Account.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
@@ -215,14 +215,6 @@ export const SetupSuccessPaymentRoute = <const>{
   meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
-export const ManageSubscriptionRoute = <const>{
-  name: "subscription-manage",
-  path: "/subscription/manage",
-  props: (route: RouteLocationNormalized) => route.query,
-  component: () => import("../views/core/Subscription/ManageSubscription.vue"),
-  meta: { AuthRequirements: AuthType.Private },
-};
-
 /* ========================= API Key Module Routes ========================= */
 
 export const ApiKeyRoute = <const>{
@@ -260,7 +252,7 @@ export const OrgUsageRoute = <const>{
  */
 [
   OnboardingRoute,
-  ProfileRoute,
+  AccountRoute,
   OrgRoute,
   CreateOrgRoute,
   AllProductRoute,
@@ -283,7 +275,6 @@ export const OrgUsageRoute = <const>{
   BuySubscriptionPlanRoute,
   SetupPaymentMethodRoute,
   SetupSuccessPaymentRoute,
-  ManageSubscriptionRoute,
   ApiKeyRoute,
   OrgUsageRoute,
 ] satisfies Array<PrivateRoute>;

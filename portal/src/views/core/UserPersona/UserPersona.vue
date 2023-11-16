@@ -111,7 +111,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
 
       <select
         v-model="selectedTimeRange"
-        class="w-full rounded-lg border border-zinc-200 p-2.5 sm:w-max"
+        class="w-full rounded-lg border border-zinc-200 p-2.5 focus:outline-none sm:w-max"
       >
         <option
           v-for="timeRange in timeRanges"
@@ -124,7 +124,12 @@ const { searchInput, results, clearSearchInput } = useSearch(
       </select>
     </div>
 
+    <div v-if="wordOccurrences.length === 0" class="mx-auto xl:max-w-screen-xl">
+      <p class="text-2xl font-light">No data in selected time period.</p>
+    </div>
+
     <table
+      v-else
       class="w-full table-fixed border-spacing-x-4 border border-zinc-200 text-left"
     >
       <thead class="bg-zinc-200 text-zinc-800">

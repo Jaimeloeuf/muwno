@@ -1,40 +1,47 @@
 <script setup lang="ts">
 import { loginLink, signupLink } from "../../utils/links";
 import { useSidedrawer } from "../../store";
-import { HomeRoute } from "../../router";
+import { HomeRoute, PricingRoute } from "../../router";
 
 const drawer = useSidedrawer();
 </script>
 
 <template>
   <header class="fixed top-0 z-30 w-full bg-white shadow-sm">
-    <div class="flex flex-row items-center justify-between px-8 py-6 lg:px-20">
+    <div class="flex flex-row items-center justify-between px-6 py-3 lg:px-12">
       <router-link :to="{ name: HomeRoute.name }">
-        <img src="/logo.svg" class="sm:w-52" />
+        <img src="/logo.svg" class="sm:w-40" />
       </router-link>
 
-      <div class="flex flex-row items-center gap-6">
-        <div class="hidden flex-row gap-6 md:flex">
+      <div class="w-max">
+        <div class="hidden flex-row items-center gap-4 pr-4 md:flex">
+          <a
+            :href="signupLink"
+            target="_blank"
+            class="rounded-full bg-primary px-6 py-1.5 font-semibold text-white"
+          >
+            Sign up
+          </a>
+
           <a
             :href="loginLink"
             target="_blank"
-            class="rounded-full bg-primary px-6 py-2 font-semibold text-white"
+            class="rounded-full border-2 border-primary px-6 py-1 font-semibold text-primary"
           >
             Login
           </a>
 
-          <a
-            :href="signupLink"
-            target="_blank"
-            class="rounded-full border-2 border-primary px-6 py-2 font-semibold text-zinc-600"
+          <router-link
+            :to="{ name: PricingRoute.name }"
+            class="font-semibold text-zinc-600 underline decoration-zinc-400 underline-offset-4"
           >
-            Sign up
-          </a>
+            Pricing
+          </router-link>
         </div>
 
         <button
           type="button"
-          class="inline-flex rounded-lg pb-1 sm:pb-0"
+          class="inline-flex rounded-lg pb-1 sm:pb-0 md:hidden"
           @click="drawer.show"
         >
           <svg
@@ -54,5 +61,5 @@ const drawer = useSidedrawer();
     </div>
   </header>
 
-  <div class="py-14"></div>
+  <div class="py-8"></div>
 </template>
