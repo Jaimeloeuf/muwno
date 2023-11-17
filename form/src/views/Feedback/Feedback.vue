@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 import { useForm } from "./useForm";
 import { FeedbackSubmittedRoute } from "../../router";
 import { landingLink } from "../../utils/links";
+import GrowableTextarea from "../components/GrowableTextarea.vue";
 
 const props = defineProps<{ formID: string; defaultA1?: string }>();
 
@@ -90,12 +91,12 @@ async function submit() {
         >?
       </p>
 
-      <textarea
+      <GrowableTextarea
         v-model.trim="a3"
-        rows="4"
-        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
-      >
-      </textarea>
+        rows="2"
+        placeholder="Main benefit"
+        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light focus:outline-none"
+      />
     </div>
 
     <div class="mb-6">
@@ -105,12 +106,12 @@ async function submit() {
         for you?
       </p>
 
-      <textarea
+      <GrowableTextarea
         v-model.trim="a4"
-        rows="4"
-        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
-      >
-      </textarea>
+        rows="3"
+        placeholder="Suggestions..."
+        class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light focus:outline-none"
+      />
     </div>
 
     <button
