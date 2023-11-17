@@ -115,7 +115,11 @@ export class FeedbackService {
 
     const peoples = await this.feedbackRepo.getResponseA2(productID, timeRange);
 
-    const wordOccurences = peoples
+    // @todo
+    // This only works for english and english character based languages for now
+    // and languages like chinese will not work properly as the characters are
+    // treated as a single word since there is no spaces.
+    const words = peoples
       // Split it by word, process each word and create a single new array
       .flatMap((people) =>
         people.split(' ').map((word) =>
@@ -126,24 +130,21 @@ export class FeedbackService {
             .replace(/\s{2,}/g, ' ')
             .toLowerCase(),
         ),
-      )
-      // Reduce it into a map of words and their occurence
-      .reduce(
-        (acc, cur) => (
-          acc[cur] === undefined ? (acc[cur] = 1) : (acc[cur] += 1), acc
-        ),
-        // @todo might be more performant to use a Map instead
-        {} as Record<string, number>,
       );
 
-    // Filter out all the stop words
-    for (const stopword of stopwords) delete wordOccurences[stopword];
+    // Reduce `words` into a map of words and their occurence
+    const wordOccurrences: Record<string, number> = {};
+    for (const word of words) {
+      // Only count words that are not stop words
+      if (!stopwords[word])
+        wordOccurrences[word] === undefined
+          ? (wordOccurrences[word] = 1)
+          : (wordOccurrences[word] += 1);
+    }
 
-    // This is if somehow the last field has an empty space, it will split into
-    // an empty string '', even if the vue form uses v-model.trim="variable"
-    delete wordOccurences[''];
+    // @todo Might group terms together semantically. E.g. company and companies
 
-    return wordOccurences;
+    return wordOccurrences;
   }
 
   /**
@@ -167,7 +168,11 @@ export class FeedbackService {
       timeRange,
     );
 
-    const wordOccurences = benefits
+    // @todo
+    // This only works for english and english character based languages for now
+    // and languages like chinese will not work properly as the characters are
+    // treated as a single word since there is no spaces.
+    const words = benefits
       // Split it by word, process each word and create a single new array
       .flatMap((benefit) =>
         benefit.split(' ').map((word) =>
@@ -178,24 +183,21 @@ export class FeedbackService {
             .replace(/\s{2,}/g, ' ')
             .toLowerCase(),
         ),
-      )
-      // Reduce it into a map of words and their occurence
-      .reduce(
-        (acc, cur) => (
-          acc[cur] === undefined ? (acc[cur] = 1) : (acc[cur] += 1), acc
-        ),
-        // @todo might be more performant to use a Map instead
-        {} as Record<string, number>,
       );
 
-    // Filter out all the stop words
-    for (const stopword of stopwords) delete wordOccurences[stopword];
+    // Reduce `words` into a map of words and their occurence
+    const wordOccurrences: Record<string, number> = {};
+    for (const word of words) {
+      // Only count words that are not stop words
+      if (!stopwords[word])
+        wordOccurrences[word] === undefined
+          ? (wordOccurrences[word] = 1)
+          : (wordOccurrences[word] += 1);
+    }
 
-    // This is if somehow the last field has an empty space, it will split into
-    // an empty string '', even if the vue form uses v-model.trim="variable"
-    delete wordOccurences[''];
+    // @todo Might group terms together semantically. E.g. company and companies
 
-    return wordOccurences;
+    return wordOccurrences;
   }
 
   /**
