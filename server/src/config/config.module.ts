@@ -114,6 +114,12 @@ export const ConfigModule = _ConfigModule.forRoot({
     TELE_ADMIN_CHAT_ID: Joi.string().optional(),
 
     /**
+     * Expects API Key for OpenMeter.
+     * This is optional for development environments as it will be mocked.
+     */
+    OPENMETER_API_KEY: Joi.string().optional(),
+
+    /**
      * Arbitrary default TTL
      */
     THROTTLE_TTL: Joi.number().default(3000),

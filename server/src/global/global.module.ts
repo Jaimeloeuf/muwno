@@ -8,6 +8,7 @@ import {
   AdminNotifServiceProvider,
   TransactionalEmailServiceProvider,
   EmailBlastServiceProvider,
+  MeteringServiceProvider,
 } from '../infra/index.js';
 
 /**
@@ -21,6 +22,7 @@ const GloballySharedProviders: Provider[] = [
   AdminNotifServiceProvider,
   TransactionalEmailServiceProvider,
   EmailBlastServiceProvider,
+  MeteringServiceProvider,
 ];
 
 /**

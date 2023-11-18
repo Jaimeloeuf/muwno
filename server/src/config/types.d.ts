@@ -91,6 +91,12 @@ export interface EnvironmentVariables {
   readonly TELE_ADMIN_CHAT_ID: string | undefined;
 
   /**
+   * API Key for OpenMeter.
+   * This is optional for development environments as it will be mocked.
+   */
+  readonly OPENMETER_API_KEY: string | undefined;
+
+  /**
    * Default Time To Live (TTL) value in milliseconds for throttler.
    */
   readonly THROTTLE_TTL: number;
