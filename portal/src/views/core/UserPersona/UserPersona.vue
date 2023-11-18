@@ -5,7 +5,7 @@ import { useLoader } from "../../../store";
 import { getAuthHeader } from "../../../firebase";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import type { ProductID, ReadWordOccurrenceDTO } from "@domain-model";
+import type { ProductID, ReadOccurrenceMapDTO } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 
@@ -33,7 +33,7 @@ async function getWordOccurrence() {
       timeRange: selectedTimeRange.value.toString(),
     })
     .useHeader(getAuthHeader)
-    .runJSON<ReadWordOccurrenceDTO>();
+    .runJSON<ReadOccurrenceMapDTO>();
 
   loader.hide();
 
@@ -44,7 +44,7 @@ async function getWordOccurrence() {
     );
 
   // Sort the word occurrence by most common first
-  const sortedWordOccurrence = Object.entries(res.data.wordOccurences)
+  const sortedWordOccurrence = Object.entries(res.data.occurrence)
     .map(([word, count]) => ({ word, count }))
     .sort((a, b) => b.count - a.count);
 

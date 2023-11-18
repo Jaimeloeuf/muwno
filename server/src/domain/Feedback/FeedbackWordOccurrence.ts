@@ -1,4 +1,4 @@
 /**
- * Feedback Response word occurrences.
+ * Map of word/term/string occurrences.
  */
-export type FeedbackWordOccurrence = Record<string, number>;
+export type OccurrenceMap = Record<string, number>;

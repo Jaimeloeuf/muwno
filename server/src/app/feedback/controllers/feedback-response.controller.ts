@@ -18,7 +18,7 @@ import type {
 } from 'domain-model';
 
 // DTO Types
-import type { ReadWordOccurrenceDTO } from 'domain-model';
+import type { ReadOccurrenceMapDTO } from 'domain-model';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -71,10 +71,10 @@ export class FeedbackResponseController {
     @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
     @Query('timeRange', ParseIntPipe) timeRange: number,
-  ): Promise<ReadWordOccurrenceDTO> {
+  ): Promise<ReadOccurrenceMapDTO> {
     return this.feedbackService
       .getA2WordOccurrence(requestorID, productID, timeRange)
-      .then((wordOccurences) => ({ wordOccurences }));
+      .then((occurrence) => ({ occurrence }));
   }
 
   /**
@@ -86,10 +86,10 @@ export class FeedbackResponseController {
     @JWT_uid requestorID: FirebaseAuthUID,
     @Param('productID') productID: ProductID,
     @Query('timeRange', ParseIntPipe) timeRange: number,
-  ): Promise<ReadWordOccurrenceDTO> {
+  ): Promise<ReadOccurrenceMapDTO> {
     return this.feedbackService
       .getA3WordOccurrence(requestorID, productID, timeRange)
-      .then((wordOccurences) => ({ wordOccurences }));
+      .then((occurrence) => ({ occurrence }));
   }
 
   /**

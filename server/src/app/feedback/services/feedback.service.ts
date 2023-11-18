@@ -13,7 +13,7 @@ import type {
   FeedbackForm,
   FeedbackResponseID,
   FeedbackResponse,
-  FeedbackWordOccurrence,
+  OccurrenceMap,
 } from 'domain-model';
 
 // DTO Types
@@ -116,7 +116,7 @@ export class FeedbackService {
     requestorID: UserID,
     productID: ProductID,
     timeRange: number,
-  ): Promise<FeedbackWordOccurrence> {
+  ): Promise<OccurrenceMap> {
     // Validate if user can access this product and in extension, its responses.
     await this.productService.validateUserAccess(requestorID, productID);
 
@@ -166,7 +166,7 @@ export class FeedbackService {
     requestorID: UserID,
     productID: ProductID,
     timeRange: number,
-  ): Promise<FeedbackWordOccurrence> {
+  ): Promise<OccurrenceMap> {
     // Validate if user can access this product and in extension, its responses.
     await this.productService.validateUserAccess(requestorID, productID);
 
