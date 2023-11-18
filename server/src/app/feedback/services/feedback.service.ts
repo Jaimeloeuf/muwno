@@ -110,6 +110,39 @@ export class FeedbackService {
   }
 
   /**
+   * Get Product's term occurrence data for feedback response `a2`.
+   */
+  async getA2TermOccurrence(
+    requestorID: UserID,
+    productID: ProductID,
+    timeRange: number,
+  ): Promise<OccurrenceMap> {
+    // Validate if user can access this product and in extension, its responses.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    if (timeRange > 2.592e6)
+      throw new InvalidInputException(
+        `Time range cannot be larger than 2.592e6`,
+      );
+
+    const responses = await this.feedbackRepo.getResponseA2(
+      productID,
+      timeRange,
+    );
+
+    // Reduce responses into a map of words and their occurence
+    const occurrenceMap: Record<string, number> = {};
+    for (const response of responses)
+      occurrenceMap[response] === undefined
+        ? (occurrenceMap[response] = 1)
+        : (occurrenceMap[response] += 1);
+
+    // @todo Might group terms together semantically. E.g. company and companies
+
+    return occurrenceMap;
+  }
+
+  /**
    * Get Product's word occurrence data for feedback response `a2`.
    */
   async getA2WordOccurrence(

@@ -63,6 +63,21 @@ export class FeedbackResponseController {
   }
 
   /**
+   * Get Product's term occurrence data for feedback response `a2`.
+   */
+  @Get('term-occurrence/a2/:productID')
+  @AllowAllRoles
+  async getA2TermOccurrence(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('productID') productID: ProductID,
+    @Query('timeRange', ParseIntPipe) timeRange: number,
+  ): Promise<ReadOccurrenceMapDTO> {
+    return this.feedbackService
+      .getA2TermOccurrence(requestorID, productID, timeRange)
+      .then((occurrence) => ({ occurrence }));
+  }
+
+  /**
    * Get Product's word occurrence data for feedback response `a2`.
    */
   @Get('word-occurrence/a2/:productID')

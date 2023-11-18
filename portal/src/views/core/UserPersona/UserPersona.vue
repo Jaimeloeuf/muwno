@@ -23,12 +23,18 @@ const timeRanges = [
 ] as const;
 const selectedTimeRange = ref<(typeof timeRanges)[number]["value"]>(1.21e6);
 
+const groupBy = ref<"keyword" | "response">("response");
+
 async function getWordOccurrence() {
   loader.show();
 
   const { res, err } = await sf
     .useDefault()
-    .GET(`/feedback/response/word-occurrence/a2/${props.productID}`)
+    .GET(
+      `/feedback/response/${
+        groupBy.value === "response" ? "term" : "word"
+      }-occurrence/a2/${props.productID}`
+    )
     .useQuery<{ timeRange: string }>({
       timeRange: selectedTimeRange.value.toString(),
     })
@@ -71,6 +77,30 @@ const { searchInput, results, clearSearchInput } = useSearch(
   <TopNavbar back>User Personas</TopNavbar>
 
   <div class="mx-auto xl:max-w-screen-xl">
+    <div class="mb-4 flex flex-row items-center gap-4">
+      <p class="text-lg">Group by</p>
+      <button
+        class="rounded-lg border px-3 py-1"
+        :class="{
+          'border-green-600 text-green-600': groupBy === 'response',
+          'border-zinc-200': groupBy !== 'response',
+        }"
+        @click="groupBy = 'response'"
+      >
+        Response
+      </button>
+      <button
+        class="rounded-lg border px-3 py-1"
+        :class="{
+          'border-green-600 text-green-600': groupBy === 'keyword',
+          'border-zinc-200': groupBy !== 'keyword',
+        }"
+        @click="groupBy = 'keyword'"
+      >
+        Keyword
+      </button>
+    </div>
+
     <div
       class="flex flex-col items-center justify-between gap-3 pb-4 sm:flex-row"
     >
