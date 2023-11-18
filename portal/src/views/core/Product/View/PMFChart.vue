@@ -16,9 +16,18 @@ watch(storeIntervalType, chartStore.onIntervalTypeChange);
 <template>
   <div>
     <div
-      class="flex flex-col justify-between lg:flex-row lg:items-center lg:pr-4"
+      class="flex flex-col justify-between gap-4 lg:flex-row lg:items-center lg:pr-4"
     >
-      <p class="text-3xl font-thin">PMF Performance</p>
+      <div class="flex flex-col md:flex-row md:items-end md:gap-4">
+        <p class="text-3xl font-thin">Performance over time</p>
+        <a
+          href="#"
+          target="_blank"
+          class="font-thin underline decoration-zinc-300"
+        >
+          What is this?
+        </a>
+      </div>
 
       <div>
         Past

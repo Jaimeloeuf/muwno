@@ -17,7 +17,9 @@ import {
   OnboardingRoute,
 } from "../../router";
 import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
-import TopNavbar from "../shared/TopNavbar.vue";
+import { landingLink } from "../../utils/links";
+import { logout } from "../../utils/logout";
+import Accordion from "../shared/Accordion.vue";
 
 const router = useRouter();
 const onboardingStore = useOnboarding();
@@ -36,6 +38,8 @@ const loader = useLoader();
 const notif = useNotif();
 
 await teamInvitationStore.checkForPendingTeamInvitations();
+
+const hasPendingInvites = teamInvitationStore.invitations.length > 0;
 
 // If user have an Org but still onboarding, it means that Org does not have a
 // valid subscription right now, therefore show button to buy subscription plan
@@ -70,14 +74,18 @@ async function sendVerificationEmail() {
 
 <template>
   <div>
-    <TopNavbar><span class="text-3xl">Onboarding</span></TopNavbar>
+    <a :href="landingLink" target="_blank">
+      <img src="../../assets/logo.svg" class="h-8" />
+      <p class="text-left font-semibold">Public Beta</p>
+    </a>
 
     <div class="mx-auto max-w-xl">
+      <p class="py-8 text-4xl">Welcome!</p>
+
       <div v-if="!faUser.emailVerified" class="pb-12">
-        <div class="pb-12">
-          <p class="pb-2 text-3xl">Verify Email</p>
-          <p class="pb-6 font-light">
-            Verify
+        <div class="pb-6">
+          <p class="pb-6 text-lg font-light">
+            Please verify
             <span class="font-light italic underline underline-offset-4">{{
               faUser.email
             }}</span>
@@ -85,46 +93,72 @@ async function sendVerificationEmail() {
           </p>
 
           <button
-            class="w-full rounded-lg border border-zinc-200 p-2 font-light text-zinc-900"
+            class="w-full rounded-lg border border-green-600 p-2 text-xl text-green-600"
             @click="reloadPage"
           >
-            <p class="text-lg">I verified my email</p>
+            I verified my email
           </button>
         </div>
 
-        <div class="pb-6">
-          <p class="pb-2 text-xl">Why?</p>
-          <p class="font-light">
-            This will help us verify your identity to prevent bad actors from
-            using our platform to scam or spam your customers, making it safer
-            for you and your customers!
-          </p>
-        </div>
+        <Accordion>
+          <template #summary>
+            <p class="text-lg">I did not receive the email.</p>
+          </template>
 
-        <button
-          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-left"
-          @click="sendVerificationEmail"
-        >
-          <p class="mb-2 text-2xl">Re-send verification email</p>
-          <p class="pb-1 font-light">
-            Click to resend if you did not receive the verification email.
-            Please check your spam folder too!
-          </p>
-        </button>
+          <template #content>
+            <p class="pb-4 font-light">Please check your spam folder too!</p>
+
+            <button
+              class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2 font-light"
+              @click="sendVerificationEmail"
+            >
+              Re-send verification email
+            </button>
+          </template>
+        </Accordion>
+
+        <Accordion>
+          <template #summary>
+            <p class="text-lg">Why?</p>
+          </template>
+
+          <template #content>
+            <p class="font-light">
+              By verifying your identity, you help us prevent bad actors from
+              using our platform to scam or spam your customers, making it safer
+              for you and your customers!
+            </p>
+          </template>
+        </Accordion>
       </div>
 
       <div v-else class="pb-12">
         <router-link
-          v-if="teamInvitationStore.invitations.length > 0"
+          v-if="hasPendingInvites"
           :to="{ name: PendingInvitationRoute.name }"
         >
-          <div class="mb-8 w-full rounded-lg bg-green-600 p-4 text-white">
-            <p class="mb-2 text-2xl">Pending Invitations</p>
-            <p class="font-light">
-              See your pending team invitations. You have
-              <b>{{ teamInvitationStore.invitations.length }}</b> pending
-              invitation right now.
+          <div
+            class="mb-8 flex w-full flex-row items-center justify-between rounded-lg border border-green-600 p-3 text-green-600"
+          >
+            <p class="text-2xl">
+              {{ teamInvitationStore.invitations.length }} Pending Invitation
             </p>
+
+            <svg
+              class="h-3 w-3 shrink-0 rotate-90"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5 5 1 1 5"
+              />
+            </svg>
           </div>
         </router-link>
 
@@ -133,35 +167,75 @@ async function sendVerificationEmail() {
           :to="{ name: BuySubscriptionPlanRoute.name }"
         >
           <div
-            class="mb-8 w-full rounded-lg border border-green-700 p-4 text-green-700"
+            class="mb-8 flex w-full flex-row items-center justify-between rounded-lg border border-green-700 p-3 text-green-700"
           >
-            <p class="mb-2 text-2xl">Activate {{ orgName }}</p>
-            <p class="font-light">
-              Subscribe to activate your Organisation account.
-            </p>
+            <div>
+              <p class="text-2xl">Activate {{ orgName }}</p>
+              <p class="font-light">Subscribe to activate your Organisation.</p>
+            </div>
+
+            <svg
+              class="h-3 w-3 shrink-0 rotate-90"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5 5 1 1 5"
+              />
+            </svg>
           </div>
         </router-link>
 
         <router-link v-else :to="{ name: CreateOrgRoute.name }">
           <div
-            class="mb-8 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+            class="mb-8 flex w-full flex-row items-center justify-between rounded-lg border p-3"
+            :class="{
+              ' text-zinc-700': hasPendingInvites,
+              'border-green-600 text-green-600': !hasPendingInvites,
+            }"
           >
-            <p class="mb-2 text-2xl">Create Organisation</p>
-            <p class="font-light">Create a new Organisation Account.</p>
+            <p class="text-2xl">Create an Organisation</p>
+
+            <svg
+              class="h-3 w-3 shrink-0 rotate-90"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5 5 1 1 5"
+              />
+            </svg>
           </div>
         </router-link>
 
-        <div v-if="teamInvitationStore.invitations.length === 0" class="w-full">
-          <p class="mb-2 text-2xl">Joining an Organisation?</p>
-          <p class="font-light">
-            Join an existing Organisation by asking your Organisation Admin to
-            invite you as a member in <i>Team &gt; Invite Member</i>.
-          </p>
-        </div>
+        <Accordion v-if="!hasPendingInvites">
+          <template #summary>
+            <p class="text-xl">Joining an Organisation?</p>
+          </template>
+
+          <template #content>
+            <p class="font-light">
+              Join an existing Organisation by asking your Organisation Admin to
+              invite you as a member in <i>Team &gt; Invite Member</i>.
+            </p>
+          </template>
+        </Accordion>
       </div>
 
-      <div>
-        <p class="mb-2 text-xl font-normal">Need Help?</p>
+      <div class="pb-6">
+        <p class="text-xl">Need Help?</p>
         <p>
           Reach out to us at
           <a
@@ -172,6 +246,14 @@ async function sendVerificationEmail() {
             help@muwno.com
           </a>
         </p>
+      </div>
+
+      <div
+        class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 px-4 py-2 text-zinc-600"
+        @click="logout(true)"
+      >
+        <span class="text-lg text-zinc-600">Logout</span>
+        <img src="../../assets/SideDrawerIcon/logout.svg" class="h-6 w-6" />
       </div>
     </div>
   </div>

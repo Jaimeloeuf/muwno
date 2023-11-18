@@ -24,15 +24,15 @@ defineProps<{
 
 <template>
   <header
-    class="fixed top-0 z-30 flex w-full flex-row items-center border-b bg-white py-3"
+    class="fixed top-0 z-30 flex w-full flex-row items-center border-b bg-white pb-2 pt-3"
   >
-    <SideDrawerButton v-if="sideDrawer" class="mr-3 pb-0.5" />
+    <SideDrawerButton v-if="sideDrawer" class="mr-2" />
     <BackButton v-if="back" :to="backRoute" class="mr-3" />
-    <span class="text-2xl font-light">
+    <span class="text-xl font-light">
       <slot></slot>
     </span>
   </header>
 
   <!-- Spacer to allow scroll pass instead of covering content with navbar -->
-  <div class="py-8"></div>
+  <div class="py-5"></div>
 </template>

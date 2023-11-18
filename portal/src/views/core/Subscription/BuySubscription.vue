@@ -45,9 +45,9 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
     </TopNavbar>
 
     <div
-      class="mx-auto flex max-w-screen-xl flex-col justify-between gap-6 lg:flex-row lg:gap-12"
+      class="mx-auto flex max-w-screen-xl flex-col justify-between gap-6 pt-2 lg:flex-row lg:gap-12 lg:pt-6"
     >
-      <div class="w-full p-3 font-light sm:p-6">
+      <div class="w-full font-light">
         <p class="pb-6 text-xl">
           Our subscription charges you a <i>base price</i> plus any
           <i>extra usage</i> over what is included. Just like a telco
@@ -157,7 +157,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
         </Accordion>
 
         <div>
-          <p class="mb-2 text-xl font-normal">Need Help?</p>
+          <p class="text-xl font-normal">Need Help?</p>
           <p>
             Email us at
             <a
@@ -175,7 +175,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
         <CouponCodeInput @coupon-used="useCoupon" />
 
         <div
-          class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-green-600 p-6 hover:shadow-2xl"
+          class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-green-600 p-6 shadow hover:shadow-2xl"
           @click="buyPlan('yearly')"
         >
           <div>

@@ -13,6 +13,9 @@ const isValid = ref<boolean>(false);
 watch(couponCode, () => (checked.value = false));
 
 async function useCouponCode() {
+  // Prevent searching for empty string since the API URL will be a 404
+  if (couponCode.value === "") return;
+
   const { res, err } = await sf
     .useDefault()
     .GET(`/stripe/subscription/coupon/check-validity/${couponCode.value}`)
@@ -38,20 +41,20 @@ function clearCoupon() {
 
 <template>
   <div>
-    <p class="mb-1 text-xl">Have a coupon?</p>
+    <p class="pb-1 text-xl">Have a coupon?</p>
 
     <div class="flex flex-row gap-3">
       <input
         v-model.trim="couponCode"
         type="text"
-        class="w-full rounded-lg border border-zinc-200 p-3"
+        class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
         :class="{ 'border-red-500': checked && !isValid }"
         placeholder="Coupon Code"
         @keydown.enter="useCouponCode"
       />
 
       <button
-        class="rounded-lg bg-zinc-100 px-6 text-zinc-900"
+        class="rounded-lg border border-zinc-200 bg-zinc-50 px-6 text-zinc-900"
         @click="useCouponCode"
       >
         use

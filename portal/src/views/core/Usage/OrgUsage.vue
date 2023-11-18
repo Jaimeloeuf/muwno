@@ -12,34 +12,39 @@ import TopNavbar from "../../shared/TopNavbar.vue";
         Usage across entire Organisation this billing cycle
       </p>
 
-      <div class="rounded-lg border border-zinc-200 p-6">
+      <div>
         <p>Responses processed</p>
-
-        <p>{{}}</p>
+        <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
+          {{ "-" }}
+        </p>
       </div>
 
-      <div class="rounded-lg border border-zinc-200 p-6">
+      <div>
         <p>Responses stored</p>
-
-        <p>{{}}</p>
+        <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
+          {{ "-" }}
+        </p>
       </div>
 
-      <div class="rounded-lg border border-zinc-200 p-6">
+      <div>
         <p>Customers stored</p>
-
-        <p>{{}}</p>
+        <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
+          {{ "-" }}
+        </p>
       </div>
 
-      <div class="rounded-lg border border-zinc-200 p-6">
+      <div>
         <p>Emails sent</p>
-
-        <p>{{}}</p>
+        <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
+          {{ "-" }}
+        </p>
       </div>
 
-      <div v-if="flags.devMode" class="rounded-lg border border-zinc-200 p-6">
+      <div v-if="flags.devMode">
         <p>SMS sent</p>
-
-        <p>{{}}</p>
+        <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
+          {{ "-" }}
+        </p>
       </div>
 
       <div class="py-3"></div>

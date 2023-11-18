@@ -7,15 +7,10 @@ const drawer = useSidedrawer();
 <template>
   <button
     type="button"
-    class="m-1 mt-2 inline-flex rounded-lg text-sm"
+    class="inline-flex p-1 pb-0.5 text-sm"
     @click="drawer.show"
   >
-    <svg
-      class="h-6 w-6"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg class="h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path
         clip-rule="evenodd"
         fill-rule="evenodd"

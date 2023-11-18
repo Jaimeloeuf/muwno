@@ -48,7 +48,7 @@ function back() {
 </script>
 
 <template>
-  <button class="rounded-lg bg-zinc-100 px-4 py-1.5" @click="back">
+  <button class="rounded-lg bg-zinc-100 px-3 py-0.5" @click="back">
     <svg
       class="inline-block h-6 w-6 rotate-180 text-zinc-600"
       aria-hidden="true"

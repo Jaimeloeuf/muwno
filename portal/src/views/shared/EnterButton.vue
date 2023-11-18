@@ -17,7 +17,7 @@ defineProps<{
     <slot></slot>
 
     <svg
-      class="h-3 w-3 shrink-0 rotate-90 transition duration-150"
+      class="h-3 w-3 shrink-0 rotate-90"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

@@ -47,6 +47,10 @@ const chartOptions = {
 
   // Always show the full range for percentage values
   scales: { y: { min: 0, max: 100 } },
+
+  plugins: {
+    legend: false,
+  },
 };
 
 async function getChartData() {
@@ -85,11 +89,6 @@ async function getChartData() {
 
     datasets: [
       {
-        label: "PMF Percentage",
-
-        // @todo
-        // Highlight current time period's PMF score to say that it is not
-        // confirmed until the time period ends!
         data: res.data.score.map((a) => a.score),
 
         pointRadius: 4,
@@ -98,7 +97,7 @@ async function getChartData() {
         borderColor: "#737373",
         fill: {
           target: { value: 40 },
-          above: "#84cc16",
+          above: "#f0fdf4",
           below: "transparent",
         },
         datalabels: {
@@ -109,8 +108,6 @@ async function getChartData() {
         },
       },
       {
-        label: "PMF Goal!",
-
         // Dynamically generate this fixed line
         data: res.data.score.map(() => 40),
 
@@ -137,7 +134,7 @@ watchEffect(async () => (chartData.value = await getChartData()));
   <!-- @todo Tmp any cast used to surpress the type error caused by the plugin options -->
   <Line
     v-if="chartData !== null"
-    :options="chartOptions"
+    :options="(chartOptions as any)"
     :data="(chartData as any)"
   />
 </template>

@@ -56,6 +56,8 @@ async function pay() {
   // Trigger form validation and wallet collection
   const { error: submitError } = await elements.value.submit();
   if (submitError) {
+    alert(submitError);
+    loader.hide();
     console.error(submitError);
     return;
   }
