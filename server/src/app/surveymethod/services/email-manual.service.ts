@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
+import { IProductRepo } from '../../../DAL/index.js';
 import { ProductService } from '../../product/services/product.service.js';
+import { UsageService } from '../../usage/services/usage.service.js';
 import { IEmailBlastService } from '../../../infra/index.js';
 
 import { ConfigService } from '@nestjs/config';
@@ -11,6 +13,9 @@ import type { UserID, ProductID } from 'domain-model';
 
 // DTO Types
 import type { CreateManualEmailBlastDTO } from 'domain-model';
+
+// Service layer Exceptions
+import { InvalidInternalStateException } from '../../../exceptions/index.js';
 
 // Utils
 import { surveyBlastEmailBuilder } from '../../../utils/index.js';
@@ -24,7 +29,9 @@ export class SurveyMethodManualEmailBlastService {
 
   constructor(
     configService: ConfigService<EnvironmentVariables, true>,
+    private readonly productRepo: IProductRepo,
     private readonly productService: ProductService,
+    private readonly usageService: UsageService,
     private readonly emailBlastService: IEmailBlastService,
   ) {
     this.FORM_LINK = configService.get('FORM_LINK', { infer: true });
@@ -61,6 +68,18 @@ export class SurveyMethodManualEmailBlastService {
     );
 
     const success = await this.emailBlastService.sendBatch(emailMessages);
+
+    const orgID = await this.productRepo.getProductOrg(productID);
+    if (orgID === null)
+      throw new InvalidInternalStateException(
+        `Cannot find orgID of product '${productID}`,
+      );
+
+    await this.usageService.trackEmailsSent(
+      orgID,
+      productID,
+      emailMessages.length,
+    );
 
     return { success };
   }

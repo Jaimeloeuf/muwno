@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ulid } from 'ulid';
 
-import { IFeedbackRepo } from '../../../DAL/index.js';
+import { IFeedbackRepo, IProductRepo } from '../../../DAL/index.js';
 import { TaskService } from '../../task/services/task.service.js';
 import { ProductService } from '../../product/services/product.service.js';
+import { UsageService } from '../../usage/services/usage.service.js';
 
 // Entity Types
 import type {
@@ -22,6 +23,7 @@ import type { CreateOneFeedbackResponseDTO } from 'domain-model';
 import {
   NotFoundException,
   InvalidInputException,
+  InvalidInternalStateException,
 } from '../../../exceptions/index.js';
 
 // Utils
@@ -31,8 +33,10 @@ import { stopwords } from './utils/stopwords.js';
 export class FeedbackService {
   constructor(
     private readonly feedbackRepo: IFeedbackRepo,
+    private readonly productRepo: IProductRepo,
     private readonly taskService: TaskService,
     private readonly productService: ProductService,
+    private readonly usageService: UsageService,
   ) {}
 
   /**
@@ -62,6 +66,14 @@ export class FeedbackService {
     );
 
     await this.taskService.createOne(productID, responseID, response);
+
+    const orgID = await this.productRepo.getProductOrg(productID);
+    if (orgID === null)
+      throw new InvalidInternalStateException(
+        `Cannot find orgID of product '${productID}`,
+      );
+
+    await this.usageService.trackResponse(orgID, productID, responseID);
   }
 
   /**

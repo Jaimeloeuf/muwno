@@ -71,6 +71,15 @@ export class ProductRepo implements IProductRepo {
       .then(runMapperIfNotNull(mapProductModelToEntity));
   }
 
+  async getProductOrg(id: ProductID) {
+    return this.db.product
+      .findUnique({
+        where: { id },
+        select: { org_id: true },
+      })
+      .then(runMapperIfNotNull((product) => product.org_id));
+  }
+
   async getUserOrgProducts(userID: UserID) {
     return (
       this.db.user

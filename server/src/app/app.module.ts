@@ -20,6 +20,7 @@ import { SubscriptionService } from './subscription/services/subscription.servic
 import { SurveyMethodManualEmailBlastService } from './surveymethod/services/email-manual.service.js';
 import { TaskService } from './task/services/task.service.js';
 import { TeamService } from './team/services/team.service.js';
+import { UsageService } from './usage/services/usage.service.js';
 import { UserService } from './user/services/user.service.js';
 
 // Controllers
@@ -68,6 +69,7 @@ import { UserController } from './user/controllers/user.controller.js';
     SurveyMethodManualEmailBlastService,
     TaskService,
     TeamService,
+    UsageService,
     UserService,
   ],
 
