@@ -93,6 +93,14 @@ export const BenefitsRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const AllBenefitsRoute = <const>{
+  name: "product-benefits-all",
+  path: "/product/benefits/all/:productID",
+  props: true,
+  component: () => import("../views/core/Benefits/AllBenefits.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /* ============================ Task Module Routes ========================= */
 
 export const AllTaskRoute = <const>{
@@ -260,6 +268,7 @@ export const OrgUsageRoute = <const>{
   MoreProductFeatureRoute,
   UserPersonaRoute,
   BenefitsRoute,
+  AllBenefitsRoute,
   AllTaskRoute,
   EditTaskRoute,
   SurveyResponseRoute,

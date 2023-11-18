@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import { sf } from "simpler-fetch";
-import { useLoader } from "../../../store";
 import { getAuthHeader } from "../../../firebase";
+import { useLoader } from "../../../store";
+import { AllBenefitsRoute } from "../../../router";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
+import EnterButton from "../../shared/EnterButton.vue";
 import type { ProductID, ReadOccurrenceMapDTO } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -122,6 +124,10 @@ const { searchInput, results, clearSearchInput } = useSearch(
           {{ timeRange.name }}
         </option>
       </select>
+
+      <EnterButton :to="{ name: AllBenefitsRoute.name }" class="w-max">
+        See All Benefits
+      </EnterButton>
     </div>
 
     <div v-if="wordOccurrences.length === 0" class="mx-auto xl:max-w-screen-xl">

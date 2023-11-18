@@ -12,7 +12,7 @@ defineProps<{
 <template>
   <router-link
     :to="to"
-    class="flex w-full flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2.5"
+    class="flex w-full flex-row items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2.5"
   >
     <slot></slot>
 

@@ -17,7 +17,7 @@ import type {
 } from 'domain-model';
 
 // DTO Types
-import type { CreateOneFeedbackResponseDTO } from 'domain-model';
+import type { CreateOneFeedbackResponseDTO, ReadManyA3DTO } from 'domain-model';
 
 // Service layer Exceptions
 import {
@@ -243,6 +243,21 @@ export class FeedbackService {
     // @todo Might group terms together semantically. E.g. company and companies
 
     return wordOccurrences;
+  }
+
+  /**
+   * Get Product's feedback response `a3`.
+   */
+  async getA3(
+    requestorID: UserID,
+    productID: ProductID,
+    count: number,
+    optionalPaginationID?: FeedbackResponseID,
+  ): Promise<ReadManyA3DTO['benefits']> {
+    // Validate if user can access this product, and in extension its responses.
+    await this.productService.validateUserAccess(requestorID, productID);
+
+    return this.feedbackRepo.getA3(productID, count, optionalPaginationID);
   }
 
   /**

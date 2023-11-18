@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  ParseIntPipe,
+  BadRequestException,
+} from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 
 import { FeedbackService } from '../services/feedback.service.js';
@@ -18,7 +25,7 @@ import type {
 } from 'domain-model';
 
 // DTO Types
-import type { ReadOccurrenceMapDTO } from 'domain-model';
+import type { ReadOccurrenceMapDTO, ReadManyA3DTO } from 'domain-model';
 
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
@@ -105,6 +112,28 @@ export class FeedbackResponseController {
     return this.feedbackService
       .getA3WordOccurrence(requestorID, productID, timeRange)
       .then((occurrence) => ({ occurrence }));
+  }
+
+  /**
+   * Get Product's feedback response `a3`.
+   */
+  @Get('a3/:productID')
+  @AllowAllRoles
+  async getA3(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('productID') productID: ProductID,
+    @Query('count', ParseIntPipe) count: number,
+    @Query('paginationID') optionalPaginationID?: FeedbackResponseID,
+  ): Promise<ReadManyA3DTO> {
+    // Must be within +/-15 since negative values are used to paginate backwards
+    if (count > 15 || count < -15)
+      throw new BadRequestException(
+        `Cannot request for more than 15 responses at a time. Requested for ${count}`,
+      );
+
+    return this.feedbackService
+      .getA3(requestorID, productID, count, optionalPaginationID)
+      .then((benefits) => ({ benefits }));
   }
 
   /**

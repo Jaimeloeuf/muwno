@@ -36,3 +36,5 @@ export * from './CreateManyCustomerDTO.js';
 export * from './ReadOccurrenceMapDTO.js';
 
 export * from './CreateManualEmailBlastDTO.js';
+
+export * from './ReadManyA3DTO.js';

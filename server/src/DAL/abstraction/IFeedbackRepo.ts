@@ -4,6 +4,7 @@ import type {
   CreateOneFeedbackResponseDTO,
   FeedbackResponse,
   FeedbackResponseID,
+  ReadManyA3DTO,
 } from 'domain-model';
 
 export type DBFeedbackResponse = Omit<
@@ -61,6 +62,15 @@ export abstract class IFeedbackRepo {
     productID: ProductID,
     timeRange: number,
   ): Promise<Array<string>>;
+
+  /**
+   * Get Product's feedback response `a3`.
+   */
+  abstract getA3(
+    product_id: ProductID,
+    count: number,
+    optionalPaginationID?: FeedbackResponseID,
+  ): Promise<ReadManyA3DTO['benefits']>;
 
   /**
    * Get all survey responses of the selected product.

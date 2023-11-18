@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import dayjs from 'dayjs';
 
 import type {
@@ -21,6 +22,7 @@ import {
 
 // Utils
 import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
+import { optionallyPaginateWithCursor } from '../utils/optionallyPaginateWithCursor.js';
 
 @Injectable()
 export class FeedbackRepo implements IFeedbackRepo {
@@ -114,6 +116,38 @@ export class FeedbackRepo implements IFeedbackRepo {
         take: 1000,
       })
       .then((responses) => responses.map((response) => response.a3));
+  }
+
+  async getA3(
+    product_id: ProductID,
+    take: number,
+    optionalPaginationID?: FeedbackResponseID,
+  ) {
+    const queryArgs = {
+      select: { id: true, a3: true },
+
+      where: {
+        product_id,
+        a3: { not: '' },
+      },
+
+      // Sort by highest score and newest first.
+      orderBy: [
+        { a1: 'desc' },
+
+        // Get the newest response first so the benefits list will always show
+        // the latest customer feedbacks.
+        { created_at: 'desc' },
+      ],
+
+      take,
+    } satisfies Prisma.pmf_survey_responseFindManyArgs;
+
+    return this.db.pmf_survey_response.findMany(
+      optionallyPaginateWithCursor(optionalPaginationID, queryArgs, {
+        id: optionalPaginationID,
+      }),
+    );
   }
 
   async getResponses(product_id: ProductID) {
