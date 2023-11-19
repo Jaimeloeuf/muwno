@@ -79,7 +79,7 @@ async function signup() {
     <a
       :href="landingLink"
       target="_blank"
-      class="flex w-max flex-row items-center gap-1 pb-6"
+      class="flex flex-row items-end gap-4 pb-6"
     >
       <img src="../../assets/logo.svg" alt="logo" />
       <p class="text-lg tracking-wide">(Sign up)</p>

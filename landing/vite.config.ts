@@ -13,7 +13,6 @@ const gitVersion =
   childProcess.execSync("git rev-parse HEAD").toString();
 
 // https://vitejs.dev/config/
-// https://vitejs.dev/config/#conditional-config
 export default defineConfig({
   resolve: {
     alias: {

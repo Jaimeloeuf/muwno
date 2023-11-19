@@ -10,7 +10,7 @@ const drawer = useSidedrawer();
   <header class="fixed top-0 z-30 w-full bg-white shadow-sm">
     <div class="flex flex-row items-center justify-between px-6 py-3 lg:px-12">
       <router-link :to="{ name: HomeRoute.name }">
-        <img src="/logo.svg" class="sm:w-40" />
+        <img src="/logo.svg" class="w-40" />
       </router-link>
 
       <div class="w-max">
