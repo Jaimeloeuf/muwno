@@ -42,6 +42,7 @@ import { SubscriptionController } from './subscription/controllers/subscription.
 import { SurveyMethodManualEmailBlastController } from './surveymethod/controllers/email-manual.controller.js';
 import { TaskController } from './task/controllers/task.controller.js';
 import { TeamController } from './team/controllers/team.controller.js';
+import { UsageController } from './usage/controllers/usage.controller.js';
 import { UserController } from './user/controllers/user.controller.js';
 
 /**
@@ -92,6 +93,7 @@ import { UserController } from './user/controllers/user.controller.js';
     SurveyMethodManualEmailBlastController,
     TaskController,
     TeamController,
+    UsageController,
     UserController,
   ],
 })

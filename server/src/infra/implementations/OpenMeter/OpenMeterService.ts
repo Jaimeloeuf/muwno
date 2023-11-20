@@ -68,8 +68,51 @@ export class OpenMeterService implements IMeteringService {
 
       return true;
     } catch (error) {
-      this.logger.error('Failed to send event to OpenMeter', error);
+      this.logger.error(
+        'Failed to send event to OpenMeter',
+        error,
+        OpenMeterService.name,
+      );
       return false;
+    }
+  }
+
+  async queryEvent(
+    meterID: string,
+    subject: string,
+    from?: string,
+    to?: string,
+  ) {
+    try {
+      const queryParameters: Record<string, string> = {
+        subject,
+      };
+
+      // Include query time range if given
+      if (from !== undefined) queryParameters['from'] = from;
+      if (to !== undefined) queryParameters['to'] = to;
+
+      const queryString = new URLSearchParams(queryParameters).toString();
+
+      const { body }: { body: { data: Array<{ value: number }> } } =
+        await TinyJsonHttp.get({
+          url: `${this.baseUrl}/api/v1/meters/${meterID}/query?${queryString}`,
+          headers: {
+            'Content-Type': 'application/cloudevents+json',
+            authorization: `Bearer ${this.OPENMETER_API_KEY}`,
+          },
+        });
+
+      // Extract out the numerical value ONLY
+      // Since the other data are not used at all.
+      return body.data[0]?.value ?? null;
+    } catch (error) {
+      this.logger.error(
+        'Failed to query OpenMeter',
+        error,
+        OpenMeterService.name,
+      );
+      return null;
     }
   }
 }

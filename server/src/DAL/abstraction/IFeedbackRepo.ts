@@ -1,4 +1,5 @@
 import type {
+  OrgID,
   ProductID,
   FeedbackForm,
   CreateOneFeedbackResponseDTO,
@@ -32,6 +33,11 @@ export abstract class IFeedbackRepo {
     productID: ProductID,
     response: CreateOneFeedbackResponseDTO,
   ): Promise<FeedbackResponseID>;
+
+  /**
+   * Get the number of survey responses currently stored for the selected Org.
+   */
+  abstract getResponsesStoredForOrg(orgID: OrgID): Promise<number>;
 
   /**
    * Get a Product's survey response stats.

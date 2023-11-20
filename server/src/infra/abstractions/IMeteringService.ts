@@ -28,4 +28,29 @@ export abstract class IMeteringService {
      */
     data: Record<string, string | number>,
   ): Promise<boolean>;
+
+  /**
+   * Query a usage event.
+   */
+  abstract queryEvent(
+    /**
+     * The event being queried
+     */
+    event: string,
+
+    /**
+     * Who is this event attributed to? E.g. an Org/Customer ID.
+     */
+    subject: string,
+
+    /**
+     * Start of time range. Leave this and `to` blank to get all time usage.
+     */
+    from?: string,
+
+    /**
+     * End of time range. Leave this and `from` blank to get all time usage.
+     */
+    to?: string,
+  ): Promise<number | null>;
 }

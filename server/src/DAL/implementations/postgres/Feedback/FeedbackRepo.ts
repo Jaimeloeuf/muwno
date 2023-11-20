@@ -12,6 +12,7 @@ import type {
   CreateOneFeedbackResponseDTO,
   ProductID,
   FeedbackResponseID,
+  OrgID,
 } from 'domain-model';
 
 // Mappers
@@ -50,6 +51,24 @@ export class FeedbackRepo implements IFeedbackRepo {
       .then(({ id }) => id);
   }
 
+  async getResponsesStoredForOrg(org_id: OrgID) {
+    const productIDs = await this.db.product
+      .findMany({ where: { org_id } })
+      .then((products) => products.map((product) => product.id));
+
+    return this.db.pmf_survey_response.count({
+      where: {
+        product_id: { in: productIDs },
+      },
+    });
+  }
+
+  // @todo Alternatively it could be this since stats will also contain other data.
+  // async getResponsesStoredForProduct(product_id: ProductID) {
+  //   return this.db.pmf_survey_response.count({
+  //     where: { product_id },
+  //   });
+  // }
   async getResponseStats(productID: ProductID) {
     return this.db.pmf_survey_response.count({
       where: { product_id: productID },
