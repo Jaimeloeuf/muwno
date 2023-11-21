@@ -25,4 +25,23 @@ export class MockMeteringService implements IMeteringService {
 
     return true;
   }
+
+  async queryEvent(
+    meterID: string,
+    subject: string,
+    from?: string,
+    to?: string,
+  ): Promise<any> {
+    this.logger.debug(
+      {
+        meterID,
+        subject,
+        from,
+        to,
+      },
+      MockMeteringService.name,
+    );
+
+    return null;
+  }
 }

@@ -11,6 +11,9 @@ import {
 // Entity Types
 import type { FirebaseAuthUID } from 'domain-model';
 
+// DTO Types
+import type { ReadUsageDTO } from 'domain-model';
+
 // Exception Filters
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
@@ -25,7 +28,7 @@ export class UsageController {
    */
   @Get('org')
   @AllowAllRoles
-  async byOrg(@JWT_uid userID: FirebaseAuthUID): Promise<unknown> {
+  async byOrg(@JWT_uid userID: FirebaseAuthUID): Promise<ReadUsageDTO> {
     return this.usageService.byOrg(userID).then((usage) => ({ usage }));
   }
 }
