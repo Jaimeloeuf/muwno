@@ -1,4 +1,4 @@
-import type { RouteObject } from "./RouteTypes";
+import type { RouteRecordRaw } from "vue-router";
 
 import {
   HomeRoute,
@@ -25,7 +25,7 @@ export const Routes = (<const>[
 
   // `satisfies` operator is used to typecheck all RouteObjects to ensure
   // that the AuthRequirements field is defined in the meta field.
-]) satisfies ReadonlyArray<RouteObject>;
+]) satisfies ReadonlyArray<RouteRecordRaw>;
 
 // =======================================================================
 // Only run this router check while in development mode

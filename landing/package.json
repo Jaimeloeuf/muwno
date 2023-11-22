@@ -13,7 +13,6 @@
     "build:full": "npm run typecheck && npm run build:delete && npm run build"
   },
   "dependencies": {
-    "pinia": "^2.1.7",
     "simpler-fetch": "^10.3.1",
     "vue": "^3.3.7",
     "vue-router": "^4.2.5"

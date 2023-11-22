@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useLoader } from "../../store";
+import { loader } from "../../controllers";
 import type { CreateOneContactFormSubmissionDTO } from "@domain-model";
-
-const loader = useLoader();
 
 const name = ref<string>("");
 const email = ref<string>("");
@@ -33,8 +31,13 @@ async function submitMessage() {
     if (err) return alert(`Error: ${err}`);
     if (!res.ok)
       return alert(`Failed to submit message: ${JSON.stringify(res)}`);
-    if (res.status === 201)
-      return alert("Message sent! We will get back to you as soon as possible");
+
+    if (res.status === 201) {
+      alert("Message sent! We will get back to you as soon as possible");
+      name.value = "";
+      email.value = "";
+      message.value = "";
+    }
   } catch (error) {
     alert(`Failed to submit message: ${error}`);
   } finally {

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Navbar from "../components/Navbar.vue";
+import Navbar from "../shared/Navbar.vue";
 import Hero from "./Hero.vue";
 import Benefits from "./Benefits.vue";
 import Example from "./Example.vue";
 import How from "./How.vue";
 import Demo from "./Demo.vue";
 import ContactUsForm from "./ContactUsForm.vue";
-import Footer from "../components/Footer.vue";
+import Footer from "../shared/Footer.vue";
 </script>
 
 <template>

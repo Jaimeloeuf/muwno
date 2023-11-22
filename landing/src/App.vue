@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from "vue";
 
-import { useLoader } from "./store";
+import { loader } from "./controllers";
 import GlobalErrorView from "./views/GlobalError.vue";
-import SideDrawer from "./views/components/SideDrawer.vue";
-import Loader from "./views/components/Loader.vue";
-
-const loader = useLoader();
+import SideDrawer from "./views/shared/SideDrawer.vue";
+import Loader from "./views/shared/Loader.vue";
 
 const globalError = ref<Error | null>(null);
 onErrorCaptured((e) => {
@@ -52,7 +50,7 @@ function clearError() {
 
     <SideDrawer />
 
-    <Loader v-if="loader.showLoader" />
+    <Loader v-if="loader.showLoader.value" />
 
     <!--
       Dynamic page view component injected by the Router.

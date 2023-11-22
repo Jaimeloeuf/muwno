@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { loginLink, signupLink } from "../../utils/links";
-import { useSidedrawer } from "../../store";
+import { sideDrawer } from "../../controllers";
 import { HomeRoute, PricingRoute } from "../../router";
-
-const drawer = useSidedrawer();
 </script>
 
 <template>
@@ -42,7 +40,7 @@ const drawer = useSidedrawer();
         <button
           type="button"
           class="inline-flex rounded-lg pb-1 sm:pb-0 md:hidden"
-          @click="drawer.show"
+          @click="sideDrawer.show"
         >
           <svg
             class="h-8 w-8"

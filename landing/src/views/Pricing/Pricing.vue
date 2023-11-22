@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import Navbar from "../components/Navbar.vue";
 import PricingCalculator from "./PricingCalculator.vue";
-import Footer from "../components/Footer.vue";
+import Navbar from "../shared/Navbar.vue";
+import Footer from "../shared/Footer.vue";
 import {
   numberFormatter,
   normalMoneyFormatter,
