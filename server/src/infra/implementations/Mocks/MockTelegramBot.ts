@@ -11,8 +11,11 @@ export class MockTelegramBotService implements ITelegramBotService {
   constructor(private readonly logger: Logger) {}
 
   async sendOne(recipient: string, message: string) {
-    this.logger.debug(`Messaging ${recipient}`, MockTelegramBotService.name);
-    this.logger.debug(message, MockTelegramBotService.name);
+    this.logger.debug(
+      `Messaging ${recipient}`,
+      message,
+      `${MockTelegramBotService.name}.${MockTelegramBotService.prototype.sendOne.name}`,
+    );
     return true;
   }
 

@@ -46,7 +46,7 @@ export class MockEmailBlastService implements IEmailBlastService {
           Subject: emailMessage.subject,
           HtmlBody: emailMessage.body,
         },
-        MockEmailBlastService.name,
+        `${MockEmailBlastService.name}.${MockEmailBlastService.prototype.sendBatch.name}`,
       );
 
     return true;

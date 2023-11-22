@@ -20,7 +20,7 @@ export class MockMeteringService implements IMeteringService {
         subject,
         data,
       },
-      MockMeteringService.name,
+      `${MockMeteringService.name}.${MockMeteringService.prototype.trackEvent.name}`,
     );
 
     return true;
@@ -39,7 +39,7 @@ export class MockMeteringService implements IMeteringService {
         from,
         to,
       },
-      MockMeteringService.name,
+      `${MockMeteringService.name}.${MockMeteringService.prototype.queryEvent.name}`,
     );
 
     return null;

@@ -47,7 +47,7 @@ export class MockTransactionalEmailService
         Subject,
         HtmlBody,
       },
-      MockTransactionalEmailService.name,
+      `${MockTransactionalEmailService.name}.${MockTransactionalEmailService.prototype.email.name}`,
     );
 
     return true;
