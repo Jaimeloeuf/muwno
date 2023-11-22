@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useForm } from "./useForm";
-import { FeedbackSubmittedRoute } from "../../router";
-import { landingLink } from "../../utils/links";
-import GrowableTextarea from "../components/GrowableTextarea.vue";
+import { PmfSurveySubmittedRoute } from "../../../router";
+import { usePmfSurvey } from "../../../composable";
+import { landingLink } from "../../../utils/links";
+import GrowableTextarea from "../../shared/GrowableTextarea.vue";
 
 const props = defineProps<{ formID: string; defaultA1?: string }>();
 
 const router = useRouter();
 
-const { productName, radioOptions, a1, a2, a3, a4, submitForm } = await useForm(
-  props.formID
-);
+const { productName, radioOptions, a1, a2, a3, a4, submitForm } =
+  await usePmfSurvey(props.formID);
 
 // Use the default value for a1 after validating it
 if (props.defaultA1 !== undefined) {
@@ -32,7 +31,7 @@ async function submit() {
   // user's happy path and associating the product with errors.
   submitForm();
 
-  router.push({ name: FeedbackSubmittedRoute.name });
+  router.push({ name: PmfSurveySubmittedRoute.name });
 }
 </script>
 

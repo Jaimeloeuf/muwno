@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { API, baseApiUrl } from "../../API";
-import Version from "../components/Version.vue";
+import Version from "../shared/Version.vue";
 
 const { res, err } = await sf.useBase(API.vNeutral).GET("/version").runText();
 </script>

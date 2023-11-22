@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { landingLink } from "../../utils/links";
+import { landingLink } from "../../../utils/links";
 </script>
 
 <template>
@@ -16,7 +16,7 @@ import { landingLink } from "../../utils/links";
         target="_blank"
         class="text-xs text-zinc-500 underline"
       >
-        &copy;2023 - {{ new Date().getFullYear() }} muwno. All rights reserved.
+        All rights reserved. &copy; muwno since 2023
       </a>
     </div>
   </div>

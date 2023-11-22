@@ -1,15 +1,15 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
-import { getRecaptchaToken } from "./recaptcha";
+import { getRecaptchaToken } from "../utils/recaptcha";
 import type {
   ReadOneFeedbackFormDTO,
   CreateOneFeedbackResponseDTO,
 } from "@domain-model";
 
 /**
- * Composable for handling the feedback form.
+ * Composable for handling PMF Survey Forms.
  */
-export async function useForm(formID: string) {
+export async function usePmfSurvey(formID: string) {
   const { res, err } = await sf
     .useDefault()
     .GET(`/feedback/form/${formID}`)

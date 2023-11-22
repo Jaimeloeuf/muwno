@@ -18,18 +18,18 @@ export const DebugRoute = <const>{
   component: () => import("../views/core/Debug.vue"),
 };
 
-export const FeedbackRoute = <const>{
-  name: "feedback",
+export const PmfSurveyRoute = <const>{
+  name: "survey-pmf",
   path: "/feedback/:formID",
   props: (route: RouteLocationNormalized) => ({
     ...route.params,
     ...route.query,
   }),
-  component: () => import("../views/Feedback/Feedback.vue"),
+  component: () => import("../views/survey/pmf/PMFSurvey.vue"),
 };
 
-export const FeedbackSubmittedRoute = <const>{
-  name: "feedback-submitted",
+export const PmfSurveySubmittedRoute = <const>{
+  name: "survey-pmf-submitted",
   path: "/feedback-submitted",
-  component: () => import("../views/Feedback/Submitted.vue"),
+  component: () => import("../views/survey/pmf/Submitted.vue"),
 };

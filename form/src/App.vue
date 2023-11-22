@@ -3,7 +3,7 @@ import { ref, onErrorCaptured } from "vue";
 
 import { useLoader } from "./store";
 import GlobalErrorView from "./views/GlobalError.vue";
-import Loader from "./views/components/Loader.vue";
+import Loader from "./views/shared/Loader.vue";
 
 const loader = useLoader();
 
