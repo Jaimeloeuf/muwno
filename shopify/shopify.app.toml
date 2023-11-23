@@ -1,0 +1,28 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "muwno"
+client_id = "0ef27293c20d6038765f55ef4bdc3410"
+application_url = "https://convertible-exist-unless-woman.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://convertible-exist-unless-woman.trycloudflare.com/auth/callback",
+  "https://convertible-exist-unless-woman.trycloudflare.com/auth/shopify/callback",
+  "https://convertible-exist-unless-woman.trycloudflare.com/api/auth/callback",
+  "https://convertible-exist-unless-woman.trycloudflare.com/.shopify/graphiql/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-10"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "muwno.myshopify.com"
