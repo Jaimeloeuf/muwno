@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from "vue";
 
-import { useLoader } from "./store";
+import { loader } from "./controllers";
 import GlobalErrorView from "./views/GlobalError.vue";
 import Loader from "./views/shared/Loader.vue";
-
-const loader = useLoader();
 
 const globalError = ref<Error | null>(null);
 onErrorCaptured((e) => {
@@ -49,7 +47,7 @@ function clearError() {
       page component directly, are placed outside of <RouterView>.
     -->
 
-    <Loader v-if="loader.showLoader" />
+    <Loader v-if="loader.showLoader.value" />
 
     <!--
       Dynamic page view component injected by the Router.
