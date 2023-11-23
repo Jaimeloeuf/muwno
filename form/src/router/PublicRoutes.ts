@@ -20,7 +20,7 @@ export const DebugRoute = <const>{
 
 export const PmfSurveyRoute = <const>{
   name: "survey-pmf",
-  path: "/feedback/:formID",
+  path: "/pmf/:formID",
   props: (route: RouteLocationNormalized) => ({
     ...route.params,
     ...route.query,
@@ -30,6 +30,6 @@ export const PmfSurveyRoute = <const>{
 
 export const PmfSurveySubmittedRoute = <const>{
   name: "survey-pmf-submitted",
-  path: "/feedback-submitted",
+  path: "/pmf/form/submitted",
   component: () => import("../views/survey/pmf/Submitted.vue"),
 };

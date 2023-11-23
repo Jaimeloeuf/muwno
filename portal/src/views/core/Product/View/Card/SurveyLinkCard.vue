@@ -7,7 +7,7 @@ import { formLink } from "../../../../../utils/links";
 
 const props = defineProps<{ product: Product }>();
 
-const surveyLink = `${formLink}/#/feedback/${props.product.id}`;
+const surveyLink = `${formLink}/#/pmf/${props.product.id}`;
 
 const showModal = ref<boolean>(false);
 const imageDataUrl = ref<string | null>(null);

@@ -50,7 +50,7 @@ export class SurveyMethodManualEmailBlastService {
       productID,
     );
 
-    const surveyLink = `${this.FORM_LINK}/#/feedback/${product.id}`;
+    const surveyLink = `${this.FORM_LINK}/#/pmf/${product.id}`;
 
     const emailMessages = createManualEmailBlastDTO.customers.map(
       (customerContactDetails) => ({
