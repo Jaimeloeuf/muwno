@@ -89,7 +89,7 @@ async function next() {
     <div class="mx-auto flex max-w-7xl flex-col gap-6">
       <div class="flex flex-col gap-3 md:flex-row">
         <p class="flex-grow text-lg font-extralight">
-          Sorted by importance score and date
+          Sorted by most important and oldest first
         </p>
 
         <button
@@ -120,7 +120,7 @@ async function next() {
             :to="{
               name: SurveyResponseRoute.name,
               params: {
-                productID: task.productID,
+                productID,
                 responseID: task.responseID,
               },
               query: {

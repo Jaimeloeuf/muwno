@@ -24,7 +24,7 @@ const usage = await getUsage();
 
 <template>
   <div>
-    <TopNavbar sideDrawer>Organisation Usage</TopNavbar>
+    <TopNavbar sideDrawer>Usage</TopNavbar>
 
     <div class="mx-auto flex max-w-2xl flex-col gap-6">
       <p class="text-2xl font-light">Organisation Usage</p>

@@ -33,7 +33,7 @@ watch(storeIntervalType, chartStore.onIntervalTypeChange);
         Past
         <select
           v-model="chartStore.intervals"
-          class="mx-1 rounded-lg bg-zinc-100 px-3 py-1"
+          class="mx-1 rounded-lg bg-zinc-100 px-3 py-1 focus:outline-none"
         >
           <option
             v-for="interval in chartStore.intervalValues"
@@ -47,7 +47,7 @@ watch(storeIntervalType, chartStore.onIntervalTypeChange);
 
         <select
           v-model="chartStore.intervalType"
-          class="rounded-lg bg-zinc-100 py-1 pl-3"
+          class="rounded-lg bg-zinc-100 py-1 pl-3 focus:outline-none"
         >
           <option
             v-for="intervalType in IntervalType"

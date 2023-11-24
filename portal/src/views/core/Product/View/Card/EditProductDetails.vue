@@ -52,7 +52,7 @@ async function saveChanges() {
 
 <template>
   <div class="rounded-lg border border-zinc-200 p-4 text-left">
-    <p class="mb-4 w-full border-b pb-2 text-lg">Edit Product Details</p>
+    <p class="mb-4 w-full border-b pb-2">Edit Product Details</p>
 
     <div class="pb-6">
       <label>

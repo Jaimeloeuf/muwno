@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useProduct, useUser } from "../../../../store";
 import TopNavbar from "../../../shared/TopNavbar.vue";
+import CopyProductIDCard from "./Card/CopyProductIDCard.vue";
 import DownloadRawResponseButton from "./Card/DownloadRawResponseButton.vue";
 import EditProductDetails from "./Card/EditProductDetails.vue";
 import TransferProductButton from "./Card/TransferProductButton.vue";
@@ -29,6 +30,8 @@ const updateProduct = async () =>
     >
       <div class="flex w-full flex-col gap-6">
         <p class="text-xl">More</p>
+
+        <CopyProductIDCard :productID="product.id" />
 
         <DownloadRawResponseButton :product="product" />
 

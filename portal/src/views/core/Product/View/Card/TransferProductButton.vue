@@ -17,7 +17,7 @@ const showHelp = ref(false);
 const newOrgID = ref("");
 
 async function transfer() {
-  if (newOrgID.value === "") return alert("Please enter a valid OrgID");
+  if (newOrgID.value === "") return alert("Please enter a valid Org ID");
   if (!confirm("Confirm Transfer?")) return;
 
   loader.show();
@@ -63,7 +63,7 @@ async function transfer() {
         v-model.trim="newOrgID"
         type="text"
         class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
-        placeholder="New OrgID"
+        placeholder="New Org ID"
       />
 
       <button
