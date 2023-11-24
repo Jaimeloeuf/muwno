@@ -1,3 +1,5 @@
+import type { RouteRecordRaw } from "vue-router";
+
 /**
  * RouteObject enforces the type of the meta property to be an object
  * with an explicit AuthRequirement specified.
