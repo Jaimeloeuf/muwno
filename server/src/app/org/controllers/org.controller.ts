@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch } from '@nestjs/common';
 
 import { OrgService } from '../services/org.service.js';
 
@@ -6,10 +6,13 @@ import {
   GuardWithRBAC,
   NoRoleRequired,
   JWT_uid,
+  RolesRequired,
+  StrictRBAC,
 } from '../../../guards/index.js';
 
 // Entity Types
 import type { FirebaseAuthUID } from 'domain-model';
+import { Role } from 'domain-model';
 
 // DTO Types
 import type { ReadOneOrgDTO } from 'domain-model';
@@ -50,6 +53,21 @@ export class OrgController {
   ): Promise<ReadOneOrgDTO> {
     return this.orgService
       .createOrg(userID, createOneOrgDTO)
+      .then((org) => ({ org }));
+  }
+
+  /**
+   * Update Organisation details.
+   */
+  @Patch()
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  @StrictRBAC
+  async updateOrg(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Body() createOneOrgDTO: ValidatedCreateOneOrgDTO,
+  ): Promise<ReadOneOrgDTO> {
+    return this.orgService
+      .updateOrg(userID, createOneOrgDTO)
       .then((org) => ({ org }));
   }
 }

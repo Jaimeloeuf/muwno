@@ -26,6 +26,7 @@ import {
 import {
   orgCreatedNotifBuilder,
   orgCreatedEmailBuilder,
+  orgDetailsUpdateEmailBuilder,
 } from '../../../utils/index.js';
 
 @Injectable()
@@ -110,6 +111,31 @@ export class OrgService {
       org.email,
       orgCreatedEmailBuilder.subject(org.name),
       orgCreatedEmailBuilder.body(org.name),
+    );
+
+    return org;
+  }
+
+  /**
+   * Update Organisation details.
+   */
+  async updateOrg(
+    userID: UserID,
+    createOneOrgDTO: CreateOneOrgDTO,
+  ): Promise<Org> {
+    const originalOrg = await this.getUserOrg(userID);
+
+    // Ensure no leading or trailing spaces for Org names.
+    createOneOrgDTO.name = createOneOrgDTO.name.trim();
+
+    const org = await this.orgRepo.updateOne(originalOrg.id, createOneOrgDTO);
+
+    await this.stripeCustomerService.updateCustomerDetails(org);
+
+    this.transactionalEmailService.email(
+      org.email,
+      orgDetailsUpdateEmailBuilder.subject(originalOrg.name),
+      orgDetailsUpdateEmailBuilder.body(originalOrg.name),
     );
 
     return org;

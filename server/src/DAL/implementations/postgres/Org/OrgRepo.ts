@@ -71,4 +71,13 @@ export class OrgRepo implements IOrgRepo {
       })
       .then(mapOrgModelToEntity);
   }
+
+  async updateOne(id: string, createOneOrgDTO: CreateOneOrgDTO) {
+    return this.db.org
+      .update({
+        where: { id },
+        data: createOneOrgDTO,
+      })
+      .then(mapOrgModelToEntity);
+  }
 }

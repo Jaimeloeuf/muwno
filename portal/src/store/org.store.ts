@@ -121,5 +121,28 @@ export const useOrg = defineStore("org", {
 
       return res.data.org;
     },
+
+    /**
+     * Update Org.
+     */
+    async updateOrg(createOneOrgDTO: CreateOneOrgDTO) {
+      const { res, err } = await sf
+        .useDefault()
+        .PATCH("/org")
+        .useHeader(getAuthHeader)
+        .bodyJSON<CreateOneOrgDTO>(createOneOrgDTO)
+        .runJSON<ReadOneOrgDTO>();
+
+      if (err) throw err;
+      if (!res.ok)
+        throw new Error(
+          `Failed to update Organisation: ${JSON.stringify(res)}`
+        );
+
+      this.org = res.data.org;
+      this.orgCacheTime = unixseconds();
+
+      return res.data.org;
+    },
   },
 });

@@ -27,4 +27,12 @@ export abstract class IOrgRepo {
     id: string,
     createOneOrgDTO: CreateOneOrgDTO,
   ): Promise<Org>;
+
+  /**
+   * Update an Organisation in data source
+   */
+  abstract updateOne(
+    id: string,
+    createOneOrgDTO: CreateOneOrgDTO,
+  ): Promise<Org>;
 }

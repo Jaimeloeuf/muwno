@@ -1,5 +1,5 @@
 /**
- * Ttransactional email to thank user for creating an Org and to tell them about
+ * Transactional email to thank user for creating an Org and to tell them about
  * any next steps for them.
  */
 export const orgCreatedEmailBuilder = {

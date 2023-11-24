@@ -45,6 +45,13 @@ export const CreateOrgRoute = <const>{
   meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
+export const EditOrgRoute = <const>{
+  name: "org-edit",
+  path: "/org/edit",
+  component: () => import("../views/core/Org/EditOrg.vue"),
+  meta: { AuthRequirements: AuthType.Private, onboarding: true },
+};
+
 /* =========================== Product Module Routes ======================== */
 
 export const AllProductRoute = <const>{
@@ -263,6 +270,7 @@ export const OrgUsageRoute = <const>{
   AccountRoute,
   OrgRoute,
   CreateOrgRoute,
+  EditOrgRoute,
   AllProductRoute,
   ProductRoute,
   MoreProductFeatureRoute,

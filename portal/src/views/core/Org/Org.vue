@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useOrg, useLoader } from "../../../store";
-import { OrgRoute } from "../../../router";
+import { useOrg, useUser, useLoader } from "../../../store";
+import { OrgRoute, EditOrgRoute } from "../../../router";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
+import { getDateString } from "../../../utils/date-formatting/getDateString";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import CopyOnClick from "../../shared/CopyOnClick.vue";
+import EnterButton from "../../shared/EnterButton.vue";
+import { Role } from "@domain-model";
 
 const loader = useLoader();
 const orgStore = useOrg();
+const userStore = useUser();
 
 const org = await orgStore.getOrg();
+const user = await userStore.getUser();
 
 async function goToBillingPortal() {
   loader.show("Waiting for payment provider...");
@@ -47,29 +52,69 @@ async function goToBillingPortal() {
     <TopNavbar sideDrawer>Organisation</TopNavbar>
 
     <div class="md:mx-12">
-      <div class="pb-12">
-        <p class="pb-2 text-2xl">Details</p>
+      <p class="pb-2 text-2xl">Details</p>
 
-        <div class="mb-4 w-full max-w-md rounded-lg border border-zinc-200 p-3">
-          <p class="pb-2 text-xl">Name</p>
-          <p>{{ org.name }}</p>
+      <div class="mb-12 w-full max-w-md rounded-lg border border-zinc-200 p-3">
+        <div class="pb-4">
+          <div class="flex flex-row items-center gap-4">
+            <p class="text-lg">Organisation ID</p>
+            <CopyOnClick
+              class="rounded-lg border border-zinc-200 bg-zinc-50 px-2 font-light text-zinc-900"
+              :textToCopy="org.id"
+            >
+              Copy
+            </CopyOnClick>
+          </div>
+
+          <p class="break-words font-light">
+            {{ org.id }}
+          </p>
         </div>
 
-        <div class="max-w-md rounded-lg border border-zinc-200 p-3">
-          <p class="pb-2 text-xl">Organisation ID</p>
-          <CopyOnClick>
-            <p class="break-words font-extralight">
-              {{ org.id }}
-            </p>
-            <p class="font-thin">Click to copy ID</p>
-          </CopyOnClick>
+        <div class="pb-4">
+          <p class="text-lg">Name</p>
+          <p class="font-light">{{ org.name }}</p>
         </div>
+
+        <div class="pb-4">
+          <p class="text-lg">Admin Email</p>
+          <p class="font-light">{{ org.email }}</p>
+        </div>
+
+        <div class="pb-4">
+          <p class="text-lg">Admin Phone</p>
+          <p class="font-light">{{ org.phone === "" ? "-" : org.phone }}</p>
+        </div>
+
+        <div class="pb-4">
+          <p class="text-lg">Address</p>
+          <p class="font-light">{{ org.address ?? "-" }}</p>
+        </div>
+
+        <div class="pb-4">
+          <p class="text-lg">Status</p>
+          <p class="font-light">
+            {{ org.verified ? "Verified" : "Unverfied" }}
+          </p>
+        </div>
+
+        <div class="pb-4">
+          <p class="text-lg">Created On</p>
+          <p class="font-light">{{ getDateString(org.createdAt) }}</p>
+        </div>
+
+        <EnterButton
+          v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin"
+          :to="{ name: EditOrgRoute.name }"
+        >
+          Edit Details
+        </EnterButton>
       </div>
 
-      <div>
+      <div v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin">
         <p class="pb-2 text-2xl">Subscription</p>
         <button
-          class="flex w-full max-w-md flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-lg font-light"
+          class="flex w-full max-w-md flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-lg font-light"
           @click="goToBillingPortal"
         >
           Payment Details Portal

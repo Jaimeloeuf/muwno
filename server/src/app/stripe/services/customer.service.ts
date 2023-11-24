@@ -86,4 +86,33 @@ export class StripeCustomerService {
 
     await this.stripeCustomerRepo.createOne(org.id, customer.id);
   }
+
+  /**
+   * Update Stripe Customer details using Org details.
+   */
+  async updateCustomerDetails(org: Org) {
+    const customerOptions = {
+      name: org.name,
+      email: org.email,
+
+      // Save org.id as metadata in case it needs to be retrieved during
+      // reconciliation processes between this system and Stripe.
+      metadata: { orgID: org.id },
+    } satisfies Stripe.CustomerUpdateParams;
+
+    const stripeCustomerID =
+      await this.stripeCustomerRepo.getCustomerIDWithOrgID(org.id);
+
+    if (stripeCustomerID === null)
+      throw new InvalidInternalStateException(
+        `Org ${org.id} does not have a Stripe Customer ID stored.`,
+      );
+
+    await this.stripe.customers.update(
+      stripeCustomerID,
+      org.phone === null
+        ? customerOptions
+        : { ...customerOptions, phone: org.phone },
+    );
+  }
 }
