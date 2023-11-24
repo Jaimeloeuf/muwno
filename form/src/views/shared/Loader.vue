@@ -1,14 +1,6 @@
-<script setup lang="ts">
-// Takes an optional boolean prop to control the loader component
-// Using compiler macro to type check the default value too
-// Reference: https://vuejs.org/api/sfc-script-setup.html#default-props-values-when-using-type-declaration
-withDefaults(defineProps<{ show?: boolean }>(), { show: true });
-</script>
-
 <template>
   <!-- Allow users to provide their own loader UI component if needed -->
-  <slot v-if="show" name="loaderUI">
-    <!-- Default loader UI -->
+  <slot>
     <div
       class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-50 bg-opacity-90 text-center"
     >
@@ -36,18 +28,4 @@ withDefaults(defineProps<{ show?: boolean }>(), { show: true });
       </div>
     </div>
   </slot>
-
-  <!--
-    vue slot used to show any content after loading is completed.
-
-    Component can be used as a wrapper component instead of making the
-    parent component use v-if directives to implement showing/hiding of
-    loader component. Parent component just need to have the show/hide
-    control variable and use that variable with the loader component to
-    either show the loader or actual content placed in the loader's slot.
-
-    This will not affect components that do not add content to the loader
-    slot as the default/fallback UI for the loader slot is nothing.
-  -->
-  <slot v-else></slot>
 </template>
