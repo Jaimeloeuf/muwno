@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useLoader } from "../../store";
 
 const loaderStore = useLoader();
+const reloadPage = () => window.location.reload();
+
+// Simple mechanism to allow user to reload the page if loading state is too
+// long or if loader wasnt properly cleared after use pass an 10s (arbitrary).
+// This might not be the best thing if multiple loaders are used at once since
+// this does not track how many times loader.show() is called.
+const longerThanExpected = ref(false);
+setTimeout(() => (longerThanExpected.value = true), 10000);
 </script>
 
 <template>
@@ -29,8 +38,25 @@ const loaderStore = useLoader();
           />
         </svg>
 
+        <div v-if="longerThanExpected" class="mt-12 rounded-lg bg-zinc-50 px-2">
+          <p class="pb-2 text-xl font-medium">
+            This is taking longer than usual, do you want to reload the page and
+            retry?
+          </p>
+          <p class="pb-8 text-xl">
+            *Reloading the page might cause whatever you are doing to reset.
+          </p>
+
+          <button
+            class="rounded-lg border border-green-600 px-12 text-lg text-green-600"
+            @click="reloadPage"
+          >
+            Reload
+          </button>
+        </div>
+
         <p
-          v-if="loaderStore.customLoaderMessage === null"
+          v-else-if="loaderStore.customLoaderMessage === null"
           class="mt-12 rounded-lg bg-zinc-50 px-2 text-4xl font-medium"
         >
           ... loading ...
