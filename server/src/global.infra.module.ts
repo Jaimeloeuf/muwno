@@ -1,15 +1,16 @@
 import { Module, Global, Logger, type Provider } from '@nestjs/common';
 
 // Infra providers
-import { RepoModule } from '../DAL/repo.module.js';
+import { RepoModule } from './DAL/repo.module.js';
 import {
   AuthServiceProvider,
+  AiServiceProvider,
   TelegramBotProvider,
   AdminNotifServiceProvider,
   TransactionalEmailServiceProvider,
   EmailBlastServiceProvider,
   MeteringServiceProvider,
-} from '../infra/index.js';
+} from './infra/index.js';
 
 /**
  * A list of providers that should be shared globally for all other modules
@@ -18,6 +19,7 @@ import {
 const GloballySharedProviders: Provider[] = [
   Logger,
   AuthServiceProvider,
+  AiServiceProvider,
   TelegramBotProvider,
   AdminNotifServiceProvider,
   TransactionalEmailServiceProvider,
@@ -26,8 +28,8 @@ const GloballySharedProviders: Provider[] = [
 ];
 
 /**
- * global.module to combine all the providers that should be available in the
- * global scope for all other modules to use.
+ * This module combine all the external infra integrations through infra
+ * providers to make them available in the global scope for all other modules.
  *
  * All the providers will be exported to be used globally since `providers`
  * and `exports` share the same array of providers.
@@ -45,4 +47,4 @@ const GloballySharedProviders: Provider[] = [
     // import DAL Repos one by one
     .concat([RepoModule]),
 })
-export class GlobalModule {}
+export class GlobalInfraModule {}

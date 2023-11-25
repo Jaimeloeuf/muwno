@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 
 import { ConfigModule } from './config/config.module.js';
-import { GlobalModule } from './global/global.module.js';
 import { ThrottlerModule } from './throttler/throttler.module.js';
 import { ThrottlerProvider } from './throttler/throttler.provider.js';
+import { GlobalInfraModule } from './global.infra.module.js';
 import { AppModule } from './app/app.module.js';
 
 /**
@@ -14,11 +14,11 @@ import { AppModule } from './app/app.module.js';
     // ConfigModule is configured be registered globally too.
     ConfigModule,
 
-    // Register the global module that registers all the providers globally.
-    GlobalModule,
-
     // ThrottlerModule needs to be registered here globally for all to use.
     ThrottlerModule,
+
+    // Register the global module that registers all the providers globally.
+    GlobalInfraModule,
 
     // Application modules that encapsulates all feature modules
     AppModule,

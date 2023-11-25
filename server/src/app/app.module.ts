@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 
-// Infra
-import { AiServiceProvider } from '../infra/index.js';
+// Feature module specific Infra
 import { StripeClient } from './stripe/infra/stripe-client.js';
 
 // Services
@@ -50,8 +49,7 @@ import { UserController } from './user/controllers/user.controller.js';
  */
 @Module({
   providers: [
-    // Infra Providers
-    AiServiceProvider,
+    // Feature module specific Infra / Infra Providers
     StripeClient,
 
     // App Services
