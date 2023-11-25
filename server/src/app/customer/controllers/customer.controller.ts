@@ -27,6 +27,21 @@ export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
   /**
+   * Get customer groups of an Org.
+   */
+  @Get('group/of-org/:orgID')
+  @AllowAllRoles
+  async getCustomerGroups(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('orgID') orgID: OrgID,
+  ): Promise<{ groups: unknown }> {
+    console.log(requestorID, orgID);
+    // this.customerService.getCustomerGroups
+    // @todo scaffold
+    return { groups: 1 };
+  }
+
+  /**
    * Get the number of Customers currently stored.
    */
   @Get('count/:orgID')

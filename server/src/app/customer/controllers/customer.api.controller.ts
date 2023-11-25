@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 
 import { CustomerApiService } from '../services/customer.api.service.js';

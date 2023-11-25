@@ -44,7 +44,7 @@ export class SurveyMethodManualEmailBlastService {
     requestorID: UserID,
     productID: ProductID,
     createManualEmailBlastDTO: CreateManualEmailBlastDTO,
-  ): Promise<unknown> {
+  ): Promise<{ success: boolean }> {
     const product = await this.productService.getProduct(
       requestorID,
       productID,

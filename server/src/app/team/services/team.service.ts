@@ -128,6 +128,12 @@ export class TeamService {
       roles: [invitation.role],
     });
 
+    // @todo
+    // If they click open invite link from email to join a org, backend should
+    // auto set email_verified to true. Use a link with a query param, when used
+    // signup makes an API call to backend to set it as email verified in same
+    // table first, and skip sending verification email using auth provider.
+
     // Delete the invite
     await this.teamRepo.deleteInvite(invitationID);
 

@@ -118,10 +118,10 @@ async function emailCustomers(data: CreateManualEmailBlastDTO["customers"]) {
     .POST(`/survey-method/email/manual/blast/${product.id}`)
     .bodyJSON<CreateManualEmailBlastDTO>({ customers: data })
     .useHeader(getAuthHeader)
-    .runJSON<unknown>();
+    .runJSON<{ success: boolean }>();
 
   if (err) throw err;
-  if (!res.ok)
+  if (!res.ok || !res.data.success)
     throw new Error(`Failed to email customers: ${JSON.stringify(res)}`);
 }
 </script>

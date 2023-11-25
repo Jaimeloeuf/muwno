@@ -35,7 +35,7 @@ export class SurveyMethodManualEmailBlastController {
     @Param('productID') productID: ProductID,
     @Body()
     validatedCreateManualEmailBlastDTO: ValidatedCreateManualEmailBlastDTO,
-  ): Promise<unknown> {
+  ): Promise<{ success: boolean }> {
     return this.surveyMethodManualEmailBlastService.send(
       requestorID,
       productID,
