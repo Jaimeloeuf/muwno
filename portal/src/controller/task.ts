@@ -54,11 +54,7 @@ export class TaskController {
     const { res, err } = await sf
       .useDefault()
       .GET(`/task/of-product/${productID}`)
-      .useQuery(
-        paginationID !== undefined
-          ? { count: count.toString(), paginationID }
-          : { count: count.toString() }
-      )
+      .useQuery({ count: count.toString(), paginationID })
       .useHeader(getAuthHeader)
       .runJSON<ReadManyTaskDTO>();
 

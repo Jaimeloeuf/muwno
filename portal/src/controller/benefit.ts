@@ -15,11 +15,7 @@ export class BenefitController {
     const { res, err } = await sf
       .useDefault()
       .GET(`/feedback/response/a3/${productID}`)
-      .useQuery(
-        paginationID !== undefined
-          ? { count: count.toString(), paginationID }
-          : { count: count.toString() }
-      )
+      .useQuery({ count: count.toString(), paginationID })
       .useHeader(getAuthHeader)
       .runJSON<ReadManyA3DTO>();
 

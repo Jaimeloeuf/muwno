@@ -22,7 +22,7 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "qrcode": "^1.5.3",
-    "simpler-fetch": "^10.3.1",
+    "simpler-fetch": "^10.4.0",
     "unixseconds": "^0.1.1",
     "vue": "^3.3.4",
     "vue-chartjs": "^5.2.0",
