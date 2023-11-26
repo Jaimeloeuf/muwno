@@ -28,7 +28,7 @@ export class UsageController {
    */
   @Get('org')
   @AllowAllRoles
-  async byOrg(@JWT_uid userID: FirebaseAuthUID): Promise<ReadUsageDTO> {
-    return this.usageService.byOrg(userID).then((usage) => ({ usage }));
+  async getStatsByOrg(@JWT_uid userID: FirebaseAuthUID): Promise<ReadUsageDTO> {
+    return this.usageService.getStatsByOrg(userID).then((usage) => ({ usage }));
   }
 }

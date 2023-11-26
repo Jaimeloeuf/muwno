@@ -72,7 +72,7 @@ export class UsageService {
   /**
    * Get all usage stats of the user's org.
    */
-  async byOrg(userID: UserID): Promise<Usage> {
+  async getStatsByOrg(userID: UserID): Promise<Usage> {
     const org = await this.orgRepo.getUserOrg(userID);
     if (org === null)
       throw new NotFoundException(`User '${userID}' does not have an Org!`);

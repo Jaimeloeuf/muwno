@@ -87,19 +87,22 @@ export class ProductService {
    * Update a Product.
    */
   async updateProduct(
-    userID: UserID,
+    requestorID: UserID,
     productID: ProductID,
     updateOneProductDTO: CreateOneProductDTO,
   ): Promise<Product> {
-    await this.validateUserAccess(userID, productID);
+    await this.validateUserAccess(requestorID, productID);
     return this.productRepo.update(productID, updateOneProductDTO);
   }
 
   /**
    * Delete a single product.
    */
-  async deleteProduct(userID: UserID, productID: ProductID): Promise<void> {
-    await this.validateUserAccess(userID, productID);
+  async deleteProduct(
+    requestorID: UserID,
+    productID: ProductID,
+  ): Promise<void> {
+    await this.validateUserAccess(requestorID, productID);
     await this.productRepo.deleteOne(productID);
   }
 
@@ -117,7 +120,5 @@ export class ProductService {
     // be unguessable, it works as some sort of one time password to accept the
     // transfer to their Org.
     await this.productRepo.transfer(productID, orgID);
-
-    // @todo All usage should now be updated to point to the new Org.
   }
 }

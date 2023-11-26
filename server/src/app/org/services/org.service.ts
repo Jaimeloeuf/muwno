@@ -57,17 +57,6 @@ export class OrgService {
   }
 
   /**
-   * Get Org data of given orgID from data source.
-   */
-  async getOrg(orgID: OrgID): Promise<Org> {
-    const org = await this.orgRepo.getOne(orgID);
-    if (org === null)
-      throw new NotFoundException(`Org with orgID '${orgID}' is not found!`);
-
-    return org;
-  }
-
-  /**
    * Get a user's Org Entity object back if they belong to an Org.
    */
   async getUserOrg(userID: UserID): Promise<Org> {
