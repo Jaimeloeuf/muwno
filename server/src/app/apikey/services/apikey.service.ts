@@ -8,6 +8,7 @@ import { UserService } from '../../user/services/user.service.js';
 
 // Entity Types
 import type { UserID, ApiKeyDetail, ApiKeyDetailID } from 'domain-model';
+import { Role } from 'domain-model';
 
 // DTO Types
 import type { ReadOneApiKeyDTO } from 'domain-model';
@@ -70,6 +71,10 @@ export class ApiKeyService {
       throw new NotFoundException(`API Key ${apiKeyID} does not exist.`);
 
     await this.orgService.validateUserAccess(requestorID, apiKeyDetail.orgID);
+    await this.userService.validateRole(requestorID, [
+      Role.OrgOwner,
+      Role.OrgAdmin,
+    ]);
 
     await this.apiKeyRepo.deleteOne(apiKeyID);
   }

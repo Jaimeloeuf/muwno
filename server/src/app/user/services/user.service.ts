@@ -8,12 +8,16 @@ import {
 
 // Entity Types
 import type { User, UserID } from 'domain-model';
+import { Role } from 'domain-model';
 
 // DTO Types
 import type { CreateOneUserDTO } from 'domain-model';
 
 // Service layer Exceptions
-import { NotFoundException } from '../../../exceptions/index.js';
+import {
+  NotFoundException,
+  ForbiddenException,
+} from '../../../exceptions/index.js';
 
 // Utils
 import {
@@ -38,6 +42,22 @@ export class UserService {
       throw new NotFoundException(`User '${userID}' does not exist!`);
 
     return user;
+  }
+
+  /**
+   * Get User Entity of given `userID` from data source.
+   */
+  async validateRole(
+    userID: UserID,
+    roles: Array<Role>,
+    errorMessage?: string,
+  ): Promise<void> {
+    const user = await this.getUser(userID);
+    if (user.role === undefined || !roles.includes(user.role))
+      throw new ForbiddenException(
+        errorMessage ??
+          `User ${userID} does not have a valid role for this action.`,
+      );
   }
 
   /**

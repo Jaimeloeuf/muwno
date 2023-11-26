@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ulid } from 'ulid';
 
 import { IProductRepo, IOrgRepo } from '../../../DAL/index.js';
+import { UserService } from '../../user/services/user.service.js';
 
 // Entity Types
 import type {
@@ -12,6 +13,7 @@ import type {
   Products,
   CreateOneProductDTO,
 } from 'domain-model';
+import { Role } from 'domain-model';
 
 // Service layer Exceptions
 import {
@@ -25,6 +27,7 @@ export class ProductService {
   constructor(
     private readonly productRepo: IProductRepo,
     private readonly orgRepo: IOrgRepo,
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -92,6 +95,10 @@ export class ProductService {
     updateOneProductDTO: CreateOneProductDTO,
   ): Promise<Product> {
     await this.validateUserAccess(requestorID, productID);
+    await this.userService.validateRole(requestorID, [
+      Role.OrgOwner,
+      Role.OrgAdmin,
+    ]);
     return this.productRepo.update(productID, updateOneProductDTO);
   }
 
@@ -103,6 +110,10 @@ export class ProductService {
     productID: ProductID,
   ): Promise<void> {
     await this.validateUserAccess(requestorID, productID);
+    await this.userService.validateRole(requestorID, [
+      Role.OrgOwner,
+      Role.OrgAdmin,
+    ]);
     await this.productRepo.deleteOne(productID);
   }
 
@@ -115,6 +126,7 @@ export class ProductService {
     orgID: OrgID,
   ): Promise<void> {
     await this.validateUserAccess(requestorID, productID);
+    await this.userService.validateRole(requestorID, [Role.OrgOwner]);
 
     // This only requires permission from the current owner, since OrgID should
     // be unguessable, it works as some sort of one time password to accept the

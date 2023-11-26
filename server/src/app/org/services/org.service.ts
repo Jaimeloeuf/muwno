@@ -3,6 +3,7 @@ import { ulid } from 'ulid';
 
 import { IOrgRepo, IUserRepo } from '../../../DAL/index.js';
 import { StripeCustomerService } from '../../stripe/services/customer.service.js';
+import { UserService } from '../../user/services/user.service.js';
 import {
   IAuthService,
   ITransactionalEmailService,
@@ -34,6 +35,7 @@ export class OrgService {
   constructor(
     private readonly orgRepo: IOrgRepo,
     private readonly userRepo: IUserRepo,
+    private readonly userService: UserService,
     private readonly stripeCustomerService: StripeCustomerService,
     private readonly authService: IAuthService,
     private readonly transactionalEmailService: ITransactionalEmailService,
@@ -109,10 +111,15 @@ export class OrgService {
    * Update Organisation details.
    */
   async updateOrg(
-    userID: UserID,
+    requestorID: UserID,
     createOneOrgDTO: CreateOneOrgDTO,
   ): Promise<Org> {
-    const originalOrg = await this.getUserOrg(userID);
+    await this.userService.validateRole(requestorID, [
+      Role.OrgOwner,
+      Role.OrgAdmin,
+    ]);
+
+    const originalOrg = await this.getUserOrg(requestorID);
 
     // Ensure no leading or trailing spaces for Org names.
     createOneOrgDTO.name = createOneOrgDTO.name.trim();
