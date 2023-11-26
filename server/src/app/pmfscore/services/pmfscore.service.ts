@@ -4,7 +4,7 @@ import { IPmfscoreRepo } from '../../../DAL/index.js';
 import { ProductService } from '../../product/services/product.service.js';
 
 // Entity Types
-import type { ProductID, PMFScore } from 'domain-model';
+import type { UserID, ProductID, PMFScore } from 'domain-model';
 
 // Service layer Exceptions
 import { InvalidInputException } from '../../../exceptions/index.js';
@@ -25,8 +25,11 @@ export class PmfscoreService {
    *
    * Get the live PMF score of a rolling time window.
    */
-  async getPMFLiveScore(productID: ProductID): Promise<PMFScore> {
-    await this.productService.validateProductID(productID);
+  async getPMFLiveScore(
+    requestorID: UserID,
+    productID: ProductID,
+  ): Promise<PMFScore> {
+    await this.productService.validateUserAccess(requestorID, productID);
 
     // @todo Currently hard coded to 7 days, should allow users to select duration
     const startOfRollingWindow = new Date(
@@ -47,6 +50,7 @@ export class PmfscoreService {
    * Get PMF score of all time periods within the selected time range.
    */
   async getPMFScoresOfSelectedRange(
+    requestorID: UserID,
     productID: ProductID,
     intervals: number,
     intervalType: string,
@@ -59,7 +63,7 @@ export class PmfscoreService {
     if (!isValidIntervalType(intervalType))
       throw new InvalidInputException(`Invalid intervalType '${intervalType}'`);
 
-    await this.productService.validateProductID(productID);
+    await this.productService.validateUserAccess(requestorID, productID);
 
     const scores: Array<Promise<PMFScore>> = [];
 

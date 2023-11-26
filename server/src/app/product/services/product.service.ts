@@ -28,21 +28,8 @@ export class ProductService {
   ) {}
 
   /**
-   * Validate a product ID by checking if a product exists. Throws the common
-   * `NotFoundException` if it does not exists.
-   */
-  async validateProductID(productID: ProductID): Promise<void> {
-    if (!(await this.productRepo.productExists(productID)))
-      throw new NotFoundException(
-        `Product with ProductID '${productID}' does not exist.`,
-      );
-  }
-
-  /**
    * Validate if a user have access permission to a product. Throws the common
-   * `ForbiddenException` if user does not have access.
-   *
-   * Expects given `productID` to be validated already, will treat a invalid
+   * `ForbiddenException` if user does not have access. This also treats invalid
    * `productID` the same as a Forbidden request.
    */
   async validateUserAccess(

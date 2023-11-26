@@ -20,15 +20,6 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class ProductRepo implements IProductRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async productExists(productID: ProductID) {
-    return this.db.product
-      .findUnique({
-        where: { id: productID },
-        select: { id: true }, // Select as little as possible for efficiency
-      })
-      .then((product) => product !== null);
-  }
-
   async canUserAccessProduct(userID: UserID, productID: ProductID) {
     // Load all products that the user can access that has this product ID.
     // Alternative method is to start search by product -> org -> user.
@@ -41,6 +32,7 @@ export class ProductRepo implements IProductRepo {
             select: {
               product: {
                 where: { id: productID },
+                // Select as little as possible for efficiency
                 select: { id: true },
               },
             },

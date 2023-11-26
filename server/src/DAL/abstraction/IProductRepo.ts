@@ -13,12 +13,8 @@ import type {
  */
 export abstract class IProductRepo {
   /**
-   * Check if a product exists, and test if a product ID is valid.
-   */
-  abstract productExists(productID: ProductID): Promise<boolean>;
-
-  /**
    * Check if user have access permission to this product.
+   * If product does not exists, it is also treated as a lack of permission.
    */
   abstract canUserAccessProduct(
     userID: UserID,
