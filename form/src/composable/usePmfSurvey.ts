@@ -16,12 +16,23 @@ export async function usePmfSurvey(formID: string) {
     .useHeader({
       "x-recaptcha-token": await getRecaptchaToken("getFormDetails"),
     })
-    .runJSON<ReadOneFeedbackFormDTO>();
+    .runJSON<
+      ReadOneFeedbackFormDTO,
+      { error: string; message: string; statusCode: number }
+    >();
 
   if (err) throw err;
-  // @todo If 404 should redirect to landing page immediately or a not found
-  // page instead of throwing an error here!
-  if (!res.ok) throw new Error("Failed to load feedback form!");
+
+  if (!res.ok) {
+    if (
+      res.status === 401 &&
+      res.data.message.toLowerCase().includes("recaptcha")
+    )
+      throw new Error("Please try again later, Recaptcha verification failed.");
+    if (res.status === 404) throw new Error("404, Invalid feedback form link");
+
+    throw new Error("Failed to load feedback form!");
+  }
 
   const productName = res.data.form.productName;
 
