@@ -14,43 +14,50 @@ const imageDataUrl = ref<string | null>(null);
 
 async function generateQrCodeAndShowModal() {
   showModal.value = true;
-  imageDataUrl.value = await QRCode.toDataURL(surveyLink, {
-    errorCorrectionLevel: "H",
-    width: 1024,
-    height: 1024,
-  } as QRCodeToDataURLOptions);
+
+  // Only generate once
+  if (imageDataUrl.value === null)
+    imageDataUrl.value = await QRCode.toDataURL(surveyLink, {
+      errorCorrectionLevel: "H",
+      width: 1024,
+      height: 1024,
+    } as QRCodeToDataURLOptions);
 }
 </script>
 
 <template>
   <div
     v-if="showModal"
-    class="fixed inset-0 z-30 flex flex-col items-center justify-center bg-white py-12"
+    class="fixed left-0 top-0 z-30 h-screen w-screen bg-black bg-opacity-70 p-8 md:flex md:flex-col md:items-center md:justify-center"
     @click="showModal = false"
   >
     <div
       v-if="imageDataUrl !== null"
-      class="flex flex-col font-light lg:flex-row lg:gap-6"
+      class="flex flex-col rounded-lg bg-white p-3 font-light lg:flex-row lg:gap-6 lg:p-6"
       @click.stop
     >
-      <div class="flex flex-col gap-8">
-        <div class="flex flex-row justify-between">
+      <div class="py-6">
+        <div class="flex flex-row justify-between pb-4">
           <p class="text-2xl">Survey Link & QR Code</p>
 
           <button
-            class="rounded-lg border border-zinc-200 bg-zinc-100 px-6 font-normal text-zinc-800"
+            class="rounded-lg border border-zinc-200 bg-zinc-50 px-6 text-zinc-800"
             @click="showModal = false"
           >
             Close
           </button>
         </div>
 
-        <CopyOnClick :textToCopy="surveyLink">
-          <div class="w-full rounded-lg border border-zinc-200 p-4">
-            {{ surveyLink }}
-            <p class="font-medium">Click to copy link</p>
-          </div>
-        </CopyOnClick>
+        <div class="pb-4">
+          <CopyOnClick :textToCopy="surveyLink">
+            <div
+              class="w-full break-words rounded-lg border border-zinc-200 p-3"
+            >
+              {{ surveyLink }}
+              <p class="text-right font-medium">Click to copy link</p>
+            </div>
+          </CopyOnClick>
+        </div>
 
         <a
           target="_blank"
@@ -58,16 +65,19 @@ async function generateQrCodeAndShowModal() {
           :download="`Survey QR Code for ${product.name}`"
         >
           <p
-            class="w-full rounded-lg border border-green-600 p-3 text-center text-green-600"
+            class="w-full rounded-lg border border-green-600 p-2 text-center text-green-600"
           >
             Download QR Code
           </p>
         </a>
       </div>
 
-      <img class="max-w-[15rem]" :src="imageDataUrl" />
+      <img class="w-96 lg:w-60" :src="imageDataUrl" />
     </div>
-    <p v-else class="text-xl font-medium">... Generating QR Code ...</p>
+
+    <p v-else class="rounded-lg bg-white p-6 text-xl font-medium">
+      ... Generating QR Code ...
+    </p>
   </div>
 
   <button

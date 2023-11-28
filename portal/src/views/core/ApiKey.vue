@@ -59,12 +59,12 @@ async function createApiKey() {
 
   newApiKey.value = res.data.key;
   showModal.value = true;
+  notif.setSnackbar("API Key Created");
 }
 
 function keyCopied() {
   showModal.value = false;
   newApiKey.value = null;
-  notif.setSnackbar("API Key Created");
 }
 
 async function deleteApiKey(apiKeyID: ApiKeyDetailID) {
@@ -95,21 +95,24 @@ const apiKeyDetails = ref(await getApiKeyDetails());
   <div>
     <div
       v-if="showModal && newApiKey !== null"
-      class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-white p-40"
+      class="fixed left-0 top-0 z-[35] flex h-screen w-screen items-center justify-center bg-black bg-opacity-70 p-4"
     >
-      <div class="flex flex-col font-light">
-        <p class="text-2xl">Click to copy your new API Key</p>
-        <p class="pb-4 text-lg">
-          Key will only be shown once and cannot be shown again!
+      <div class="flex flex-col rounded-lg bg-white p-6 font-light">
+        <p class="pb-2 text-2xl">Copy your API Key</p>
+        <p class="pb-4">
+          <b>Key can only be shown once.</b>
+          Copy it somewhere safe as it cannot be shown again!
         </p>
 
         <CopyOnClick :textToCopy="newApiKey">
           <div
-            class="rounded-lg border border-zinc-200 bg-zinc-50 p-6"
+            class="rounded-lg border border-zinc-200 bg-zinc-50 p-4"
             @click="keyCopied"
           >
             {{ newApiKey }}
-            <p class="font-thin">Click to copy ID</p>
+            <p class="pt-4 text-right font-medium sm:pt-0">
+              Click to copy API Key
+            </p>
           </div>
         </CopyOnClick>
       </div>
@@ -119,7 +122,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
 
     <div class="mx-auto w-full max-w-5xl">
       <div
-        class="flex flex-col justify-between gap-3 border-b border-zinc-200 pb-6 sm:flex-row sm:items-center"
+        class="flex flex-col justify-between gap-3 border-b border-zinc-200 pb-3 sm:flex-row sm:items-center"
       >
         <p v-if="apiKeyDetails.length === 0" class="text-2xl font-thin">
           No API Keys right now.
@@ -130,12 +133,12 @@ const apiKeyDetails = ref(await getApiKeyDetails());
 
         <button
           v-if="isAdmin"
-          class="rounded-lg border border-green-600 p-2 px-6 text-green-600"
+          class="rounded-lg border border-green-600 p-1.5 px-6 text-green-600"
           @click="createApiKey"
         >
           Create new API key
         </button>
-        <div v-else class="rounded-lg border border-zinc-200 p-2 px-4">
+        <div v-else class="rounded-lg border border-zinc-200 p-1.5 px-4">
           Only Admins can create new API keys
         </div>
       </div>

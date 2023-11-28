@@ -33,7 +33,7 @@ async function deleteProduct() {
   <div>
     <div
       v-if="showConfirmationModal"
-      class="fixed left-0 top-0 z-30 flex h-screen w-screen items-center justify-center bg-white p-8"
+      class="fixed left-0 top-0 z-30 flex h-screen w-screen flex-col items-center justify-center bg-white p-8"
     >
       <div class="flex flex-col font-light">
         <p class="text-2xl">
