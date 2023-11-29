@@ -285,7 +285,8 @@ export class FeedbackService {
       1: 'Not disappointed',
     };
 
-    const responses = await this.feedbackRepo.getResponses(productID);
+    // Limit up to 1 thousand responses
+    const responses = await this.feedbackRepo.getResponses(productID, 1000);
 
     /**
      * Map responses to use specific key strings so that they will be used as

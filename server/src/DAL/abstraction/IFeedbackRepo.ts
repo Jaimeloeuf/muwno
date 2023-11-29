@@ -79,10 +79,12 @@ export abstract class IFeedbackRepo {
   ): Promise<ReadManyA3DTO['benefits']>;
 
   /**
-   * Get all survey responses of the selected product.
+   * Get `count` number of survey responses of the selected product, sorted by
+   * latest responses first.
    */
   abstract getResponses(
     productID: ProductID,
+    count: number,
   ): Promise<Array<DBFeedbackResponse>>;
 
   /**

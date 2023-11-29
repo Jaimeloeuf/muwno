@@ -169,15 +169,12 @@ export class FeedbackRepo implements IFeedbackRepo {
     );
   }
 
-  async getResponses(product_id: ProductID) {
+  async getResponses(product_id: ProductID, take: number) {
     return this.db.pmf_survey_response.findMany({
       select: { created_at: true, a1: true, a2: true, a3: true, a4: true },
-      where: {
-        product_id,
-      },
-
-      // Limit up to 1 thousand rows each time
-      take: 1000,
+      where: { product_id },
+      orderBy: { created_at: 'desc' },
+      take,
 
       // Type casting here is safe since only type casting a1's value from
       // number to the specific values 1, 2, 3.
