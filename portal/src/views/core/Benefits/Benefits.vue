@@ -7,6 +7,7 @@ import { AllBenefitsRoute } from "../../../router";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import EnterButton from "../../shared/EnterButton.vue";
+import WordCloudModal from "../../shared/WordCloudModal.vue";
 import type { ProductID, ReadOccurrenceMapDTO } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -74,9 +75,9 @@ const { searchInput, results, clearSearchInput } = useSearch(
 
   <div class="mx-auto xl:max-w-screen-xl">
     <div
-      class="flex flex-col items-center justify-between gap-3 pb-4 sm:flex-row"
+      class="flex flex-col items-center justify-between gap-3 pb-4 lg:flex-row"
     >
-      <label class="w-full max-w-xl">
+      <label class="w-full lg:max-w-xl">
         <div class="relative">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
@@ -113,7 +114,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
 
       <select
         v-model="selectedTimeRange"
-        class="w-full rounded-lg border border-zinc-200 p-2.5 focus:outline-none sm:w-max"
+        class="w-full rounded-lg border border-zinc-200 p-2.5 focus:outline-none lg:w-max"
       >
         <option
           v-for="timeRange in timeRanges"
@@ -125,14 +126,26 @@ const { searchInput, results, clearSearchInput } = useSearch(
         </option>
       </select>
 
-      <EnterButton :to="{ name: AllBenefitsRoute.name }" class="w-max">
+      <EnterButton :to="{ name: AllBenefitsRoute.name }" class="lg:w-max">
         See All Benefits
       </EnterButton>
+
+      <WordCloudModal v-slot="{ open }" :termOccurrences="wordOccurrences">
+        <button
+          class="w-full rounded-lg border border-green-600 px-4 py-2 text-green-600 shadow-lg lg:w-max"
+          @click="open"
+        >
+          Show as word cloud
+        </button>
+      </WordCloudModal>
     </div>
 
-    <div v-if="wordOccurrences.length === 0" class="mx-auto xl:max-w-screen-xl">
-      <p class="text-2xl font-light">No data in selected time period.</p>
-    </div>
+    <p
+      v-if="wordOccurrences.length === 0"
+      class="mx-auto py-20 text-4xl font-thin xl:max-w-screen-xl"
+    >
+      No data in selected time period.
+    </p>
 
     <table
       v-else

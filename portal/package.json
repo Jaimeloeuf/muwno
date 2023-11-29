@@ -15,6 +15,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^2.1.0",
     "chart.js": "^4.3.0",
+    "chartjs-chart-wordcloud": "^4.3.2",
     "chartjs-plugin-datalabels": "^2.2.0",
     "firebase": "^10.1.0",
     "fuse.js": "^6.6.2",

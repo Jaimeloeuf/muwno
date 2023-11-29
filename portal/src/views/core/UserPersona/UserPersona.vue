@@ -5,6 +5,7 @@ import { useLoader } from "../../../store";
 import { getAuthHeader } from "../../../firebase";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
+import WordCloudModal from "../../shared/WordCloudModal.vue";
 import type { ProductID, ReadOccurrenceMapDTO } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -77,28 +78,46 @@ const { searchInput, results, clearSearchInput } = useSearch(
   <TopNavbar back>User Personas</TopNavbar>
 
   <div class="mx-auto xl:max-w-screen-xl">
-    <div class="mb-4 flex flex-row items-center gap-4">
-      <p class="text-lg">Group by</p>
-      <button
-        class="rounded-lg border px-3 py-1"
-        :class="{
-          'border-green-600 text-green-600': groupBy === 'response',
-          'border-zinc-200': groupBy !== 'response',
-        }"
-        @click="groupBy = 'response'"
+    <div
+      class="flex flex-col items-center justify-between gap-3 pb-4 sm:flex-row"
+    >
+      <div class="flex flex-row items-center gap-4">
+        <p class="text-lg">Group by</p>
+        <button
+          class="rounded-lg border px-3 py-1"
+          :class="{
+            'border-green-600 text-green-600': groupBy === 'response',
+            'border-zinc-200': groupBy !== 'response',
+          }"
+          @click="groupBy = 'response'"
+        >
+          Response
+        </button>
+        <button
+          class="rounded-lg border px-3 py-1"
+          :class="{
+            'border-green-600 text-green-600': groupBy === 'keyword',
+            'border-zinc-200': groupBy !== 'keyword',
+          }"
+          @click="groupBy = 'keyword'"
+        >
+          Keyword
+        </button>
+      </div>
+
+      <select
+        v-model="selectedTimeRange"
+        class="w-full rounded-lg border border-zinc-200 p-2.5 focus:outline-none sm:w-max"
       >
-        Response
-      </button>
-      <button
-        class="rounded-lg border px-3 py-1"
-        :class="{
-          'border-green-600 text-green-600': groupBy === 'keyword',
-          'border-zinc-200': groupBy !== 'keyword',
-        }"
-        @click="groupBy = 'keyword'"
-      >
-        Keyword
-      </button>
+        <option
+          v-for="timeRange in timeRanges"
+          :key="timeRange.value"
+          :value="timeRange.value"
+          :selected="timeRange.value === selectedTimeRange"
+        >
+          {{ timeRange.name }}
+        </option>
+      </select>
     </div>
 
     <div
@@ -139,24 +158,22 @@ const { searchInput, results, clearSearchInput } = useSearch(
         </div>
       </label>
 
-      <select
-        v-model="selectedTimeRange"
-        class="w-full rounded-lg border border-zinc-200 p-2.5 focus:outline-none sm:w-max"
-      >
-        <option
-          v-for="timeRange in timeRanges"
-          :key="timeRange.value"
-          :value="timeRange.value"
-          :selected="timeRange.value === selectedTimeRange"
+      <WordCloudModal v-slot="{ open }" :termOccurrences="wordOccurrences">
+        <button
+          class="rounded-lg border border-green-600 px-4 py-1 text-green-600 shadow-lg"
+          @click="open"
         >
-          {{ timeRange.name }}
-        </option>
-      </select>
+          Show as word cloud
+        </button>
+      </WordCloudModal>
     </div>
 
-    <div v-if="wordOccurrences.length === 0" class="mx-auto xl:max-w-screen-xl">
-      <p class="text-2xl font-light">No data in selected time period.</p>
-    </div>
+    <p
+      v-if="wordOccurrences.length === 0"
+      class="mx-auto py-20 text-4xl font-thin xl:max-w-screen-xl"
+    >
+      No data in selected time period.
+    </p>
 
     <table
       v-else
