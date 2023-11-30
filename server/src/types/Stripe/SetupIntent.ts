@@ -1,6 +1,6 @@
 import type { Customer } from './Customer.js';
 
-export type SetupIntent<Metadata = any> = {
+export type SetupIntent<Metadata = unknown> = {
   /**
    * This is the Stripe Setup Intent ID.
    */

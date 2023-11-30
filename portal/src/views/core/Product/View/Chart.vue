@@ -16,6 +16,7 @@ import {
   Tooltip,
   Legend,
   Filler,
+  type ChartData,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
@@ -49,7 +50,7 @@ const chartOptions = {
   scales: { y: { min: 0, max: 100 } },
 
   plugins: {
-    legend: false,
+    legend: { display: false },
   },
 };
 
@@ -120,7 +121,7 @@ async function getChartData() {
         datalabels: { display: false },
       },
     ],
-  };
+  } satisfies ChartData;
 }
 
 const chartData = ref<Awaited<ReturnType<typeof getChartData>> | null>(null);
@@ -131,10 +132,5 @@ watchEffect(async () => (chartData.value = await getChartData()));
 </script>
 
 <template>
-  <!-- @todo Tmp any cast used to surpress the type error caused by the plugin options -->
-  <Line
-    v-if="chartData !== null"
-    :options="(chartOptions as any)"
-    :data="(chartData as any)"
-  />
+  <Line v-if="chartData !== null" :options="chartOptions" :data="chartData" />
 </template>

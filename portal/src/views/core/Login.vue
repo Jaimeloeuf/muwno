@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  type AuthError,
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLoader, useUser, useOnboarding } from "../../store";
@@ -42,12 +43,13 @@ async function login() {
 
     if (isOnboarding) router.push({ name: OnboardingRoute.name });
     else router.push({ name: AllProductRoute.name });
-  } catch (error: any) {
+  } catch (e: unknown) {
     // If Login succeeded but initialisation failed, user should be logged out
     // instead of allowing them to access the UI on refreshing the app since the
     // router guard will think that user is authenticated with the cached JWT.
     if (auth.currentUser !== null) await auth.signOut();
 
+    const error = e as AuthError;
     const errorCode = error.code;
     const errorMessage = error.message;
     console.error(errorCode, errorMessage);

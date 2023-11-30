@@ -31,7 +31,7 @@ export class MockMeteringService implements IMeteringService {
     subject: string,
     from?: string,
     to?: string,
-  ): Promise<any> {
+  ) {
     this.logger.debug(
       {
         meterID,
