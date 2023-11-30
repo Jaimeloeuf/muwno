@@ -11,6 +11,7 @@ import {
 } from "../../router";
 import { useOnboarding, useSidedrawer } from "../../store";
 import { flags } from "../../utils/flags";
+import { feedbackLink } from "../../utils/links";
 import { logout } from "../../utils/logout";
 
 const route = useRoute();
@@ -164,6 +165,18 @@ function closeAndLogout() {
       >
         <img src="../../assets/SideDrawerIcon/Help.svg" class="h-6 w-6" />
         <span class="pl-3">Help me!</span>
+      </a>
+
+      <a
+        :href="feedbackLink"
+        target="_blank"
+        class="flex w-full rounded-lg p-2 text-start text-zinc-900"
+      >
+        <img
+          src="../../assets/SideDrawerIcon/Feedback.svg"
+          class="h-5 w-5 pl-0.5"
+        />
+        <span class="ml-4 flex-1">Feedback</span>
       </a>
 
       <button

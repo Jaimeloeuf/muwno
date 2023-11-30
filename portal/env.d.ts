@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_STRIPE_PK: string;
   readonly VITE_LANDING_LINK: string;
   readonly VITE_FORM_LINK: string;
+  readonly VITE_FEEDBACK_LINK: string;
 
   // Firebase config values
   readonly VITE_FB_APIKEY: string;
