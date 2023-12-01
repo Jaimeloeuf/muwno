@@ -31,7 +31,7 @@ async function copy() {
 </script>
 
 <template>
-  <span class="cursor-pointer" @click="copy">
+  <span class="cursor-pointer hover:cursor-pointer" @click="copy">
     <slot></slot>
   </span>
 </template>

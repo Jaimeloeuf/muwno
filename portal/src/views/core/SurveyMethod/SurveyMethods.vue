@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { CustomerRoute, type RouteName } from "../../../router";
-import { ManualEmailBlastRoute, NotFoundRoute } from "../../../router";
+import {
+  ManualEmailBlastRoute,
+  WebsitePopupRoute,
+  NotFoundRoute,
+} from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
 import { flags } from "../../../utils/flags";
@@ -9,6 +13,7 @@ import {
   SurveyMethods,
   SurveyMethodsArray,
   ManualEmailBlast,
+  WebsitePopup,
 } from "@domain-model";
 
 defineProps<{ productID: ProductID }>();
@@ -16,6 +21,7 @@ defineProps<{ productID: ProductID }>();
 /** A mapping of SurveyMethodIDs to Route for that survey method  */
 const routeMap = {
   [ManualEmailBlast.id]: ManualEmailBlastRoute.name,
+  [WebsitePopup.id]: WebsitePopupRoute.name,
 } as const satisfies Record<keyof typeof SurveyMethods, RouteName>;
 </script>
 

@@ -166,6 +166,15 @@ export const ManualEmailBlastRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const WebsitePopupRoute = <const>{
+  name: "survey-methods-website-popup",
+  path: "/survey/methods/:productID/website-popup",
+  props: true,
+  component: () =>
+    import("../views/core/SurveyMethod/WebsitePopup/WebsitePopup.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 /* ========================= Customer Module Routes ========================= */
 
 export const CustomerRoute = <const>{
@@ -284,6 +293,7 @@ export const OrgUsageRoute = <const>{
   AddProductRoute,
   SurveyMethodsRoute,
   ManualEmailBlastRoute,
+  WebsitePopupRoute,
   CustomerRoute,
   ImportCustomerRoute,
   TeamRoute,
