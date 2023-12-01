@@ -51,7 +51,7 @@ async function addProduct() {
           <input
             v-model.trim="name"
             type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 p-4"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-4 focus:outline-none"
             placeholder="For example, Spotify"
             @keydown.enter="addProduct"
           />
@@ -80,7 +80,7 @@ async function addProduct() {
           <textarea
             v-model.trim="description"
             rows="2"
-            class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-4"
+            class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-4 focus:outline-none"
             placeholder="E.g. This 'Facebook' product is used to survey our advertisers."
           >
           </textarea>

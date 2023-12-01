@@ -65,7 +65,7 @@ async function createOrg() {
             <input
               v-model.trim="name"
               type="text"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
               placeholder="Name"
             />
           </label>
@@ -85,7 +85,7 @@ async function createOrg() {
             <input
               v-model.trim="email"
               type="text"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
               placeholder="Organisation Email"
             />
           </label>
@@ -105,7 +105,7 @@ async function createOrg() {
             <input
               v-model.trim="phone"
               type="text"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
               placeholder="Phone Number"
             />
           </label>
@@ -127,7 +127,7 @@ async function createOrg() {
 
             <select
               v-model="selectedOrgSize"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-4"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-4 focus:outline-none"
             >
               <option selected disabled>Choose Estimate</option>
               <option
@@ -160,7 +160,7 @@ async function createOrg() {
             <textarea
               v-model.trim="address"
               rows="3"
-              class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-3 focus:outline-none"
             >
             </textarea>
           </label>

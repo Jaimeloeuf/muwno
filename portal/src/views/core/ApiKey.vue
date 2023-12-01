@@ -95,7 +95,7 @@ const apiKeyDetails = ref(await getApiKeyDetails());
   <div>
     <div
       v-if="showModal && newApiKey !== null"
-      class="fixed left-0 top-0 z-[35] flex h-screen w-screen items-center justify-center bg-black bg-opacity-70 p-4"
+      class="fixed left-0 top-0 z-[35] flex h-screen w-screen items-center justify-center bg-black bg-opacity-90 p-4"
     >
       <div class="flex flex-col rounded-lg bg-white p-6 font-light">
         <p class="pb-2 text-2xl">Copy your API Key</p>

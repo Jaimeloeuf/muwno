@@ -67,7 +67,7 @@ async function updateOrg() {
             <input
               v-model.trim="name"
               type="text"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
               placeholder="Name"
             />
           </label>
@@ -87,7 +87,7 @@ async function updateOrg() {
             <input
               v-model.trim="email"
               type="text"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
               placeholder="Organisation Email"
             />
           </label>
@@ -107,7 +107,7 @@ async function updateOrg() {
             <input
               v-model.trim="phone"
               type="text"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
               placeholder="Phone Number"
             />
           </label>
@@ -129,7 +129,7 @@ async function updateOrg() {
 
             <select
               v-model="selectedOrgSize"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-4"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-4 focus:outline-none"
             >
               <option selected disabled>Choose Estimate</option>
               <option
@@ -162,7 +162,7 @@ async function updateOrg() {
             <textarea
               v-model.trim="address"
               rows="3"
-              class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-3"
+              class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-3 focus:outline-none"
             >
             </textarea>
           </label>

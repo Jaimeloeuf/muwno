@@ -60,7 +60,7 @@ async function invite() {
           <input
             v-model.trim="email"
             type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
             placeholder="janedoe@gmail.com"
           />
         </label>
@@ -84,7 +84,7 @@ async function invite() {
 
           <select
             v-model="selectedRole"
-            class="mt-4 w-full rounded-lg border border-zinc-200 bg-zinc-50 p-4"
+            class="mt-4 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
           >
             <option
               v-for="role in Role"
@@ -126,7 +126,7 @@ async function invite() {
       </div>
 
       <button
-        class="w-full rounded-lg border border-green-600 p-4 text-xl text-green-600"
+        class="w-full rounded-lg border border-green-600 p-3 text-xl text-green-600"
         @click="invite"
       >
         Invite
