@@ -23,17 +23,19 @@ const productStore = useProduct();
 const product = await productStore.getProduct(props.productID);
 
 const surveyLink = getSurveyLink(props.productID);
-const mainFileName = ref("muwnoFeedback.ts");
+const surveyTimeInterval = ref(6.048e8);
+const formFileName = ref("muwnoFeedback.ts");
+const localStorageKey = ref("muwno-form-last-response");
 const mainFile = computed(() =>
-  generateMainFile(mainFileName.value, surveyLink)
+  generateMainFile(formFileName.value, surveyLink, surveyTimeInterval.value)
 );
-const formFile = computed(() => generateFormFile());
+const formFile = computed(() => generateFormFile(localStorageKey.value));
 
 // @todo Using simple hack to reset customisation options by reloading page
 const resetOptions = () => window.location.reload();
 
 const downloadMainFile = () => downloadFile("main.ts", mainFile.value);
-const downloadFormFile = () => downloadFile(mainFileName.value, formFile.value);
+const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
 </script>
 
 <template>
@@ -59,16 +61,51 @@ const downloadFormFile = () => downloadFile(mainFileName.value, formFile.value);
           </button>
         </div>
 
-        <label>
-          <p class="text-lg">File Name</p>
+        <div class="pb-4">
+          <label>
+            <p class="text-lg">Survey time interval in milliseconds</p>
+            <p>How often do you want your customers to do your survey?</p>
 
-          <input
-            v-model.trim="mainFileName"
-            type="text"
-            class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
-            placeholder="File Name"
-          />
-        </label>
+            <input
+              v-model="surveyTimeInterval"
+              type="number"
+              class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+              placeholder="Time in milliseconds"
+            />
+          </label>
+        </div>
+
+        <div class="pb-4">
+          <label>
+            <p class="text-lg">File Name</p>
+
+            <input
+              v-model.trim="formFileName"
+              type="text"
+              class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+              placeholder="File Name"
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            <p class="text-lg">localStorage key</p>
+            <p>
+              Do not change this unless absolutely necessary. Ensure that this
+              key will not clash with any existing or future
+              <span class="rounded-lg bg-zinc-100 px-2">localStorage</span>
+              keys.
+            </p>
+
+            <input
+              v-model.trim="localStorageKey"
+              type="text"
+              class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+              placeholder="muwno-form-last-response"
+            />
+          </label>
+        </div>
       </div>
 
       <hr class="my-12" />
@@ -101,7 +138,7 @@ const downloadFormFile = () => downloadFile(mainFileName.value, formFile.value);
       </div>
 
       <div>
-        <code>./{{ mainFileName }}</code>
+        <code>./{{ formFileName }}</code>
 
         <div class="relative">
           <div class="absolute right-2 top-2 flex flex-row gap-2">
