@@ -5,11 +5,12 @@ import typescript from "highlight.js/lib/languages/typescript";
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 
 import { ref, computed } from "vue";
-import { generateSampleCode } from "./sampleCode";
+import { generateMainFile, generateFormFile } from "./sampleCode";
 import { useProduct } from "../../../../store";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import CopyOnClick from "../../../shared/CopyOnClick.vue";
 import { downloadFile } from "../../../../utils/downloadFile";
+import { getSurveyLink } from "../../../../utils/getSurveyLink";
 import type { ProductID } from "@domain-model";
 
 hljs.registerLanguage("typescript", typescript);
@@ -21,21 +22,26 @@ const productStore = useProduct();
 
 const product = await productStore.getProduct(props.productID);
 
-const fileName = ref("muwnoFeedback.ts");
-const sampleCode = computed(() => generateSampleCode(fileName.value));
+const surveyLink = getSurveyLink(props.productID);
+const mainFileName = ref("muwnoFeedback.ts");
+const mainFile = computed(() =>
+  generateMainFile(mainFileName.value, surveyLink)
+);
+const formFile = computed(() => generateFormFile());
 
 // @todo Using simple hack to reset customisation options by reloading page
 const resetOptions = () => window.location.reload();
 
-const downloadSampleCode = () => downloadFile(fileName.value, sampleCode.value);
+const downloadMainFile = () => downloadFile("main.ts", mainFile.value);
+const downloadFormFile = () => downloadFile(mainFileName.value, formFile.value);
 </script>
 
 <template>
   <div>
     <TopNavbar back>Simple Feature Gating</TopNavbar>
 
-    <div class="mx-auto w-full max-w-4xl">
-      <p class="pb-2 text-2xl">Simple feature gating</p>
+    <div class="mx-auto w-full max-w-4xl font-light">
+      <p class="pb-2 text-3xl">Simple feature gating</p>
       <p class="pb-4 text-lg text-zinc-800">
         You can use <b>muwno</b> to do simple feature gating by ensuring that
         your customer completes the feedback form at a regular interval before
@@ -54,10 +60,10 @@ const downloadSampleCode = () => downloadFile(fileName.value, sampleCode.value);
         </div>
 
         <label>
-          <p>File Name</p>
+          <p class="text-lg">File Name</p>
 
           <input
-            v-model.trim="fileName"
+            v-model.trim="mainFileName"
             type="text"
             class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
             placeholder="File Name"
@@ -67,24 +73,55 @@ const downloadSampleCode = () => downloadFile(fileName.value, sampleCode.value);
 
       <hr class="my-12" />
 
-      <div class="flex flex-row items-center justify-between pb-4">
-        <p class="text-2xl font-thin">Generated Code</p>
-        <button
-          class="rounded-lg border border-zinc-200 bg-zinc-50 p-2"
-          @click="downloadSampleCode"
-        >
-          Download source code
-        </button>
+      <p class="text-2xl font-thin">Generated Code</p>
+      <p class="pb-8 font-extralight">Copy these into your application.</p>
+
+      <div class="pb-8">
+        <p><code>main.ts</code> (Your app's main entry point.)</p>
+
+        <div class="relative">
+          <div class="absolute right-2 top-2 flex flex-row gap-2">
+            <CopyOnClick
+              :textToCopy="mainFile"
+              class="rounded-lg border border-zinc-400 bg-white px-2 py-1 shadow-xl"
+            >
+              Copy
+            </CopyOnClick>
+
+            <button
+              class="rounded-lg border border-zinc-400 bg-white px-2 py-1 shadow-xl"
+              @click="downloadMainFile"
+            >
+              Download
+            </button>
+          </div>
+
+          <highlightjs language="typescript" :code="mainFile" />
+        </div>
       </div>
 
-      <div class="relative">
-        <CopyOnClick
-          :textToCopy="sampleCode"
-          class="absolute right-2 top-2 rounded-lg border border-zinc-400 bg-white px-4 py-1 shadow-xl"
-        >
-          copy
-        </CopyOnClick>
-        <highlightjs language="typescript" :code="sampleCode" />
+      <div>
+        <code>./{{ mainFileName }}</code>
+
+        <div class="relative">
+          <div class="absolute right-2 top-2 flex flex-row gap-2">
+            <CopyOnClick
+              :textToCopy="formFile"
+              class="rounded-lg border border-zinc-400 bg-white px-2 py-1 shadow-xl"
+            >
+              Copy
+            </CopyOnClick>
+
+            <button
+              class="rounded-lg border border-zinc-400 bg-white px-2 py-1 shadow-xl"
+              @click="downloadFormFile"
+            >
+              Download
+            </button>
+          </div>
+
+          <highlightjs language="typescript" :code="formFile" />
+        </div>
       </div>
     </div>
   </div>
