@@ -23,6 +23,17 @@ const wordCloudOptions: Partial<IWordElementOptions> = {
   rotationSteps: 0,
   tooltips: { enabled: false },
   hover: { mode: null },
+
+  // Disable all the plugins to make the word cloud look seamless.
+  // The reason why these plugins are enabled is because in the PMF Score line
+  // Chart, the plugins like Tooltip and Datalabels are enabled, which carries
+  // over to all other use of Chart.js which is why it need to be manually
+  // disabled over here for the word cloud.
+  plugins: {
+    tooltip: { enabled: false },
+    legend: { display: false },
+    datalabels: { display: false },
+  },
 };
 
 /**
