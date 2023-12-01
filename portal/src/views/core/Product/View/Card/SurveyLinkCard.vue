@@ -3,12 +3,11 @@ import { ref } from "vue";
 import QRCode, { type QRCodeToDataURLOptions } from "qrcode";
 import type { Product } from "@domain-model";
 import CopyOnClick from "../../../../shared/CopyOnClick.vue";
-import { formLink } from "../../../../../utils/links";
+import { getSurveyLink } from "../../../../../utils/getSurveyLink";
 
 const props = defineProps<{ product: Product }>();
 
-const surveyLink = `${formLink}/#/pmf/${props.product.id}`;
-
+const surveyLink = getSurveyLink(props.product.id);
 const showModal = ref<boolean>(false);
 const imageDataUrl = ref<string | null>(null);
 
