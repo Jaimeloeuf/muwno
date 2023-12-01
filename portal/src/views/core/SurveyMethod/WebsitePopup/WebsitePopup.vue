@@ -19,11 +19,27 @@ const highlightjs = hljsVuePlugin.component;
 const props = defineProps<{ productID: ProductID }>();
 
 const productStore = useProduct();
-
 const product = await productStore.getProduct(props.productID);
 
-const surveyLink = getSurveyLink(props.productID);
-const surveyTimeInterval = ref(6.048e8);
+enum IntervalType {
+  day = "day",
+  week = "week",
+  month = "month",
+}
+const intervalTypeToMillisecondsMap = {
+  [IntervalType.day]: 8.64e7,
+  [IntervalType.week]: 6.048e8,
+  [IntervalType.month]: 2.628e9,
+};
+
+const intervals = ref<number>(1);
+const selectedIntervalType = ref<IntervalType>(IntervalType.week);
+const surveyTimeInterval = computed(
+  () =>
+    intervals.value * intervalTypeToMillisecondsMap[selectedIntervalType.value]
+);
+
+const surveyLink = getSurveyLink(product.id);
 const formFileName = ref("muwnoFeedback.ts");
 const localStorageKey = ref("muwno-form-last-response");
 const mainFile = computed(() =>
@@ -44,15 +60,17 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
 
     <div class="mx-auto w-full max-w-4xl font-light">
       <p class="pb-2 text-3xl">Simple feature gating</p>
-      <p class="pb-4 text-lg text-zinc-800">
+      <p class="text-lg text-zinc-800">
         You can use <b>muwno</b> to do simple feature gating by ensuring that
         your customer completes the feedback form at a regular interval before
         they can use your product / feature.
       </p>
 
-      <div class="font-light">
-        <div class="flex flex-row items-center justify-between">
-          <p class="text-xl">Options</p>
+      <hr class="my-8" />
+
+      <div>
+        <div class="flex flex-row items-center justify-between pb-2">
+          <p class="text-2xl">Options</p>
           <button
             class="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-1"
             @click="resetOptions"
@@ -61,21 +79,38 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
           </button>
         </div>
 
-        <div class="pb-4">
+        <div class="pb-3">
           <label>
-            <p class="text-lg">Survey time interval in milliseconds</p>
-            <p>How often do you want your customers to do your survey?</p>
+            <p class="text-lg">
+              How often do you want your customers to do your survey?
+            </p>
 
-            <input
-              v-model="surveyTimeInterval"
-              type="number"
-              class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
-              placeholder="Time in milliseconds"
-            />
+            <div class="relative">
+              <input
+                v-model="intervals"
+                type="number"
+                class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+                min="1"
+              />
+
+              <select
+                v-model="selectedIntervalType"
+                class="absolute inset-y-0 right-0 rounded-r-lg border border-l-zinc-100 bg-zinc-100 px-8 focus:outline-none"
+              >
+                <option
+                  v-for="intervalType in IntervalType"
+                  :key="intervalType"
+                  :value="intervalType"
+                  :selected="intervalType === selectedIntervalType"
+                >
+                  {{ intervalType }}
+                </option>
+              </select>
+            </div>
           </label>
         </div>
 
-        <div class="pb-4">
+        <div class="pb-3">
           <label>
             <p class="text-lg">File Name</p>
 
@@ -110,8 +145,8 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
 
       <hr class="my-12" />
 
-      <p class="text-2xl font-thin">Generated Code</p>
-      <p class="pb-8 font-extralight">Copy these into your application.</p>
+      <p class="text-2xl">Generated Code</p>
+      <p class="pb-8">Copy these into your application.</p>
 
       <div class="pb-8">
         <p><code>main.ts</code> (Your app's main entry point.)</p>
