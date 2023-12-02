@@ -106,69 +106,61 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
   <div>
     <TopNavbar back>Simple Feature Gating</TopNavbar>
 
-    <div
-      class="flex flex-col justify-between gap-8 xl:flex-row xl:pt-4 2xl:gap-12"
-    >
-      <div class="mx-auto w-full max-w-4xl font-light">
+    <div class="flex flex-col justify-between gap-8 xl:flex-row xl:pt-4">
+      <div class="mx-auto w-full max-w-3xl font-light xl:max-w-xl">
         <p class="pb-2 text-3xl">Simple feature gating</p>
-        <p class="text-lg text-zinc-800">
+        <p class="pb-4 text-lg text-zinc-800">
           You can use <b>muwno</b> to do simple feature gating by ensuring that
           your customer completes the feedback form at a regular interval before
           they can use your product / feature.
         </p>
 
+        <p class="text-lg text-zinc-800">UX Flow</p>
+        <ol class="list-decimal px-5 pb-2 text-lg">
+          <li>
+            Check for time of last survey response locally cached in
+            localStorage.
+          </li>
+          <li>
+            If time of last survey response is older than the survey interval
+            being set (e.g. once a week), redirect to the feedback form for user
+            to submit their feedback.
+          </li>
+          <li>
+            Once user submits their feedback, they will be redirected back to
+            the URL configured below with the success indicator
+            <code class="italic">muwno-form-submitted=true</code> in the URL
+            query params.
+          </li>
+        </ol>
+
         <hr class="my-8" />
 
-        <div>
-          <div class="flex flex-row items-center justify-between pb-2">
-            <p class="text-2xl">Options</p>
-            <button
-              class="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-1"
-              @click="resetOptions"
-            >
-              Reset
-            </button>
-          </div>
+        <div class="flex flex-row items-center justify-between pb-4">
+          <p class="text-2xl">Options</p>
+          <button
+            class="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-1"
+            @click="resetOptions"
+          >
+            Reset
+          </button>
+        </div>
 
-          <div class="pb-3">
+        <div class="flex flex-col gap-6">
+          <div>
             <label>
-              <p class="text-lg">
-                How often do you want your customers to do your survey?
+              <p class="text-lg font-normal">
+                Redirect Link <span class="text-red-600">*</span>
               </p>
-
-              <div class="relative">
-                <input
-                  v-model="intervals"
-                  type="number"
-                  class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
-                  min="1"
-                />
-
-                <select
-                  v-model="selectedIntervalType"
-                  class="absolute inset-y-0 right-0 rounded-r-lg border border-l-zinc-100 bg-zinc-100 px-8 focus:outline-none"
-                >
-                  <option
-                    v-for="intervalType in IntervalType"
-                    :key="intervalType"
-                    :value="intervalType"
-                    :selected="intervalType === selectedIntervalType"
-                  >
-                    {{ intervalType }}
-                  </option>
-                </select>
-              </div>
-            </label>
-          </div>
-
-          <div class="pb-3">
-            <label>
-              <p class="text-lg">Redirect Link</p>
-              <p>
-                Once the feedback form is completed, users will be redirected to
-                this link if it is provided.
-              </p>
-              <p>Write full URL including the <code>https</code> scheme</p>
+              <ol class="list-decimal px-5">
+                <li>
+                  Once the feedback form is completed, users will be redirected
+                  back to this link with the success indicator
+                  <code class="italic">muwno-form-submitted=true</code> in the
+                  URL query params.
+                </li>
+                <li>Write full URL including the <code>https</code> scheme</li>
+              </ol>
 
               <input
                 v-model.trim="redirectLink"
@@ -182,15 +174,48 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
             </label>
           </div>
 
-          <div class="pb-3">
-            <p class="text-lg">Alert user before redirect?</p>
+          <div>
+            <label>
+              <p class="text-lg font-normal">Survey Interval</p>
+              <p>How often do you want to survey your customers?</p>
+
+              <div class="flex flex-row items-center gap-2">
+                <p class="text-xl font-extralight">Every</p>
+                <div class="relative w-full">
+                  <input
+                    v-model="intervals"
+                    type="number"
+                    class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+                    min="1"
+                  />
+
+                  <select
+                    v-model="selectedIntervalType"
+                    class="absolute inset-y-0 right-0 rounded-r-lg border border-l-zinc-100 bg-zinc-100 px-8 focus:outline-none"
+                  >
+                    <option
+                      v-for="intervalType in IntervalType"
+                      :key="intervalType"
+                      :value="intervalType"
+                      :selected="intervalType === selectedIntervalType"
+                    >
+                      {{ intervalType }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <p class="text-lg font-normal">Alert user before redirect?</p>
             <p>
               Users will see an alert popup notifying them that they will be
               redirected to complete a feedback form before they can continue
               using your application.
             </p>
 
-            <div class="flex flex-row items-center justify-between gap-4">
+            <div class="flex flex-row items-center justify-between gap-4 pt-2">
               <button
                 class="w-full rounded-lg border p-1"
                 :class="{ 'bg-zinc-200': alertUser }"
@@ -207,18 +232,20 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
               </button>
             </div>
 
-            <textarea
-              v-if="alertUser"
-              v-model.trim="alertMessage"
-              class="mt-4 w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
-              rows="2"
-              placeholder="Message to show in the alert popup..."
-            ></textarea>
+            <div v-if="alertUser" class="pt-2">
+              <p>Alert message</p>
+              <textarea
+                v-model.trim="alertMessage"
+                class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+                rows="2"
+                placeholder="Message to show in the alert popup..."
+              ></textarea>
+            </div>
           </div>
 
-          <div class="pb-3">
+          <div>
             <label>
-              <p class="text-lg">File Name</p>
+              <p class="text-lg font-normal">File Name</p>
 
               <input
                 v-model.trim="formFileName"
@@ -231,7 +258,7 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
 
           <div>
             <label>
-              <p class="text-lg">localStorage key</p>
+              <p class="text-lg font-normal">localStorage key</p>
               <p>
                 Do not change this unless absolutely necessary. Ensure that this
                 key will not clash with any existing or future
