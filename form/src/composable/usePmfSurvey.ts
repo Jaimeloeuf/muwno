@@ -28,7 +28,9 @@ export async function usePmfSurvey(formID: string) {
       res.status === 401 &&
       res.data.message.toLowerCase().includes("recaptcha")
     )
-      throw new Error("Please try again later, Recaptcha verification failed.");
+      throw new Error(
+        "😅 Oops, Google's recaptcha thinks that you are a dangerous robot, please try again later?"
+      );
     if (res.status === 404) throw new Error("404, Invalid feedback form link");
 
     throw new Error("Failed to load feedback form!");
