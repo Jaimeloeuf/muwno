@@ -30,11 +30,10 @@ onUnmounted(() => clearTimeout(timeoutID));
 
     <div v-if="redirectLink !== null" class="pt-12 font-light">
       <p class="pb-8 text-lg">
-        Redirecting to
+        Redirecting in 5 seconds to
         <a :href="redirectLink" class="italic underline decoration-zinc-400">
           {{ redirectLink }}
         </a>
-        in 5 seconds
       </p>
 
       <a
