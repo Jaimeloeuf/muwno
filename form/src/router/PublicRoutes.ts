@@ -31,5 +31,6 @@ export const PmfSurveyRoute = <const>{
 export const PmfSurveySubmittedRoute = <const>{
   name: "survey-pmf-submitted",
   path: "/pmf/form/submitted",
+  props: (route: RouteLocationNormalized) => route.query,
   component: () => import("../views/survey/pmf/Submitted.vue"),
 };

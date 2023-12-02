@@ -5,7 +5,11 @@ import { usePmfSurvey } from "../../../composable";
 import { landingLink } from "../../../utils/links";
 import GrowableTextarea from "../../shared/GrowableTextarea.vue";
 
-const props = defineProps<{ formID: string; defaultA1?: string }>();
+const props = defineProps<{
+  formID: string;
+  redirect?: string;
+  defaultA1?: string;
+}>();
 
 const router = useRouter();
 
@@ -31,7 +35,10 @@ async function submit() {
   // user's happy path and associating the product with errors.
   submitForm();
 
-  router.push({ name: PmfSurveySubmittedRoute.name });
+  router.push({
+    name: PmfSurveySubmittedRoute.name,
+    query: { redirect: props.redirect },
+  });
 }
 </script>
 
