@@ -13,6 +13,8 @@ import { downloadFile } from "../../../../utils/downloadFile";
 import { getSurveyLink } from "../../../../utils/getSurveyLink";
 import type { ProductID } from "@domain-model";
 
+// Hardcoding to TS since code generation only supports TS/JS, and HLJS's TS
+// theme can highlight both as the JS is just TS with implicitly inferred types.
 hljs.registerLanguage("typescript", typescript);
 const highlightjs = hljsVuePlugin.component;
 
@@ -82,24 +84,46 @@ const alertMessage = ref(
   "Please complete a feedback form before you can continue using the application."
 );
 
-const formFileName = ref("muwnoFeedback.ts");
+const selectedLanguage = ref<"TypeScript" | "JavaScript">("TypeScript");
+const languageFileExtension: Record<
+  (typeof selectedLanguage)["value"],
+  string
+> = {
+  TypeScript: ".ts",
+  JavaScript: ".js",
+};
+
+const mainFileName = computed(
+  () => `main${languageFileExtension[selectedLanguage.value]}`
+);
+const formFileName = ref("muwnoFeedback");
+const fullFormFileName = computed(
+  () => `${formFileName.value}${languageFileExtension[selectedLanguage.value]}`
+);
+
 const localStorageKey = ref("muwno-form-last-response");
 const mainFile = computed(() =>
   generateMainFile(
-    formFileName.value,
+    fullFormFileName.value,
     surveyLink.value,
     surveyTimeInterval.value
   )
 );
 const formFile = computed(() =>
-  generateFormFile(localStorageKey.value, alertUser.value, alertMessage.value)
+  generateFormFile(
+    selectedLanguage.value === "TypeScript",
+    localStorageKey.value,
+    alertUser.value,
+    alertMessage.value
+  )
 );
 
 // @todo Using simple hack to reset customisation options by reloading page
 const resetOptions = () => window.location.reload();
 
-const downloadMainFile = () => downloadFile("main.ts", mainFile.value);
-const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
+const downloadMainFile = () => downloadFile(mainFileName.value, mainFile.value);
+const downloadFormFile = () =>
+  downloadFile(fullFormFileName.value, formFile.value);
 </script>
 
 <template>
@@ -111,8 +135,8 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
         <p class="pb-2 text-3xl">Simple feature gating</p>
         <p class="pb-4 text-lg text-zinc-800">
           You can use <b>muwno</b> to do simple feature gating by ensuring that
-          your customer completes the feedback form at a regular interval before
-          they can use your product / feature.
+          your customer completes the feedback form at a regular intervals
+          before they can use your product / feature.
         </p>
 
         <p class="text-lg text-zinc-800">UX Flow</p>
@@ -155,11 +179,41 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
 
         <div class="flex flex-col gap-6">
           <div>
+            <p class="text-lg font-normal">Your application's language</p>
+            <p class="pb-2">
+              Only supports TS/JS for now, If you would like us to support other
+              languages, email
+              <a
+                href="mailto:help@muwno.com"
+                class="italic underline decoration-zinc-400"
+                >help@muwno.com</a
+              >
+            </p>
+
+            <select
+              v-model="selectedLanguage"
+              class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2 focus:outline-none"
+            >
+              <option
+                v-for="language in (['TypeScript', 'JavaScript'] as const)"
+                :key="language"
+                :value="language"
+                :selected="language === selectedLanguage"
+              >
+                {{ language }}
+                <template v-if="language === 'TypeScript'">
+                  (recommended)
+                </template>
+              </option>
+            </select>
+          </div>
+
+          <div>
             <label>
               <p class="text-lg font-normal">
                 Redirect Link <span class="text-red-600">*</span>
               </p>
-              <ol class="list-decimal px-5">
+              <ol class="list-decimal px-5 pb-2">
                 <li>
                   Once the feedback form is completed, users will be redirected
                   back to this link with the success indicator
@@ -266,7 +320,7 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
           <div>
             <label>
               <p class="text-lg font-normal">localStorage key</p>
-              <p>
+              <p class="pb-2">
                 Do not change this unless absolutely necessary. Ensure that this
                 key will not clash with any existing or future
                 <span class="rounded-lg bg-zinc-100 px-2">localStorage</span>
@@ -286,10 +340,20 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
 
       <div class="mx-auto w-full max-w-4xl font-light">
         <p class="text-2xl">Generated Code</p>
-        <p class="pb-4">Copy these into your application.</p>
+        <p class="pb-4">
+          Copy these into your application. If you need help, email
+          <a
+            href="mailto:help@muwno.com"
+            class="italic underline decoration-zinc-400"
+            >help@muwno.com</a
+          >
+        </p>
 
         <div class="pb-8">
-          <p><code>main.ts</code> (Your app's main entry point.)</p>
+          <p>
+            <code>{{ mainFileName }}</code>
+            (Your app's main entry point.)
+          </p>
 
           <div class="relative">
             <div class="absolute right-2 top-2 flex flex-row gap-2">
@@ -313,7 +377,7 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
         </div>
 
         <div>
-          <code>./{{ formFileName }}</code>
+          <code>./{{ fullFormFileName }}</code>
 
           <div class="relative">
             <div class="absolute right-2 top-2 flex flex-row gap-2">

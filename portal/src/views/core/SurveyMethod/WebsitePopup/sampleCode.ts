@@ -14,6 +14,7 @@ openForm('${surveyLink}', ${surveyTimeInterval});
 // Initialise your app here...`;
 
 export const generateFormFile = (
+  isTypescript: boolean,
   localStorageKey: string,
   alertUser: boolean,
   alertMessage: string
@@ -28,13 +29,13 @@ export function openForm(
    * Link to the feedback form. You can get this from the https://muwno.com
    * dashboard.
    */
-  formLink: string,
+  formLink${isTypescript ? ": string" : ""},
 
   /**
    * Time in milliseconds for how often you want to survey your customers. E.g.
    * \`6.048e8\` milliseconds for 1 week.
    */
-  feedbackIntervalTime: number
+  feedbackIntervalTime${isTypescript ? ": number" : ""}
 ) {
   // Create cut-off date as ISO DateTime String using \`feedbackIntervalTime\`.
   const cutOffDate = new Date(Date.now() - feedbackIntervalTime).toISOString();
