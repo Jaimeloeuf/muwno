@@ -122,6 +122,13 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
             localStorage.
           </li>
           <li>
+            If there is no last response time cached locally, i.e. the user's
+            first time using the app, cache the current time as the 'last
+            response time', so that the first time you survey your users is
+            after they have used your app for at least a period of time longer
+            than what is set as the survey interval time period.
+          </li>
+          <li>
             If time of last survey response is older than the survey interval
             being set (e.g. once a week), redirect to the feedback form for user
             to submit their feedback.

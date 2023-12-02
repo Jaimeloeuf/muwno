@@ -43,9 +43,16 @@ export function openForm(
   // You can choose to load this from an API too.
   const muwnoFormResponseTime = localStorage.getItem('${localStorageKey}');
 
-  // If user has never responded to the survey before.
-  // OR if the last response is older than the cut off date.
-  if (muwnoFormResponseTime === null || muwnoFormResponseTime < cutOffDate) {
+  // If user has never responded to the survey before, i.e. user's first time
+  // using the app, cache current time as 'last response time' so that the first
+  // time you survey your users is after they have used your app for at least a
+  // period of time longer than what is set as the survey interval time period.
+  if (muwnoFormResponseTime === null) {
+    localStorage.setItem('${localStorageKey}', new Date().toISOString());
+  }
+
+  // Else if last response time is older than the cut off date.
+  else if (muwnoFormResponseTime < cutOffDate) {
     // Save current time as last response first to ensure that the form will not
     // open on every single call to this function if form opening fails.
     localStorage.setItem('${localStorageKey}', new Date().toISOString());
