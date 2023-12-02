@@ -77,6 +77,11 @@ const surveyLink = computed(() =>
     : getSurveyLink(product.id)
 );
 
+const alertUser = ref(true);
+const alertMessage = ref(
+  "Please complete a feedback form before you can continue using the application."
+);
+
 const formFileName = ref("muwnoFeedback.ts");
 const localStorageKey = ref("muwno-form-last-response");
 const mainFile = computed(() =>
@@ -86,7 +91,9 @@ const mainFile = computed(() =>
     surveyTimeInterval.value
   )
 );
-const formFile = computed(() => generateFormFile(localStorageKey.value));
+const formFile = computed(() =>
+  generateFormFile(localStorageKey.value, alertUser.value, alertMessage.value)
+);
 
 // @todo Using simple hack to reset customisation options by reloading page
 const resetOptions = () => window.location.reload();
@@ -173,6 +180,40 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
                 placeholder="Redirect here"
               />
             </label>
+          </div>
+
+          <div class="pb-3">
+            <p class="text-lg">Alert user before redirect?</p>
+            <p>
+              Users will see an alert popup notifying them that they will be
+              redirected to complete a feedback form before they can continue
+              using your application.
+            </p>
+
+            <div class="flex flex-row items-center justify-between gap-4">
+              <button
+                class="w-full rounded-lg border p-1"
+                :class="{ 'bg-zinc-200': alertUser }"
+                @click="alertUser = !alertUser"
+              >
+                show
+              </button>
+              <button
+                class="w-full rounded-lg border p-1"
+                :class="{ 'bg-zinc-200': !alertUser }"
+                @click="alertUser = !alertUser"
+              >
+                hide
+              </button>
+            </div>
+
+            <textarea
+              v-if="alertUser"
+              v-model.trim="alertMessage"
+              class="mt-4 w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+              rows="2"
+              placeholder="Message to show in the alert popup..."
+            ></textarea>
           </div>
 
           <div class="pb-3">
