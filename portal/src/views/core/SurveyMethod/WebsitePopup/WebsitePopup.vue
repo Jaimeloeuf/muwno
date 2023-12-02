@@ -39,11 +39,52 @@ const surveyTimeInterval = computed(
     intervals.value * intervalTypeToMillisecondsMap[selectedIntervalType.value]
 );
 
-const surveyLink = getSurveyLink(product.id);
+const redirectLink = ref("");
+const isRedirectLinkValid = computed(() => {
+  try {
+    new URL(redirectLink.value);
+    return true;
+  } catch (_) {
+    return false;
+  }
+});
+
+/**
+ * Get the redirect link user entered with a Query param attached to it for
+ * their app to detect on redirect that the redirect is from muwno, and not just
+ * opened directly or anywhere else.
+ */
+function getRedirectLink() {
+  const url = new URL(redirectLink.value);
+
+  // Create new query params by merging any existing query params in the URL
+  const newQueryParams = new URLSearchParams([
+    // This is set first so that it can be overwritten as needed with the user's
+    // own Query params.
+    ["muwno-form-submitted", "true"],
+    ...Array.from(url.searchParams.entries()),
+  ]).toString();
+
+  return `${url.origin}${url.pathname}?${newQueryParams}`;
+}
+
+// Only include the redirect link if it is valid
+const surveyLink = computed(() =>
+  isRedirectLinkValid.value
+    ? `${getSurveyLink(product.id)}?redirect=${encodeURIComponent(
+        getRedirectLink()
+      )}`
+    : getSurveyLink(product.id)
+);
+
 const formFileName = ref("muwnoFeedback.ts");
 const localStorageKey = ref("muwno-form-last-response");
 const mainFile = computed(() =>
-  generateMainFile(formFileName.value, surveyLink, surveyTimeInterval.value)
+  generateMainFile(
+    formFileName.value,
+    surveyLink.value,
+    surveyTimeInterval.value
+  )
 );
 const formFile = computed(() => generateFormFile(localStorageKey.value));
 
@@ -110,6 +151,27 @@ const downloadFormFile = () => downloadFile(formFileName.value, formFile.value);
                   </option>
                 </select>
               </div>
+            </label>
+          </div>
+
+          <div class="pb-3">
+            <label>
+              <p class="text-lg">Redirect Link</p>
+              <p>
+                Once the feedback form is completed, users will be redirected to
+                this link if it is provided.
+              </p>
+              <p>Write full URL including the <code>https</code> scheme</p>
+
+              <input
+                v-model.trim="redirectLink"
+                type="text"
+                class="w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+                :class="{
+                  'bg-red-100': redirectLink !== '' && !isRedirectLinkValid,
+                }"
+                placeholder="Redirect here"
+              />
             </label>
           </div>
 
