@@ -3,7 +3,7 @@ import type { SurveyMethod } from '../SurveyMethod.js';
 export const AutoSmsBlast: SurveyMethod = {
   unimplemented: true,
 
-  id: 5,
+  id: 'sms-auto',
   name: 'Automatic SMS Blasts',
   productTypes: ['Software as a Service (SaaS)'],
   productExamples: ['Spotify', 'Netflix', 'Instagram'],

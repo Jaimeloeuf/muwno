@@ -1,7 +1,7 @@
 import type { SurveyMethod } from '../SurveyMethod.js';
 
 export const WebsitePopup: SurveyMethod = {
-  id: 3,
+  id: 'website-popup',
   name: 'Website Popups with our SDK',
   productTypes: ['Software as a Service (SaaS)'],
   productExamples: ['Spotify', 'Netflix', 'Instagram'],

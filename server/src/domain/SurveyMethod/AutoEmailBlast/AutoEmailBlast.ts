@@ -3,7 +3,7 @@ import type { SurveyMethod } from '../SurveyMethod.js';
 export const AutoEmailBlast: SurveyMethod = {
   unimplemented: true,
 
-  id: 2,
+  id: 'email-auto',
   name: 'Automatic Email Blasts',
   productTypes: ['Software as a Service (SaaS)'],
   productExamples: ['Spotify', 'Netflix', 'Instagram'],

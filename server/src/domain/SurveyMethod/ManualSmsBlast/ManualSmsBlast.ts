@@ -6,7 +6,7 @@ import type { SurveyMethod } from '../SurveyMethod.js';
 export const ManualSmsBlast: SurveyMethod = {
   unimplemented: true,
 
-  id: 4,
+  id: 'sms-manual',
   name: 'Manual SMS Blasts',
   productTypes: ['Software as a Service (SaaS)', 'Physical Product or Service'],
   productExamples: ['Spotify', 'Netflix', 'Instagram'],

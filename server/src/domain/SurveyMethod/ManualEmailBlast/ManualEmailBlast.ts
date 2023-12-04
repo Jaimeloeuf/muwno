@@ -1,7 +1,7 @@
 import type { SurveyMethod } from '../SurveyMethod.js';
 
 export const ManualEmailBlast: SurveyMethod = {
-  id: 1,
+  id: 'email-manual',
   name: 'Manual Email Blasts',
   productTypes: ['Software as a Service (SaaS)', 'Physical Product or Service'],
   productExamples: ['Spotify', 'Netflix', 'Instagram'],
