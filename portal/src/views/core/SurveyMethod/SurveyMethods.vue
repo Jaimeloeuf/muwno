@@ -2,7 +2,7 @@
 import { CustomerRoute, type RouteName } from "../../../router";
 import {
   ManualEmailBlastRoute,
-  WebsitePopupRoute,
+  FeatureGatingRoute,
   NotFoundRoute,
 } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
@@ -12,6 +12,7 @@ import {
   type ProductID,
   SurveyMethods,
   SurveyMethodsArray,
+  FeatureGating,
   ManualEmailBlast,
 } from "@domain-model";
 
@@ -19,6 +20,7 @@ defineProps<{ productID: ProductID }>();
 
 /** A mapping of SurveyMethodIDs to Route for that survey method  */
 const routeMap = {
+  [FeatureGating.id]: FeatureGatingRoute.name,
   [ManualEmailBlast.id]: ManualEmailBlastRoute.name,
 } as const satisfies Record<keyof typeof SurveyMethods, RouteName>;
 </script>

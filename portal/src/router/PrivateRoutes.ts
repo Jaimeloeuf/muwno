@@ -157,21 +157,21 @@ export const SurveyMethodsRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const FeatureGatingRoute = <const>{
+  name: "survey-methods-feature-gating",
+  path: "/survey/methods/:productID/feature-gating",
+  props: true,
+  component: () =>
+    import("../views/core/SurveyMethod/FeatureGating/FeatureGating.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const ManualEmailBlastRoute = <const>{
   name: "survey-methods-email-manual",
   path: "/survey/methods/:productID/email/manual",
   props: true,
   component: () =>
     import("../views/core/SurveyMethod/ManualEmailBlast/ManualEmailBlast.vue"),
-  meta: { AuthRequirements: AuthType.Private },
-};
-
-export const WebsitePopupRoute = <const>{
-  name: "survey-methods-website-popup",
-  path: "/survey/methods/:productID/website-popup",
-  props: true,
-  component: () =>
-    import("../views/core/SurveyMethod/WebsitePopup/WebsitePopup.vue"),
   meta: { AuthRequirements: AuthType.Private },
 };
 
@@ -292,8 +292,8 @@ export const OrgUsageRoute = <const>{
   SurveyStatsRoute,
   AddProductRoute,
   SurveyMethodsRoute,
+  FeatureGatingRoute,
   ManualEmailBlastRoute,
-  WebsitePopupRoute,
   CustomerRoute,
   ImportCustomerRoute,
   TeamRoute,

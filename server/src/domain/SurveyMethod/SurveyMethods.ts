@@ -1,5 +1,6 @@
 import type { SurveyMethod } from './SurveyMethod.js';
 
+import { FeatureGating } from './FeatureGating/FeatureGating.js';
 import { ManualEmailBlast } from './ManualEmailBlast/ManualEmailBlast.js';
 import { WebsitePopup } from './WebsitePopup/WebsitePopup.js';
 import { AutoEmailBlast } from './AutoEmailBlast/AutoEmailBlast.js';
@@ -10,6 +11,7 @@ import { AutoSmsBlast } from './AutoSmsBlast/AutoSmsBlast.js';
  * Re-export all of this
  */
 export {
+  FeatureGating,
   ManualEmailBlast,
   WebsitePopup,
   AutoEmailBlast,
@@ -21,6 +23,7 @@ export {
  * A mapping of `SurveyMethod['id']` to `SurveyMethod`
  */
 export const SurveyMethods = {
+  [FeatureGating.id]: FeatureGating,
   [ManualEmailBlast.id]: ManualEmailBlast,
   [WebsitePopup.id]: WebsitePopup,
   [AutoEmailBlast.id]: AutoEmailBlast,
@@ -32,6 +35,7 @@ export const SurveyMethods = {
  * Array of all the survey methods in a fixed order to show users.
  */
 export const SurveyMethodsArray: Array<SurveyMethod> = [
+  FeatureGating,
   ManualEmailBlast,
   WebsitePopup,
   AutoEmailBlast,

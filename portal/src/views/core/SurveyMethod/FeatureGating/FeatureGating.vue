@@ -81,7 +81,7 @@ const surveyLink = computed(() =>
 
 const alertUser = ref(true);
 const alertMessage = ref(
-  "Please complete a feedback form before you can continue using the application."
+  "Please complete a feedback form before you can continue using the Feature."
 );
 
 const selectedLanguage = ref<"TypeScript" | "JavaScript">("TypeScript");
@@ -128,15 +128,15 @@ const downloadFormFile = () =>
 
 <template>
   <div>
-    <TopNavbar back>Simple Feature Gating</TopNavbar>
+    <TopNavbar back>Feature Gating</TopNavbar>
 
     <div class="flex flex-col justify-between gap-8 xl:flex-row xl:pt-4">
       <div class="mx-auto w-full max-w-3xl font-light xl:max-w-xl">
         <p class="pb-2 text-3xl">Simple feature gating</p>
         <p class="pb-4 text-lg text-zinc-800">
-          You can use <b>muwno</b> to do simple feature gating by ensuring that
-          your customer completes the feedback form at a regular intervals
-          before they can use your product / feature.
+          You can use <b>muwno</b> to do simple product / feature gating by
+          ensuring that your customer completes the feedback form at a regular
+          intervals before they can use your product / feature.
         </p>
 
         <p class="text-lg text-zinc-800">UX Flow</p>
@@ -273,7 +273,7 @@ const downloadFormFile = () =>
             <p>
               Users will see an alert popup notifying them that they will be
               redirected to complete a feedback form before they can continue
-              using your application.
+              using your application or the selected feature.
             </p>
 
             <div class="flex flex-row items-center justify-between gap-4 pt-2">
