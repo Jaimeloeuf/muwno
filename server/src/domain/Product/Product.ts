@@ -10,6 +10,17 @@ export type Product = {
   id: string;
   createdAt: ISODateTimeString;
   name: string;
+
+  /**
+   * Product's link where users will be redirected to by default after
+   * completing any surveys associated with this product.
+   */
+  link: string | null;
+
+  /**
+   * Internal description of the product to help users distinguish between
+   * multiple products of the same name.
+   */
   description: string;
 };
 

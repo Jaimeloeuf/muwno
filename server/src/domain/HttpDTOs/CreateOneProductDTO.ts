@@ -5,5 +5,6 @@ import type { Product } from '../Product/index.js';
  */
 export type CreateOneProductDTO = {
   name: Product['name'];
+  link: Product['link'];
   description: Product['description'];
 };

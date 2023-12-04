@@ -12,6 +12,7 @@ const notif = useNotif();
 
 const product = ref(await productStore.getProduct(props.productID));
 const name = ref(product.value.name);
+const link = ref(product.value.link);
 const description = ref(product.value.description);
 
 const isChanged = computed(
@@ -39,6 +40,7 @@ async function saveChanges() {
   await productStore.updateProduct(
     product.value.id,
     name.value,
+    link.value === "" ? null : link.value,
     description.value
   );
   product.value = await productStore.getProduct(props.productID);

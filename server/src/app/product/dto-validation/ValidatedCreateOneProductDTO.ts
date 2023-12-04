@@ -1,5 +1,11 @@
 import type { CreateOneProductDTO } from 'domain-model';
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 
 /**
  * The TS not null assertion operator is used as these are supposed to be
@@ -10,6 +16,11 @@ export class ValidatedCreateOneProductDTO implements CreateOneProductDTO {
   @MaxLength(200)
   @IsNotEmpty()
   readonly name!: string;
+
+  @IsOptional()
+  @IsUrl()
+  @MaxLength(2048)
+  readonly link!: string | null;
 
   @IsString()
   @MaxLength(500)

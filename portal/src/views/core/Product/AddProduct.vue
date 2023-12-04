@@ -10,6 +10,7 @@ const productStore = useProduct();
 const loader = useLoader();
 
 const name = ref<string>("");
+const link = ref<string>("");
 const description = ref<string>("");
 
 async function addProduct() {
@@ -29,6 +30,7 @@ async function addProduct() {
 
   const { id } = await productStore.createNewProduct(
     name.value,
+    link.value === "" ? null : link.value,
     description.value
   );
 
