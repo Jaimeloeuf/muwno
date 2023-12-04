@@ -43,11 +43,11 @@ defineProps<{
 
     <Accordion>
       <template #summary>
-        <p class="text-left text-xl">Useful for these Product Types</p>
+        <p class="text-left text-lg">Useful for these Product Types</p>
       </template>
 
       <template #content>
-        <ul class="list-decimal px-5 pb-2 text-lg">
+        <ul class="list-decimal px-5 pb-2">
           <li
             v-for="productType in surveyMethod.productTypes"
             :key="productType"
@@ -64,7 +64,7 @@ defineProps<{
 
     <Accordion>
       <template #summary>
-        <p class="text-left text-xl">How does this method work?</p>
+        <p class="text-left text-lg">How does this method work?</p>
       </template>
 
       <template #content>

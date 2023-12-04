@@ -13,7 +13,6 @@ import {
   SurveyMethods,
   SurveyMethodsArray,
   ManualEmailBlast,
-  WebsitePopup,
 } from "@domain-model";
 
 defineProps<{ productID: ProductID }>();
@@ -21,7 +20,6 @@ defineProps<{ productID: ProductID }>();
 /** A mapping of SurveyMethodIDs to Route for that survey method  */
 const routeMap = {
   [ManualEmailBlast.id]: ManualEmailBlastRoute.name,
-  [WebsitePopup.id]: WebsitePopupRoute.name,
 } as const satisfies Record<keyof typeof SurveyMethods, RouteName>;
 </script>
 
@@ -31,9 +29,16 @@ const routeMap = {
 
     <div class="flex flex-col items-center justify-between lg:flex-row">
       <p class="pb-4 text-lg">
-        <b>Survey Methods</b> is how <i>muwno</i> helps you gather feedback.
+        <i>muwno</i> uses <b>Survey Methods</b> to help you gather customer
+        feedback. You can choose what to use based on use cases and your product
+        type.
         <br />
-        You can choose what to use based on the type of your product.
+        If you need help, email
+        <a
+          href="mailto:help@muwno.com"
+          class="italic underline decoration-zinc-400"
+          >help@muwno.com</a
+        >
       </p>
 
       <router-link

@@ -1,13 +1,15 @@
 import type { SurveyMethod } from '../SurveyMethod.js';
 
 export const WebsitePopup: SurveyMethod = {
+  unimplemented: true,
+
   id: 'website-popup',
   name: 'Website Popups with our SDK',
   productTypes: ['Software as a Service (SaaS)'],
   productExamples: ['Spotify', 'Netflix', 'Instagram'],
   usecase: [
     'You want to survey your customers automatically via a pop up on your website.',
-    'Use this for a quick feedback loop cycle, especially helpful for active product development.',
+    'You want a quick feedback loop cycle, especially helpful for active product development.',
   ],
   descriptions: [
     'Once set up, this will automatically survey your customers who visit your website, without your intervention.',
