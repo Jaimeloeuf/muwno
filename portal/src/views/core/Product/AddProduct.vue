@@ -47,13 +47,13 @@ async function addProduct() {
     <div class="mx-auto w-full max-w-lg">
       <div class="pb-10">
         <label>
-          <p class="text-3xl">Product Name</p>
+          <p class="text-2xl">Product Name</p>
           <p>This is what your customer's will see</p>
 
           <input
             v-model.trim="name"
             type="text"
-            class="mt-4 w-full rounded-lg border border-zinc-200 p-4 focus:outline-none"
+            class="mt-2 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
             placeholder="For example, Spotify"
             @keydown.enter="addProduct"
           />
@@ -62,7 +62,27 @@ async function addProduct() {
 
       <div class="pb-10">
         <label>
-          <p class="text-3xl">
+          <p class="text-2xl">
+            Link <span class="pl-3 text-2xl font-thin">*Optional</span>
+          </p>
+          <p>
+            Your product's link, users will be redirected here after they
+            complete any of this product's feedback forms.
+          </p>
+
+          <input
+            v-model.trim="link"
+            type="text"
+            class="mt-2 w-full rounded-lg border border-zinc-200 p-3 focus:outline-none"
+            placeholder="E.g. https://example.com"
+            @keydown.enter="addProduct"
+          />
+        </label>
+      </div>
+
+      <div class="pb-10">
+        <label>
+          <p class="text-2xl">
             Description <span class="pl-3 text-2xl font-thin">*Optional</span>
           </p>
           <ul class="list-decimal px-5">
@@ -82,7 +102,7 @@ async function addProduct() {
           <textarea
             v-model.trim="description"
             rows="2"
-            class="mt-4 w-full resize-none rounded-lg border border-zinc-200 p-4 focus:outline-none"
+            class="mt-2 w-full resize-none rounded-lg border border-zinc-200 p-3 focus:outline-none"
             placeholder="E.g. This 'Facebook' product is used to survey our advertisers."
           >
           </textarea>

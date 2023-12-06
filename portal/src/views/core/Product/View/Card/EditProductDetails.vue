@@ -56,7 +56,7 @@ async function saveChanges() {
   <div class="rounded-lg border border-zinc-200 p-4 text-left">
     <p class="mb-4 w-full border-b pb-2">Edit Product Details</p>
 
-    <div class="pb-6">
+    <div class="pb-4">
       <label>
         <p>Product Name</p>
         <p class="font-light">This is what your customer's will see</p>
@@ -66,6 +66,23 @@ async function saveChanges() {
           type="text"
           class="mt-2 w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
           placeholder="Product Name"
+        />
+      </label>
+    </div>
+
+    <div class="pb-4">
+      <label>
+        <p>Link</p>
+        <p class="font-light">
+          Your product's link, users will be redirected here after they complete
+          any of this product's feedback forms.
+        </p>
+
+        <input
+          v-model.trim="link"
+          type="text"
+          class="mt-2 w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
+          placeholder="E.g. https://example.com"
         />
       </label>
     </div>
