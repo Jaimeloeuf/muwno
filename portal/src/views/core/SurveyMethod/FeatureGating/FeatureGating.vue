@@ -11,6 +11,7 @@ import TopNavbar from "../../../shared/TopNavbar.vue";
 import CopyOnClick from "../../../shared/CopyOnClick.vue";
 import { downloadFile } from "../../../../utils/downloadFile";
 import { getSurveyLink } from "../../../../utils/getSurveyLink";
+import { isLinkValidReactive } from "../../../../utils/isLinkValid";
 import type { ProductID } from "@domain-model";
 
 // Hardcoding to TS since code generation only supports TS/JS, and HLJS's TS
@@ -42,14 +43,7 @@ const surveyTimeInterval = computed(
 );
 
 const redirectLink = ref("");
-const isRedirectLinkValid = computed(() => {
-  try {
-    new URL(redirectLink.value);
-    return true;
-  } catch (_) {
-    return false;
-  }
-});
+const isRedirectLinkValid = isLinkValidReactive(redirectLink);
 
 /**
  * Get the redirect link user entered with a Query param attached to it for
