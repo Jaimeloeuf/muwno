@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useProduct, useLoader } from "../../../store";
 import { ProductRoute } from "../../../router";
+import { isLinkValidReactive } from "../../../utils/isLinkValid";
 import TopNavbar from "../../shared/TopNavbar.vue";
 
 const router = useRouter();
@@ -10,11 +11,15 @@ const productStore = useProduct();
 const loader = useLoader();
 
 const name = ref<string>("");
-const link = ref<string>("");
 const description = ref<string>("");
+
+const link = ref<string>("");
+const isLinkValid = isLinkValidReactive(link);
 
 async function addProduct() {
   if (name.value === "") return alert("Product Name cannot be empty!");
+  if (link.value !== "" && !isLinkValid.value)
+    return alert("Please enter a valid link!");
 
   if (
     Object.values(productStore.products).some(
@@ -77,6 +82,12 @@ async function addProduct() {
             placeholder="E.g. https://example.com"
             @keydown.enter="addProduct"
           />
+          <p
+            v-if="link !== '' && !isLinkValid"
+            class="pl-3 pt-0.5 text-sm text-red-500"
+          >
+            Invalid link!
+          </p>
         </label>
       </div>
 

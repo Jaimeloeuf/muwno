@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useProduct, useLoader, useNotif } from "../../../../../store";
+import { isLinkValidReactive } from "../../../../../utils/isLinkValid";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -12,16 +13,27 @@ const notif = useNotif();
 
 const product = ref(await productStore.getProduct(props.productID));
 const name = ref(product.value.name);
-const link = ref(product.value.link);
 const description = ref(product.value.description);
+
+// Need to transform to string first if null to ensure that the input can detect
+// for value changes because if user input something and clear it, it becomes ""
+// instead of null and it cant be compared to the original link value.
+// It is a computed prop so that once product value is updated, this is also
+// updated to ensure that the `isChanged` property is accurate.
+const originalLink = computed(() => product.value.link ?? "");
+const link = ref(originalLink.value);
+const isLinkValid = isLinkValidReactive(link);
 
 const isChanged = computed(
   () =>
     name.value !== product.value.name ||
-    description.value !== product.value.description
+    description.value !== product.value.description ||
+    link.value !== originalLink.value
 );
 
 async function saveChanges() {
+  if (link.value !== "" && !isLinkValid.value)
+    return alert("Please enter a valid link!");
   if (name.value === "") return alert("Please enter a valid Product Name!");
   if (
     Object.values(productStore.products).some(
@@ -84,6 +96,12 @@ async function saveChanges() {
           class="mt-2 w-full rounded-lg border border-zinc-200 p-2 focus:outline-none"
           placeholder="E.g. https://example.com"
         />
+        <p
+          v-if="link !== '' && !isLinkValid"
+          class="pl-2 pt-0.5 text-sm text-red-500"
+        >
+          Invalid link!
+        </p>
       </label>
     </div>
 
