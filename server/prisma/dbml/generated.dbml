@@ -38,6 +38,7 @@ Table product {
   id String [pk]
   created_at DateTime [default: `now()`, not null]
   name String [not null]
+  link String
   description String [not null]
   org org [not null]
   org_id String [not null]

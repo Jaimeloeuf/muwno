@@ -107,6 +107,7 @@ model product {
   id          String   @id
   created_at  DateTime @default(now())
   name        String
+  link        String?
   description String
 
   // Relationship: MANY products, belong to ONE (the same) org
