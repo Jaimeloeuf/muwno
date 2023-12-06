@@ -13,8 +13,16 @@ const props = defineProps<{
 
 const router = useRouter();
 
-const { productName, radioOptions, a1, a2, a3, a4, submitForm } =
-  await usePmfSurvey(props.formID);
+const {
+  productName,
+  defaultRedirectLink,
+  radioOptions,
+  a1,
+  a2,
+  a3,
+  a4,
+  submitForm,
+} = await usePmfSurvey(props.formID);
 
 // Use the default value for a1 after validating it
 if (props.defaultA1 !== undefined) {
@@ -37,7 +45,7 @@ async function submit() {
 
   router.push({
     name: PmfSurveySubmittedRoute.name,
-    query: { redirect: props.redirect },
+    query: { redirect: props.redirect ?? defaultRedirectLink },
   });
 }
 </script>

@@ -37,6 +37,7 @@ export async function usePmfSurvey(formID: string) {
   }
 
   const productName = res.data.form.productName;
+  const defaultRedirectLink = res.data.form.redirectLink;
 
   const radioOptions = [
     { value: 3, text: "Very" },
@@ -76,5 +77,14 @@ export async function usePmfSurvey(formID: string) {
     else console.log("Response submitted");
   }
 
-  return { productName, radioOptions, a1, a2, a3, a4, submitForm };
+  return {
+    productName,
+    defaultRedirectLink,
+    radioOptions,
+    a1,
+    a2,
+    a3,
+    a4,
+    submitForm,
+  };
 }

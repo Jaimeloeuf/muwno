@@ -5,8 +5,11 @@ import type {
 import type { FeedbackForm, FeedbackResponse } from 'domain-model';
 
 export const mapProductModelToEntity = (
-  productModel: Pick<ProductModel, 'name'>,
-): FeedbackForm => ({ productName: productModel.name });
+  productModel: Pick<ProductModel, 'name' | 'link'>,
+): FeedbackForm => ({
+  productName: productModel.name,
+  redirectLink: productModel.link,
+});
 
 export const mapFeedbackResponseModelToEntity = (
   response: FeedbackResponseModel,

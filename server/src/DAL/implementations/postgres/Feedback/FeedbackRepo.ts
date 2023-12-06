@@ -33,7 +33,7 @@ export class FeedbackRepo implements IFeedbackRepo {
     return this.db.product
       .findUnique({
         where: { id: productID },
-        select: { name: true },
+        select: { name: true, link: true },
       })
       .then(runMapperIfNotNull(mapProductModelToEntity));
   }
