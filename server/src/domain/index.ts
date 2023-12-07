@@ -12,6 +12,7 @@ export * from './ApiKey/index.js';
 export * from './Customer/index.js';
 export * from './Stripe/StripeSetupNext.js';
 export * from './Usage/index.js';
+export * from './Form/index.js';
 
 /* HTTP DTOs */
 export * from './HttpDTOs/index.js';

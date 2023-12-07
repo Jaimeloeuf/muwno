@@ -1,18 +1,35 @@
 <script setup lang="ts">
 import { onUnmounted } from "vue";
 import { landingLink } from "../../../utils/links";
+import { FormRedirectQueryParam } from "@domain-model";
 
 const props = defineProps<{ redirect?: string }>();
 
-function getRedirectLink(redirect?: string) {
+/**
+ * Get redirect link with `FormRedirectQueryParam` attached if there is a valid
+ * redirect link. Returns null if no link or invalid link.
+ */
+function getLinkWithRedirectQueryParam(redirectLink?: string) {
   try {
-    return redirect !== undefined ? new URL(redirect).toString() : null;
+    if (redirectLink === undefined) return null;
+
+    const url = new URL(redirectLink);
+
+    // Create new query params by merging any existing query params in redirect
+    // link with the fixed FormRedirectQueryParam to indicate form submitted.
+    const combinedQueryParams = new URLSearchParams([
+      [FormRedirectQueryParam, "true"],
+      ...Array.from(url.searchParams.entries()),
+    ]).toString();
+
+    url.search = combinedQueryParams;
+    return url.toString();
   } catch (error) {
     return null;
   }
 }
 
-const redirectLink = getRedirectLink(props.redirect);
+const redirectLink = getLinkWithRedirectQueryParam(props.redirect);
 
 // NoOp if there is no redirectLink
 const timeoutID = setTimeout(
