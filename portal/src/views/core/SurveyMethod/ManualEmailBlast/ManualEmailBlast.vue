@@ -2,9 +2,8 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { parse } from "papaparse";
-import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../../firebase";
 import { useProduct, useLoader, useNotif } from "../../../../store";
+import { manualEmailBlast } from "../../../../controller";
 import { convertToNull } from "../../../../utils/convertToNull";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
@@ -102,7 +101,7 @@ async function processFile() {
       `Keep this browser tab open! Emailing customer ${i} - ${pageLimit} out of ${customers.length}`
     );
 
-    await emailCustomers(customers.slice(i, pageLimit));
+    await manualEmailBlast(product.id, customers.slice(i, pageLimit));
   }
 
   loader.hide();
@@ -110,19 +109,6 @@ async function processFile() {
   notif.setSnackbar(`Successfully emailed ${customers.length} customers.`);
 
   router.back();
-}
-
-async function emailCustomers(data: CreateManualEmailBlastDTO["customers"]) {
-  const { res, err } = await sf
-    .useDefault()
-    .POST(`/survey-method/email/manual/blast/${product.id}`)
-    .bodyJSON<CreateManualEmailBlastDTO>({ customers: data })
-    .useHeader(getAuthHeader)
-    .runJSON<{ success: boolean }>();
-
-  if (err) throw err;
-  if (!res.ok || !res.data.success)
-    throw new Error(`Failed to email customers: ${JSON.stringify(res)}`);
 }
 </script>
 
