@@ -45,30 +45,11 @@ const surveyTimeInterval = computed(
 const redirectLink = ref("");
 const isRedirectLinkValid = isLinkValidReactive(redirectLink);
 
-/**
- * Get the redirect link user entered with a Query param attached to it for
- * their app to detect on redirect that the redirect is from muwno, and not just
- * opened directly or anywhere else.
- */
-function getRedirectLink() {
-  const url = new URL(redirectLink.value);
-
-  // Create new query params by merging any existing query params in the URL
-  const newQueryParams = new URLSearchParams([
-    // This is set first so that it can be overwritten as needed with the user's
-    // own Query params.
-    ["muwno-form-submitted", "true"],
-    ...Array.from(url.searchParams.entries()),
-  ]).toString();
-
-  return `${url.origin}${url.pathname}?${newQueryParams}`;
-}
-
 // Only include the redirect link if it is valid
 const surveyLink = computed(() =>
   isRedirectLinkValid.value
     ? `${getSurveyLink(product.id)}?redirect=${encodeURIComponent(
-        getRedirectLink()
+        redirectLink.value
       )}`
     : getSurveyLink(product.id)
 );
