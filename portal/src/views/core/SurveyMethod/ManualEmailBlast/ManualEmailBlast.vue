@@ -72,13 +72,20 @@ async function processFile() {
 
   const customers: CreateManualEmailBlastDTO["customers"] = [];
 
+  /** Map of customer emails to prevent duplicate emails */
+  const seenCustomerEmailMap: Record<
+    CreateManualEmailBlastDTO["customers"][number]["email"],
+    true
+  > = {};
+
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
     const [email, name] = result.data[i] ?? [];
 
-    // Skip rows with empty email field
-    if (email === undefined) continue;
+    // Skip row if email field is empty or if the email has already been seen.
+    if (email === undefined || seenCustomerEmailMap[email]) continue;
 
+    seenCustomerEmailMap[email] = true;
     customers.push({ email, name: convertToNull(name) });
   }
 
@@ -145,6 +152,10 @@ async function processFile() {
         <div class="pb-8">
           <label class="cursor-pointer" for="upload">
             <p>2. Upload CSV file filled with customer data</p>
+            <p class="pl-3 text-sm">
+              *Duplicate emails are only emailed once, duplicates after the
+              first one will be ignored.
+            </p>
 
             <div
               class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-center"
