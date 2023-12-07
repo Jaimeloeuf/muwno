@@ -74,7 +74,7 @@ async function processFile() {
 
   // Skip the 1st row of headers
   for (let i = 1; i < result.data.length; i++) {
-    const [name, email] = result.data[i] ?? [];
+    const [email, name] = result.data[i] ?? [];
 
     // Skip rows with empty email field
     if (email === undefined) continue;
