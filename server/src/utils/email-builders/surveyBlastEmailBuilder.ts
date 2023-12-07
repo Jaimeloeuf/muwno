@@ -10,5 +10,5 @@ export const surveyBlastEmailBuilder = {
 <br /><br />
 How would you feel if ${productName} no longer exists?
 <br /><br />
-${surveyLink}`,
+<a href="${surveyLink}" target="_blank">${surveyLink}</a>`,
 };

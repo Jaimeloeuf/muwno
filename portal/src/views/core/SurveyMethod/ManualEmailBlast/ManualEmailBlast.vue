@@ -6,6 +6,7 @@ import { useProduct, useLoader, useNotif } from "../../../../store";
 import { manualEmailBlast } from "../../../../controller";
 import { convertToNull } from "../../../../utils/convertToNull";
 import TopNavbar from "../../../shared/TopNavbar.vue";
+import EmailBlastPreview from "./EmailBlastPreview.vue";
 import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -198,6 +199,8 @@ async function processFile() {
 
         <!-- @todo Add a youtube video to demo how to use it -->
       </div>
+
+      <EmailBlastPreview :product="product" />
     </div>
   </div>
 </template>
