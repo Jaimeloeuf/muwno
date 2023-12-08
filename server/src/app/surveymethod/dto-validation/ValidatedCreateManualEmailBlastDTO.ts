@@ -4,7 +4,13 @@ import {
   CustomerEmailContact,
 } from './ValidatedCustomerEmailContact.js';
 
-import { ValidateNested, ArrayNotEmpty } from 'class-validator';
+import {
+  ValidateNested,
+  ArrayNotEmpty,
+  IsOptional,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 /**
@@ -18,4 +24,9 @@ export class ValidatedCreateManualEmailBlastDTO
   @ValidateNested({ each: true })
   @Type(() => ValidatedCustomerEmailContact)
   readonly customers!: Array<CustomerEmailContact>;
+
+  @IsOptional()
+  @IsUrl()
+  @MaxLength(2048)
+  readonly redirectLink!: string | null;
 }

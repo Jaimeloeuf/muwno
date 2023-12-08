@@ -114,7 +114,7 @@ async function processFile() {
       `Keep this browser tab open! Emailing customer ${i} - ${pageLimit} out of ${customers.length}`
     );
 
-    await manualEmailBlast(product.id, customers.slice(i, pageLimit));
+    await manualEmailBlast(product.id, customers.slice(i, pageLimit), null);
   }
 
   loader.hide();

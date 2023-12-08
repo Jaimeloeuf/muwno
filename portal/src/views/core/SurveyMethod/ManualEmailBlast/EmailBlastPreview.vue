@@ -33,13 +33,17 @@ function resetTestValues() {
 async function sendTestEmail() {
   loader.show(`Sending test email to ${testEmail.value}`);
 
-  await manualEmailBlast(props.product.id, [
-    {
-      // Defaults to null as expected by the API for it to use default name.
-      name: testName.value !== "" ? testName.value : null,
-      email: testEmail.value,
-    },
-  ]);
+  await manualEmailBlast(
+    props.product.id,
+    [
+      {
+        // Defaults to null as expected by the API for it to use default name.
+        name: testName.value !== "" ? testName.value : null,
+        email: testEmail.value,
+      },
+    ],
+    null
+  );
 
   loader.hide();
   notif.setSnackbar(`Test email sent to ${testEmail.value}`);

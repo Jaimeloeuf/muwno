@@ -4,12 +4,13 @@ import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
 
 export async function manualEmailBlast(
   productID: ProductID,
-  data: CreateManualEmailBlastDTO["customers"]
+  customers: CreateManualEmailBlastDTO["customers"],
+  redirectLink: CreateManualEmailBlastDTO["redirectLink"]
 ) {
   const { res, err } = await sf
     .useDefault()
     .POST(`/survey-method/email/manual/blast/${productID}`)
-    .bodyJSON<CreateManualEmailBlastDTO>({ customers: data })
+    .bodyJSON<CreateManualEmailBlastDTO>({ customers, redirectLink })
     .useHeader(getAuthHeader)
     .runJSON<{ success: boolean }>();
 
