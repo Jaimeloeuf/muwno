@@ -36,7 +36,7 @@ async function sendTestEmail() {
 </script>
 
 <template>
-  <div class="w-full rounded-lg border border-zinc-200 p-3">
+  <div class="w-full max-w-screen-lg rounded-lg border border-zinc-200 p-3">
     <div class="pb-8">
       <p class="text-2xl">Preview</p>
       <ul class="list-decimal px-5 pb-4 font-light">

@@ -13,6 +13,7 @@ import { downloadFile } from "../../../../utils/downloadFile";
 import { getSurveyLink } from "../../../../utils/getSurveyLink";
 import { isLinkValidReactive } from "../../../../utils/isLinkValid";
 import type { ProductID } from "@domain-model";
+import { FormRedirectQueryParam } from "@domain-model";
 
 // Hardcoding to TS since code generation only supports TS/JS, and HLJS's TS
 // theme can highlight both as the JS is just TS with implicitly inferred types.
@@ -135,8 +136,8 @@ const downloadFormFile = () =>
           <li>
             Once user submits their feedback, they will be redirected back to
             the URL configured below with the success indicator
-            <code class="italic">muwno-form-submitted=true</code> in the URL
-            query params.
+            <code class="italic">{{ FormRedirectQueryParam }}=true</code> in the
+            URL query params.
           </li>
         </ol>
 
@@ -192,8 +193,8 @@ const downloadFormFile = () =>
                 <li>
                   Once the feedback form is completed, users will be redirected
                   back to this link with the success indicator
-                  <code class="italic">muwno-form-submitted=true</code> in the
-                  URL query params.
+                  <code class="italic">{{ FormRedirectQueryParam }}=true</code>
+                  in the URL query params.
                 </li>
                 <li>Write full URL including the <code>https</code> scheme</li>
               </ol>

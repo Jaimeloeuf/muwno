@@ -40,7 +40,7 @@ onUnmounted(() => clearTimeout(timeoutID));
 </script>
 
 <template>
-  <div class="mx-auto grid max-w-md p-6">
+  <div class="mx-auto grid max-w-lg p-6">
     <h1 class="mt-6 text-3xl font-extrabold tracking-tight text-zinc-900">
       Thank You for your response!
     </h1>
