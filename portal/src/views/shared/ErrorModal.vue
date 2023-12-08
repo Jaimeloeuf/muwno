@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useError } from "../../store";
 
-const props = defineProps<{ error: Error }>();
+const props = defineProps<{ error: Error | string }>();
 const emit = defineEmits<{ (e: "close"): void }>();
 
 // Log error out as the error modal is shown for more in depth details.

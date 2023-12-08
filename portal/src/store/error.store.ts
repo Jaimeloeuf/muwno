@@ -17,9 +17,9 @@ interface State {
     id: number;
 
     /**
-     * The actual Error object.
+     * The actual Error object or error message.
      */
-    error: Error;
+    error: Error | string;
   }>;
 }
 
@@ -33,7 +33,7 @@ export const useError = defineStore("error", {
     /**
      * Record a new error to track and display.
      */
-    newError(error: Error) {
+    newError(error: Error | string) {
       this.errors.push({ id: Math.random(), error });
 
       // @todo Should add a sentry or whatever tracker here
