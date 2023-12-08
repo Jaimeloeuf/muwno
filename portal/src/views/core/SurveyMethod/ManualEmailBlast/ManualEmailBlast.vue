@@ -115,7 +115,11 @@ async function processFile() {
       `Keep this browser tab open! Emailing customer ${i} - ${pageLimit} out of ${customers.length}`
     );
 
-    await manualEmailBlast(product.id, customers.slice(i, pageLimit), null);
+    await manualEmailBlast(
+      product.id,
+      customers.slice(i, pageLimit),
+      isRedirectLinkValid.value ? redirectLink.value : null
+    );
   }
 
   loader.hide();
@@ -263,7 +267,12 @@ async function processFile() {
         <!-- @todo Add a youtube video to demo how to use it -->
       </div>
 
-      <EmailBlastPreview :product="product" :surveyLink="surveyLink" />
+      <EmailBlastPreview
+        :product="product"
+        :surveyLink="surveyLink"
+        :redirectLink="redirectLink"
+        :isRedirectLinkValid="isRedirectLinkValid"
+      />
     </div>
   </div>
 </template>

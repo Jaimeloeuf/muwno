@@ -5,7 +5,12 @@ import { manualEmailBlast } from "../../../../controller";
 import { surveyBlastEmailBuilder } from "../../../../../../server/src/utils/email-builders/surveyBlastEmailBuilder";
 import type { Product } from "@domain-model";
 
-const props = defineProps<{ product: Product; surveyLink: string }>();
+const props = defineProps<{
+  product: Product;
+  surveyLink: string;
+  redirectLink: string;
+  isRedirectLinkValid: boolean;
+}>();
 
 const loader = useLoader();
 const notif = useNotif();
@@ -30,7 +35,7 @@ async function sendTestEmail() {
         email: testEmail.value,
       },
     ],
-    null
+    props.isRedirectLinkValid ? props.redirectLink : null
   );
 
   loader.hide();
