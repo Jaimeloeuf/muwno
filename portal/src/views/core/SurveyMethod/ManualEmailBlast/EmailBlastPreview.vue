@@ -1,26 +1,14 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useLoader, useNotif } from "../../../../store";
 import { manualEmailBlast } from "../../../../controller";
 import { surveyBlastEmailBuilder } from "../../../../../../server/src/utils/email-builders/surveyBlastEmailBuilder";
-import { isLinkValid } from "../../../../utils/isLinkValid";
-import { getSurveyLink } from "../../../../utils/getSurveyLink";
 import type { Product } from "@domain-model";
 
-const props = defineProps<{ product: Product; link: string }>();
+const props = defineProps<{ product: Product; surveyLink: string }>();
 
 const loader = useLoader();
 const notif = useNotif();
-
-const isRedirectLinkValid = computed(() => isLinkValid(props.link));
-// Only include the redirect link if it is valid
-const surveyLink = computed(() =>
-  isRedirectLinkValid.value
-    ? `${getSurveyLink(props.product.id)}?redirect=${encodeURIComponent(
-        props.link
-      )}`
-    : getSurveyLink(props.product.id)
-);
 
 const testEmail = ref("");
 const testName = ref("");

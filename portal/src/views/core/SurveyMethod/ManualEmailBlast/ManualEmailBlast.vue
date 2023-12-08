@@ -4,9 +4,9 @@ import { useRouter } from "vue-router";
 import { parse } from "papaparse";
 import { MoreProductFeatureRoute } from "../../../../router";
 import { useProduct, useLoader, useNotif } from "../../../../store";
+import { useFormLinks } from "../../../../composable";
 import { manualEmailBlast } from "../../../../controller";
 import { convertToNull } from "../../../../utils/convertToNull";
-import { isLinkValidReactive } from "../../../../utils/isLinkValid";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import EmailBlastPreview from "./EmailBlastPreview.vue";
 import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
@@ -20,8 +20,9 @@ const notif = useNotif();
 
 const product = await productStore.getProduct(props.productID);
 
-const link = ref<string>("");
-const isLinkValid = isLinkValidReactive(link);
+const { redirectLink, isRedirectLinkValid, surveyLink } = useFormLinks(
+  product.id
+);
 
 const localFile = ref<File | null>(null);
 
@@ -156,7 +157,10 @@ async function processFile() {
 
         <div class="pb-8">
           <label class="cursor-pointer" for="upload">
-            <p>2. Upload CSV file filled with customer data</p>
+            <p>
+              2. Upload CSV file filled with customer data
+              <span class="text-lg text-red-600">*</span>
+            </p>
             <p class="pl-3 text-sm">
               *Duplicate emails are only emailed once, duplicates after the
               first one will be ignored.
@@ -227,13 +231,13 @@ async function processFile() {
           </ul>
 
           <input
-            v-model.trim="link"
+            v-model.trim="redirectLink"
             type="text"
             class="w-full rounded-lg border border-zinc-200 p-2.5 focus:outline-none"
             placeholder="E.g. https://example.com"
           />
           <p
-            v-if="link !== '' && !isLinkValid"
+            v-if="redirectLink !== '' && !isRedirectLinkValid"
             class="pl-3 pt-0.5 text-sm text-red-500"
           >
             Invalid link!
@@ -259,7 +263,7 @@ async function processFile() {
         <!-- @todo Add a youtube video to demo how to use it -->
       </div>
 
-      <EmailBlastPreview :product="product" :link="link" />
+      <EmailBlastPreview :product="product" :surveyLink="surveyLink" />
     </div>
   </div>
 </template>

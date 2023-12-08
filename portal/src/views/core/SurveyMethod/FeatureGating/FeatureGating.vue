@@ -9,9 +9,8 @@ import { generateMainFile, generateFormFile } from "./sampleCode";
 import { useProduct } from "../../../../store";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import CopyOnClick from "../../../shared/CopyOnClick.vue";
+import { useFormLinks } from "../../../../composable";
 import { downloadFile } from "../../../../utils/downloadFile";
-import { getSurveyLink } from "../../../../utils/getSurveyLink";
-import { isLinkValidReactive } from "../../../../utils/isLinkValid";
 import type { ProductID } from "@domain-model";
 import { FormRedirectQueryParam } from "@domain-model";
 
@@ -43,16 +42,8 @@ const surveyTimeInterval = computed(
     intervals.value * intervalTypeToMillisecondsMap[selectedIntervalType.value]
 );
 
-const redirectLink = ref("");
-const isRedirectLinkValid = isLinkValidReactive(redirectLink);
-
-// Only include the redirect link if it is valid
-const surveyLink = computed(() =>
-  isRedirectLinkValid.value
-    ? `${getSurveyLink(product.id)}?redirect=${encodeURIComponent(
-        redirectLink.value
-      )}`
-    : getSurveyLink(product.id)
+const { redirectLink, isRedirectLinkValid, surveyLink } = useFormLinks(
+  product.id
 );
 
 const alertUser = ref(true);
