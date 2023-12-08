@@ -1,5 +1,6 @@
 export * from "./init";
 
+export * from "./error.store";
 export * from "./loader.store";
 export * from "./notif.store";
 export * from "./sidedrawer.store";

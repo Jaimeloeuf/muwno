@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from "vue";
 
-import { useLoader, useNotif } from "./store";
+import { useError, useLoader, useNotif } from "./store";
 import { routerError } from "./router";
 import GlobalErrorView from "./views/GlobalError.vue";
 import SideDrawer from "./views/shared/SideDrawer.vue";
+import ErrorModal from "./views/shared/ErrorModal.vue";
 import Loader from "./views/shared/Loader.vue";
 import Snackbar from "./views/shared/Snackbar.vue";
 
+const errorStore = useError();
 const loader = useLoader();
 const notif = useNotif();
 
@@ -87,6 +89,18 @@ function clearRouterError() {
     <SideDrawer />
 
     <Loader v-if="loader.showLoader" />
+
+    <!--
+      Instead of checking for length to see if there are any errors to show, it
+      checks for the first element so that TS will cast it as not undefined for
+      the 2 props.
+    -->
+    <ErrorModal
+      v-if="errorStore.errors[0] !== undefined"
+      :key="errorStore.errors[0].id"
+      :error="errorStore.errors[0].error"
+      @close="errorStore.clearOldestError"
+    />
 
     <!--
       Instead of checking for length to see if there are any notifs to show, it
