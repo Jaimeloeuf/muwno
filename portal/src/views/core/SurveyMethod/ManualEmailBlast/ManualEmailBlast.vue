@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { parse } from "papaparse";
+import { MoreProductFeatureRoute } from "../../../../router";
 import { useProduct, useLoader, useNotif } from "../../../../store";
 import { manualEmailBlast } from "../../../../controller";
 import { convertToNull } from "../../../../utils/convertToNull";
+import { isLinkValidReactive } from "../../../../utils/isLinkValid";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import EmailBlastPreview from "./EmailBlastPreview.vue";
 import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
@@ -17,6 +19,9 @@ const loader = useLoader();
 const notif = useNotif();
 
 const product = await productStore.getProduct(props.productID);
+
+const link = ref<string>("");
+const isLinkValid = isLinkValidReactive(link);
 
 const localFile = ref<File | null>(null);
 
@@ -193,7 +198,50 @@ async function processFile() {
         </div>
 
         <div class="pb-8">
-          <p>3. Confirm and send out email blast!</p>
+          <p>3. Customise redirect link</p>
+          <ul class="list-disc pb-2 pl-8">
+            <li>
+              Users will be redirected here after they complete the feedback
+              form.
+            </li>
+            <li v-if="product.link !== null">
+              If this is not specified, users will be redirect to
+              <a class="underline" :href="product.link" target="_blank">
+                {{ product.link }}
+              </a>
+              upon completing the feedback form.
+            </li>
+            <li v-else>
+              If you want to redirect your users here by default after all
+              survey submissions, set it
+              <router-link
+                :to="{
+                  name: MoreProductFeatureRoute.name,
+                  params: { productID },
+                }"
+                class="underline"
+              >
+                here
+              </router-link>
+            </li>
+          </ul>
+
+          <input
+            v-model.trim="link"
+            type="text"
+            class="w-full rounded-lg border border-zinc-200 p-2.5 focus:outline-none"
+            placeholder="E.g. https://example.com"
+          />
+          <p
+            v-if="link !== '' && !isLinkValid"
+            class="pl-3 pt-0.5 text-sm text-red-500"
+          >
+            Invalid link!
+          </p>
+        </div>
+
+        <div class="pb-8">
+          <p>4. Confirm and send out email blast!</p>
 
           <button
             class="w-full rounded-lg border p-2 text-xl"
@@ -211,7 +259,7 @@ async function processFile() {
         <!-- @todo Add a youtube video to demo how to use it -->
       </div>
 
-      <EmailBlastPreview :product="product" />
+      <EmailBlastPreview :product="product" :link="link" />
     </div>
   </div>
 </template>

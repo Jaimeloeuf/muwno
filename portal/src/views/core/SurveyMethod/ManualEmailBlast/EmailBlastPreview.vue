@@ -1,15 +1,26 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useLoader, useNotif } from "../../../../store";
 import { manualEmailBlast } from "../../../../controller";
 import { surveyBlastEmailBuilder } from "../../../../../../server/src/utils/email-builders/surveyBlastEmailBuilder";
+import { isLinkValid } from "../../../../utils/isLinkValid";
 import { getSurveyLink } from "../../../../utils/getSurveyLink";
 import type { Product } from "@domain-model";
 
-const props = defineProps<{ product: Product }>();
+const props = defineProps<{ product: Product; link: string }>();
 
 const loader = useLoader();
 const notif = useNotif();
+
+const isRedirectLinkValid = computed(() => isLinkValid(props.link));
+// Only include the redirect link if it is valid
+const surveyLink = computed(() =>
+  isRedirectLinkValid.value
+    ? `${getSurveyLink(props.product.id)}?redirect=${encodeURIComponent(
+        props.link
+      )}`
+    : getSurveyLink(props.product.id)
+);
 
 const testEmail = ref("");
 const testName = ref("");
@@ -100,7 +111,7 @@ async function sendTestEmail() {
             surveyBlastEmailBuilder.body(
               testName === '' ? '\{\{ CUSTOMER_NAME \}\}' : testName,
               product.name,
-              getSurveyLink(product.id)
+              surveyLink
             )
           "
         ></p>
