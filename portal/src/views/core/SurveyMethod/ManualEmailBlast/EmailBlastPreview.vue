@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useLoader, useNotif } from "../../../../store";
+import { useError, useLoader, useNotif } from "../../../../store";
 import { manualEmailBlast } from "../../../../controller";
 import { surveyBlastEmailBuilder } from "../../../../../../server/src/utils/email-builders/surveyBlastEmailBuilder";
 import type { Product } from "@domain-model";
@@ -12,6 +12,7 @@ const props = defineProps<{
   isRedirectLinkValid: boolean;
 }>();
 
+const errorStore = useError();
 const loader = useLoader();
 const notif = useNotif();
 
@@ -26,7 +27,7 @@ function resetTestValues() {
 async function sendTestEmail() {
   loader.show(`Sending test email to ${testEmail.value}`);
 
-  await manualEmailBlast(
+  const result = await manualEmailBlast(
     props.product.id,
     [
       {
@@ -38,8 +39,13 @@ async function sendTestEmail() {
     props.isRedirectLinkValid ? props.redirectLink : null
   );
 
+  if (result instanceof Error) {
+    errorStore.newError(result);
+  } else {
+    notif.setSnackbar(`Test email sent to ${testEmail.value}`);
+  }
+
   loader.hide();
-  notif.setSnackbar(`Test email sent to ${testEmail.value}`);
 }
 </script>
 

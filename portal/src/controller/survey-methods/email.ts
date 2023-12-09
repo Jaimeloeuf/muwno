@@ -6,7 +6,7 @@ export async function manualEmailBlast(
   productID: ProductID,
   customers: CreateManualEmailBlastDTO["customers"],
   redirectLink: CreateManualEmailBlastDTO["redirectLink"]
-) {
+): Promise<Error | void> {
   const { res, err } = await sf
     .useDefault()
     .POST(`/survey-method/email/manual/blast/${productID}`)
@@ -14,7 +14,7 @@ export async function manualEmailBlast(
     .useHeader(getAuthHeader)
     .runJSON<{ success: boolean }>();
 
-  if (err) throw err;
+  if (err) return err;
   if (!res.ok || !res.data.success)
-    throw new Error(`Failed to email customers: ${JSON.stringify(res)}`);
+    return new Error(`Failed to email customers: ${JSON.stringify(res)}`);
 }

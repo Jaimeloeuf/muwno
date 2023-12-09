@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { parse } from "papaparse";
 import { MoreProductFeatureRoute } from "../../../../router";
-import { useProduct, useLoader, useNotif } from "../../../../store";
+import { useProduct, useLoader, useNotif, useError } from "../../../../store";
 import { useFormLinks } from "../../../../composable";
 import { manualEmailBlast } from "../../../../controller";
 import { convertToNull } from "../../../../utils/convertToNull";
@@ -17,6 +17,7 @@ const router = useRouter();
 const productStore = useProduct();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const product = await productStore.getProduct(props.productID);
 
@@ -72,7 +73,11 @@ async function processFile() {
   });
 
   if (result.errors.length > 0) {
-    result.errors.forEach(console.error);
+    loader.hide();
+    const errors = result.errors
+      .map((err) => JSON.stringify(err, null, 2))
+      .join("\n\n");
+    errorStore.newError(`Failed to parse CSV!\n${errors}`);
     return;
   }
 
@@ -96,8 +101,8 @@ async function processFile() {
   }
 
   if (customers.length === 0) {
-    alert("CSV cannot be empty!");
     loader.hide();
+    errorStore.newError("CSV cannot be empty!");
     return;
   }
 
@@ -115,11 +120,18 @@ async function processFile() {
       `Keep this browser tab open! Emailing customer ${i} - ${pageLimit} out of ${customers.length}`
     );
 
-    await manualEmailBlast(
+    const result = await manualEmailBlast(
       product.id,
       customers.slice(i, pageLimit),
       isRedirectLinkValid.value ? redirectLink.value : null
     );
+
+    // Stop on error and skip the rest of the customers
+    if (result instanceof Error) {
+      loader.hide();
+      errorStore.newError(result);
+      return;
+    }
   }
 
   loader.hide();
@@ -258,6 +270,7 @@ async function processFile() {
                 ? 'cursor-not-allowed bg-zinc-50'
                 : 'border-green-600 text-green-600'
             "
+            :disabled="localFile === null"
             @click="processFile"
           >
             Send Blast
