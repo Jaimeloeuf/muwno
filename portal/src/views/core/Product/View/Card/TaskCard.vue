@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useNotif } from "../../../../../store";
+import { useNotif, useError } from "../../../../../store";
 import { TaskController } from "../../../../../controller";
 import { AllTaskRoute, SurveyResponseRoute } from "../../../../../router";
 import type { ProductID, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 const notif = useNotif();
+const errorStore = useError();
 
 async function markTaskAsDone(taskID: TaskID) {
   if (!confirm("Confirm?")) return;
 
-  await TaskController.markTaskAsDone(taskID);
+  const result = await TaskController.markTaskAsDone(taskID);
+
+  if (result instanceof Error) {
+    errorStore.newError(result);
+    return;
+  }
 
   notif.setSnackbar("Task completed! Updating task list ...");
 

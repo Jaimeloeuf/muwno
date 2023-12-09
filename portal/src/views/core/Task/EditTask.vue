@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useNotif, useLoader } from "../../../store";
+import { useNotif, useLoader, useError } from "../../../store";
 import { TaskController } from "../../../controller";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { TaskID } from "@domain-model";
@@ -11,16 +11,24 @@ const props = defineProps<{ taskID: TaskID }>();
 const router = useRouter();
 const notif = useNotif();
 const loader = useLoader();
+const errorStore = useError();
 
 const task = ref(await TaskController.getTask(props.taskID));
 const newTask = ref<string>(task.value.task);
 
 async function update() {
   loader.show();
-  await TaskController.updateTask(task.value.id, newTask.value);
+
+  const result = await TaskController.updateTask(task.value.id, newTask.value);
+
   loader.hide();
-  router.back();
-  notif.setSnackbar("Task updated!");
+
+  if (result instanceof Error) {
+    errorStore.newError(result);
+  } else {
+    router.back();
+    notif.setSnackbar("Task updated!");
+  }
 }
 </script>
 

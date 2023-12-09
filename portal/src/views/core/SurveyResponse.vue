@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useProduct, useLoader, useNotif } from "../../store";
+import { useProduct, useLoader, useNotif, useError } from "../../store";
 import { EditTaskRoute } from "../../router";
 import { TaskController } from "../../controller";
 import TopNavbar from "../shared/TopNavbar.vue";
@@ -23,6 +23,7 @@ const props = defineProps<{
 
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 const productStore = useProduct();
 
 const product = await productStore.getProduct(props.productID);
@@ -64,10 +65,15 @@ async function deleteTask(taskID: TaskID) {
   if (!confirm("Delete?")) return;
   loader.show();
 
-  await TaskController.deleteTask(taskID);
-  tasks.value = tasks.value.filter((task) => task.id !== taskID);
+  const result = await TaskController.deleteTask(taskID);
 
-  notif.setSnackbar("Task deleted!");
+  if (result instanceof Error) {
+    errorStore.newError(result);
+  } else {
+    tasks.value = tasks.value.filter((task) => task.id !== taskID);
+    notif.setSnackbar("Task deleted!");
+  }
+
   loader.hide();
 }
 </script>

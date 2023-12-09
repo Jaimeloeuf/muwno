@@ -21,7 +21,7 @@ export class TaskController {
     return res.data.task;
   }
 
-  static async updateTask(taskID: TaskID, task: string) {
+  static async updateTask(taskID: TaskID, task: string): Promise<Error | void> {
     const { res, err } = await sf
       .useDefault()
       .PATCH(`/task/${taskID}`)
@@ -29,21 +29,21 @@ export class TaskController {
       .bodyJSON<{ task: string }>({ task })
       .runVoid();
 
-    if (err) throw err;
+    if (err) return err;
     if (!res.ok)
-      throw new Error(`Failed to update Task: ${JSON.stringify(res)}`);
+      return new Error(`Failed to update Task: ${JSON.stringify(res)}`);
   }
 
-  static async deleteTask(taskID: TaskID) {
+  static async deleteTask(taskID: TaskID): Promise<Error | void> {
     const { res, err } = await sf
       .useDefault()
       .DEL(`/task/${taskID}`)
       .useHeader(getAuthHeader)
       .runVoid();
 
-    if (err) throw err;
+    if (err) return err;
     if (!res.ok)
-      throw new Error(`Failed to delete Task: ${JSON.stringify(res)}`);
+      return new Error(`Failed to delete Task: ${JSON.stringify(res)}`);
   }
 
   static async getTasks(
@@ -64,15 +64,15 @@ export class TaskController {
     return res.data.tasks;
   }
 
-  static async markTaskAsDone(taskID: TaskID) {
+  static async markTaskAsDone(taskID: TaskID): Promise<Error | void> {
     const { res, err } = await sf
       .useDefault()
       .POST(`/task/done/${taskID}`)
       .useHeader(getAuthHeader)
       .runVoid((res) => res.json());
 
-    if (err) throw err;
+    if (err) return err;
     if (!res.ok)
-      throw new Error(`Failed to mark Task as done: ${JSON.stringify(res)}`);
+      return new Error(`Failed to mark Task as done: ${JSON.stringify(res)}`);
   }
 }

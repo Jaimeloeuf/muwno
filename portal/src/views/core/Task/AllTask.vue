@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useNotif, useLoader } from "../../../store";
+import { useNotif, useLoader, useError } from "../../../store";
 import { SurveyResponseRoute } from "../../../router";
 import { TaskController } from "../../../controller";
 import TopNavbar from "../../shared/TopNavbar.vue";
@@ -9,6 +9,7 @@ import type { ProductID, TaskID } from "@domain-model";
 const props = defineProps<{ productID: ProductID }>();
 const notif = useNotif();
 const loader = useLoader();
+const errorStore = useError();
 
 const taskPerPage = 10;
 const tasks = ref(await TaskController.getTasks(props.productID, taskPerPage));
@@ -17,7 +18,12 @@ const currentHeadIndex = ref<number>(1);
 async function markTaskAsDone(taskID: TaskID) {
   if (!confirm("Confirm?")) return;
 
-  await TaskController.markTaskAsDone(taskID);
+  const result = await TaskController.markTaskAsDone(taskID);
+
+  if (result instanceof Error) {
+    errorStore.newError(result);
+    return;
+  }
 
   notif.setSnackbar("Task completed! Updating task list ...");
 
