@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useOrg, useUser, useLoader } from "../../../store";
+import { useOrg, useUser, useLoader, useError } from "../../../store";
 import { OrgRoute, EditOrgRoute } from "../../../router";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
@@ -11,6 +11,7 @@ import EnterButton from "../../shared/EnterButton.vue";
 import { Role } from "@domain-model";
 
 const loader = useLoader();
+const errorStore = useError();
 const orgStore = useOrg();
 const userStore = useUser();
 
@@ -31,19 +32,19 @@ async function goToBillingPortal() {
     .useHeader(getAuthHeader)
     .runText();
 
-  // Dont really need to hide since they are redirected away, but just in case
-  // something breaks they should not be stuck on the loading screen.
   loader.hide();
 
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(
-      `Failed to open Stripe Billing Portal ${JSON.stringify(res)}`
+  if (err) {
+    errorStore.newError(err);
+  } else if (!res.ok) {
+    errorStore.newError(
+      new Error(`Failed to open Stripe Billing Portal ${JSON.stringify(res)}`)
     );
-
-  // Open link in current tab / redirect there since after that is done, user
-  // will be redirected back to the portal.
-  window.location.href = res.data;
+  } else {
+    // Open link in current tab / redirect there since after that is done, user
+    // will be redirected back to the portal.
+    window.location.href = res.data;
+  }
 }
 </script>
 

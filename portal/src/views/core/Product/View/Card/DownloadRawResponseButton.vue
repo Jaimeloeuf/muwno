@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
-import { useLoader } from "../../../../../store";
+import { useLoader, useError } from "../../../../../store";
 import { getAuthHeader } from "../../../../../firebase";
 import { downloadFile } from "../../../../../utils/downloadFile";
 import type { Product } from "@domain-model";
@@ -9,6 +9,7 @@ import type { Product } from "@domain-model";
 const props = defineProps<{ product: Product }>();
 
 const loader = useLoader();
+const errorStore = useError();
 
 const showHelp = ref(false);
 
@@ -22,10 +23,16 @@ async function downloadRawResponseCSV() {
     .useHeader(getAuthHeader)
     .runText();
 
-  if (err) throw err;
-  if (!res.ok) throw new Error(`Fail to download ${JSON.stringify(res)}`);
-
   loader.hide();
+
+  if (err) {
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(new Error(`Download failed ${JSON.stringify(res)}`));
+    return;
+  }
 
   downloadFile(
     // @todo Check if urlencoding needed to save even with special characters

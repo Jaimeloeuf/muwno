@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useLoader, useNotif } from "../../../store";
+import { useLoader, useNotif, useError } from "../../../store";
 import { SignupRoute, TeamRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
@@ -16,6 +16,7 @@ import {
 const router = useRouter();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const portalLink = getAbsoluteUrlFromRoute({ name: SignupRoute.name });
 const email = ref<string>("");
@@ -36,10 +37,16 @@ async function invite() {
     .useHeader(getAuthHeader)
     .runVoid((res) => res.json());
 
-  if (err) throw err;
-  if (!res.ok) throw new Error(`Failed to invite user. ${JSON.stringify(res)}`);
-
   loader.hide();
+
+  if (err) {
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(new Error(`Failed to invite. ${JSON.stringify(res)}`));
+    return;
+  }
 
   notif.setSnackbar("Invite sent!");
 

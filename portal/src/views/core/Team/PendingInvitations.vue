@@ -8,6 +8,7 @@ import {
   useOnboarding,
   useLoader,
   useNotif,
+  useError,
 } from "../../../store";
 import { AllProductRoute } from "../../../router";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
@@ -20,6 +21,7 @@ const userStore = useUser();
 const onboardingStore = useOnboarding();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 async function acceptInvitation(invitationID: string) {
   loader.show();
@@ -30,19 +32,26 @@ async function acceptInvitation(invitationID: string) {
     .useHeader(getAuthHeader)
     .runVoid((res) => res.json());
 
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to accept invitation. ${JSON.stringify(res)}`);
+  if (err) {
+    loader.hide();
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    loader.hide();
+    errorStore.newError(new Error(`Failed to accept. ${JSON.stringify(res)}`));
+    return;
+  }
 
   await userStore.refreshJWT(true);
 
   await teamInvitationStore.removeInvitation(invitationID);
 
-  loader.hide();
-
   // Force refresh user's onboarding status now that they accepted the invite,
   // so that the route guard will not redirect them to Onboarding view again.
   onboardingStore.isOnboarding(true);
+
+  loader.hide();
 
   router.push({ name: AllProductRoute.name });
 }
@@ -56,15 +65,19 @@ async function rejectInvitation(invitationID: string) {
     .useHeader(getAuthHeader)
     .runVoid((res) => res.json());
 
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to reject invitation. ${JSON.stringify(res)}`);
-
-  await teamInvitationStore.removeInvitation(invitationID);
-
-  notif.setSnackbar("Invitation rejected");
-
   loader.hide();
+
+  if (err) {
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(new Error(`Failed to reject. ${JSON.stringify(res)}`));
+    return;
+  }
+
+  teamInvitationStore.removeInvitation(invitationID);
+  notif.setSnackbar("Invitation rejected");
 }
 </script>
 

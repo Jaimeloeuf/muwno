@@ -2,9 +2,11 @@
 import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
+import { useError } from "../../../../store";
 
 const emits = defineEmits<{ (e: "couponUsed", coupon: null | string): void }>();
 
+const errorStore = useError();
 const couponCode = ref<string>("");
 const checked = ref<boolean>(false);
 const isValid = ref<boolean>(false);
@@ -22,9 +24,16 @@ async function useCouponCode() {
     .useHeader(getAuthHeader)
     .runJSON<{ valid: boolean }>();
 
-  if (err) throw new Error(`Unable to check coupon validity: ${err}`);
-  if (!res.ok)
-    throw new Error(`Unable to check coupon validity: ${JSON.stringify(res)}`);
+  if (err) {
+    errorStore.newError(new Error(`Unable to check coupon validity: ${err}`));
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(
+      new Error(`Unable to check coupon validity: ${JSON.stringify(res)}`)
+    );
+    return;
+  }
 
   isValid.value = res.data.valid;
   checked.value = true;

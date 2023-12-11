@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
-import { useLoader, useNotif } from "../../../../../store";
+import { useLoader, useNotif, useError } from "../../../../../store";
 import { AllProductRoute } from "../../../../../router";
 import { getAuthHeader } from "../../../../../firebase";
 import type { Product } from "@domain-model";
@@ -12,6 +12,7 @@ const props = defineProps<{ product: Product }>();
 const router = useRouter();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const showHelp = ref(false);
 const newOrgID = ref("");
@@ -28,10 +29,16 @@ async function transfer() {
     .useHeader(getAuthHeader)
     .runJSON();
 
-  if (err) throw err;
-  if (!res.ok) throw new Error(`Fail to transfer: ${JSON.stringify(res)}`);
-
   loader.hide();
+
+  if (err) {
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(new Error(`Transfer failed ${JSON.stringify(res)}`));
+    return;
+  }
 
   notif.setSnackbar(`Transferred ${props.product.name}!`);
 

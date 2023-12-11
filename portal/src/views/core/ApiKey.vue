@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useUser, useLoader, useNotif } from "../../store";
+import { useUser, useLoader, useNotif, useError } from "../../store";
 import TopNavbar from "../shared/TopNavbar.vue";
 import CopyOnClick from "../shared/CopyOnClick.vue";
 import Accordion from "../shared/Accordion.vue";
@@ -12,31 +12,47 @@ import type {
   ReadManyApiKeyDTO,
   ReadOneApiKeyDTO,
   ApiKeyDetailID,
+  ApiKeyDetail,
 } from "@domain-model";
 
 const userStore = useUser();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const user = await userStore.getUser();
 const isAdmin = user.role === Role.OrgOwner || user.role === Role.OrgAdmin;
 
+const apiKeyDetails = ref<Array<ApiKeyDetail>>([]);
 const showModal = ref(false);
 const newApiKey = ref<string | null>(null);
 
 async function getApiKeyDetails() {
+  loader.show();
+
   const { res, err } = await sf
     .useDefault()
     .GET(`/api-key/details`)
     .useHeader(getAuthHeader)
     .runJSON<ReadManyApiKeyDTO>();
 
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to load API Key Details ${JSON.stringify(res)}`);
+  loader.hide();
 
-  return res.data.details;
+  if (err) {
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(
+      new Error(`Failed to get API Key details ${JSON.stringify(res)}`)
+    );
+    return;
+  }
+
+  apiKeyDetails.value = res.data.details;
 }
+
+getApiKeyDetails();
 
 async function createApiKey() {
   if (!confirm("Create?")) return;
@@ -49,14 +65,18 @@ async function createApiKey() {
     .useHeader(getAuthHeader)
     .runJSON<ReadOneApiKeyDTO>();
 
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to create API Key ${JSON.stringify(res)}`);
-
-  apiKeyDetails.value.unshift(res.data);
-
   loader.hide();
 
+  if (err) {
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(new Error(`Failed to create ${JSON.stringify(res)}`));
+    return;
+  }
+
+  apiKeyDetails.value.unshift(res.data);
   newApiKey.value = res.data.key;
   showModal.value = true;
   notif.setSnackbar("API Key Created");
@@ -78,17 +98,21 @@ async function deleteApiKey(apiKeyID: ApiKeyDetailID) {
     .useHeader(getAuthHeader)
     .runVoid();
 
-  if (err) throw err;
-  if (!res.ok)
-    throw new Error(`Failed to delete API Key ${JSON.stringify(res)}`);
-
-  apiKeyDetails.value = await getApiKeyDetails();
-
   loader.hide();
-  notif.setSnackbar("API Key Deleted");
-}
 
-const apiKeyDetails = ref(await getApiKeyDetails());
+  if (err) {
+    errorStore.newError(err);
+    return;
+  }
+  if (!res.ok) {
+    errorStore.newError(new Error(`Delete failed ${JSON.stringify(res)}`));
+    return;
+  }
+
+  notif.setSnackbar("API Key Deleted");
+
+  await getApiKeyDetails();
+}
 </script>
 
 <template>

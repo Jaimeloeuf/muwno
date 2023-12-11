@@ -12,9 +12,6 @@ const orgStore = useOrg();
 async function isSubscribed() {
   const org = await orgStore.getOrg();
 
-  if (org.id === undefined)
-    throw new Error(`Cannot check subscription status as Org cant be loaded`);
-
   const { res, err } = await sf
     .useDefault()
     .GET(`/subscription/status/${org.id}`)

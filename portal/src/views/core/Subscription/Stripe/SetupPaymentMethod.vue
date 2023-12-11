@@ -3,13 +3,14 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import type { StripeElements } from "@stripe/stripe-js";
 import { sf } from "simpler-fetch";
-import { useStripe, useLoader } from "../../../../store";
+import { useStripe, useLoader, useError } from "../../../../store";
 import { SetupSuccessPaymentRoute } from "../../../../router";
 import { getAbsoluteUrlFromRoute } from "../../../../utils/getAbsoluteUrlFromRoute";
 
 const router = useRouter();
 const stripeStore = useStripe();
 const loader = useLoader();
+const errorStore = useError();
 
 const stripe = stripeStore.stripe;
 
@@ -56,9 +57,8 @@ async function pay() {
   // Trigger form validation and wallet collection
   const { error: submitError } = await elements.value.submit();
   if (submitError) {
-    alert(submitError);
     loader.hide();
-    console.error(submitError);
+    errorStore.newError(JSON.stringify(submitError));
     return;
   }
 
@@ -92,24 +92,7 @@ async function pay() {
   // `return_url` set in `confirmPayment` method. For some payment methods like
   // iDEAL, your customer will be redirected to an intermediate site first to
   // authorize payment before being redirected to the `return_url`.
-  if (error.type === "card_error" || error.type === "validation_error") {
-    console.error(error);
-
-    // @todo stripe say can display this to user directly
-    error.message;
-
-    // log this to logging infra for debugging
-    error.doc_url;
-  }
-
-  // @todo Handle other error types and let customer retry
-  else {
-    // error.type === "invalid_request_error"
-    // ^ could be due to an invalid request or 3DS authentication failures.
-
-    console.log("An unexpected error occurred.");
-    console.error(error);
-  }
+  errorStore.newError(JSON.stringify(error));
 }
 </script>
 
