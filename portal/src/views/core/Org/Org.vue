@@ -67,7 +67,7 @@ async function goToBillingPortal() {
             </CopyOnClick>
           </div>
 
-          <p class="break-words font-light">
+          <p class="break-all font-light">
             {{ org.id }}
           </p>
         </div>

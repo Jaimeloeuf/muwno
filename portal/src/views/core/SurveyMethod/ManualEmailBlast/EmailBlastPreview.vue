@@ -109,7 +109,7 @@ async function sendTestEmail() {
         <!-- @todo Temporarily disabling eslint rule to render raw HTML -->
         <!-- eslint-disable vue/no-v-html -->
         <p
-          class="break-words rounded-lg border border-zinc-200 bg-zinc-50 p-2"
+          class="break-all rounded-lg border border-zinc-200 bg-zinc-50 p-2"
           v-html="
             surveyBlastEmailBuilder.body(
               testName === '' ? '\{\{ CUSTOMER_NAME \}\}' : testName,

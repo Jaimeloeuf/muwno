@@ -49,9 +49,7 @@ async function generateQrCodeAndShowModal() {
 
         <div class="pb-4">
           <CopyOnClick :textToCopy="surveyLink">
-            <div
-              class="w-full break-words rounded-lg border border-zinc-200 p-3"
-            >
+            <div class="w-full break-all rounded-lg border border-zinc-200 p-3">
               {{ surveyLink }}
               <p class="text-right font-medium">Click to copy link</p>
             </div>

@@ -19,7 +19,7 @@ defineProps<{ productID: ProductID }>();
       </CopyOnClick>
     </div>
 
-    <p class="break-words font-light">
+    <p class="break-all font-light">
       {{ productID }}
     </p>
   </div>

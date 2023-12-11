@@ -72,10 +72,8 @@ async function ignoreAndCloseModal() {
 
         <div class="w-full">
           <p>Details</p>
-          <!-- @todo get rid of the custom css -->
           <div
-            class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-red-500"
-            style="word-wrap: break-word"
+            class="break-all rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-red-500"
           >
             {{ error }}
           </div>

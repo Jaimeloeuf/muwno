@@ -55,8 +55,7 @@ const router = useRouter();
     <div class="text-left">
       <p class="mb-2 text-xl">Error Message</p>
       <div
-        class="w-full rounded-lg border border-zinc-200 p-4 text-red-700"
-        style="word-wrap: break-word"
+        class="w-full break-all rounded-lg border border-zinc-200 p-4 text-red-700"
       >
         {{ globalError }}
       </div>
