@@ -5,10 +5,7 @@ import { useNotif } from "../../store";
 const notif = useNotif();
 
 const slots = useSlots();
-const props = defineProps<{
-  hideIcon?: boolean;
-  textToCopy?: string;
-}>();
+const props = defineProps<{ textToCopy?: string }>();
 
 /**
  * Write a string to the user's clipboard
