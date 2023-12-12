@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useError } from "../../store";
+import CopyOnClick from "./CopyOnClick.vue";
 
 const props = defineProps<{ error: Error | string }>();
 const emit = defineEmits<{ (e: "close"): void }>();
@@ -32,7 +33,7 @@ async function ignoreAndCloseModal() {
 
 <template>
   <div
-    class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-80"
+    class="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-black bg-opacity-80"
   >
     <div
       v-if="show"
@@ -72,11 +73,16 @@ async function ignoreAndCloseModal() {
 
         <div class="w-full">
           <p>Details</p>
-          <div
-            class="break-all rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-red-500"
-          >
-            {{ error }}
-          </div>
+
+          <CopyOnClick :textToCopy="error.toString()">
+            <div
+              class="break-all rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-red-500"
+            >
+              {{ error }}
+            </div>
+
+            <p class="pt-0.5 text-right font-thin">click to copy</p>
+          </CopyOnClick>
         </div>
       </div>
     </div>
