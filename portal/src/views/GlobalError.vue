@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { AllProductRoute } from "../router";
+import CopyOnClick from "./shared/CopyOnClick.vue";
 
 defineProps<{ globalError: Error }>();
 
@@ -15,7 +16,7 @@ const router = useRouter();
       <img src="../assets/404.svg" class="max-h-52 md:max-h-96" />
     </div>
 
-    <h1 class="mb-4 text-7xl font-extrabold text-blue-500 lg:text-8xl">
+    <h1 class="mb-4 text-7xl font-extrabold text-blue-600 lg:text-8xl">
       whoops
     </h1>
 
@@ -53,12 +54,16 @@ const router = useRouter();
     </div>
 
     <div class="text-left">
-      <p class="mb-2 text-xl">Error Message</p>
-      <div
-        class="w-full break-all rounded-lg border border-zinc-200 p-4 text-red-700"
-      >
-        {{ globalError }}
-      </div>
+      <p class="pb-1">Details</p>
+      <CopyOnClick :textToCopy="globalError.toString()">
+        <div
+          class="w-full break-all rounded-lg border border-zinc-200 p-4 text-red-700"
+        >
+          {{ globalError }}
+        </div>
+
+        <p class="pt-0.5 text-right font-thin">click to copy</p>
+      </CopyOnClick>
     </div>
   </div>
 </template>
