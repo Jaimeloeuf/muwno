@@ -67,6 +67,30 @@ function clearRouterError() {
 </script>
 
 <template>
+  <!--
+    These top level components nested directly under the root component are
+    1. Using `fixed` positioning relative to browser window.
+    2. Not related to Router page components.
+    3. Should be able to render even when there is a GlobalError.
+
+    E.g. Snackbar notification popups, because it is fixed to the bottom right
+    of screen and it is rendered irregardless of the route and route changes,
+    and it should still work even when there is an uncaught error being shown in
+    GlobalError view.
+  -->
+
+  <Snackbar
+    v-if="notif.snackBarMessages[0] !== undefined"
+    :key="notif.snackBarMessages[0].id"
+    :msg="notif.snackBarMessages[0].msg"
+    :timeout="notif.snackBarMessages[0].timeout"
+    @close="notif.removeOldestMessage"
+  />
+
+  <!--
+    Page view components
+  -->
+
   <GlobalErrorView
     v-if="globalError !== null"
     :globalError="globalError"
@@ -90,29 +114,11 @@ function clearRouterError() {
 
     <Loader v-if="loader.showLoader" />
 
-    <!--
-      Instead of checking for length to see if there are any errors to show, it
-      checks for the first element so that TS will cast it as not undefined for
-      the 2 props.
-    -->
     <ErrorModal
       v-if="errorStore.errors[0] !== undefined"
       :key="errorStore.errors[0].id"
       :error="errorStore.errors[0].error"
       @close="errorStore.clearOldestError"
-    />
-
-    <!--
-      Instead of checking for length to see if there are any notifs to show, it
-      checks for the first element so that TS will cast it as not undefined for
-      the 2 props.
-    -->
-    <Snackbar
-      v-if="notif.snackBarMessages[0] !== undefined"
-      :key="notif.snackBarMessages[0].id"
-      :msg="notif.snackBarMessages[0].msg"
-      :timeout="notif.snackBarMessages[0].timeout"
-      @close="notif.removeOldestMessage"
     />
 
     <!--
