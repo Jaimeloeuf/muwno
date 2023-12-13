@@ -95,10 +95,12 @@ function clearError() {
           </div>
 
           <!--
-            Show loader when waiting for a top level await in the RouterView
-            component's setup function.
+            Show loader while awaiting for RouterView component's setup function
+            to resolve asynchronously to support top level awaits in Vue SFC.
           -->
-          <template #fallback><Loader /></template>
+          <template #fallback>
+            <Loader />
+          </template>
         </Suspense>
       </template>
 
