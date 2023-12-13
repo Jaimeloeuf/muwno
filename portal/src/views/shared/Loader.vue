@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useLoader } from "../../store";
+import { reloadPage } from "../../utils/reloadPage";
 
 const loaderStore = useLoader();
-const reloadPage = () => window.location.reload();
 
 // Simple mechanism to allow user to reload the page if loading state is too
 // long or if loader wasnt properly cleared after use pass an 10s (arbitrary).

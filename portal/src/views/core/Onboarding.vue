@@ -16,6 +16,7 @@ import {
   BuySubscriptionPlanRoute,
   OnboardingRoute,
 } from "../../router";
+import { reloadPage } from "../../utils/reloadPage";
 import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
 import { landingLink } from "../../utils/links";
 import { logout } from "../../utils/logout";
@@ -53,8 +54,6 @@ const orgWaitingForSubscription =
 const orgName = orgWaitingForSubscription
   ? (await orgStore.getOrg()).name
   : undefined;
-
-const reloadPage = () => window.location.reload();
 
 if (auth.currentUser === null) {
   throw new Error("Firebase Auth unable to load current user");

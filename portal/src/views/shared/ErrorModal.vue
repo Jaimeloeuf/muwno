@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useError } from "../../store";
+import { reloadPage } from "../../utils/reloadPage";
 import CopyOnClick from "./CopyOnClick.vue";
 
 const props = defineProps<{ error: Error | string }>();
@@ -11,8 +12,6 @@ console.error(props.error);
 
 const errorStore = useError();
 const show = ref(true);
-
-const reloadPage = () => window.location.reload();
 
 /**
  * If this is not the only error in errorStore, stop showing modal's error box
