@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { normalMoneyFormatter } from "./utils";
-import { PlanDetails } from "@domain-model";
 
 const payYearly = ref(true);
+
+/**
+ * Example base subscription price object
+ */
+const price = {
+  monthly: {
+    SGD: 100,
+  },
+  yearly: {
+    SGD: 1000,
+  },
+};
 </script>
 
 <template>
@@ -28,32 +39,27 @@ const payYearly = ref(true);
 
     <div v-if="payYearly" class="w-full">
       <p class="pb-1 text-xl font-light text-green-700">
-        {{ normalMoneyFormatter(PlanDetails.price.SGD.yearly / 12) }} / Month
+        {{ normalMoneyFormatter(price.yearly.SGD / 12) }} / Month
       </p>
       <p>
-        {{ normalMoneyFormatter(PlanDetails.price.SGD.yearly) }} Paid once a
-        year + Monthly Overages
+        {{ normalMoneyFormatter(price.yearly.SGD) }} Paid once a year + Monthly
+        Overages
       </p>
     </div>
 
     <div v-else class="w-full">
       <p class="pb-1 text-xl font-extralight">
-        {{ normalMoneyFormatter(PlanDetails.price.SGD.monthly) }} / Month +
-        Overages
+        {{ normalMoneyFormatter(price.monthly.SGD) }} / Month + Overages
       </p>
     </div>
 
     <p class="pt-4">
       Save
       <span class="text-green-700">
-        {{
-          normalMoneyFormatter(
-            PlanDetails.price.SGD.monthly * 12 - PlanDetails.price.SGD.yearly,
-          )
-        }}
+        {{ normalMoneyFormatter(price.monthly.SGD * 12 - price.yearly.SGD) }}
       </span>
       <span class="text-sm"> (2 months free)</span> by paying
-      {{ normalMoneyFormatter(PlanDetails.price.SGD.yearly) }} once a year.
+      {{ normalMoneyFormatter(price.yearly.SGD) }} once a year.
     </p>
   </div>
 </template>
