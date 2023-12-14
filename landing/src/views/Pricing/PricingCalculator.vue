@@ -5,6 +5,7 @@ import {
   normalMoneyFormatter,
   smallMoneyFormatter,
 } from "./utils";
+import { flags } from "../../utils/flags";
 import { PlanDetails } from "@domain-model";
 
 const emit = defineEmits(["reset"]);
@@ -45,13 +46,31 @@ const responsesStoredIsMax = computed(
   () => responsesStored.value.toString() === responsesStoredMax.toString(),
 );
 
+const customers = ref<number>(PlanDetails.included.response);
+const customersPrice = computed(
+  () =>
+    // Exclude the free included quota
+    (customers.value - PlanDetails.included.customerStored) *
+    PlanDetails.overage.customerStored.price.SGD,
+);
+const customersMax = 30_000;
+const customersIsMax = computed(
+  () => customers.value.toString() === customersMax.toString(),
+);
+
 const totalPrice = computed(
   () =>
-    responsesPrice.value + emailsSentPrice.value + responsesStoredPrice.value,
+    responsesPrice.value +
+    emailsSentPrice.value +
+    responsesStoredPrice.value +
+    customersPrice.value,
 );
 const anySliderMaxed = computed(
   () =>
-    responsesIsMax.value || emailsSentIsMax.value || responsesStoredIsMax.value,
+    responsesIsMax.value ||
+    emailsSentIsMax.value ||
+    responsesStoredIsMax.value ||
+    customersIsMax.value,
 );
 </script>
 
@@ -156,7 +175,7 @@ const anySliderMaxed = computed(
       </div>
     </div>
 
-    <div class="pb-12">
+    <div class="pb-6">
       <p class="text-lg">Survey responses stored</p>
       <p class="text-sm">
         {{ smallMoneyFormatter(PlanDetails.overage.responseStored.price.SGD) }}
@@ -210,7 +229,57 @@ const anySliderMaxed = computed(
       </div>
     </div>
 
-    <div class="text-right">
+    <div v-if="flags.devMode" class="pb-6">
+      <p class="text-lg">Customers Stored</p>
+      <p class="text-sm">
+        {{ smallMoneyFormatter(PlanDetails.overage.customerStored.price.SGD) }}
+        / customer
+      </p>
+      <input
+        type="range"
+        v-model="customers"
+        :min="PlanDetails.included.customerStored"
+        :max="customersMax"
+        step="10"
+        class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+      />
+      <div class="text-right">
+        <p>
+          <span class="font-normal">{{ numberFormatter(customers) }}</span>
+          <template v-if="customersIsMax"> +</template>
+          / month
+        </p>
+        <p>
+          <span
+            v-if="customers <= PlanDetails.included.customerStored"
+            class="font-medium"
+          >
+            FREE
+          </span>
+          <template v-else>
+            <span class="font-extralight">
+              {{
+                smallMoneyFormatter(
+                  PlanDetails.overage.customerStored.price.SGD,
+                )
+              }}
+              x
+              {{
+                numberFormatter(customers - PlanDetails.included.customerStored)
+              }}
+              =
+            </span>
+            <span class="font-normal">
+              {{ normalMoneyFormatter(customersPrice) }}
+            </span>
+            <template v-if="customersIsMax"> +</template>
+            / month
+          </template>
+        </p>
+      </div>
+    </div>
+
+    <div class="pt-6 text-right">
       <p class="pb-2 text-xl">
         <span
           v-if="totalPrice === 0"
