@@ -7,54 +7,61 @@ import {
 } from "./utils";
 import { PlanDetails } from "@domain-model";
 
-const props = defineProps<{ payYearly: boolean }>();
 const emit = defineEmits(["reset"]);
 
 const responses = ref<number>(PlanDetails.included.response);
 const responsesPrice = computed(
   () =>
-    // Remove the quota included the base subscription
+    // Exclude the free included quota
     (responses.value - PlanDetails.included.response) *
     PlanDetails.overage.response.price.SGD,
+);
+const responsesMax = 30_000;
+const responsesIsMax = computed(
+  () => responses.value.toString() === responsesMax.toString(),
 );
 
 const emailsSent = ref<number>(PlanDetails.included.email);
 const emailsSentPrice = computed(
   () =>
-    // Remove the quota included the base subscription
+    // Exclude the free included quota
     (emailsSent.value - PlanDetails.included.email) *
     PlanDetails.overage.email.price.SGD,
+);
+const emailsSentMax = 30_000;
+const emailsSentIsMax = computed(
+  () => emailsSent.value.toString() === emailsSentMax.toString(),
 );
 
 const responsesStored = ref<number>(PlanDetails.included.responseStored);
 const responsesStoredPrice = computed(
   () =>
-    // Remove the quota included the base subscription
+    // Exclude the free included quota
     (responsesStored.value - PlanDetails.included.responseStored) *
     PlanDetails.overage.responseStored.price.SGD,
 );
-
-const baseSubscriptionPrice = computed(() =>
-  props.payYearly
-    ? PlanDetails.price.SGD.yearly / 12
-    : PlanDetails.price.SGD.monthly,
+const responsesStoredMax = 30_000;
+const responsesStoredIsMax = computed(
+  () => responsesStored.value.toString() === responsesStoredMax.toString(),
 );
-const overagePrice = computed(
+
+const totalPrice = computed(
   () =>
     responsesPrice.value + emailsSentPrice.value + responsesStoredPrice.value,
 );
-const totalPrice = computed(
-  () => baseSubscriptionPrice.value + overagePrice.value,
+const anySliderMaxed = computed(
+  () =>
+    responsesIsMax.value || emailsSentIsMax.value || responsesStoredIsMax.value,
 );
 </script>
 
 <template>
   <div class="w-full rounded-lg border border-zinc-200 p-6">
     <div class="flex flex-row items-center justify-between pb-6">
-      <p class="font-medium">Pricing Estimate (by month)</p>
+      <p class="text-2xl font-normal">Calculator</p>
 
       <button
-        class="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-0.5 shadow"
+        class="rounded-lg border border-zinc-400 bg-zinc-100 px-4 py-0.5 shadow"
         @click="$emit('reset')"
       >
         reset
@@ -62,114 +69,166 @@ const totalPrice = computed(
     </div>
 
     <div class="pb-6">
-      <label class="mb-2">
-        <p>Survey Responses: {{ numberFormatter(responses) }}</p>
-        <p>
-          Overage Price:
-          <template v-if="responses <= PlanDetails.included.response">
-            $0, included with base subscription
-          </template>
-          <template v-else>
-            {{ normalMoneyFormatter(responsesPrice) }}
-            ({{ smallMoneyFormatter(PlanDetails.overage.response.price.SGD) }} x
-            {{ numberFormatter(responses - PlanDetails.included.response) }})
-          </template>
-        </p>
-      </label>
+      <p class="text-lg">Survey responses expected</p>
+      <p class="text-sm">
+        {{ smallMoneyFormatter(PlanDetails.overage.response.price.SGD) }}
+        / response
+      </p>
       <input
         type="range"
         v-model="responses"
         :min="PlanDetails.included.response"
-        max="100000"
-        step="100"
+        :max="responsesMax"
+        step="10"
         class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
       />
+      <div class="text-right">
+        <p>
+          <span class="font-normal">{{ numberFormatter(responses) }}</span>
+          <template v-if="responsesIsMax"> +</template>
+          / month
+        </p>
+        <p>
+          <span
+            v-if="responses <= PlanDetails.included.response"
+            class="font-medium"
+          >
+            FREE
+          </span>
+          <template v-else>
+            <span class="font-extralight">
+              {{ smallMoneyFormatter(PlanDetails.overage.response.price.SGD) }}
+              x
+              {{ numberFormatter(responses - PlanDetails.included.response) }}
+              =
+            </span>
+            <span class="font-normal">
+              {{ normalMoneyFormatter(responsesPrice) }}
+            </span>
+            <template v-if="responsesIsMax"> +</template>
+            / month
+          </template>
+        </p>
+      </div>
     </div>
 
     <div class="pb-6">
-      <label class="mb-2">
-        <p>Emails sent: {{ numberFormatter(emailsSent) }}</p>
-        <p>
-          Overage Price:
-          <template v-if="emailsSent <= PlanDetails.included.response">
-            $0, included with base subscription
-          </template>
-          <template v-else>
-            {{ normalMoneyFormatter(emailsSentPrice) }}
-            ({{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }} x
-            {{ numberFormatter(emailsSent - PlanDetails.included.email) }})
-          </template>
-        </p>
-      </label>
+      <p class="text-lg">Survey emails sent</p>
+      <p class="text-sm">
+        {{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }}
+        / email
+      </p>
       <input
         type="range"
         v-model="emailsSent"
         :min="PlanDetails.included.email"
-        max="1000000"
-        step="1000"
+        :max="emailsSentMax"
+        step="10"
         class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
       />
-    </div>
-
-    <div class="pb-4">
-      <label class="mb-2">
-        <p>Responses Stored: {{ numberFormatter(responsesStored) }}</p>
+      <div class="text-right">
         <p>
-          Overage Price:
-          <template
-            v-if="responsesStored <= PlanDetails.included.responseStored"
+          <span class="font-normal">{{ numberFormatter(emailsSent) }}</span>
+          <template v-if="emailsSentIsMax"> +</template>
+          / month
+        </p>
+        <p>
+          <span
+            v-if="emailsSent <= PlanDetails.included.email"
+            class="font-medium"
           >
-            $0, included with base subscription
-          </template>
+            FREE
+          </span>
           <template v-else>
-            {{ normalMoneyFormatter(responsesStoredPrice) }}
-            ({{
-              smallMoneyFormatter(PlanDetails.overage.responseStored.price.SGD)
-            }}
-            x
-            {{
-              numberFormatter(
-                responsesStored - PlanDetails.included.responseStored,
-              )
-            }})
+            <span class="font-extralight">
+              {{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }}
+              x
+              {{ numberFormatter(emailsSent - PlanDetails.included.email) }}
+              =
+            </span>
+            <span class="font-normal">
+              {{ normalMoneyFormatter(emailsSentPrice) }}
+            </span>
+            <template v-if="emailsSentIsMax"> +</template>
+            / month
           </template>
         </p>
-      </label>
+      </div>
+    </div>
+
+    <div class="pb-12">
+      <p class="text-lg">Survey responses stored</p>
+      <p class="text-sm">
+        {{ smallMoneyFormatter(PlanDetails.overage.responseStored.price.SGD) }}
+        / response
+      </p>
       <input
         type="range"
         v-model="responsesStored"
         :min="PlanDetails.included.responseStored"
-        max="1000000"
-        step="1000"
+        :max="responsesStoredMax"
+        step="50"
         class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
       />
+      <div class="text-right">
+        <p>
+          <span class="font-normal">
+            {{ numberFormatter(responsesStored) }}
+          </span>
+          <template v-if="responsesStoredIsMax"> +</template>
+          / month
+        </p>
+        <p>
+          <span
+            v-if="responsesStored <= PlanDetails.included.responseStored"
+            class="font-medium"
+          >
+            FREE
+          </span>
+          <template v-else>
+            <span class="font-extralight">
+              {{
+                smallMoneyFormatter(
+                  PlanDetails.overage.responseStored.price.SGD,
+                )
+              }}
+              x
+              {{
+                numberFormatter(
+                  responsesStored - PlanDetails.included.responseStored,
+                )
+              }}
+              =
+            </span>
+            <span class="font-normal">
+              {{ normalMoneyFormatter(responsesStoredPrice) }}
+              <template v-if="responsesStoredIsMax"> +</template>
+            </span>
+            / month
+          </template>
+        </p>
+      </div>
     </div>
 
-    <div>
-      <p class="font-medium">Price</p>
-
-      <div class="flex flex-row justify-between">
-        <p>
-          Base Subscription
-          <span
-            v-if="payYearly"
-            class="block text-xs font-extralight md:inline"
-          >
-            ({{ normalMoneyFormatter(PlanDetails.price.SGD.yearly) }} / Year)
+    <div class="text-right">
+      <p class="pb-2 text-xl">
+        <span
+          v-if="totalPrice === 0"
+          class="rounded-lg bg-yellow-300 px-4 font-medium"
+        >
+          FREE
+        </span>
+        <template v-else>
+          <span class="font-normal">
+            {{ normalMoneyFormatter(totalPrice) }}
           </span>
-        </p>
-        <p>{{ normalMoneyFormatter(baseSubscriptionPrice) }} / month</p>
-      </div>
-      <div class="flex flex-row justify-between">
-        <p>Overage</p>
-        <p>{{ normalMoneyFormatter(overagePrice) }} / month</p>
-      </div>
-      <div class="flex flex-row justify-between py-2 font-semibold">
-        <p>Total</p>
-        <p>{{ normalMoneyFormatter(totalPrice) }} / month</p>
-      </div>
-      <p class="text-right font-extralight">
-        Volume discount is available, email
+          <template v-if="anySliderMaxed"> +</template>
+          <span class="font-extralight"> / month</span>
+        </template>
+      </p>
+
+      <p class="font-extralight">
+        Volume and startup discounts available, email
         <a href="mailto:help@muwno.com" class="italic underline">
           help@muwno.com
         </a>
