@@ -7,6 +7,7 @@ defineProps<{ globalError: Error }>();
 defineEmits(["acknowledged"]);
 
 const router = useRouter();
+const reloadPage = () => window.location.reload();
 </script>
 
 <template>
@@ -27,7 +28,9 @@ const router = useRouter();
       Reloading the page might fix it, if not please help us report this issue!
     </p>
 
-    <div class="mb-6 flex flex-row items-center justify-center gap-3">
+    <div
+      class="mb-6 flex flex-col-reverse items-center justify-center gap-3 md:flex-row"
+    >
       <!-- @todo Add link -->
       <a
         href=""
@@ -35,6 +38,13 @@ const router = useRouter();
       >
         Report 💛
       </a>
+
+      <button
+        class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-xl text-zinc-800"
+        @click="reloadPage"
+      >
+        Reload
+      </button>
 
       <button
         class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-xl text-zinc-800"
