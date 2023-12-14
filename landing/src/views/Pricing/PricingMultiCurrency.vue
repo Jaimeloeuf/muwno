@@ -2,11 +2,20 @@
 import { ref } from "vue";
 import PricingCalculator from "./PricingCalculator.vue";
 import Navbar from "../shared/Navbar.vue";
-import { numberFormatter, smallMoneyFormatter } from "./utils";
+import {
+  normalMoneyFormatterReactive,
+  smallMoneyFormatterReactive,
+} from "./utils";
 import { flags } from "../../utils/flags";
 import { PlanDetails } from "@domain-model";
 
 const pricingCalculatorKey = ref(Math.random());
+const selectedCurrency = ref<(typeof PlanDetails.supportedCurrencies)[number]>(
+  PlanDetails.supportedCurrencies[0],
+);
+
+const numberFormatter = normalMoneyFormatterReactive(selectedCurrency);
+const smallMoneyFormatter = smallMoneyFormatterReactive(selectedCurrency);
 </script>
 
 <template>
@@ -16,9 +25,23 @@ const pricingCalculatorKey = ref(Math.random());
     class="mx-auto flex max-w-screen-sm flex-col justify-between gap-10 p-6 md:px-12 lg:max-w-max lg:flex-row lg:px-16 lg:pt-10 xl:px-20"
   >
     <div class="w-full font-light">
-      <p class="pb-4 text-5xl font-bold text-zinc-700">
-        Simple, Honest Pricing
-      </p>
+      <div class="flex flex-row items-end justify-between pb-8">
+        <p class="text-5xl font-bold text-zinc-700">Simple, Honest Pricing</p>
+
+        <select
+          v-model="selectedCurrency"
+          class="rounded-lg border border-zinc-300 p-1 focus:outline-none"
+        >
+          <option
+            v-for="currency in PlanDetails.supportedCurrencies"
+            :key="currency"
+            :value="currency"
+            :selected="currency === selectedCurrency"
+          >
+            {{ currency }}
+          </option>
+        </select>
+      </div>
 
       <p class="pb-10 text-xl">
         Get started for
@@ -67,11 +90,19 @@ const pricingCalculatorKey = ref(Math.random());
           <p class="font-normal">Usage</p>
           <ul class="list-decimal px-5 text-lg">
             <li>
-              {{ smallMoneyFormatter(PlanDetails.overage.response.price.SGD) }}
+              {{
+                smallMoneyFormatter(
+                  PlanDetails.overage.response.price[selectedCurrency],
+                )
+              }}
               / Survey response
             </li>
             <li>
-              {{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }}
+              {{
+                smallMoneyFormatter(
+                  PlanDetails.overage.email.price[selectedCurrency],
+                )
+              }}
               / Survey email
             </li>
           </ul>
@@ -83,7 +114,7 @@ const pricingCalculatorKey = ref(Math.random());
             <li>
               {{
                 smallMoneyFormatter(
-                  PlanDetails.overage.responseStored.price.SGD,
+                  PlanDetails.overage.responseStored.price[selectedCurrency],
                 )
               }}
               / Survey response stored
@@ -91,7 +122,7 @@ const pricingCalculatorKey = ref(Math.random());
             <li v-if="flags.devMode">
               {{
                 smallMoneyFormatter(
-                  PlanDetails.overage.customerStored.price.SGD,
+                  PlanDetails.overage.customerStored.price[selectedCurrency],
                 )
               }}
               / Customer stored
