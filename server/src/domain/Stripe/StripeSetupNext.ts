@@ -10,8 +10,20 @@ interface StripeSetupNext_Base {
 }
 
 /**
+ * A next action to get service to create a pay as you use subscription after
+ * Stripe's SetupIntent has been created successfully.
+ */
+export interface StripeSetupNext_CreatePayAsYouUseSubscription
+  extends StripeSetupNext_Base {
+  success: {
+    intent: 'create-payu-subscription';
+  };
+}
+
+/**
  * A next action to get service to create plan subscriptions after Stripe's
  * SetupIntent has been created successfully.
+ * This is for creating 2 subscriptions, 1 for base and 1 for overage UBP.
  */
 export interface StripeSetupNext_CreateSubscription
   extends StripeSetupNext_Base {
@@ -25,4 +37,6 @@ export interface StripeSetupNext_CreateSubscription
 /**
  * Union type of all possible next actions the service can do.
  */
-export type StripeSetupNext = StripeSetupNext_CreateSubscription;
+export type StripeSetupNext =
+  | StripeSetupNext_CreatePayAsYouUseSubscription
+  | StripeSetupNext_CreateSubscription;

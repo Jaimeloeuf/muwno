@@ -103,6 +103,15 @@ export class StripeSetupintentService {
       return;
     }
 
+    // If user requested for a PAYU subscription
+    else if (
+      stripeSetupNextAction.success.intent === 'create-payu-subscription'
+    ) {
+      await this.stripeBuySubscriptionService.buyMeteredSubscription(
+        setupIntent.customer,
+      );
+    }
+
     // If user requested for Standard Plan subscription to be created
     else if (stripeSetupNextAction.success.intent === 'create-subscription') {
       await this.stripeBuySubscriptionService.buySubscription(
@@ -115,7 +124,9 @@ export class StripeSetupintentService {
     // This should not happen since all Next action types must be accounted for.
     else {
       throw new ServiceException(
-        `Invalid StripeSetupNext success intent: ${stripeSetupNextAction.success.intent}`,
+        `Invalid StripeSetupNext success intent: ${JSON.stringify(
+          stripeSetupNextAction,
+        )}`,
       );
     }
 

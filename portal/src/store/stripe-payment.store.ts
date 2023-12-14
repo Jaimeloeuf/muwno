@@ -47,7 +47,10 @@ export const useStripe = defineStore("stripe", {
       const { res, err } = await sf
         .useDefault()
         .POST(`/stripe/setup-intent/create`)
-        .bodyJSON<CreateOneStripeSetupNextDTO>({ next: this.next })
+        .bodyJSON<CreateOneStripeSetupNextDTO>({
+          // Hardcoded `StripeSetupNext` for now since only this is supported.
+          next: { success: { intent: "create-payu-subscription" } },
+        })
         .useHeader(getAuthHeader)
         .runJSON<{ clientSecret: string; orgEmail: string }>();
 

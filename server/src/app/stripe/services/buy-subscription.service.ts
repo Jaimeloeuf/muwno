@@ -148,7 +148,7 @@ export class StripeBuySubscriptionService {
       .then(({ data }) => data.map((price) => ({ price: price.id })));
   }
 
-  private async buyMeteredSubscription(stripeCustomerID: string) {
+  async buyMeteredSubscription(stripeCustomerID: string) {
     const meteredProductPrice = await this.getMeteredProductPrice();
 
     const meteredProductSubscription = await this.createSubsciption(
