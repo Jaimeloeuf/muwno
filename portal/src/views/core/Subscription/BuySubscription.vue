@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLoader, useStripe } from "../../../store";
 import { SetupPaymentMethodRoute, OnboardingRoute } from "../../../router";
 import Accordion from "../../shared/Accordion.vue";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import CouponCodeInput from "./Stripe/CouponCodeInput.vue";
 import {
   numberFormatter,
   normalMoneyFormatter,
@@ -17,9 +15,6 @@ const loader = useLoader();
 const router = useRouter();
 const stripeStore = useStripe();
 
-const coupon = ref<null | string>(null);
-const useCoupon = (newCoupon: null | string) => (coupon.value = newCoupon);
-
 async function buyPlan(paymentInterval: "yearly" | "monthly") {
   loader.show("Waiting for payment provider...");
 
@@ -28,7 +23,10 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
     success: {
       intent: "create-subscription",
       paymentInterval,
-      coupon: coupon.value,
+
+      // Coupon is hardcoded to always be null for now because there will be no
+      // coupon support after fully transitioning to pay as you go pricing only.
+      coupon: null,
     },
   });
 
@@ -172,8 +170,6 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
       </div>
 
       <div class="flex w-full flex-col gap-6 font-light">
-        <CouponCodeInput @coupon-used="useCoupon" />
-
         <div
           class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-green-600 p-6 shadow hover:shadow-2xl"
           @click="buyPlan('yearly')"
