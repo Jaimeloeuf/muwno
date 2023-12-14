@@ -6,9 +6,9 @@ import Accordion from "../../shared/Accordion.vue";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import {
   numberFormatter,
-  normalMoneyFormatter,
   smallMoneyFormatter,
 } from "../../../utils/numericalFormatter";
+import { flags } from "../../../utils/flags";
 import { PlanDetails } from "@domain-model";
 
 const loader = useLoader();
@@ -46,16 +46,22 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
       class="mx-auto flex max-w-screen-xl flex-col justify-between gap-6 pt-2 lg:flex-row lg:gap-12 lg:pt-6"
     >
       <div class="w-full font-light">
-        <p class="pb-6 text-xl">
-          Our subscription charges you a <i>base price</i> plus any
-          <i>extra usage</i> over what is included. Just like a telco
-          subscription!
+        <p class="pb-4 text-5xl font-bold text-zinc-700">
+          Simple, Honest Pricing
+        </p>
+
+        <p class="pb-10 text-xl">
+          Get started for
+          <span class="rounded-lg bg-yellow-300 px-2 font-medium">FREE</span>
+          and only pay what you use over the free tier.
+          <br />
+          No hidden fees.
         </p>
 
         <Accordion class="pb-2" defaultState="show">
           <template #summary>
             <p class="text-left text-xl font-normal">
-              What is included every month?
+              Monthly free tier includes
             </p>
           </template>
 
@@ -69,7 +75,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
                 </li>
                 <li>
                   {{ numberFormatter(PlanDetails.included.email) }}
-                  Emails sent
+                  Survey emails
                 </li>
               </ul>
             </div>
@@ -81,7 +87,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
                   {{ numberFormatter(PlanDetails.included.responseStored) }}
                   Responses stored
                 </li>
-                <li>
+                <li v-if="flags.devMode">
                   {{ numberFormatter(PlanDetails.included.customerStored) }}
                   Customers stored
                 </li>
@@ -90,11 +96,9 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
           </template>
         </Accordion>
 
-        <Accordion class="pb-8">
+        <Accordion class="pb-12" defaultState="hide">
           <template #summary>
-            <p class="text-left text-xl font-normal">
-              How much does it cost if I use more than what is included?
-            </p>
+            <p class="text-left text-xl font-normal">After the free tier</p>
           </template>
 
           <template #content>
@@ -109,14 +113,14 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
                 </li>
                 <li>
                   {{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }}
-                  / Email sent
+                  / Survey email
                 </li>
               </ul>
             </div>
 
             <div>
               <p class="pb-1 font-normal">Storage</p>
-              <ul class="mb-4 list-decimal px-5 text-lg">
+              <ul class="list-decimal px-5 text-lg">
                 <li>
                   {{
                     smallMoneyFormatter(
@@ -125,7 +129,7 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
                   }}
                   / Survey response stored
                 </li>
-                <li>
+                <li v-if="flags.devMode">
                   {{
                     smallMoneyFormatter(
                       PlanDetails.overage.customerStored.price.SGD
@@ -135,22 +139,6 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
                 </li>
               </ul>
             </div>
-
-            <p class="pt-4 font-thin italic">
-              Overage is billed monthly even if you pay for the base
-              subscription yearly.
-            </p>
-            <p class="pt-1 font-thin italic">
-              Volume discount is available, email
-              <a
-                class="italic underline decoration-zinc-200 underline-offset-4"
-                target="_blank"
-                href="mailto:help@muwno.com"
-              >
-                help@muwno.com
-              </a>
-              for more details.
-            </p>
           </template>
         </Accordion>
 
@@ -166,82 +154,37 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
               help@muwno.com
             </a>
           </p>
+          <p>
+            Volume and startup discounts available, email
+            <a
+              class="italic underline decoration-zinc-200 underline-offset-4"
+              target="_blank"
+              href="mailto:help@muwno.com"
+            >
+              help@muwno.com
+            </a>
+            for details.
+          </p>
         </div>
       </div>
 
-      <div class="flex w-full flex-col gap-6 font-light">
+      <div class="flex w-full flex-col justify-center gap-1 font-light">
+        <p class="text-lg">
+          Your payment details is needed for verification and future payment.
+        </p>
+
         <div
           class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-green-600 p-6 shadow hover:shadow-2xl"
           @click="buyPlan('yearly')"
         >
           <div>
-            <p class="pb-2 text-green-700">Paid Yearly</p>
-            <p class="pb-1 text-3xl text-green-700">
-              {{ normalMoneyFormatter(PlanDetails.price.SGD.yearly / 12) }} /
-              <b>Month</b>
-            </p>
-            <p class="pb-4 font-extralight">+ Overage</p>
-
-            <p>
-              Save
-              <span class="text-green-700">
-                {{
-                  normalMoneyFormatter(
-                    PlanDetails.price.SGD.monthly * 12 -
-                      PlanDetails.price.SGD.yearly
-                  )
-                }}
-              </span>
-              by paying
-              {{ normalMoneyFormatter(PlanDetails.price.SGD.yearly) }} once a
-              year.
+            <p class="py-2 align-middle text-5xl text-green-700 lg:py-8">
+              Start
             </p>
           </div>
 
           <svg
-            class="h-8 w-8 text-green-700"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </div>
-
-        <div
-          class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-zinc-200 p-6 hover:shadow-2xl"
-          @click="buyPlan('monthly')"
-        >
-          <div>
-            <p class="pb-1 text-2xl font-extralight">
-              {{ normalMoneyFormatter(PlanDetails.price.SGD.monthly) }} / Month
-            </p>
-            <p class="pb-4 font-extralight">+ Overage</p>
-
-            <p>
-              Save
-              <span class="text-green-700">
-                {{
-                  normalMoneyFormatter(
-                    PlanDetails.price.SGD.monthly * 12 -
-                      PlanDetails.price.SGD.yearly
-                  )
-                }}
-              </span>
-              <span class="text-sm"> (2 months free)</span> by paying once a
-              year instead.
-            </p>
-          </div>
-
-          <svg
-            class="h-8 w-8 text-zinc-500"
+            class="w-10 text-green-700"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
