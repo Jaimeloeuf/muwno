@@ -223,14 +223,6 @@ export const BuySubscriptionPlanRoute = <const>{
   meta: { AuthRequirements: AuthType.Private, onboarding: true },
 };
 
-export const SetupPaymentMethodRoute = <const>{
-  name: "subscription-setup-payment-method",
-  path: "/subscription/setup-payment-method",
-  component: () =>
-    import("../views/core/Subscription/Stripe/SetupPaymentMethod.vue"),
-  meta: { AuthRequirements: AuthType.Private, onboarding: true },
-};
-
 export const SetupSuccessPaymentRoute = <const>{
   name: "subscription-setup-payment-success",
   path: "/subscription/setup-payment-success",
@@ -300,7 +292,6 @@ export const OrgUsageRoute = <const>{
   InviteMemberRoute,
   PendingInvitationRoute,
   BuySubscriptionPlanRoute,
-  SetupPaymentMethodRoute,
   SetupSuccessPaymentRoute,
   ApiKeyRoute,
   OrgUsageRoute,

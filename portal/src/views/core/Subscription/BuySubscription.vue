@@ -1,39 +1,14 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import { useLoader, useStripe } from "../../../store";
-import { SetupPaymentMethodRoute, OnboardingRoute } from "../../../router";
+import { OnboardingRoute } from "../../../router";
 import Accordion from "../../shared/Accordion.vue";
 import TopNavbar from "../../shared/TopNavbar.vue";
+import SetupPaymentMethod from "./Stripe/SetupPaymentMethod.vue";
 import {
   numberFormatter,
   smallMoneyFormatter,
 } from "../../../utils/numericalFormatter";
 import { flags } from "../../../utils/flags";
 import { PlanDetails } from "@domain-model";
-
-const loader = useLoader();
-const router = useRouter();
-const stripeStore = useStripe();
-
-async function buyPlan(paymentInterval: "yearly" | "monthly") {
-  loader.show("Waiting for payment provider...");
-
-  // Create subscription after payment method has been successfully setup.
-  stripeStore.setStripeSetupNext({
-    success: {
-      intent: "create-subscription",
-      paymentInterval,
-
-      // Coupon is hardcoded to always be null for now because there will be no
-      // coupon support after fully transitioning to pay as you go pricing only.
-      coupon: null,
-    },
-  });
-
-  router.push({ name: SetupPaymentMethodRoute.name });
-
-  loader.hide();
-}
 </script>
 
 <template>
@@ -43,19 +18,24 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
     </TopNavbar>
 
     <div
-      class="mx-auto flex max-w-screen-xl flex-col justify-between gap-6 pt-2 lg:flex-row lg:gap-12 lg:pt-6"
+      class="mx-auto flex max-w-screen-xl flex-col justify-between gap-12 lg:flex-row lg:pt-6"
     >
-      <div class="w-full font-light">
+      <div class="mx-auto w-full max-w-xl basis-1/2 font-light">
         <p class="pb-4 text-5xl font-bold text-zinc-700">
           Simple, Honest Pricing
         </p>
 
-        <p class="pb-10 text-xl">
+        <p class="pb-8 text-xl">
           Get started for
           <span class="rounded-lg bg-yellow-300 px-2 font-medium">FREE</span>
           and only pay what you use over the free tier.
           <br />
           No hidden fees.
+        </p>
+
+        <p class="pb-10 text-lg font-light">
+          A payment method is required for verification and future payments
+          only. You will not be charged today.
         </p>
 
         <Accordion class="pb-2" defaultState="show">
@@ -168,38 +148,9 @@ async function buyPlan(paymentInterval: "yearly" | "monthly") {
         </div>
       </div>
 
-      <div class="flex w-full flex-col justify-center gap-1 font-light">
-        <p class="text-lg">
-          Your payment details is needed for verification and future payment.
-        </p>
-
-        <div
-          class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-green-600 p-6 shadow hover:shadow-2xl"
-          @click="buyPlan('yearly')"
-        >
-          <div>
-            <p class="py-2 align-middle text-5xl text-green-700 lg:py-8">
-              Start
-            </p>
-          </div>
-
-          <svg
-            class="w-10 text-green-700"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </div>
-      </div>
+      <SetupPaymentMethod />
     </div>
+
+    <div class="pb-12"></div>
   </div>
 </template>

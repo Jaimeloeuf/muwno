@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
 import type { StripeElements } from "@stripe/stripe-js";
 import { sf } from "simpler-fetch";
 import { useStripe, useLoader, useError } from "../../../../store";
 import { SetupSuccessPaymentRoute } from "../../../../router";
 import { getAbsoluteUrlFromRoute } from "../../../../utils/getAbsoluteUrlFromRoute";
 
-const router = useRouter();
 const stripeStore = useStripe();
 const loader = useLoader();
 const errorStore = useError();
@@ -46,7 +44,7 @@ onMounted(async function mountStripePaymentForm() {
     .mount(paymentElement.value);
 });
 
-async function pay() {
+async function setupPaymentMethod() {
   if (elements.value === null)
     throw new Error("Stripe Elements is not setup and cannot be used.");
 
@@ -97,37 +95,50 @@ async function pay() {
 </script>
 
 <template>
-  <div class="mx-auto max-w-lg">
-    <div class="mb-6 flex flex-row items-center justify-between">
-      <div>
-        <p class="text-4xl font-light">Payment</p>
-        <p class="text-xs">Secured with Stripe Billing</p>
-      </div>
-
-      <button
-        class="rounded-lg bg-zinc-100 px-2 py-0.5 font-light text-zinc-900"
-        @click="router.back"
-      >
-        cancel
-      </button>
+  <div class="mx-auto w-full max-w-lg">
+    <div class="pb-6">
+      <p class="text-4xl font-light">Setup Payment</p>
+      <p class="text-sm">
+        Secured with
+        <a
+          class="underline decoration-zinc-400"
+          href="https://stripe.com/billing"
+          target="_blank"
+        >
+          Stripe Billing
+        </a>
+      </p>
     </div>
 
-    <div class="mb-6 font-extralight">
-      <p>Set up a default payment method and pay for the subscription.</p>
-    </div>
-
-    <div>
-      <!-- @todo Show user total amount billed today -->
-    </div>
+    <p class="pb-10 font-extralight">
+      Payment method is required for verification and future payments only. You
+      will not be charged today.
+    </p>
 
     <!-- Stripe renders its dynamic payment info form here -->
-    <div ref="paymentElement" class="mb-12"></div>
+    <div ref="paymentElement" class="pb-12"></div>
 
-    <button
-      class="mb-8 w-full rounded-lg bg-green-600 p-2 text-2xl text-zinc-50"
-      @click="pay"
+    <div
+      class="flex w-full cursor-pointer flex-row items-center justify-between rounded-lg border border-green-600 p-6 shadow hover:shadow-2xl"
+      @click="setupPaymentMethod"
     >
-      Pay
-    </button>
+      <p class="align-middle text-2xl text-green-600">Setup</p>
+
+      <svg
+        class="w-10 text-green-600"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 14 10"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+          d="M1 5h12m0 0L9 1m4 4L9 9"
+        />
+      </svg>
+    </div>
   </div>
 </template>
