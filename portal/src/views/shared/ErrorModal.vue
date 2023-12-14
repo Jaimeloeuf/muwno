@@ -43,8 +43,9 @@ async function ignoreAndCloseModal() {
 
         <div class="w-full">
           <p class="text-4xl font-medium">Error</p>
-          <p class="text">
-            An error attacked us when trying to process your request...
+          <p class="font-light">
+            Ouch... an error hit us while trying to process your request. Our
+            engineers have been scrambled to fight it asap!
           </p>
         </div>
       </div>
