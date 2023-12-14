@@ -2,12 +2,14 @@
 import { OnboardingRoute } from "../../../router";
 import Accordion from "../../shared/Accordion.vue";
 import TopNavbar from "../../shared/TopNavbar.vue";
+import EnterButton from "../../shared/EnterButton.vue";
 import SetupPaymentMethod from "./Stripe/SetupPaymentMethod.vue";
 import {
   numberFormatter,
   smallMoneyFormatter,
 } from "../../../utils/numericalFormatter";
 import { flags } from "../../../utils/flags";
+import { landingLink } from "../../../utils/links";
 import { PlanDetails } from "@domain-model";
 </script>
 
@@ -33,15 +35,19 @@ import { PlanDetails } from "@domain-model";
           No hidden fees.
         </p>
 
-        <p class="pb-10 text-lg font-light">
-          A payment method is required for verification and future payments
+        <p class="pb-8 text-lg font-light">
+          Payment details are required for verification and future payments
           only. You will not be charged today.
         </p>
 
-        <Accordion class="pb-2" defaultState="show">
+        <Accordion defaultState="show">
           <template #summary>
             <p class="text-left text-xl font-normal">
-              Monthly free tier includes
+              Monthly
+              <span class="underline decoration-zinc-300 underline-offset-2">
+                free tier</span
+              >
+              includes
             </p>
           </template>
 
@@ -76,7 +82,7 @@ import { PlanDetails } from "@domain-model";
           </template>
         </Accordion>
 
-        <Accordion class="pb-12" defaultState="hide">
+        <Accordion class="pb-8" defaultState="hide">
           <template #summary>
             <p class="text-left text-xl font-normal">After the free tier</p>
           </template>
@@ -98,7 +104,7 @@ import { PlanDetails } from "@domain-model";
               </ul>
             </div>
 
-            <div>
+            <div class="pb-4">
               <p class="pb-1 font-normal">Storage</p>
               <ul class="list-decimal px-5 text-lg">
                 <li>
@@ -119,6 +125,14 @@ import { PlanDetails } from "@domain-model";
                 </li>
               </ul>
             </div>
+
+            <EnterButton
+              :to="{}"
+              :href="`${landingLink}/#/pricing`"
+              target="_blank"
+            >
+              Estimate Cost
+            </EnterButton>
           </template>
         </Accordion>
 

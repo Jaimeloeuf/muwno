@@ -111,8 +111,8 @@ async function setupPaymentMethod() {
     </div>
 
     <p class="pb-10 font-extralight">
-      Payment method is required for verification and future payments only. You
-      will not be charged today.
+      Payment details are required for verification and future payments only.
+      You will not be charged today.
     </p>
 
     <!-- Stripe renders its dynamic payment info form here -->
