@@ -2,33 +2,20 @@
  * Hardcoded plan details object since there is only 1 plan now.
  */
 export const PlanDetails = <const>{
+  /**
+   * Included free tier quota for each of the billable items
+   */
+  included: {
+    response: 30,
+    email: 30,
+    responseStored: 300,
+    customerStored: 300,
+  },
+
   supportedCurrencies: ['USD', 'SGD'],
 
   /**
-   * Included quota for each of the billable items
-   */
-  included: {
-    response: 1000,
-    email: 1000,
-    responseStored: 30000,
-    customerStored: 30000,
-  },
-
-  /**
-   * Price of standard subscription
-   */
-  price: {
-    /**
-     * Price of standard subscription in SGD
-     */
-    SGD: {
-      monthly: 100,
-      yearly: 1000,
-    },
-  },
-
-  /**
-   * Overage for each of the billable items
+   * Overage price per unit for each of the billable items
    */
   overage: {
     response: {

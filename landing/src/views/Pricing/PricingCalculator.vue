@@ -46,7 +46,7 @@ const responsesStoredIsMax = computed(
   () => responsesStored.value.toString() === responsesStoredMax.toString(),
 );
 
-const customers = ref<number>(PlanDetails.included.response);
+const customers = ref<number>(PlanDetails.included.customerStored);
 const customersPrice = computed(
   () =>
     // Exclude the free included quota
@@ -240,7 +240,7 @@ const anySliderMaxed = computed(
         v-model="customers"
         :min="PlanDetails.included.customerStored"
         :max="customersMax"
-        step="10"
+        step="100"
         class="h-3 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
       />
       <div class="text-right">
