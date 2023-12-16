@@ -22,10 +22,10 @@ export async function createEmail(
 
   await createMonthlyGraduatedPrice(
     stripe,
-    createIdempotentKey('email_product_usage_price_sgd'),
+    createIdempotentKey('email_product_usage_price_usd'),
     email_product.id,
     'email-usage',
-    'sgd',
+    'usd',
 
     [
       // It is free for the first X email.
@@ -38,9 +38,9 @@ export async function createEmail(
         up_to: 'inf',
         // Using `unit_amount_decimal` instead of `unit_amount` since per unit
         // price of this product is less than the smallest unit of the currency
-        // used. 1 cent is the smallest integer unit for SGD.
+        // used. 1 cent is the smallest integer unit for USD.
         // For example `unit_amount_decimal: '0.4'` means $0.004 per email
-        unit_amount_decimal: `${PlanDetails.overage.email.price.SGD * 100}`,
+        unit_amount_decimal: `${PlanDetails.overage.email.price.USD * 100}`,
       },
     ],
   );

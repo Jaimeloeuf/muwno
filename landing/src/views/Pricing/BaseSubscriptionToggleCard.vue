@@ -9,10 +9,10 @@ const payYearly = ref(true);
  */
 const price = {
   monthly: {
-    SGD: 100,
+    USD: 100,
   },
   yearly: {
-    SGD: 1000,
+    USD: 1000,
   },
 };
 </script>
@@ -39,27 +39,27 @@ const price = {
 
     <div v-if="payYearly" class="w-full">
       <p class="pb-1 text-xl font-light text-green-700">
-        {{ normalMoneyFormatter(price.yearly.SGD / 12) }} / Month
+        {{ normalMoneyFormatter(price.yearly.USD / 12) }} / Month
       </p>
       <p>
-        {{ normalMoneyFormatter(price.yearly.SGD) }} Paid once a year + Monthly
+        {{ normalMoneyFormatter(price.yearly.USD) }} Paid once a year + Monthly
         Overages
       </p>
     </div>
 
     <div v-else class="w-full">
       <p class="pb-1 text-xl font-extralight">
-        {{ normalMoneyFormatter(price.monthly.SGD) }} / Month + Overages
+        {{ normalMoneyFormatter(price.monthly.USD) }} / Month + Overages
       </p>
     </div>
 
     <p class="pt-4">
       Save
       <span class="text-green-700">
-        {{ normalMoneyFormatter(price.monthly.SGD * 12 - price.yearly.SGD) }}
+        {{ normalMoneyFormatter(price.monthly.USD * 12 - price.yearly.USD) }}
       </span>
       <span class="text-sm"> (2 months free)</span> by paying
-      {{ normalMoneyFormatter(price.yearly.SGD) }} once a year.
+      {{ normalMoneyFormatter(price.yearly.USD) }} once a year.
     </p>
   </div>
 </template>

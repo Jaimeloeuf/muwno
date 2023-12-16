@@ -27,22 +27,22 @@ export async function createStandard(
 
   await createFlatPrice(
     stripe,
-    createIdempotentKey('standard_product_monthly_price_sgd'),
+    createIdempotentKey('standard_product_monthly_price_usd'),
     standard_product.id,
     'standard-monthly',
     'month',
-    dollarsToUnitAmount(/* @todo PlanDetails.price.SGD.monthly */ 1),
-    'sgd',
+    dollarsToUnitAmount(/* @todo PlanDetails.price.USD.monthly */ 1),
+    'usd',
   );
 
   await createFlatPrice(
     stripe,
-    createIdempotentKey('standard_product_yearly_price_sgd'),
+    createIdempotentKey('standard_product_yearly_price_usd'),
     standard_product.id,
     'standard-yearly',
     'year',
-    dollarsToUnitAmount(/* @todo PlanDetails.price.SGD.yearly */ 1),
-    'sgd',
+    dollarsToUnitAmount(/* @todo PlanDetails.price.USD.yearly */ 1),
+    'usd',
   );
 
   console.log('Created Standard Product and its Prices');

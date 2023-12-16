@@ -15,7 +15,7 @@ const responsesPrice = computed(
   () =>
     // Exclude the free included quota
     (responses.value - PlanDetails.included.response) *
-    PlanDetails.overage.response.price.SGD,
+    PlanDetails.overage.response.price.USD,
 );
 const responsesMax = 30_000;
 const responsesIsMax = computed(
@@ -27,7 +27,7 @@ const emailsSentPrice = computed(
   () =>
     // Exclude the free included quota
     (emailsSent.value - PlanDetails.included.email) *
-    PlanDetails.overage.email.price.SGD,
+    PlanDetails.overage.email.price.USD,
 );
 const emailsSentMax = 30_000;
 const emailsSentIsMax = computed(
@@ -39,7 +39,7 @@ const responsesStoredPrice = computed(
   () =>
     // Exclude the free included quota
     (responsesStored.value - PlanDetails.included.responseStored) *
-    PlanDetails.overage.responseStored.price.SGD,
+    PlanDetails.overage.responseStored.price.USD,
 );
 const responsesStoredMax = 30_000;
 const responsesStoredIsMax = computed(
@@ -51,7 +51,7 @@ const customersPrice = computed(
   () =>
     // Exclude the free included quota
     (customers.value - PlanDetails.included.customerStored) *
-    PlanDetails.overage.customerStored.price.SGD,
+    PlanDetails.overage.customerStored.price.USD,
 );
 const customersMax = 30_000;
 const customersIsMax = computed(
@@ -90,7 +90,7 @@ const anySliderMaxed = computed(
     <div class="pb-6">
       <p class="text-lg">Survey responses expected</p>
       <p class="text-sm">
-        {{ smallMoneyFormatter(PlanDetails.overage.response.price.SGD) }}
+        {{ smallMoneyFormatter(PlanDetails.overage.response.price.USD) }}
         / response
       </p>
       <input
@@ -116,7 +116,7 @@ const anySliderMaxed = computed(
           </span>
           <template v-else>
             <span class="font-extralight">
-              {{ smallMoneyFormatter(PlanDetails.overage.response.price.SGD) }}
+              {{ smallMoneyFormatter(PlanDetails.overage.response.price.USD) }}
               x
               {{ numberFormatter(responses - PlanDetails.included.response) }}
               =
@@ -134,7 +134,7 @@ const anySliderMaxed = computed(
     <div class="pb-6">
       <p class="text-lg">Survey emails sent</p>
       <p class="text-sm">
-        {{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }}
+        {{ smallMoneyFormatter(PlanDetails.overage.email.price.USD) }}
         / email
       </p>
       <input
@@ -160,7 +160,7 @@ const anySliderMaxed = computed(
           </span>
           <template v-else>
             <span class="font-extralight">
-              {{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }}
+              {{ smallMoneyFormatter(PlanDetails.overage.email.price.USD) }}
               x
               {{ numberFormatter(emailsSent - PlanDetails.included.email) }}
               =
@@ -178,7 +178,7 @@ const anySliderMaxed = computed(
     <div class="pb-6">
       <p class="text-lg">Survey responses stored</p>
       <p class="text-sm">
-        {{ smallMoneyFormatter(PlanDetails.overage.responseStored.price.SGD) }}
+        {{ smallMoneyFormatter(PlanDetails.overage.responseStored.price.USD) }}
         / response
       </p>
       <input
@@ -208,7 +208,7 @@ const anySliderMaxed = computed(
             <span class="font-extralight">
               {{
                 smallMoneyFormatter(
-                  PlanDetails.overage.responseStored.price.SGD,
+                  PlanDetails.overage.responseStored.price.USD,
                 )
               }}
               x
@@ -232,7 +232,7 @@ const anySliderMaxed = computed(
     <div v-if="flags.devMode" class="pb-6">
       <p class="text-lg">Customers Stored</p>
       <p class="text-sm">
-        {{ smallMoneyFormatter(PlanDetails.overage.customerStored.price.SGD) }}
+        {{ smallMoneyFormatter(PlanDetails.overage.customerStored.price.USD) }}
         / customer
       </p>
       <input
@@ -260,7 +260,7 @@ const anySliderMaxed = computed(
             <span class="font-extralight">
               {{
                 smallMoneyFormatter(
-                  PlanDetails.overage.customerStored.price.SGD,
+                  PlanDetails.overage.customerStored.price.USD,
                 )
               }}
               x

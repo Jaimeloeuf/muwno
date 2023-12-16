@@ -7,7 +7,7 @@ export function createFlatPrice(
   nameAndLookupKey: string,
   interval: Stripe.PriceCreateParams.Recurring.Interval,
   unitAmount: number,
-  currency: 'sgd' | 'usd',
+  currency: 'usd',
 ) {
   return stripe.prices.create(
     {

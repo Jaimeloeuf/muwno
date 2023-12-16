@@ -67,11 +67,11 @@ const pricingCalculatorKey = ref(Math.random());
           <p class="font-normal">Usage</p>
           <ul class="list-decimal px-5 text-lg">
             <li>
-              {{ smallMoneyFormatter(PlanDetails.overage.response.price.SGD) }}
+              {{ smallMoneyFormatter(PlanDetails.overage.response.price.USD) }}
               / Survey response
             </li>
             <li>
-              {{ smallMoneyFormatter(PlanDetails.overage.email.price.SGD) }}
+              {{ smallMoneyFormatter(PlanDetails.overage.email.price.USD) }}
               / Survey email
             </li>
           </ul>
@@ -83,7 +83,7 @@ const pricingCalculatorKey = ref(Math.random());
             <li>
               {{
                 smallMoneyFormatter(
-                  PlanDetails.overage.responseStored.price.SGD,
+                  PlanDetails.overage.responseStored.price.USD,
                 )
               }}
               / Survey response stored
@@ -91,7 +91,7 @@ const pricingCalculatorKey = ref(Math.random());
             <li v-if="flags.devMode">
               {{
                 smallMoneyFormatter(
-                  PlanDetails.overage.customerStored.price.SGD,
+                  PlanDetails.overage.customerStored.price.USD,
                 )
               }}
               / Customer stored

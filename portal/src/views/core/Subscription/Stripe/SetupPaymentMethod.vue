@@ -23,9 +23,7 @@ onMounted(async function mountStripePaymentForm() {
 
   elements.value = stripe.elements({
     mode: "setup",
-
-    // @todo might change this
-    currency: "sgd",
+    currency: "usd",
   });
 
   elements.value

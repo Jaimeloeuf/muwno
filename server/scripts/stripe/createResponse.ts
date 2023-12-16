@@ -22,10 +22,10 @@ export async function createResponse(
 
   await createMonthlyGraduatedPrice(
     stripe,
-    createIdempotentKey('response_product_usage_price_sgd'),
+    createIdempotentKey('response_product_usage_price_usd'),
     response_product.id,
     'response-usage',
-    'sgd',
+    'usd',
 
     [
       // It is free for the first X response.
@@ -37,7 +37,7 @@ export async function createResponse(
       {
         up_to: 'inf',
         // For example `unit_amount: 5` means $0.05 per response
-        unit_amount: PlanDetails.overage.response.price.SGD * 100,
+        unit_amount: PlanDetails.overage.response.price.USD * 100,
       },
     ],
   );

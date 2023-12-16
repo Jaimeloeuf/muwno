@@ -12,37 +12,33 @@ export const PlanDetails = <const>{
     customerStored: 300,
   },
 
-  supportedCurrencies: ['USD', 'SGD'],
-
   /**
    * Overage price per unit for each of the billable items
    */
   overage: {
     response: {
       price: {
-        USD: 0.04,
-        SGD: 0.05,
+        USD: 0.05,
       },
     },
 
     email: {
       price: {
-        USD: 0.0035,
-        SGD: 0.005,
+        // 1.8 USD per 1000 emails sent -> 0.0018 USD // Postmark high estimate
+        // 1.0 USD per 1000 emails sent -> 0.0010 USD // Sendgrid high estimate
+        USD: 0.002,
       },
     },
 
     responseStored: {
       price: {
-        USD: 0.008,
-        SGD: 0.01,
+        USD: 0.005,
       },
     },
 
     customerStored: {
       price: {
-        USD: 0.008,
-        SGD: 0.01,
+        USD: 0.005,
       },
     },
   },
