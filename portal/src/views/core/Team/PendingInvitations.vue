@@ -49,7 +49,7 @@ async function acceptInvitation(invitationID: string) {
 
   // Force refresh user's onboarding status now that they accepted the invite,
   // so that the route guard will not redirect them to Onboarding view again.
-  onboardingStore.isOnboarding(true);
+  await onboardingStore.isOnboarding(true);
 
   loader.hide();
 
