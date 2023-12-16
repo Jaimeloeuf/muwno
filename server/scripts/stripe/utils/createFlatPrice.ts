@@ -13,6 +13,7 @@ export function createFlatPrice(
     {
       nickname: nameAndLookupKey,
       lookup_key: nameAndLookupKey,
+      transfer_lookup_key: true,
 
       product: productID,
 
