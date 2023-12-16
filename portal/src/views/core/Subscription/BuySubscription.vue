@@ -24,15 +24,13 @@ import { PlanDetails } from "@domain-model";
     >
       <div class="mx-auto w-full max-w-xl basis-1/2 font-light">
         <p class="pb-4 text-5xl font-bold text-zinc-700">
-          Simple, Honest Pricing
+          Start for
+          <span class="rounded-lg bg-yellow-300 px-2">FREE</span>
         </p>
 
-        <p class="pb-8 text-xl">
-          Get started for
-          <span class="rounded-lg bg-yellow-300 px-2 font-medium">FREE</span>
-          and only pay what you use over the free tier.
-          <br />
-          No hidden fees.
+        <p class="pb-4 text-xl">
+          Simple, Honest pricing with no hidden fees. Only pay what you use over
+          the free tier.
         </p>
 
         <p class="pb-8 text-lg font-light">
