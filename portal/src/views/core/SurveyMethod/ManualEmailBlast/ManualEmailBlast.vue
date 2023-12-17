@@ -8,6 +8,7 @@ import { useFormLinks } from "../../../../composable";
 import { manualEmailBlast } from "../../../../controller";
 import { convertToNull } from "../../../../utils/convertToNull";
 import TopNavbar from "../../../shared/TopNavbar.vue";
+import SendTestEmail from "./SendTestEmail.vue";
 import EmailBlastPreview from "./EmailBlastPreview.vue";
 import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
 
@@ -147,7 +148,7 @@ async function processFile() {
     <TopNavbar back>Manual Email Survey Blast</TopNavbar>
 
     <div
-      class="mx-auto flex max-w-screen-md flex-col justify-between gap-8 pt-4 xl:mx-0 xl:max-w-none xl:flex-row 2xl:gap-12"
+      class="mx-auto flex max-w-screen-md flex-col justify-between gap-8 pt-4 xl:mx-0 xl:max-w-none xl:flex-row xl:items-start 2xl:gap-12"
     >
       <div class="mx-auto w-full max-w-screen-sm">
         <p class="pb-6 text-xl">
@@ -155,35 +156,33 @@ async function processFile() {
           blast.
         </p>
 
-        <div class="pb-8">
-          <p>
+        <div class="pb-10">
+          <p class="pb-2 text-lg">
             1. Download the template CSV file and fill in your customer details.
           </p>
 
           <!-- @todo Add a screenshot of the sample template -->
 
           <a :href="templateUrl" download>
-            <div
-              class="rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-center"
-            >
+            <div class="rounded-lg border border-zinc-200 p-2 text-center">
               Download Template CSV
             </div>
           </a>
         </div>
 
-        <div class="pb-8">
+        <div class="pb-10">
           <label class="cursor-pointer" for="upload">
-            <p>
+            <p class="text-lg">
               2. Upload CSV file filled with customer data
-              <span class="text-lg text-red-600">*</span>
+              <span class="px-2 italic text-red-600">*required</span>
             </p>
-            <p class="pl-3 text-sm">
+            <p class="pb-2 pl-3 text-sm">
               *Duplicate emails are only emailed once, duplicates after the
               first one will be ignored.
             </p>
 
             <div
-              class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-center"
+              class="w-full rounded-lg border border-zinc-200 p-2 text-center"
             >
               <svg
                 class="m-0 inline-block h-5 w-6 p-0"
@@ -217,8 +216,8 @@ async function processFile() {
           </div>
         </div>
 
-        <div class="pb-8">
-          <p>3. Customise redirect link</p>
+        <div class="pb-10">
+          <p class="text-lg">3. Customise redirect link</p>
           <ul class="list-disc pb-2 pl-8">
             <li>
               Users will be redirected here after they complete the feedback
@@ -260,8 +259,18 @@ async function processFile() {
           </p>
         </div>
 
-        <div class="pb-8">
-          <p>4. Confirm and send out email blast!</p>
+        <div class="pb-10">
+          <p class="pb-2 text-lg">4. Try by sending yourself a test email</p>
+
+          <SendTestEmail
+            :product="product"
+            :redirectLink="redirectLink"
+            :isRedirectLinkValid="isRedirectLinkValid"
+          />
+        </div>
+
+        <div class="pb-10">
+          <p class="pb-2 text-lg">5. Confirm and send out email blast!</p>
 
           <button
             class="w-full rounded-lg border p-2 text-xl"
