@@ -71,7 +71,7 @@ async function submitMessage() {
 
             <input
               v-model.trim="name"
-              class="w-full appearance-none rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
+              class="w-full rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
               type="text"
               placeholder="Jane Doe"
             />
@@ -84,7 +84,7 @@ async function submitMessage() {
 
             <input
               v-model.trim="email"
-              class="w-full appearance-none rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
+              class="w-full rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
               type="text"
               placeholder="janedoe@gmail.com"
               @keydown.enter="submitMessage"
@@ -98,7 +98,7 @@ async function submitMessage() {
 
             <textarea
               v-model.trim="message"
-              class="w-full resize-none appearance-none rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
+              class="w-full resize-none rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
               rows="4"
               placeholder="I need to reach Product Market Fit!"
             ></textarea>

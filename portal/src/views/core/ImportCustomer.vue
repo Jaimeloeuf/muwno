@@ -132,7 +132,7 @@ async function uploadCustomers(customers: Array<CreateOneCustomerDTO>) {
 
 <template>
   <div>
-    <TopNavbar back>Manual Import</TopNavbar>
+    <TopNavbar sideDrawer back>Manual Import</TopNavbar>
 
     <div class="mx-auto w-full max-w-md">
       <div class="mb-10">

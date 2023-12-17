@@ -75,7 +75,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
 </script>
 
 <template>
-  <TopNavbar back>User Personas</TopNavbar>
+  <TopNavbar sideDrawer back>User Personas</TopNavbar>
 
   <div class="mx-auto xl:max-w-screen-xl">
     <div

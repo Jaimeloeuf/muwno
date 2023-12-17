@@ -23,7 +23,7 @@ const updateProduct = async () =>
 
 <template>
   <div>
-    <TopNavbar back>{{ product.name }}</TopNavbar>
+    <TopNavbar sideDrawer back>{{ product.name }}</TopNavbar>
 
     <div
       class="mx-auto flex max-w-2xl flex-col gap-12 xl:max-w-7xl xl:flex-row"

@@ -31,7 +31,7 @@ const responses = ref<number>(await getStats());
 </script>
 
 <template>
-  <TopNavbar back>Survey Stats</TopNavbar>
+  <TopNavbar sideDrawer back>Survey Stats</TopNavbar>
 
   <div class="mx-auto max-w-screen-xl">
     <div class="rounded-lg border border-zinc-200 p-3">

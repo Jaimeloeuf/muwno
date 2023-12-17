@@ -55,7 +55,7 @@ async function updateOrg() {
 
 <template>
   <div>
-    <TopNavbar back>Edit Organisation</TopNavbar>
+    <TopNavbar sideDrawer back>Edit Organisation</TopNavbar>
 
     <div class="flex w-full flex-col gap-10 lg:flex-row lg:px-12">
       <div class="w-full">

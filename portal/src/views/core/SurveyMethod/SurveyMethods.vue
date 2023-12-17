@@ -27,7 +27,7 @@ const routeMap = {
 
 <template>
   <div>
-    <TopNavbar back>Survey Methods</TopNavbar>
+    <TopNavbar sideDrawer back>Survey Methods</TopNavbar>
 
     <div class="flex flex-col items-center justify-between lg:flex-row">
       <p class="pb-4 text-lg">

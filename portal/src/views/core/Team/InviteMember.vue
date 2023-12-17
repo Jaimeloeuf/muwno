@@ -56,7 +56,7 @@ async function invite() {
 
 <template>
   <div>
-    <TopNavbar back>Invite Team</TopNavbar>
+    <TopNavbar sideDrawer back>Invite Team</TopNavbar>
 
     <div class="mx-auto w-full max-w-xl">
       <div class="pb-10">

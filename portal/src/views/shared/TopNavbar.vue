@@ -34,5 +34,5 @@ defineProps<{
   </header>
 
   <!-- Spacer to allow scroll pass instead of covering content with navbar -->
-  <div class="py-5"></div>
+  <div class="py-6"></div>
 </template>

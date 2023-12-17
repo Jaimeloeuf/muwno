@@ -34,7 +34,7 @@ async function update() {
 
 <template>
   <div>
-    <TopNavbar back>Edit Task</TopNavbar>
+    <TopNavbar sideDrawer back>Edit Task</TopNavbar>
 
     <div class="mx-auto flex max-w-7xl flex-col gap-6">
       <div class="pb-6">
@@ -53,13 +53,13 @@ async function update() {
         <textarea
           v-model="newTask"
           rows="4"
-          class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light"
+          class="w-full resize-none rounded-lg border border-zinc-200 p-3 font-light focus:outline-none"
         >
         </textarea>
       </div>
 
       <button
-        class="mx-auto w-full max-w-sm rounded-lg bg-green-600 p-3 text-zinc-50"
+        class="mx-auto w-full max-w-sm rounded-lg border border-green-600 p-3 text-green-600"
         @click="update"
       >
         Update

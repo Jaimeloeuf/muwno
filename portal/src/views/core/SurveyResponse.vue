@@ -80,7 +80,7 @@ async function deleteTask(taskID: TaskID) {
 
 <template>
   <div>
-    <TopNavbar back>Survey Response</TopNavbar>
+    <TopNavbar sideDrawer back>Survey Response</TopNavbar>
 
     <div class="flex flex-col justify-between gap-8 lg:mx-12 lg:flex-row">
       <div class="lg:basis-1/2">

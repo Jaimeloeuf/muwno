@@ -47,7 +47,7 @@ async function addProduct() {
 
 <template>
   <div>
-    <TopNavbar back>Add Product</TopNavbar>
+    <TopNavbar sideDrawer back>Add Product</TopNavbar>
 
     <div class="mx-auto w-full max-w-lg">
       <div class="pb-10">

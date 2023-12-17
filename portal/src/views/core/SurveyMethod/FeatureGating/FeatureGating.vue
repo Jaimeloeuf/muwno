@@ -95,9 +95,9 @@ const downloadFormFile = () =>
 
 <template>
   <div>
-    <TopNavbar back>Feature Gating</TopNavbar>
+    <TopNavbar sideDrawer back>Feature Gating</TopNavbar>
 
-    <div class="flex flex-col justify-between gap-8 xl:flex-row xl:pt-4">
+    <div class="flex flex-col justify-between gap-8 xl:flex-row xl:pt-2">
       <div class="mx-auto w-full max-w-3xl font-light xl:max-w-xl">
         <p class="pb-2 text-3xl">Simple feature gating</p>
         <p class="pb-4 text-lg text-zinc-800">

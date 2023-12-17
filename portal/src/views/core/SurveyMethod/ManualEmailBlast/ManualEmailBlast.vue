@@ -145,7 +145,7 @@ async function processFile() {
 
 <template>
   <div>
-    <TopNavbar back>Manual Email Survey Blast</TopNavbar>
+    <TopNavbar sideDrawer back>Manual Email Survey Blast</TopNavbar>
 
     <div
       class="mx-auto flex max-w-screen-md flex-col justify-between gap-8 pt-4 xl:mx-0 xl:max-w-none xl:flex-row xl:items-start 2xl:gap-12"

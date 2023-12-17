@@ -90,7 +90,7 @@ async function next() {
 
 <template>
   <div>
-    <TopNavbar back>All Tasks</TopNavbar>
+    <TopNavbar sideDrawer back>All Tasks</TopNavbar>
 
     <div class="mx-auto flex max-w-7xl flex-col gap-6">
       <div class="flex flex-col gap-3 md:flex-row">
