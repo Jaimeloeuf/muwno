@@ -81,7 +81,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
         <div class="relative">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
-              class="h-5 w-5 text-gray-500 dark:text-gray-400"
+              class="h-5 w-5 text-zinc-400"
               aria-hidden="true"
               fill="currentColor"
               viewBox="0 0 20 20"
