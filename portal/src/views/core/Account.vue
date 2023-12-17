@@ -14,13 +14,22 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
     <div class="mx-auto w-full max-w-screen-sm">
       <p class="mb-2 text-xl">Account Details</p>
 
-      <div class="mb-4 rounded-lg border border-zinc-200 p-3">
-        <p class="pb-2 text-lg">User ID</p>
+      <div class="mb-4 w-full rounded-lg border border-zinc-200 p-3">
+        <div
+          class="mb-2 flex flex-row items-center justify-between border-b border-zinc-200 pb-1.5"
+        >
+          <p>User ID</p>
+          <CopyOnClick
+            class="rounded-lg border border-zinc-200 bg-zinc-50 px-2 font-light text-zinc-900"
+            :textToCopy="auth.currentUser?.uid ?? ''"
+          >
+            Copy
+          </CopyOnClick>
+        </div>
 
-        <CopyOnClick>
-          <p class="font-light">{{ auth.currentUser?.uid }}</p>
-          <p class="font-extralight">Click to copy ID</p>
-        </CopyOnClick>
+        <p class="break-all font-light">
+          {{ auth.currentUser?.uid }}
+        </p>
       </div>
 
       <div class="rounded-lg border border-zinc-200 p-3">
