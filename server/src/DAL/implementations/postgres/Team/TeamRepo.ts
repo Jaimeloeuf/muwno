@@ -93,4 +93,16 @@ export class TeamRepo implements ITeamRepo {
       where: { id: invitationID },
     });
   }
+
+  // Delete Org related data for user before removing user
+  async removeMember(userID: UserID) {
+    await this.db.team_member_invitation.deleteMany({
+      where: { inviter_id: userID },
+    });
+
+    await this.db.user.update({
+      where: { id: userID },
+      data: { org_id: null },
+    });
+  }
 }

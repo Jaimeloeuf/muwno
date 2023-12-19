@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ulid } from 'ulid';
 
 import { ITeamRepo, IOrgRepo, IUserRepo } from '../../../DAL/index.js';
+import { UserService } from '../../user/services/user.service.js';
 import {
   ITransactionalEmailService,
   IAuthService,
@@ -9,6 +10,7 @@ import {
 
 // Entity Types
 import type { User, UserID, TeamInvitation } from 'domain-model';
+import { Role } from 'domain-model';
 
 // DTO Types
 import type { CreateOneTeamMemberInvitationDTO } from 'domain-model';
@@ -30,6 +32,7 @@ export class TeamService {
     private readonly teamRepo: ITeamRepo,
     private readonly orgRepo: IOrgRepo,
     private readonly userRepo: IUserRepo,
+    private readonly userService: UserService,
     private readonly transactionalEmailService: ITransactionalEmailService,
     private readonly authService: IAuthService,
   ) {}
@@ -161,5 +164,25 @@ export class TeamService {
 
     // Delete the invite
     await this.teamRepo.deleteInvite(invitationID);
+  }
+
+  async removeMember(requestorID: UserID, userID: UserID): Promise<void> {
+    await this.userService.validateRole(requestorID, [
+      Role.OrgOwner,
+      Role.OrgAdmin,
+    ]);
+
+    const user = await this.userService.getUser(userID);
+    if (user.role === Role.OrgOwner) {
+      throw new ForbiddenException(`OrgOwner cannot be removed`);
+    }
+
+    const requestor = await this.userService.getUser(requestorID);
+    if (requestor.orgID !== user.orgID) {
+      throw new ForbiddenException(`Can only remove member from your own Org`);
+    }
+
+    await this.teamRepo.removeMember(userID);
+    await this.authService.clearCustomClaims(userID);
   }
 }

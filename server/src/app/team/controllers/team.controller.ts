@@ -12,7 +12,7 @@ import {
 } from '../../../guards/index.js';
 
 // Entity Types
-import type { FirebaseAuthUID } from 'domain-model';
+import type { FirebaseAuthUID, UserID } from 'domain-model';
 import { Role } from 'domain-model';
 
 // DTO Types
@@ -104,5 +104,17 @@ export class TeamController {
     @Param('invitationID') invitationID: string,
   ): Promise<void> {
     await this.teamService.rejectInvitation(userID, invitationID);
+  }
+
+  /**
+   * Remove member from team and all their data from the team.
+   */
+  @Post('member/remove/:userID')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  async removeMember(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('userID') userID: UserID,
+  ): Promise<void> {
+    await this.teamService.removeMember(requestorID, userID);
   }
 }

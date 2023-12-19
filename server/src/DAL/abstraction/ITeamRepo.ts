@@ -42,4 +42,9 @@ export abstract class ITeamRepo {
    * Delete a pending team invitation.
    */
   abstract deleteInvite(invitationID: string): Promise<void>;
+
+  /**
+   * Remove member from team and all their data from the team.
+   */
+  abstract removeMember(userID: UserID): Promise<void>;
 }
