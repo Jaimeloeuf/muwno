@@ -5,6 +5,7 @@ import CopyOnClick from "../shared/CopyOnClick.vue";
 import { type Role, roleMapper } from "@domain-model";
 
 const userJWT = await auth.currentUser?.getIdTokenResult();
+const userID = auth.currentUser?.uid ?? "";
 </script>
 
 <template>
@@ -21,14 +22,14 @@ const userJWT = await auth.currentUser?.getIdTokenResult();
           <p>User ID</p>
           <CopyOnClick
             class="rounded-lg border border-zinc-200 bg-zinc-50 px-2 font-light text-zinc-900"
-            :textToCopy="auth.currentUser?.uid ?? ''"
+            :textToCopy="userID"
           >
             Copy
           </CopyOnClick>
         </div>
 
         <p class="break-all font-light">
-          {{ auth.currentUser?.uid }}
+          {{ userID }}
         </p>
       </div>
 
