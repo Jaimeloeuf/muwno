@@ -2,31 +2,43 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useOrg, useUser } from "../../../store";
+import { useOrg, useUser, useLoader, useError } from "../../../store";
 import { InviteMemberRoute } from "../../../router";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
+import RemoveUserButton from "./RemoveUserButton.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
-import { type ReadManyUserDTO, Role, roleMapper } from "@domain-model";
+import { Role, roleMapper } from "@domain-model";
+import type { UserID, ReadManyUserDTO } from "@domain-model";
 
 const orgStore = useOrg();
 const userStore = useUser();
+const loader = useLoader();
+const errorStore = useError();
 
 const user = await userStore.getUser();
+const userIsAdmin = user.role === Role.OrgOwner || user.role === Role.OrgAdmin;
 
 const org = await orgStore.getOrg();
 
-const { res, err } = await sf
-  .useDefault()
-  .GET(`/team/member/all`)
-  .useHeader(getAuthHeader)
-  .runJSON<ReadManyUserDTO>();
+async function getMembers() {
+  const { res, err } = await sf
+    .useDefault()
+    .GET(`/team/member/all`)
+    .useHeader(getAuthHeader)
+    .runJSON<ReadManyUserDTO>();
 
-if (err) throw err;
-if (!res.ok) throw new Error("Failed to load Team Members");
+  if (err) return err;
+  if (!res.ok)
+    return new Error(`Failed to load Team Members ${JSON.stringify(res)}`);
 
-const teamMembers = ref(res.data.users);
+  return res.data.users;
+}
+
+const teamMembersResult = await getMembers();
+if (teamMembersResult instanceof Error) throw teamMembersResult;
+const teamMembers = ref(teamMembersResult);
 
 /** Ref to the DOM element so that it can be cleared by `clearSearchInputHandler` */
 const searchField = ref<HTMLInputElement | null>(null);
@@ -36,6 +48,27 @@ const { searchInput, results, clearSearchInput } = useSearch(
   { keys: ["name"], threshold: 0.5, resultLimit: 5 },
   () => searchField.value?.focus()
 );
+
+async function reloadMembers() {
+  loader.show();
+  const teamMembersResult = await getMembers();
+  loader.hide();
+
+  if (teamMembersResult instanceof Error) {
+    errorStore.newError(teamMembersResult);
+    return;
+  }
+
+  teamMembers.value = teamMembersResult;
+}
+
+/**
+ * Function to determine if the current user can remove the given user from the
+ * Organisation/Team. It can be removed as long as it is not the current user's
+ * own account and not the OrgOwner.
+ */
+const canRemove = (userID: UserID, userRole?: Role) =>
+  userID !== user.id && userRole !== Role.OrgOwner;
 </script>
 
 <template>
@@ -52,7 +85,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
       <div
         class="flex flex-col items-center justify-between gap-3 pb-6 md:flex-row"
       >
-        <div class="flex w-full max-w-md flex-row gap-3">
+        <div class="flex w-full max-w-xs flex-row gap-3">
           <input
             ref="searchField"
             v-model.trim="searchInput"
@@ -70,7 +103,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
         </div>
 
         <router-link
-          v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin"
+          v-if="userIsAdmin"
           :to="{ name: InviteMemberRoute.name }"
           class="inline-flex w-full max-w-xs items-center justify-between rounded-lg border border-green-600 px-4 py-1 text-green-600"
         >
@@ -121,7 +154,13 @@ const { searchInput, results, clearSearchInput } = useSearch(
               <p class="pb-2">
                 Joined on {{ getDateString(teamMember.createdAt) }}
               </p>
-              <p>{{ teamMember.phone }}</p>
+              <p class="pb-2">{{ teamMember.phone }}</p>
+
+              <RemoveUserButton
+                v-if="userIsAdmin && canRemove(teamMember.id, teamMember.role)"
+                :user="teamMember"
+                @removed="reloadMembers"
+              />
             </template>
           </Accordion>
         </div>
