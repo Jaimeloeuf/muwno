@@ -17,6 +17,7 @@ const userStore = useUser();
 
 const org = await orgStore.getOrg();
 const user = await userStore.getUser();
+const userIsAdmin = user.role === Role.OrgOwner || user.role === Role.OrgAdmin;
 
 async function goToBillingPortal() {
   loader.show("Waiting for payment provider...");
@@ -104,15 +105,12 @@ async function goToBillingPortal() {
           <p class="font-light">{{ getDateString(org.createdAt) }}</p>
         </div>
 
-        <EnterButton
-          v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin"
-          :to="{ name: EditOrgRoute.name }"
-        >
+        <EnterButton v-if="userIsAdmin" :to="{ name: EditOrgRoute.name }">
           Edit Details
         </EnterButton>
       </div>
 
-      <div v-if="user.role === Role.OrgOwner || user.role === Role.OrgAdmin">
+      <div v-if="userIsAdmin">
         <p class="pb-2 text-2xl">Subscription</p>
         <button
           class="flex w-full max-w-md flex-row items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-lg font-light"
