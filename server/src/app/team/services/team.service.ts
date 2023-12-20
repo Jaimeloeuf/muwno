@@ -100,6 +100,29 @@ export class TeamService {
   }
 
   /**
+   * Delete a pending invitation.
+   */
+  async deleteInvite(requestorID: UserID, invitationID: string): Promise<void> {
+    const invitation = await this.teamRepo.getInvite(invitationID);
+    if (invitation === null)
+      throw new InvalidInternalStateException(
+        `Invitation '${invitationID}' does not exists!`,
+      );
+
+    const requestor = await this.userService.getUser(requestorID);
+    if (
+      requestor.role === undefined ||
+      ![Role.OrgOwner, Role.OrgAdmin].includes(requestor.role)
+    )
+      throw new ForbiddenException(`No permission to delete invitation`);
+
+    if (requestor.orgID !== invitation.team.id)
+      throw new ForbiddenException(`Can only delete your team's invitations!`);
+
+    await this.teamRepo.deleteInvite(invitationID);
+  }
+
+  /**
    * Get a user's pending team invitations.
    *
    * @todo Pending invites should expire after 5 days to prune DB regularly

@@ -7,6 +7,7 @@ import { InviteMemberRoute } from "../../../router";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
+import DeletePendingInviteButton from "./DeletePendingInviteButton.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import { Role, roleMapper } from "@domain-model";
 import type { ReadManyTeamMemberInvitationDTO } from "@domain-model";
@@ -44,13 +45,25 @@ const { searchInput, results, clearSearchInput } = useSearch(
   { keys: ["inviteeEmail"], threshold: 0.5, resultLimit: 5 },
   () => searchField.value?.focus()
 );
+
+async function reloadInvites() {
+  loader.show();
+  const inviteResult = await getInvites();
+  loader.hide();
+
+  if (inviteResult instanceof Error) {
+    errorStore.newError(inviteResult);
+    return;
+  }
+
+  invites.value = inviteResult;
+}
 </script>
 
 <template>
   <div>
     <TopNavbar sideDrawer back>Pending Invites</TopNavbar>
 
-    <!-- @todo   OrgOwner/OrgAdmin can delete pending invites -->
     <div class="mx-auto max-w-4xl">
       <div class="flex flex-row items-center justify-between">
         <p class="pb-4 text-xl">Team Members ({{ invites.length }})</p>
@@ -127,6 +140,11 @@ const { searchInput, results, clearSearchInput } = useSearch(
                 {{ getDateString(invite.createdAt) }} to be a
                 {{ roleMapper[invite.role] }}
               </p>
+
+              <DeletePendingInviteButton
+                :invitation="invite"
+                @deleted="reloadInvites"
+              />
             </template>
           </Accordion>
         </div>

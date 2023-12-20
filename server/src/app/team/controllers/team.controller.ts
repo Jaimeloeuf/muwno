@@ -77,6 +77,18 @@ export class TeamController {
   }
 
   /**
+   * Delete a pending invitation.
+   */
+  @Delete('member/invite/:invitationID')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  async deleteInvite(
+    @JWT_uid requestorID: FirebaseAuthUID,
+    @Param('invitationID') invitationID: string,
+  ): Promise<void> {
+    await this.teamService.deleteInvite(requestorID, invitationID);
+  }
+
+  /**
    * Get all pending team invitations of the current user.
    */
   @Get('member/invites')
