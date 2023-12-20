@@ -70,11 +70,7 @@ export class TeamService {
     inviterUserID: UserID,
     createOneTeamMemberInvitationDTO: CreateOneTeamMemberInvitationDTO,
   ): Promise<void> {
-    const inviter = await this.userRepo.getOne(inviterUserID);
-    if (inviter === null)
-      throw new InvalidInternalStateException(
-        `User '${inviterUserID}' does not exists!`,
-      );
+    const inviter = await this.userService.getUser(inviterUserID);
 
     const inviterOrg = await this.orgRepo.getUserOrg(inviterUserID);
     if (inviterOrg === null)
@@ -128,11 +124,7 @@ export class TeamService {
    * @todo Pending invites should expire after 5 days to prune DB regularly
    */
   async getPendingInvites(userID: UserID): Promise<Array<TeamInvitation>> {
-    const user = await this.userRepo.getOne(userID);
-    if (user === null)
-      throw new InvalidInternalStateException(
-        `User '${userID}' does not exists!`,
-      );
+    const user = await this.userService.getUser(userID);
 
     return this.teamRepo.getPendingInvites(user.email);
   }
@@ -141,11 +133,7 @@ export class TeamService {
     inviteeID: UserID,
     invitationID: string,
   ): Promise<void> {
-    const invitee = await this.userRepo.getOne(inviteeID);
-    if (invitee === null)
-      throw new InvalidInternalStateException(
-        `User '${inviteeID}' does not exists!`,
-      );
+    const invitee = await this.userService.getUser(inviteeID);
 
     const invitation = await this.teamRepo.getInvite(invitationID);
     if (invitation === null)
@@ -183,11 +171,7 @@ export class TeamService {
     inviteeID: UserID,
     invitationID: string,
   ): Promise<void> {
-    const invitee = await this.userRepo.getOne(inviteeID);
-    if (invitee === null)
-      throw new InvalidInternalStateException(
-        `User '${inviteeID}' does not exists!`,
-      );
+    const invitee = await this.userService.getUser(inviteeID);
 
     const invitation = await this.teamRepo.getInvite(invitationID);
     if (invitation === null)
