@@ -33,14 +33,14 @@ import { PlanDetails } from "@domain-model";
           the free tier.
         </p>
 
-        <p class="pb-8 text-lg font-light">
+        <p class="pb-8 text-lg">
           Payment details are required for verification and future payments
           only. You will not be charged today.
         </p>
 
         <Accordion defaultState="show">
           <template #summary>
-            <p class="text-left text-xl font-normal">
+            <p class="text-xl font-normal">
               Monthly
               <span class="underline decoration-zinc-300 underline-offset-2">
                 free tier</span
@@ -82,7 +82,7 @@ import { PlanDetails } from "@domain-model";
 
         <Accordion class="pb-8" defaultState="hide">
           <template #summary>
-            <p class="text-left text-xl font-normal">After the free tier</p>
+            <p class="text-xl font-normal">After the free tier</p>
           </template>
 
           <template #content>
@@ -123,6 +123,8 @@ import { PlanDetails } from "@domain-model";
                 </li>
               </ul>
             </div>
+
+            <p class="pb-4 font-extralight italic">*Prices are in USD</p>
 
             <EnterButton
               :to="{}"

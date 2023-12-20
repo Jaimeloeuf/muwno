@@ -27,7 +27,7 @@ const pricingCalculatorKey = ref(Math.random());
       </p>
 
       <div class="pb-8">
-        <p class="text-left text-xl font-normal">Monthly free tier includes</p>
+        <p class="text-xl font-normal">Monthly free tier includes</p>
 
         <div class="pb-4">
           <p class="font-normal">Usage</p>
@@ -58,8 +58,8 @@ const pricingCalculatorKey = ref(Math.random());
         </div>
       </div>
 
-      <div class="pb-12">
-        <p class="text-left text-xl font-normal">After the free tier</p>
+      <div class="pb-8">
+        <p class="text-xl font-normal">After the free tier</p>
 
         <div class="pb-4">
           <p class="font-normal">Usage</p>
@@ -97,6 +97,8 @@ const pricingCalculatorKey = ref(Math.random());
           </ul>
         </div>
       </div>
+
+      <p class="pb-12 font-extralight italic">*Prices are in USD</p>
 
       <div>
         <p class="text-xl font-normal">Need Help?</p>
