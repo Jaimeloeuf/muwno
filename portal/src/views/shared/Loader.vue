@@ -16,7 +16,7 @@ setTimeout(() => (longerThanExpected.value = true), 10000);
 <template>
   <!-- @todo Might use a loading animation gif or something instead -->
   <div
-    class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-zinc-50 bg-opacity-90 text-center"
+    class="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-zinc-50 bg-opacity-90 text-center"
   >
     <div>
       <svg
