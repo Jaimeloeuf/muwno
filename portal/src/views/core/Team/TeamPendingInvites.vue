@@ -2,17 +2,15 @@
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
-import { useOrg, useUser, useLoader, useError } from "../../../store";
-import { TeamPendingInvitesRoute, InviteMemberRoute } from "../../../router";
+import { useUser, useLoader, useError } from "../../../store";
+import { InviteMemberRoute } from "../../../router";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
-import RemoveUserButton from "./RemoveUserButton.vue";
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import { Role, roleMapper } from "@domain-model";
-import type { UserID, ReadManyUserDTO } from "@domain-model";
+import type { ReadManyTeamMemberInvitationDTO } from "@domain-model";
 
-const orgStore = useOrg();
 const userStore = useUser();
 const loader = useLoader();
 const errorStore = useError();
@@ -20,71 +18,42 @@ const errorStore = useError();
 const user = await userStore.getUser();
 const userIsAdmin = user.role === Role.OrgOwner || user.role === Role.OrgAdmin;
 
-const org = await orgStore.getOrg();
-
-async function getMembers() {
+async function getInvites() {
   const { res, err } = await sf
     .useDefault()
-    .GET(`/team/member/all`)
+    .GET(`/team/invites/pending/org`)
     .useHeader(getAuthHeader)
-    .runJSON<ReadManyUserDTO>();
+    .runJSON<ReadManyTeamMemberInvitationDTO>();
 
   if (err) return err;
   if (!res.ok)
-    return new Error(`Failed to load Team Members ${JSON.stringify(res)}`);
+    return new Error(`Failed to load Pending Invites ${JSON.stringify(res)}`);
 
-  return res.data.users;
+  return res.data.invitations;
 }
 
-const teamMembersResult = await getMembers();
-if (teamMembersResult instanceof Error) throw teamMembersResult;
-const teamMembers = ref(teamMembersResult);
+const inviteResult = await getInvites();
+if (inviteResult instanceof Error) throw inviteResult;
+const invites = ref(inviteResult);
 
 /** Ref to the DOM element so that it can be cleared by `clearSearchInputHandler` */
 const searchField = ref<HTMLInputElement | null>(null);
 
 const { searchInput, results, clearSearchInput } = useSearch(
-  teamMembers,
-  { keys: ["name"], threshold: 0.5, resultLimit: 5 },
+  invites,
+  { keys: ["inviteeEmail"], threshold: 0.5, resultLimit: 5 },
   () => searchField.value?.focus()
 );
-
-async function reloadMembers() {
-  loader.show();
-  const teamMembersResult = await getMembers();
-  loader.hide();
-
-  if (teamMembersResult instanceof Error) {
-    errorStore.newError(teamMembersResult);
-    return;
-  }
-
-  teamMembers.value = teamMembersResult;
-}
-
-/**
- * Function to determine if the current user can remove the given user from the
- * Organisation/Team. It can be removed as long as it is not the current user's
- * own account and not the OrgOwner.
- */
-const canRemove = (userID: UserID, userRole?: Role) =>
-  userID !== user.id && userRole !== Role.OrgOwner;
 </script>
 
 <template>
   <div>
-    <TopNavbar sideDrawer>{{ org.name }}</TopNavbar>
+    <TopNavbar sideDrawer back>Pending Invites</TopNavbar>
 
+    <!-- @todo   OrgOwner/OrgAdmin can delete pending invites -->
     <div class="mx-auto max-w-4xl">
       <div class="flex flex-row items-center justify-between">
-        <p class="pb-4 text-xl">Team Members ({{ teamMembers.length }})</p>
-        <router-link
-          v-if="userIsAdmin"
-          :to="{ name: TeamPendingInvitesRoute.name }"
-          class="font-thin underline decoration-zinc-300"
-        >
-          Pending Invites
-        </router-link>
+        <p class="pb-4 text-xl">Team Members ({{ invites.length }})</p>
       </div>
 
       <div
@@ -140,32 +109,24 @@ const canRemove = (userID: UserID, userRole?: Role) =>
 
       <div class="flex flex-col gap-4">
         <div
-          v-for="teamMember in results"
-          :key="teamMember.id"
+          v-for="invite in results"
+          :key="invite.id"
           class="rounded-lg border border-zinc-200 px-4 text-zinc-800 md:px-6"
         >
           <Accordion>
             <template #summary>
               <p class="text-lg">
-                {{ teamMember.name }}
+                {{ invite.inviteeEmail }}
               </p>
             </template>
 
             <template #content>
-              <p v-if="teamMember.role !== undefined" class="pb-2">
-                {{ roleMapper[teamMember.role] }}
-              </p>
-              <p class="pb-2">{{ teamMember.email }}</p>
               <p class="pb-2">
-                Joined on {{ getDateString(teamMember.createdAt) }}
+                {{ roleMapper[invite.inviter.role] }}
+                {{ invite.inviter.name }} invited {{ invite.inviteeEmail }} on
+                {{ getDateString(invite.createdAt) }} to be a
+                {{ roleMapper[invite.role] }}
               </p>
-              <p class="pb-2">{{ teamMember.phone }}</p>
-
-              <RemoveUserButton
-                v-if="userIsAdmin && canRemove(teamMember.id, teamMember.role)"
-                :user="teamMember"
-                @removed="reloadMembers"
-              />
             </template>
           </Accordion>
         </div>

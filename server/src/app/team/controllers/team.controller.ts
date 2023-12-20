@@ -47,6 +47,19 @@ export class TeamController {
   }
 
   /**
+   * Get all pending team invitations of the user's Org.
+   */
+  @Get('invites/pending/org')
+  @RolesRequired(Role.OrgOwner, Role.OrgAdmin)
+  async getOrgPendingInvites(
+    @JWT_uid userID: FirebaseAuthUID,
+  ): Promise<ReadManyTeamMemberInvitationDTO> {
+    return this.teamService
+      .getOrgPendingInvites(userID)
+      .then((invitations) => ({ invitations }));
+  }
+
+  /**
    * Invite another user to join requestor's Org team.
    */
   @Post('member/invite')

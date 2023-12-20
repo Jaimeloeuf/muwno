@@ -35,6 +35,18 @@ export class TeamRepo implements ITeamRepo {
       .then(mapUserModelsToEntity);
   }
 
+  async getOrgPendingInvites(org_id: OrgID) {
+    return this.db.team_member_invitation
+      .findMany({
+        where: { org_id },
+        include: {
+          inviter: { select: { name: true, role: true } },
+          org: { select: { name: true } },
+        },
+      })
+      .then(mapToTeamInvitations);
+  }
+
   async createInvite(
     invitationID: string,
     inviterUserID: UserID,

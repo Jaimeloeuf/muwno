@@ -17,6 +17,11 @@ export abstract class ITeamRepo {
   abstract getAllMembers(orgID: OrgID): Promise<Array<User>>;
 
   /**
+   * Get all pending team invitations of the user's Org.
+   */
+  abstract getOrgPendingInvites(orgID: OrgID): Promise<Array<TeamInvitation>>;
+
+  /**
    * Create and save a team member invite into data source.
    */
   abstract createInvite(

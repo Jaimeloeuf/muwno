@@ -51,6 +51,19 @@ export class TeamService {
   }
 
   /**
+   * Get all pending team invitations of the user's Org.
+   */
+  async getOrgPendingInvites(userID: UserID): Promise<Array<TeamInvitation>> {
+    const userOrg = await this.orgRepo.getUserOrg(userID);
+    if (userOrg === null)
+      throw new InvalidOperationException(
+        `User '${userID}' does not have an Org!`,
+      );
+
+    return this.teamRepo.getOrgPendingInvites(userOrg.id);
+  }
+
+  /**
    * Invite a user to join a Team.
    */
   async inviteMember(

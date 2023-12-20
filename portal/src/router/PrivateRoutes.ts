@@ -200,6 +200,13 @@ export const TeamRoute = <const>{
   meta: { AuthRequirements: AuthType.Private },
 };
 
+export const TeamPendingInvitesRoute = <const>{
+  name: "team-pending-invites",
+  path: "/team/pending-invites",
+  component: () => import("../views/core/Team/TeamPendingInvites.vue"),
+  meta: { AuthRequirements: AuthType.Private },
+};
+
 export const InviteMemberRoute = <const>{
   name: "team-invite",
   path: "/team/invite",
@@ -289,6 +296,7 @@ export const OrgUsageRoute = <const>{
   CustomerRoute,
   ImportCustomerRoute,
   TeamRoute,
+  TeamPendingInvitesRoute,
   InviteMemberRoute,
   PendingInvitationRoute,
   BuySubscriptionPlanRoute,
