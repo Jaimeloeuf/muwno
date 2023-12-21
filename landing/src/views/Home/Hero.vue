@@ -8,7 +8,7 @@ import { signupLink } from "../../utils/links";
   >
     <div class="w-full">
       <p
-        class="mb-4 md:mb-8 text-4xl font-extrabold text-zinc-600 sm:text-5xl lg:text-7xl"
+        class="mb-4 text-4xl font-extrabold text-zinc-600 sm:text-5xl md:mb-8 lg:text-7xl"
       >
         <span class="rounded-lg bg-yellow-300 px-2 text-zinc-700 shadow">
           Earn</span
@@ -17,7 +17,7 @@ import { signupLink } from "../../utils/links";
         feedback
       </p>
 
-      <p class="mb-4 md:mb-10 max-w-lg font-light md:text-lg">
+      <p class="mb-4 max-w-lg font-light md:mb-10 md:text-lg">
         muwno generates tasks for you to do based on your customers' feedback so
         that you can sell more, earn more.
       </p>
@@ -25,9 +25,9 @@ import { signupLink } from "../../utils/links";
       <a
         :href="signupLink"
         target="_blank"
-        class="rounded-full bg-primary px-20 py-3 text-xl font-medium text-white"
+        class="rounded-full bg-primary px-20 py-3 text-xl font-medium text-white hover:shadow-2xl"
       >
-        Start
+        Start FREE
       </a>
     </div>
 

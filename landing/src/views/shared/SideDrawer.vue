@@ -23,7 +23,7 @@ import { loginLink, signupLink } from "../../utils/links";
         class="w-full border-b border-zinc-200 py-4"
         @click="sideDrawer.hide"
       >
-        <img src="/logo.svg" />
+        <img src="../../assets/logo.svg" />
       </button>
 
       <div class="w-full pt-2">

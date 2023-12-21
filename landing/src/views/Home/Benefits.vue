@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import muwno from "../shared/muwno.vue";
 import { signupLink } from "../../utils/links";
 </script>
 
@@ -6,24 +7,11 @@ import { signupLink } from "../../utils/links";
   <div class="px-10 md:px-12 lg:px-16 xl:px-24">
     <div class="max-w-2xl pb-8 md:pb-12 lg:pb-20">
       <p class="text-2xl font-bold text-zinc-600 md:text-3xl lg:text-4xl">
-        muwno gives you...
+        <muwno /> Gives You
       </p>
     </div>
 
-    <div class="flex flex-col justify-between gap-8 pb-12 md:flex-row">
-      <div class="w-full">
-        <img
-          src="../../assets/benefits/feedback-loop.svg"
-          class="h-28 w-full pb-8 md:h-32"
-        />
-        <p
-          class="mx-auto max-w-md text-center text-xl font-light text-zinc-600 md:text-2xl"
-        >
-          <span class="font-semibold">Super fast feedback loops</span> that help
-          you make more of what your customers would pay for.
-        </p>
-      </div>
-
+    <div class="flex flex-col justify-between gap-8 pb-12 md:flex-row md:pb-20">
       <div class="w-full">
         <img
           src="../../assets/benefits/clock.svg"
@@ -32,8 +20,22 @@ import { signupLink } from "../../utils/links";
         <p
           class="mx-auto max-w-md text-center text-xl font-light text-zinc-600 md:text-2xl"
         >
-          <span class="font-semibold">More time</span> to focus and work on
-          things that matter more.
+          <span class="font-semibold">More money and time</span> by
+          understanding what your customers will pay for and only focusing on
+          those.
+        </p>
+      </div>
+
+      <div class="w-full">
+        <img
+          src="../../assets/benefits/feedback-loop.svg"
+          class="h-28 w-full pb-8 md:h-32"
+        />
+        <p
+          class="mx-auto max-w-md text-center text-xl font-light text-zinc-600 md:text-2xl"
+        >
+          <span class="font-semibold">Super fast feedback loops</span> to help
+          you always stay focused on doing what your customers would pay for.
         </p>
       </div>
 
@@ -45,8 +47,8 @@ import { signupLink } from "../../utils/links";
         <p
           class="mx-auto max-w-md text-center text-xl font-light text-zinc-600 md:text-2xl"
         >
-          <span class="font-semibold">Gives you proof</span> that you are doing
-          the right things for your customers.
+          Simple and clear breakdown of your customers so you know who are your
+          <span class="font-semibold">most important customers.</span>
         </p>
       </div>
     </div>
@@ -55,9 +57,9 @@ import { signupLink } from "../../utils/links";
       <a
         :href="signupLink"
         target="_blank"
-        class="whitespace-pre rounded-full bg-primary px-20 py-4 text-xl font-medium text-white"
+        class="whitespace-pre rounded-full bg-primary px-20 py-4 text-xl font-medium text-white hover:shadow-2xl"
       >
-        Start Improving
+        Start FREE
       </a>
     </div>
   </div>

@@ -49,19 +49,24 @@ async function submitMessage() {
 <template>
   <div class="px-6 py-12 md:px-12 md:py-24 lg:px-16 xl:px-24">
     <p
-      class="pb-4 text-3xl font-extrabold text-zinc-600 md:pb-8 md:text-4xl lg:text-5xl"
+      class="pb-8 text-3xl font-extrabold text-zinc-600 md:text-4xl lg:text-5xl"
     >
-      Start Earning
-      <span class="rounded-lg bg-yellow-300 px-2 text-zinc-700 shadow">
-        More
-      </span>
+      Need Help?
     </p>
 
-    <p
-      class="pb-4 font-light tracking-wider text-zinc-600 md:pb-8 md:text-lg lg:text-2xl"
-    >
-      Reach out to us!
-    </p>
+    <div class="font-light text-zinc-800">
+      <p>
+        Email us at
+        <a
+          class="italic underline decoration-zinc-300 underline-offset-4"
+          target="_blank"
+          href="mailto:help@muwno.com"
+          >help@muwno.com</a
+        >
+
+        or send us a message using the contact form.
+      </p>
+    </div>
 
     <div class="flex flex-row items-center justify-between gap-12">
       <div class="w-full">
