@@ -4,7 +4,7 @@ import { signupLink } from "../../utils/links";
 
 <template>
   <div
-    class="flex flex-col-reverse items-center justify-between gap-6 px-10 md:flex-row md:px-12 lg:px-16 xl:px-24"
+    class="flex flex-col-reverse items-center justify-between gap-6 px-10 pt-4 md:flex-row md:px-12 lg:px-16 xl:px-24 xl:pt-8"
   >
     <div class="w-full">
       <p
@@ -17,7 +17,7 @@ import { signupLink } from "../../utils/links";
         feedback
       </p>
 
-      <p class="mb-4 max-w-lg font-light md:mb-10 md:text-lg">
+      <p class="max-w-lg pb-8 font-light md:pb-12 md:text-lg">
         muwno generates tasks for you to do based on your customers' feedback so
         that you can sell more, earn more.
       </p>
