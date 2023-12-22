@@ -70,6 +70,33 @@ export class UsageService {
   }
 
   /**
+   * Track max responses stored.
+   */
+  async trackResponseStored(
+    orgID: OrgID,
+    productID: ProductID,
+    // @todo make optional, since deleting responses should also trigger this method
+    responseID: FeedbackResponseID,
+  ): Promise<boolean> {
+    const count = await this.feedbackRepo.getResponsesStoredForOrg(orgID);
+
+    const success = await this.meteringService.trackEvent(
+      // Using responseID as event ID since this is the response that triggered
+      // the update for storage count.
+      responseID,
+      'pmf_response_stored',
+      orgID,
+      {
+        count,
+        orgID,
+        productID,
+      },
+    );
+
+    return success;
+  }
+
+  /**
    * Get all usage stats of the user's org.
    */
   async getStatsByOrg(userID: UserID): Promise<Usage> {

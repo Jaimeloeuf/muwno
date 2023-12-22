@@ -74,6 +74,7 @@ export class FeedbackService {
       );
 
     await this.usageService.trackResponse(orgID, productID, responseID);
+    await this.usageService.trackResponseStored(orgID, productID, responseID);
   }
 
   /**
