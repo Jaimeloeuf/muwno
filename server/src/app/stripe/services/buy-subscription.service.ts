@@ -144,7 +144,14 @@ export class StripeBuySubscriptionService {
    */
   private getMeteredProductPrice() {
     return this.stripe.prices
-      .list({ lookup_keys: ['response-usage', 'email-usage'] })
+      .list({
+        lookup_keys: [
+          'response-usage',
+          'email-usage',
+          'response-stored',
+          'customer-stored',
+        ],
+      })
       .then(({ data }) => data.map((price) => ({ price: price.id })));
   }
 
