@@ -5,6 +5,7 @@ import { loader } from "./controllers";
 import GlobalErrorView from "./views/GlobalError.vue";
 import SideDrawer from "./views/shared/SideDrawer.vue";
 import Loader from "./views/shared/Loader.vue";
+import SplashScreen from "./views/shared/SplashScreen.vue";
 
 const globalError = ref<Error | null>(null);
 onErrorCaptured((e) => {
@@ -106,10 +107,10 @@ function clearError() {
       </template>
 
       <!--
-        Show loader when router-view component is not ready instead of showing a
-        blank screen while waiting for RouteGuard to asynchronously resolve.
+        Show SplashScreen when RouterView is not ready while waiting for
+        RouteGuard to resolve asynchronously instead of showing blank screen.
       -->
-      <Loader v-else />
+      <SplashScreen v-else />
     </RouterView>
   </template>
 </template>
