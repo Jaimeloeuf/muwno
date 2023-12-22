@@ -26,34 +26,34 @@ const usage = await getUsage();
   <div>
     <TopNavbar sideDrawer>Usage</TopNavbar>
 
-    <div class="mx-auto flex max-w-2xl flex-col gap-6">
+    <div class="mx-auto flex max-w-lg flex-col gap-6">
       <p class="text-2xl font-light">Organisation Usage</p>
 
       <div>
-        <p>Responses processed</p>
+        <p class="text-lg">Responses Processed</p>
         <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
           {{ usage.response ?? "-" }}
         </p>
       </div>
 
       <div>
-        <p>Emails sent</p>
+        <p class="text-lg">Emails Sent</p>
         <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
           {{ usage.emailsSent ?? "-" }}
         </p>
       </div>
 
       <div v-if="flags.devMode">
-        <p>SMS sent</p>
+        <p class="text-lg">SMS Sent</p>
         <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
           {{ "-" }}
         </p>
       </div>
 
       <div>
-        <p>Responses stored</p>
+        <p class="text-lg">Responses Stored</p>
         <div class="flex flex-row items-center justify-between pb-2">
-          <p class="pr-2">Current</p>
+          <p class="pr-4">Current</p>
           <p
             class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1"
           >
@@ -62,7 +62,7 @@ const usage = await getUsage();
         </div>
 
         <div class="flex flex-row items-center justify-between">
-          <p class="pr-8">Max</p>
+          <p class="pr-10">Max</p>
           <p
             class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1"
           >
@@ -71,8 +71,8 @@ const usage = await getUsage();
         </div>
       </div>
 
-      <div v-if="flags.devMode">
-        <p>Customers stored</p>
+      <div v-if="flags.devMode" class="text-lg">
+        <p>Customers Stored</p>
         <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
           {{ "-" }}
         </p>
