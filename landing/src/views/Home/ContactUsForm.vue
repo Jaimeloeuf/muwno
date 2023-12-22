@@ -54,7 +54,7 @@ async function submitMessage() {
       Need Help?
     </p>
 
-    <div class="font-light text-zinc-800">
+    <div class="pb-4 font-light text-zinc-800">
       <p>
         Email us at
         <a
@@ -105,7 +105,7 @@ async function submitMessage() {
               v-model.trim="message"
               class="w-full resize-none rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
               rows="4"
-              placeholder="I need to reach Product Market Fit!"
+              placeholder="Help me succeed!"
             ></textarea>
           </label>
         </div>
@@ -138,10 +138,10 @@ async function submitMessage() {
     </p>
 
     <button
-      class="rounded-full bg-primary px-10 py-3 font-semibold tracking-wider text-white"
+      class="rounded-full bg-primary px-10 py-3 font-semibold text-white"
       @click="submitMessage"
     >
-      SUBMIT
+      Submit
     </button>
   </div>
 </template>

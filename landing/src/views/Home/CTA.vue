@@ -28,15 +28,6 @@ import { signupLink } from "../../utils/links";
 
       <div class="flex basis-1/3 flex-col gap-12 text-center">
         <div>
-          <router-link
-            :to="{ name: PricingRoute.name }"
-            class="rounded-full border-2 border-primary px-20 py-3 font-semibold text-primary"
-          >
-            See Pricing
-          </router-link>
-        </div>
-
-        <div>
           <a
             :href="signupLink"
             target="_blank"
@@ -44,6 +35,15 @@ import { signupLink } from "../../utils/links";
           >
             Start FREE
           </a>
+        </div>
+
+        <div>
+          <router-link
+            :to="{ name: PricingRoute.name }"
+            class="rounded-full border-2 border-primary px-8 py-3 text-xl font-semibold text-primary"
+          >
+            OR if you wanna pay
+          </router-link>
         </div>
       </div>
     </div>
