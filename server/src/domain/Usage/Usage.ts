@@ -28,8 +28,19 @@ export type Usage = {
   emailsSent: number | null;
 
   /**
-   * Number of Survey Responses currently stored. Could be null if no valid data
-   * can be retrieved.
+   * Survey Responses stored in the selected time period.
    */
-  responseStored: number | null;
+  responseStored: {
+    /**
+     * Number of Survey Responses currently stored. Could be null if no valid data
+     * can be retrieved.
+     */
+    current: number | null;
+
+    /**
+     * Maximum number of Survey Responses stored in the selected time period.
+     * Could be null if no valid data can be retrieved.
+     */
+    max: number | null;
+  };
 };

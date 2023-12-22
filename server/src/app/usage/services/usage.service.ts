@@ -124,7 +124,15 @@ export class UsageService {
         from,
         to,
       ),
-      responseStored: await this.feedbackRepo.getResponsesStoredForOrg(org.id),
+      responseStored: {
+        current: await this.feedbackRepo.getResponsesStoredForOrg(org.id),
+        max: await this.meteringService.queryEvent(
+          'pmf_response_stored',
+          org.id,
+          from,
+          to,
+        ),
+      },
     };
   }
 }

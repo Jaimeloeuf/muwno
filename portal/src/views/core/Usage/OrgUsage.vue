@@ -52,9 +52,23 @@ const usage = await getUsage();
 
       <div>
         <p>Responses stored</p>
-        <p class="rounded-lg border border-zinc-200 bg-zinc-50 p-2">
-          {{ usage.responseStored ?? "-" }}
-        </p>
+        <div class="flex flex-row items-center justify-between pb-2">
+          <p class="pr-2">Current</p>
+          <p
+            class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1"
+          >
+            {{ usage.responseStored.current ?? "-" }}
+          </p>
+        </div>
+
+        <div class="flex flex-row items-center justify-between">
+          <p class="pr-8">Max</p>
+          <p
+            class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1"
+          >
+            {{ usage.responseStored.max ?? "-" }}
+          </p>
+        </div>
       </div>
 
       <div v-if="flags.devMode">
