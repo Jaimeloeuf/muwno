@@ -43,6 +43,8 @@ import {
   stripeWebhookErrorNotifBuilder,
   stripeWebhookPaidNotifBuilder,
   stripeWebhookPaymentFailedNotifBuilder,
+  stripeCancelSubscriptionNotifBuilder,
+  unixSecondsToIsoString,
 } from '../../../utils/index.js';
 
 /**
@@ -471,10 +473,50 @@ export class StripeWebhookController {
      * itself will be sent anyways so dont have to handle those cases here.
      */
     'customer.subscription.updated': async (event) => {
-      this.logger.warn(
-        `Unhandled but registered webhook method called: ${event.type} -> ${event.id}`,
-        StripeWebhookController.name,
-      );
+      /**
+       * Stripe library does not define concrete type for this so it needs to be
+       * type casted manually. Type only includes data of what is needed.
+       * @todo Parse with Zod or smth
+       */
+      const subscription = event.data.object as Stripe.Subscription;
+
+      // If customer cancelled their subscription with us
+      if (
+        subscription.status === 'canceled' ||
+        subscription.cancel_at_period_end
+      ) {
+        const msg = `Stripe Customer ${subscription.customer} cancelled ${subscription.id}`;
+        this.logger.verbose(msg, StripeWebhookController.name);
+        this.adminNotifService.send(
+          stripeCancelSubscriptionNotifBuilder(msg, [
+            // cast as string since it is not expanded.
+            ['customer', subscription.customer as string],
+            ['subscription_id', subscription.id],
+            ['cancel_at_period_end', subscription.cancel_at_period_end],
+            ['start_date', unixSecondsToIsoString(subscription.start_date)],
+            [
+              'cancel_at',
+              unixSecondsToIsoString(subscription.cancel_at as number),
+            ],
+            [
+              'canceled_at',
+              unixSecondsToIsoString(subscription.canceled_at as number),
+            ],
+            [
+              'cancellation_details',
+              JSON.stringify(subscription.cancellation_details),
+            ],
+          ]),
+        );
+      }
+
+      // Some other reason why customer updated their subscription
+      else {
+        this.logger.warn(
+          `Unhandled but registered webhook method called: ${event.type} -> ${event.id}`,
+          StripeWebhookController.name,
+        );
+      }
     },
   };
 }
