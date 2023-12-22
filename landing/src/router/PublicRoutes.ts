@@ -1,3 +1,6 @@
+import HomeComponent from "../views/Home/Home.vue";
+import PricingComponent from "../views/Pricing/Pricing.vue";
+
 export const NotFoundRoute = <const>{
   path: "/:pathMatch(.*)*",
   name: "404",
@@ -7,13 +10,13 @@ export const NotFoundRoute = <const>{
 export const HomeRoute = <const>{
   name: "home",
   path: "/",
-  component: () => import("../views/Home/Home.vue"),
+  component: HomeComponent,
 };
 
 export const PricingRoute = <const>{
   name: "pricing",
   path: "/pricing",
-  component: () => import("../views/Pricing/Pricing.vue"),
+  component: PricingComponent,
 };
 
 export const DebugRoute = <const>{
