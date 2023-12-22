@@ -8,6 +8,7 @@ import SideDrawer from "./views/shared/SideDrawer.vue";
 import ErrorModal from "./views/shared/ErrorModal.vue";
 import Loader from "./views/shared/Loader.vue";
 import Snackbar from "./views/shared/Snackbar.vue";
+import SplashScreen from "./views/shared/SplashScreen.vue";
 
 const errorStore = useError();
 const loader = useLoader();
@@ -17,6 +18,7 @@ const globalError = ref<Error | null>(null);
 
 // Captures any errors that bubbled up from child components and set it on the
 // globalError variable so that it can be shown to users.
+// @todo Add a APM tool like sentry or something
 onErrorCaptured((e) => {
   globalError.value = e;
 });
@@ -175,11 +177,11 @@ function clearRouterError() {
       </template>
 
       <!--
-        Show loader when router-view component is not ready instead of showing a
-        blank screen while waiting for RouteGuard to asynchronously resolve,
-        most likely while loading onboarding status from API.
+        Show SplashScreen when router-view component is not ready instead of
+        showing a blank screen while waiting for RouteGuard to asynchronously
+        resolve, most likely while loading onboarding status from API.
       -->
-      <Loader v-else />
+      <SplashScreen v-else />
     </RouterView>
   </template>
 </template>
