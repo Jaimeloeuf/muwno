@@ -212,6 +212,9 @@ model stripe_customer {
   id         String   @id
   created_at DateTime @default(now())
 
+  // metered product's Stripe Subscription ID
+  metered_subscription_id String?
+
   // Relationship: ONE Stripe Customer, is created for ONE (each) paying Organisation
   // Auto delete StripeCustomer if Org is deleted
   org    org    @relation(fields: [org_id], references: [id], onDelete: Cascade)

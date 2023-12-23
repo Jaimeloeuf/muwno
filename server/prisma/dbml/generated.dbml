@@ -108,6 +108,7 @@ Table stripe_webhook_event {
 Table stripe_customer {
   id String [pk]
   created_at DateTime [default: `now()`, not null]
+  metered_subscription_id String
   org org [not null]
   org_id String [unique, not null]
 }
