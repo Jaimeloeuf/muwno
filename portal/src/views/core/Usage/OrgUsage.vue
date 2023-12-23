@@ -1,9 +1,27 @@
 <script setup lang="ts">
+import { ref, computed } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { flags } from "../../../utils/flags";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ReadUsageDTO } from "@domain-model";
+
+/**
+ * value is in seconds
+ */
+const timeRanges = [
+  { name: "Last 24 hours", value: 86400 },
+  { name: "Last week", value: 604800 },
+  { name: "Last 2 weeks", value: 1.21e6 },
+  { name: "Last month", value: 2.592e6 },
+] as const;
+const selectedTimeRange = ref<(typeof timeRanges)[number]["value"]>(2.592e6);
+
+const now = Date.now();
+const from = computed(() =>
+  new Date(now - selectedTimeRange.value * 1000).toLocaleDateString()
+);
+const to = computed(() => new Date(now).toLocaleDateString());
 
 async function getUsage() {
   const { res, err } = await sf
@@ -19,7 +37,9 @@ async function getUsage() {
   return res.data.usage;
 }
 
-const usage = await getUsage();
+const usage = ref(await getUsage());
+
+watch(selectedTimeRange, async () => (usage.value = await getUsage()));
 </script>
 
 <template>
@@ -27,7 +47,29 @@ const usage = await getUsage();
     <TopNavbar sideDrawer>Usage</TopNavbar>
 
     <div class="mx-auto flex max-w-lg flex-col gap-6">
-      <p class="text-2xl font-light">Organisation Usage</p>
+      <div>
+        <div class="flex flex-col justify-between gap-4 sm:flex-row">
+          <p class="text-2xl">Organisation Usage</p>
+
+          <select
+            v-model="selectedTimeRange"
+            class="rounded-lg border border-zinc-200 p-2.5 focus:outline-none"
+          >
+            <option
+              v-for="timeRange in timeRanges"
+              :key="timeRange.value"
+              :value="timeRange.value"
+              :selected="timeRange.value === selectedTimeRange"
+            >
+              {{ timeRange.name }}
+            </option>
+          </select>
+        </div>
+
+        <p class="pr-2 pt-1 text-right text-sm font-light">
+          {{ from }} <span class="px-2 font-bold">-</span> {{ to }}
+        </p>
+      </div>
 
       <div>
         <p class="text-lg">Responses Processed</p>
