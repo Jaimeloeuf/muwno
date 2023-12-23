@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
+import { useLoader, useError } from "../../../store";
 import { flags } from "../../../utils/flags";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ReadUsageDTO } from "@domain-model";
+
+const loader = useLoader();
+const errorStore = useError();
 
 /**
  * value is in seconds
@@ -30,16 +34,29 @@ async function getUsage() {
     .useHeader(getAuthHeader)
     .runJSON<ReadUsageDTO>();
 
-  if (err) throw err;
+  if (err) return err;
   if (!res.ok)
-    throw new Error(`Failed to get Usage stats: ${JSON.stringify(res)}`);
+    return new Error(`Failed to get Usage stats: ${JSON.stringify(res)}`);
 
   return res.data.usage;
 }
 
-const usage = ref(await getUsage());
+const usageResult = await getUsage();
+if (usageResult instanceof Error) throw usageResult;
+const usage = ref(usageResult);
 
-watch(selectedTimeRange, async () => (usage.value = await getUsage()));
+watch(selectedTimeRange, async () => {
+  loader.show();
+  const usageResult = await getUsage();
+  loader.hide();
+
+  if (usageResult instanceof Error) {
+    errorStore.newError(usageResult);
+    return;
+  }
+
+  usage.value = usageResult;
+});
 </script>
 
 <template>
