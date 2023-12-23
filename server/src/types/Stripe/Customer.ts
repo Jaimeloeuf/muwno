@@ -7,6 +7,12 @@ export interface Customer {
   id: string;
 
   /**
+   * This is Stripe's Subscription ID for the metered product. This is optional
+   * since this is only set once the subscription goes into effect.
+   */
+  meteredSubscriptionID: string | null;
+
+  /**
    * When was this Entity created and stored in data source.
    */
   createdAt: ISODateTimeString;

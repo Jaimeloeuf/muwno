@@ -5,6 +5,7 @@ export const mapStripeCustomerModelToEntity = (
   stripeCustomerModel: StripeCustomerModel,
 ): Customer => ({
   id: stripeCustomerModel.id,
+  meteredSubscriptionID: stripeCustomerModel.metered_subscription_id,
   createdAt: stripeCustomerModel.created_at.toISOString(),
   orgID: stripeCustomerModel.org_id,
 });
