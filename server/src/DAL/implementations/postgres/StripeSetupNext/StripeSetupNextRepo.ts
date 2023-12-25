@@ -14,24 +14,24 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class StripeSetupNextRepo implements IStripeSetupNextRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async saveOne(setupIntentID: string, next: Exclude<StripeSetupNext, null>) {
+  async saveOne(id: string, next: Exclude<StripeSetupNext, null>) {
     await this.db.stripe_setup_next.create({
       data: {
-        id: setupIntentID,
+        id,
         next: next as unknown as Prisma.JsonObject,
       },
     });
   }
 
-  async getOne(setupIntentID: string) {
+  async getOne(id: string) {
     return this.db.stripe_setup_next
-      .findUnique({ where: { id: setupIntentID } })
+      .findUnique({ where: { id } })
       .then(
         runMapperIfNotNull(({ next }) => next as unknown as StripeSetupNext),
       );
   }
 
-  async deleteOne(setupIntentID: string) {
-    await this.db.stripe_setup_next.delete({ where: { id: setupIntentID } });
+  async deleteOne(id: string) {
+    await this.db.stripe_setup_next.delete({ where: { id } });
   }
 }

@@ -88,10 +88,10 @@ export class TeamRepo implements ITeamRepo {
       .then(mapToTeamInvitations);
   }
 
-  async getInvite(invitationID: string) {
+  async getInvite(id: string) {
     return this.db.team_member_invitation
       .findUnique({
-        where: { id: invitationID },
+        where: { id },
         include: {
           inviter: { select: { name: true, role: true } },
           org: { select: { name: true } },
@@ -100,20 +100,20 @@ export class TeamRepo implements ITeamRepo {
       .then(runMapperIfNotNull(mapToTeamInvitation));
   }
 
-  async deleteInvite(invitationID: string) {
+  async deleteInvite(id: string) {
     await this.db.team_member_invitation.delete({
-      where: { id: invitationID },
+      where: { id },
     });
   }
 
   // Delete Org related data for user before removing user
-  async removeMember(userID: UserID) {
+  async removeMember(id: UserID) {
     await this.db.team_member_invitation.deleteMany({
-      where: { inviter_id: userID },
+      where: { inviter_id: id },
     });
 
     await this.db.user.update({
-      where: { id: userID },
+      where: { id },
       data: { org_id: null },
     });
   }

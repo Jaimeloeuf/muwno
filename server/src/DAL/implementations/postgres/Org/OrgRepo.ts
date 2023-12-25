@@ -38,11 +38,11 @@ export class OrgRepo implements IOrgRepo {
       .then(runMapperIfNotNull(mapOrgModelToEntity));
   }
 
-  async getUserOrg(userID: UserID) {
+  async getUserOrg(id: UserID) {
     return (
       this.db.user
         .findUnique({
-          where: { id: userID },
+          where: { id },
 
           // Only load the user's Org details
           select: { org: true },

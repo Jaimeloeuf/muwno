@@ -72,11 +72,11 @@ export class ProductRepo implements IProductRepo {
       .then(runMapperIfNotNull((product) => product.org_id));
   }
 
-  async getUserOrgProducts(userID: UserID) {
+  async getUserOrgProducts(id: UserID) {
     return (
       this.db.user
         .findUnique({
-          where: { id: userID },
+          where: { id },
           select: {
             org: {
               select: {
@@ -108,8 +108,8 @@ export class ProductRepo implements IProductRepo {
       .then(mapProductModelToEntity);
   }
 
-  async deleteOne(productID: ProductID) {
-    await this.db.product.delete({ where: { id: productID } });
+  async deleteOne(id: ProductID) {
+    await this.db.product.delete({ where: { id } });
   }
 
   async transfer(id: ProductID, org_id: OrgID) {

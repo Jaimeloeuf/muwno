@@ -29,10 +29,10 @@ import { optionallyPaginateWithCursor } from '../utils/optionallyPaginateWithCur
 export class FeedbackRepo implements IFeedbackRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getOneFeedbackForm(productID: ProductID) {
+  async getOneFeedbackForm(id: ProductID) {
     return this.db.product
       .findUnique({
-        where: { id: productID },
+        where: { id },
         select: { name: true, link: true },
       })
       .then(runMapperIfNotNull(mapProductModelToEntity));
@@ -69,15 +69,15 @@ export class FeedbackRepo implements IFeedbackRepo {
   //     where: { product_id },
   //   });
   // }
-  async getResponseStats(productID: ProductID) {
+  async getResponseStats(product_id: ProductID) {
     return this.db.pmf_survey_response.count({
-      where: { product_id: productID },
+      where: { product_id },
     });
   }
 
-  async getResponse(responseID: FeedbackResponseID) {
+  async getResponse(id: FeedbackResponseID) {
     return this.db.pmf_survey_response
-      .findUnique({ where: { id: responseID } })
+      .findUnique({ where: { id } })
       .then(runMapperIfNotNull(mapFeedbackResponseModelToEntity));
   }
 
@@ -181,10 +181,10 @@ export class FeedbackRepo implements IFeedbackRepo {
     }) as Promise<Array<DBFeedbackResponse>>;
   }
 
-  async getResponseProduct(responseID: FeedbackResponseID) {
+  async getResponseProduct(id: FeedbackResponseID) {
     return this.db.pmf_survey_response
       .findUnique({
-        where: { id: responseID },
+        where: { id },
         select: {
           product: {
             select: { id: true },

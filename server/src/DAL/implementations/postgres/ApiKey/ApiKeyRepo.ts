@@ -26,9 +26,9 @@ export class ApiKeyRepo implements IApiKeyRepo {
       .then(mapApiKeyModelsToEntity);
   }
 
-  async getOne(apiKeyID: ApiKeyDetailID) {
+  async getOne(id: ApiKeyDetailID) {
     return this.db.api_key
-      .findUnique({ where: { id: apiKeyID } })
+      .findUnique({ where: { id } })
       .then(runMapperIfNotNull(mapApiKeyModelToEntity));
   }
 
@@ -52,8 +52,8 @@ export class ApiKeyRepo implements IApiKeyRepo {
       .then(mapApiKeyModelToEntity);
   }
 
-  async deleteOne(apiKeyID: ApiKeyDetailID) {
-    await this.db.api_key.delete({ where: { id: apiKeyID } });
+  async deleteOne(id: ApiKeyDetailID) {
+    await this.db.api_key.delete({ where: { id } });
   }
 
   async getApiKeyOrg(hash: string) {

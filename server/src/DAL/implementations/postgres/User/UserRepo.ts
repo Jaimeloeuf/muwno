@@ -19,16 +19,16 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class UserRepo implements IUserRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getOne(userID: UserID) {
+  async getOne(id: UserID) {
     return this.db.user
-      .findUnique({ where: { id: userID } })
+      .findUnique({ where: { id } })
       .then(runMapperIfNotNull(mapUserModelToEntity));
   }
 
-  async isOnboarded(userID: UserID) {
+  async isOnboarded(id: UserID) {
     return this.db.user
       .findUnique({
-        where: { id: userID },
+        where: { id },
         select: {
           org: {
             select: {
@@ -57,10 +57,7 @@ export class UserRepo implements IUserRepo {
       .then(mapUserModelToEntity);
   }
 
-  async updateOne(
-    userID: UserID,
-    updateOneUserDTO: Partial<DBCreateOneUserDTO>,
-  ) {
+  async updateOne(id: UserID, updateOneUserDTO: Partial<DBCreateOneUserDTO>) {
     if (updateOneUserDTO.role === undefined) {
       delete updateOneUserDTO.role;
 
@@ -70,7 +67,7 @@ export class UserRepo implements IUserRepo {
 
       return this.db.user
         .update({
-          where: { id: userID },
+          where: { id },
           data: updateOneUserDTO_withoutRole,
         })
         .then(mapUserModelToEntity);
@@ -78,7 +75,7 @@ export class UserRepo implements IUserRepo {
 
     return this.db.user
       .update({
-        where: { id: userID },
+        where: { id },
         data: {
           ...updateOneUserDTO,
           role: RoleTypeToDbRoleEnumMapping[updateOneUserDTO.role],
@@ -87,9 +84,9 @@ export class UserRepo implements IUserRepo {
       .then(mapUserModelToEntity);
   }
 
-  async deactivateOne(userID: UserID) {
+  async deactivateOne(id: UserID) {
     await this.db.user.update({
-      where: { id: userID },
+      where: { id },
       data: { deactivated: true },
     });
   }

@@ -17,9 +17,9 @@ import { runMapperIfNotNull } from '../utils/runMapperIfNotNull.js';
 export class StripeCustomerRepo implements IStripeCustomerRepo {
   constructor(private readonly db: PrismaService) {}
 
-  async getCustomerWithStripeCustomerID(stripeCustomerID: Customer['id']) {
+  async getCustomerWithStripeCustomerID(id: Customer['id']) {
     return this.db.stripe_customer
-      .findUnique({ where: { id: stripeCustomerID } })
+      .findUnique({ where: { id } })
       .then(runMapperIfNotNull(mapStripeCustomerModelToEntity));
   }
 
@@ -38,14 +38,14 @@ export class StripeCustomerRepo implements IStripeCustomerRepo {
       .then(runMapperIfNotNull(({ id }) => id));
   }
 
-  async createOne(org_id: OrgID, stripeCustomerID: string) {
+  async createOne(org_id: OrgID, id: string) {
     await this.db.stripe_customer.upsert({
-      where: { id: stripeCustomerID },
+      where: { id },
       create: {
-        id: stripeCustomerID,
+        id,
         org_id,
       },
-      update: { id: stripeCustomerID },
+      update: { id },
     });
   }
 }

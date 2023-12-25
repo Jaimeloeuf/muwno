@@ -17,11 +17,11 @@ export class CustomerRepo implements ICustomerRepo {
     return this.db.customer.count({ where: { org_id } });
   }
 
-  async newOne(orgID: OrgID, customer: DBCreateOneCustomerDTO) {
+  async newOne(org_id: OrgID, customer: DBCreateOneCustomerDTO) {
     await this.db.customer.create({
       data: {
         ...customer,
-        org_id: orgID,
+        org_id,
 
         // Forcing use of undefined through invalid type casting to rely on DB
         // to generate default timestamp, with the alternative being to create

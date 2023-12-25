@@ -88,10 +88,10 @@ export class TaskRepo implements ITaskRepo {
       .then(mapTaskModelsToEntity);
   }
 
-  async getTaskProduct(taskID: TaskID) {
+  async getTaskProduct(id: TaskID) {
     return this.db.task
       .findUnique({
-        where: { id: taskID },
+        where: { id },
         select: {
           product: {
             select: { id: true },
@@ -101,9 +101,9 @@ export class TaskRepo implements ITaskRepo {
       .then(runMapperIfNotNull((task) => task.product.id));
   }
 
-  async markTaskAsDone(taskID: TaskID) {
+  async markTaskAsDone(id: TaskID) {
     await this.db.task.update({
-      where: { id: taskID },
+      where: { id },
       data: { done: true },
     });
   }
