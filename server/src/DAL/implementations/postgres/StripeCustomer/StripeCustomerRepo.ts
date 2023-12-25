@@ -48,4 +48,14 @@ export class StripeCustomerRepo implements IStripeCustomerRepo {
       update: { id },
     });
   }
+
+  async setMeteredProductSubscriptionID(
+    id: Customer['id'],
+    metered_subscription_id: Customer['meteredSubscriptionID'],
+  ) {
+    await this.db.stripe_customer.update({
+      where: { id },
+      data: { metered_subscription_id },
+    });
+  }
 }

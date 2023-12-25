@@ -31,4 +31,12 @@ export abstract class IStripeCustomerRepo {
     orgID: OrgID,
     stripeCustomerID: Customer['id'],
   ): Promise<void>;
+
+  /**
+   * Set metered product subscription ID.
+   */
+  abstract setMeteredProductSubscriptionID(
+    stripeCustomerID: Customer['id'],
+    meteredSubscriptionID: Customer['meteredSubscriptionID'],
+  ): Promise<void>;
 }

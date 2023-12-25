@@ -418,6 +418,13 @@ export class StripeWebhookController {
         stripeCustomer.orgID,
       );
 
+      // Remove metered product subscription ID since Stripe will create a new
+      // subscription object on new/re-subscription.
+      await this.stripeCustomerRepo.setMeteredProductSubscriptionID(
+        stripeCustomer.id,
+        null,
+      );
+
       const msg = `Stripe Customer ${stripeCustomer.id}, Org ${stripeCustomer.orgID}, ended their subscription ${subscription.id}`;
       this.logger.verbose(msg, StripeWebhookController.name);
       this.adminNotifService.send(msg);

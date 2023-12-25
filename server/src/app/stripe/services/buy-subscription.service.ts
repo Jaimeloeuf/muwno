@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import type { Stripe } from 'stripe';
 
 import { StripeClient } from '../infra/stripe-client.js';
+import { IStripeCustomerRepo } from '../../../DAL/index.js';
 
 // Exceptions
 import {
@@ -14,6 +15,7 @@ export class StripeBuySubscriptionService {
   constructor(
     private readonly logger: Logger,
     private readonly stripe: StripeClient,
+    private readonly stripeCustomerRepo: IStripeCustomerRepo,
   ) {}
 
   /**
@@ -173,6 +175,11 @@ export class StripeBuySubscriptionService {
       throw new ServiceException(
         `Subscription '${meteredProductSubscription.id}' did not succeed: '${meteredProductSubscription.status}'`,
       );
+
+    await this.stripeCustomerRepo.setMeteredProductSubscriptionID(
+      stripeCustomerID,
+      meteredProductSubscription.id,
+    );
 
     // @todo Save subscription ID instead of calling Stripe API on future use
     this.logger.verbose(
