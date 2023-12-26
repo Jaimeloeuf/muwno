@@ -25,7 +25,7 @@
     "deploy": "npm run docker:build && npm run docker:push",
     "prisma:script": "npx ts-node ./prisma/script/script.ts",
     "stripe:script": "npx ts-node ./scripts/stripe/interactive.ts",
-    "stripe:setup": "npx ts-node ./scripts/stripe/index.ts",
+    "stripe:setup": "npm run build:domain && npx ts-node ./scripts/stripe/index.ts",
     "stripe:listen": "stripe listen --forward-to localhost:3000/v1/stripe/webhook/test",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch",
