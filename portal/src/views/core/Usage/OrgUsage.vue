@@ -19,13 +19,18 @@ const timeRanges = [
   { name: "Last week", value: 604800 },
   { name: "Last 2 weeks", value: 1.21e6 },
   { name: "Last month", value: 2.592e6 },
+  { name: "Current Billing Cycle", value: 0 },
 ] as const;
 const selectedTimeRange = ref<(typeof timeRanges)[number]["value"]>(2.592e6);
 
 async function getUsage() {
   const { res, err } = await sf
     .useDefault()
-    .GET(`/usage/org`)
+    .GET(
+      selectedTimeRange.value === 0
+        ? `/usage/org/current-billing-period`
+        : `/usage/org?timeRange=${selectedTimeRange.value}`
+    )
     .useHeader(getAuthHeader)
     .runJSON<ReadUsageDTO>();
 
