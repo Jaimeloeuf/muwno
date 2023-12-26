@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useError } from "../../../store";
 import { flags } from "../../../utils/flags";
+import { getDateString } from "../../../utils/date-formatting/getDateString";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ReadUsageDTO } from "@domain-model";
 
@@ -20,12 +21,6 @@ const timeRanges = [
   { name: "Last month", value: 2.592e6 },
 ] as const;
 const selectedTimeRange = ref<(typeof timeRanges)[number]["value"]>(2.592e6);
-
-const now = Date.now();
-const from = computed(() =>
-  new Date(now - selectedTimeRange.value * 1000).toLocaleDateString()
-);
-const to = computed(() => new Date(now).toLocaleDateString());
 
 async function getUsage() {
   const { res, err } = await sf
@@ -84,7 +79,8 @@ watch(selectedTimeRange, async () => {
         </div>
 
         <p class="pr-2 pt-1 text-right text-sm font-light">
-          {{ from }} <span class="px-2 font-bold">-</span> {{ to }}
+          {{ getDateString(usage.from) }} <span class="px-2 font-bold">-</span>
+          {{ getDateString(usage.to) }}
         </p>
       </div>
 
