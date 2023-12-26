@@ -110,6 +110,7 @@ export class UsageService {
     if (org === null)
       throw new NotFoundException(`User '${userID}' does not have an Org!`);
 
+    // @todo Might check for active subscription first instead of letting this throw.
     const { from, to } =
       await this.stripeSubscriptionService.getCurrentPeriodOfMeteredSubscription(
         org.id,
@@ -141,6 +142,10 @@ export class UsageService {
     if (org === null)
       throw new NotFoundException(`User '${userID}' does not have an Org!`);
 
+    // NOTE: Potential issue. When using startOf, some usage stats in the
+    // current minute will be missed since it happened after the startOf time.
+    // endOf also cannot be used since openmeter can only aggregate on usage
+    // whose time has already passed and cannot aggregate with future time.
     const from = dayjs()
       .subtract(timeRange, 'seconds')
       .startOf('minute')
