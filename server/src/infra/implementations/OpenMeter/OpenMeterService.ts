@@ -77,6 +77,13 @@ export class OpenMeterService implements IMeteringService {
     }
   }
 
+  /**
+   * ## Important note about from/to timestamps
+   * It **MUST** be rounded to nearest MINUTE like YYYY-MM-DDTHH:mm:00
+   *
+   * `to` must also be a time that has already passed, so it cannot be in the
+   * future. The closest value for `to` is the start of the current minute.
+   */
   async queryEvent(
     meterID: string,
     subject: string,
@@ -86,6 +93,13 @@ export class OpenMeterService implements IMeteringService {
     try {
       const queryParameters: Record<string, string> = {
         subject,
+
+        // `windowSize` is optional, leave it blank to get all values in the
+        // given period. Use this to get usage data broken down by the given
+        // window size to for example show users a graph of their usage over time.
+        //
+        // use 'DAY' for start of a day in UTC to previous 24 hours
+        // use 'MINUTE' for start of current minute in UTC to previous minute
       };
 
       // Include query time range if given
