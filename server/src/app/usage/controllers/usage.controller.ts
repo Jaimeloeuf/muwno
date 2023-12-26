@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query, ParseIntPipe } from '@nestjs/common';
 
 import { UsageService } from '../services/usage.service.js';
 
@@ -28,7 +28,25 @@ export class UsageController {
    */
   @Get('org')
   @AllowAllRoles
-  async getStatsByOrg(@JWT_uid userID: FirebaseAuthUID): Promise<ReadUsageDTO> {
-    return this.usageService.getStatsByOrg(userID).then((usage) => ({ usage }));
+  async getStatsByOrgOfSelectedTimeRange(
+    @JWT_uid userID: FirebaseAuthUID,
+    @Query('timeRange', ParseIntPipe) timeRange: number,
+  ): Promise<ReadUsageDTO> {
+    return this.usageService
+      .getStatsByOrgOfSelectedTimeRange(userID, timeRange)
+      .then((usage) => ({ usage }));
+  }
+
+  /**
+   * Get all usage stats of the user's org.
+   */
+  @Get('org/current-billing-period')
+  @AllowAllRoles
+  async getStatsByOrgOfCurrentBillingPeriod(
+    @JWT_uid userID: FirebaseAuthUID,
+  ): Promise<ReadUsageDTO> {
+    return this.usageService
+      .getStatsByOrgOfCurrentBillingPeriod(userID)
+      .then((usage) => ({ usage }));
   }
 }
