@@ -4,7 +4,10 @@ import { StripeClient } from '../infra/stripe-client.js';
 import { IStripeCustomerRepo } from '../../../DAL/index.js';
 
 // Service layer Exceptions
-import { InvalidInputException } from '../../../exceptions/index.js';
+import {
+  InvalidInternalStateException,
+  NotFoundException,
+} from '../../../exceptions/index.js';
 
 // Utils
 import { unixSecondsToIsoString } from '../../../utils/index.js';
@@ -40,11 +43,11 @@ export class StripeSubscriptionService {
   async getCurrentPeriodOfMeteredSubscription(orgID: string) {
     const customer = await this.stripeCustomerRepo.getCustomerWithOrgID(orgID);
     if (customer === null)
-      throw new InvalidInputException(
+      throw new InvalidInternalStateException(
         `Cannot read metered product subscription period as Org ${orgID} does not have a Stripe Account`,
       );
     if (customer.meteredSubscriptionID === null)
-      throw new Error(
+      throw new NotFoundException(
         `Cannot read metered product subscription period as Org ${orgID} does not have a metered subscription`,
       );
 
