@@ -12,7 +12,7 @@ const reloadPage = () => window.location.reload();
 </script>
 
 <template>
-  <div class="flex h-screen flex-col items-center justify-center">
+  <div class="flex h-screen flex-col items-center justify-center bg-zinc-50">
     <img src="../../assets/logo.svg" class="pb-8" />
 
     <img
@@ -21,18 +21,18 @@ const reloadPage = () => window.location.reload();
     />
 
     <div v-if="longerThanExpected" class="text-center">
-      <p class="pb-4 text-xl font-medium">
+      <p class="pb-6 text-xl font-medium">
         This is taking longer than usual,<br />do you want to reload and retry?
       </p>
 
       <button
-        class="rounded-lg border border-green-600 px-12 py-2 text-lg text-green-600"
+        class="rounded-lg border border-green-600 px-12 py-1.5 text-lg text-green-600"
         @click="reloadPage"
       >
         Reload
       </button>
     </div>
-    <p v-else class="text-xl font-semibold tracking-wider text-zinc-800">
+    <p v-else class="text-2xl font-semibold tracking-wider text-zinc-800">
       ... loading muwno ...
     </p>
   </div>
