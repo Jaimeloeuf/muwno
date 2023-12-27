@@ -36,12 +36,12 @@ setTimeout(() => (longerThanExpected.value = true), 10000);
         />
       </svg>
 
-      <div v-if="longerThanExpected" class="mt-12 rounded-lg bg-zinc-50 px-2">
-        <p class="pb-2 text-xl font-medium">
+      <div v-if="longerThanExpected" class="mt-12 rounded-lg bg-zinc-50 px-8">
+        <p class="pb-4 font-medium md:text-xl">
           This is taking longer than usual, do you want to reload the page and
           retry?
         </p>
-        <p class="pb-8 text-xl">
+        <p class="pb-8 md:text-xl">
           *Reloading the page might cause whatever you are doing to reset.
         </p>
 
