@@ -1,5 +1,7 @@
 /**
  * Hardcoded plan details object since there is only 1 plan now.
+ *
+ * See '/docs/Issue with JS math precision for Stripe Prices.md'
  */
 export const PlanDetails = <const>{
   /**
