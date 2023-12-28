@@ -11,6 +11,7 @@ import { useLoader, useUser } from "../../store";
 import { OnboardingRoute, LoginRoute } from "../../router";
 import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
 import { landingLink } from "../../utils/links";
+import EnterButton from "../shared/EnterButton.vue";
 
 const router = useRouter();
 const loader = useLoader();
@@ -77,79 +78,108 @@ async function signup() {
 </script>
 
 <template>
-  <div class="mx-auto flex h-[90vh] w-full max-w-lg flex-col justify-center">
-    <a
-      :href="landingLink"
-      target="_blank"
-      class="flex flex-row items-end gap-4 pb-6"
+  <!-- -m-6 is used to cancel out the p-6 class set on App.vue's root component -->
+  <div class="-m-6 flex flex-row justify-between">
+    <div
+      class="hidden h-screen w-full max-w-xs bg-gradient-to-tr from-zinc-950 from-5% to-sky-900 to-95% md:flex md:flex-col md:justify-center md:px-8 lg:max-w-md xl:max-w-lg xl:px-12"
     >
-      <img src="../../assets/logo.svg" alt="logo" />
-      <p class="text-lg tracking-wide">(Sign up)</p>
-    </a>
+      <div class="text-white">
+        <a :href="landingLink" target="_blank">
+          <img src="../../assets/logo.svg" alt="logo" class="h-12" />
+        </a>
 
-    <div class="pb-6">
-      <label>
-        <p class="font-light">Name</p>
+        <p class="pb-8 text-xl font-bold text-zinc-200">Earn More</p>
 
-        <input
-          v-model.trim="name"
-          type="text"
-          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
-          placeholder="Jane Doe"
-        />
-      </label>
+        <p class="text-xl tracking-wide text-zinc-200 lg:text-2xl">
+          Customer Feedback<br />
+          collection and analysis<br />
+          to grow your business.
+        </p>
+      </div>
     </div>
 
-    <div class="pb-6">
-      <label>
-        <p class="font-light">Email</p>
-
-        <input
-          v-model.trim="email"
-          type="text"
-          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
-          placeholder="janedoe@gmail.com"
-        />
-      </label>
-    </div>
-
-    <div class="pb-10">
-      <label>
-        <p class="font-light">Password</p>
-
-        <input
-          v-model.trim="password"
-          type="password"
-          class="w-full rounded-lg border border-zinc-200 bg-zinc-50 p-3"
-          placeholder="password"
-          @keydown.enter="signup"
-        />
-      </label>
-    </div>
-
-    <button
-      class="mb-6 w-full rounded-lg bg-green-600 py-3 text-xl text-white"
-      @click="signup"
+    <div
+      class="flex h-screen w-full flex-col justify-center bg-white bg-cover bg-center px-8 md:bg-zinc-50 md:bg-[url(../assets/auth_bg.avif)]"
     >
-      Sign up
-    </button>
+      <div class="mx-auto w-full max-w-sm">
+        <a :href="landingLink" target="_blank" class="w-max md:hidden">
+          <img src="../../assets/logo.svg" alt="logo" />
+        </a>
 
-    <router-link
-      :to="{ name: LoginRoute.name }"
-      class="rounded-lg border border-zinc-200 py-2 text-center font-light text-zinc-900"
-    >
-      Click here to login
-    </router-link>
+        <div
+          class="rounded-2xl bg-white py-12 md:border md:border-zinc-100 md:px-8 md:shadow-2xl md:shadow-zinc-500"
+        >
+          <p class="pb-8 text-2xl font-semibold">Sign up</p>
 
-    <div class="pt-6 text-sm font-thin md:pt-12">
-      By signing up, you agree to our
-      <a :href="`${landingLink}/TC.pdf`" target="_blank" class="underline"
-        >Terms & Conditions</a
-      >
-      and
-      <a :href="`${landingLink}/PP.pdf`" target="_blank" class="underline">
-        Privacy Policy
-      </a>
+          <div class="pb-6">
+            <label>
+              <p class="pb-0.5 text-sm font-medium">Name</p>
+
+              <input
+                v-model.trim="name"
+                type="text"
+                class="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 focus:outline-none"
+                placeholder="Jane Doe"
+              />
+            </label>
+          </div>
+
+          <div class="pb-6">
+            <label>
+              <p class="pb-0.5 text-sm font-medium">Email</p>
+
+              <input
+                v-model.trim="email"
+                type="text"
+                class="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 focus:outline-none"
+                placeholder="janedoe@business.com"
+              />
+            </label>
+          </div>
+
+          <div class="pb-10">
+            <label>
+              <p class="pb-0.5 text-sm font-medium">Password</p>
+
+              <input
+                v-model.trim="password"
+                type="password"
+                class="w-full rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 focus:outline-none"
+                placeholder="secure_password"
+                @keydown.enter="signup"
+              />
+            </label>
+          </div>
+
+          <EnterButton
+            :to="{}"
+            class="mb-8 w-full rounded-md bg-zinc-800 py-1.5 font-medium text-zinc-50"
+            @click="signup"
+          >
+            Sign up
+          </EnterButton>
+
+          <router-link
+            :to="{ name: LoginRoute.name }"
+            class="text-zinc-900 underline decoration-zinc-300 underline-offset-2"
+          >
+            Click here to <span class="font-bold">sign in</span>.
+          </router-link>
+        </div>
+
+        <div
+          class="absolute bottom-8 px-2 text-[0.6rem] font-thin md:text-white"
+        >
+          By using our product, you agree to our
+          <a :href="`${landingLink}/PP.pdf`" target="_blank" class="underline">
+            Privacy Policy
+          </a>
+          and
+          <a :href="`${landingLink}/TC.pdf`" target="_blank" class="underline"
+            >Terms & Conditions</a
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
