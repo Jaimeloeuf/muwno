@@ -17,7 +17,7 @@ export const LoginRoute = <const>{
   path: "/",
   name: "login",
   props: (route: RouteLocationNormalized) => route.query,
-  component: () => import("../views/core/Login.vue"),
+  component: () => import("../views/core/Auth/Login.vue"),
   meta: { AuthRequirements: AuthType.PublicOnly },
 };
 
