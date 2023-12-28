@@ -28,7 +28,7 @@ import { landingLink } from "../../../utils/links";
     >
       <div class="mx-auto w-full max-w-sm">
         <a :href="landingLink" target="_blank" class="w-max md:hidden">
-          <img src="../../assets/logo.svg" alt="logo" />
+          <img src="../../../assets/logo.svg" alt="logo" />
         </a>
 
         <div
