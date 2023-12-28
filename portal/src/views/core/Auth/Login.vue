@@ -133,7 +133,6 @@ async function forgetPassword() {
     </div>
 
     <EnterButton
-      :to="{}"
       class="mb-8 w-full rounded-md bg-zinc-800 py-1.5 font-medium text-zinc-50"
       @click="login"
     >
