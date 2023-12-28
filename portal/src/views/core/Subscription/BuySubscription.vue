@@ -2,7 +2,7 @@
 import { OnboardingRoute } from "../../../router";
 import Accordion from "../../shared/Accordion.vue";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import EnterButton from "../../shared/EnterButton.vue";
+import RouteEnterButton from "../../shared/RouteEnterButton.vue";
 import SetupPaymentMethod from "./Stripe/SetupPaymentMethod.vue";
 import {
   numberFormatter,
@@ -126,13 +126,13 @@ import { PlanDetails } from "@domain-model";
 
             <p class="pb-4 font-extralight italic">*Prices are in USD</p>
 
-            <EnterButton
+            <RouteEnterButton
               :to="{}"
               :href="`${landingLink}/#/pricing`"
               target="_blank"
             >
               Estimate Cost
-            </EnterButton>
+            </RouteEnterButton>
           </template>
         </Accordion>
 

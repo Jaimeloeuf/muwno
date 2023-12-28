@@ -9,7 +9,7 @@ import {
 } from "../../../../router";
 
 import TopNavbar from "../../../shared/TopNavbar.vue";
-import EnterButton from "../../../shared/EnterButton.vue";
+import RouteEnterButton from "../../../shared/RouteEnterButton.vue";
 import PMFChart from "./PMFChart.vue";
 import PMFLiveScoreCard from "./Card/PMFLiveScoreCard.vue";
 import TaskCard from "./Card/TaskCard.vue";
@@ -45,31 +45,31 @@ setInterval(() => window.location.reload(), 8.64e7);
         <TaskCard :productID="product.id" />
 
         <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
-          <EnterButton
+          <RouteEnterButton
             :to="{ name: UserPersonaRoute.name, params: { productID } }"
           >
             User Personas
-          </EnterButton>
-          <EnterButton
+          </RouteEnterButton>
+          <RouteEnterButton
             :to="{ name: BenefitsRoute.name, params: { productID } }"
           >
             Benefits
-          </EnterButton>
-          <EnterButton
+          </RouteEnterButton>
+          <RouteEnterButton
             :to="{ name: SurveyStatsRoute.name, params: { productID } }"
           >
             Survey Stats
-          </EnterButton>
-          <EnterButton
+          </RouteEnterButton>
+          <RouteEnterButton
             :to="{ name: SurveyMethodsRoute.name, params: { productID } }"
           >
             Survey Methods
-          </EnterButton>
-          <EnterButton
+          </RouteEnterButton>
+          <RouteEnterButton
             :to="{ name: MoreProductFeatureRoute.name, params: { productID } }"
           >
             More
-          </EnterButton>
+          </RouteEnterButton>
         </div>
       </div>
     </div>

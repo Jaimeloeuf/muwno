@@ -7,7 +7,7 @@ import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute"
 import { getDateString } from "../../../utils/date-formatting/getDateString";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import CopyOnClick from "../../shared/CopyOnClick.vue";
-import EnterButton from "../../shared/EnterButton.vue";
+import RouteEnterButton from "../../shared/RouteEnterButton.vue";
 import { Role } from "@domain-model";
 
 const loader = useLoader();
@@ -105,9 +105,9 @@ async function goToBillingPortal() {
           <p class="font-light">{{ getDateString(org.createdAt) }}</p>
         </div>
 
-        <EnterButton v-if="userIsAdmin" :to="{ name: EditOrgRoute.name }">
+        <RouteEnterButton v-if="userIsAdmin" :to="{ name: EditOrgRoute.name }">
           Edit Details
-        </EnterButton>
+        </RouteEnterButton>
       </div>
 
       <div v-if="userIsAdmin">

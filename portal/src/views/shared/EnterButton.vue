@@ -1,18 +1,6 @@
-<script setup lang="ts">
-import type { RouteLocationRaw } from "vue-router";
-
-defineProps<{
-  /**
-   * Pass through for the router-link component's `to` prop.
-   */
-  to: RouteLocationRaw;
-}>();
-</script>
-
 <template>
-  <router-link
-    :to="to"
-    class="flex w-full flex-row items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2.5"
+  <div
+    class="flex w-full cursor-pointer flex-row items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2.5"
   >
     <slot></slot>
 
@@ -31,5 +19,5 @@ defineProps<{
         d="M9 5 5 1 1 5"
       />
     </svg>
-  </router-link>
+  </div>
 </template>

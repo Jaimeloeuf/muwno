@@ -6,7 +6,7 @@ import { useLoader } from "../../../store";
 import { AllBenefitsRoute } from "../../../router";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import EnterButton from "../../shared/EnterButton.vue";
+import RouteEnterButton from "../../shared/RouteEnterButton.vue";
 import WordCloudModal from "../../shared/WordCloudModal.vue";
 import type { ProductID, ReadOccurrenceMapDTO } from "@domain-model";
 
@@ -126,9 +126,9 @@ const { searchInput, results, clearSearchInput } = useSearch(
         </option>
       </select>
 
-      <EnterButton :to="{ name: AllBenefitsRoute.name }" class="lg:w-max">
+      <RouteEnterButton :to="{ name: AllBenefitsRoute.name }" class="lg:w-max">
         See All Benefits
-      </EnterButton>
+      </RouteEnterButton>
 
       <WordCloudModal v-slot="{ open }" :termOccurrences="wordOccurrences">
         <button
