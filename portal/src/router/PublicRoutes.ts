@@ -25,7 +25,7 @@ export const SignupRoute = <const>{
   path: "/signup",
   name: "signup",
   props: (route: RouteLocationNormalized) => route.query,
-  component: () => import("../views/core/Signup.vue"),
+  component: () => import("../views/core/Auth/Signup.vue"),
   meta: { AuthRequirements: AuthType.PublicOnly },
 };
 
