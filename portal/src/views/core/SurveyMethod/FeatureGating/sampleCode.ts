@@ -58,7 +58,7 @@ export function openForm(
     // open on every single call to this function if form opening fails.
     localStorage.setItem('${localStorageKey}', new Date().toISOString());
 
-    ${alertUser ? `alert('${alertMessage}')\n` : ""}
+    ${alertUser && alertMessage.length > 0 ? `alert('${alertMessage}')\n` : ""}
     // Simple redirect.
     window.location.href = formLink;
 
