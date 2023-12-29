@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { reloadPage } from "../../utils/reloadPage";
-import CopyOnClick from "./CopyOnClick.vue";
+import { reloadPage } from "../../../utils/reloadPage";
+import CopyOnClick from "../CopyOnClick.vue";
 
 defineProps<{ error: Error | string }>();
 defineEmits<{ (e: "close"): void }>();

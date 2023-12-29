@@ -5,7 +5,7 @@ import { useError, useLoader, useNotif } from "./store";
 import { routerError } from "./router";
 import GlobalErrorView from "./views/GlobalError.vue";
 import SideDrawer from "./views/shared/SideDrawer.vue";
-import ErrorModal from "./views/shared/ErrorModal.vue";
+import ErrorModal from "./views/shared/Error/ErrorModal.vue";
 import Loader from "./views/shared/Loader.vue";
 import Snackbar from "./views/shared/Snackbar.vue";
 import SplashScreen from "./views/shared/SplashScreen.vue";

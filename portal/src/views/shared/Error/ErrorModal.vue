@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useError } from "../../store";
+import { useError } from "../../../store";
 import UnexpectedErrorModal from "./UnexpectedErrorModal.vue";
 import UserErrorModal from "./UserErrorModal.vue";
 
