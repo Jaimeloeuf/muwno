@@ -18,7 +18,10 @@ const showHelp = ref(false);
 const newOrgID = ref("");
 
 async function transfer() {
-  if (newOrgID.value === "") return alert("Please enter a valid Org ID");
+  if (newOrgID.value === "") {
+    errorStore.newUserError("Please enter a valid Org ID");
+    return;
+  }
   if (!confirm("Confirm Transfer?")) return;
 
   loader.show();

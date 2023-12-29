@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { useOrg, useLoader, useNotif } from "../../../store";
+import { useOrg, useLoader, useNotif, useError } from "../../../store";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import { orgSizes } from "@domain-model";
 
@@ -9,6 +9,7 @@ const router = useRouter();
 const orgStore = useOrg();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const org = await orgStore.getOrg(true);
 
@@ -28,12 +29,18 @@ const isChanged = computed(
 );
 
 async function updateOrg() {
-  // Check inputs
-  if (name.value === "")
-    return alert("Please enter a valid Organisation name!");
-  if (email.value === "")
-    return alert("Please enter a valid Organisation email!");
-  if (phone.value === "") return alert("Please enter a valid Phone Number!");
+  if (name.value === "") {
+    errorStore.newUserError("Please enter a valid Organisation name!");
+    return;
+  }
+  if (email.value === "") {
+    errorStore.newUserError("Please enter a valid Organisation email!");
+    return;
+  }
+  if (phone.value === "") {
+    errorStore.newUserError("Please enter a valid Phone Number!");
+    return;
+  }
 
   loader.show();
 

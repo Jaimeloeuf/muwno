@@ -23,7 +23,10 @@ const email = ref<string>("");
 const selectedRole = ref<Role>(Role.OrgUser);
 
 async function invite() {
-  if (email.value === "") return alert("Email cannot be empty!");
+  if (email.value === "") {
+    errorStore.newUserError("Email cannot be empty!");
+    return;
+  }
 
   loader.show();
 

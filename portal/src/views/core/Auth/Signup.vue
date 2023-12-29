@@ -7,7 +7,7 @@ import {
   type AuthError,
 } from "firebase/auth";
 import { auth } from "../../../firebase";
-import { useLoader, useUser } from "../../../store";
+import { useLoader, useUser, useError } from "../../../store";
 import { OnboardingRoute, LoginRoute } from "../../../router";
 import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
 import AuthComponent from "./Auth.vue";
@@ -16,6 +16,7 @@ import EnterButton from "../../shared/EnterButton.vue";
 const router = useRouter();
 const loader = useLoader();
 const userStore = useUser();
+const errorStore = useError();
 
 const props = defineProps<{ prefillEmail?: string }>();
 
@@ -25,9 +26,18 @@ const password = ref<string>("");
 
 async function signup() {
   try {
-    if (name.value === "") return alert("Please enter a valid name!");
-    if (email.value === "") return alert("Please enter a valid email!");
-    if (password.value === "") return alert("Please enter a valid password!");
+    if (name.value === "") {
+      errorStore.newUserError("Please enter a valid name!");
+      return;
+    }
+    if (email.value === "") {
+      errorStore.newUserError("Please enter a valid email!");
+      return;
+    }
+    if (password.value === "") {
+      errorStore.newUserError("Please enter a valid password!");
+      return;
+    }
 
     loader.show();
 
@@ -59,7 +69,7 @@ async function signup() {
     console.error(errorCode, errorMessage);
 
     if (errorCode === "auth/email-already-in-use") {
-      alert("Account already exists, please login instead!");
+      errorStore.newUserError("Account already exists, please login instead!");
 
       // Pass email so they dont have to retype it
       router.push({
@@ -69,7 +79,7 @@ async function signup() {
         query: { prefillEmail: email.value },
       });
     } else {
-      alert("Signup failed!");
+      errorStore.newError("Signup failed!");
     }
   } finally {
     loader.hide();

@@ -7,7 +7,7 @@ import {
   type AuthError,
 } from "firebase/auth";
 import { auth } from "../../../firebase";
-import { useLoader, useUser, useOnboarding } from "../../../store";
+import { useLoader, useUser, useOnboarding, useError } from "../../../store";
 import {
   AllProductRoute,
   OnboardingRoute,
@@ -22,6 +22,7 @@ const router = useRouter();
 const loader = useLoader();
 const userStore = useUser();
 const onboardingStore = useOnboarding();
+const errorStore = useError();
 
 const props = defineProps<{ prefillEmail?: string }>();
 
@@ -30,8 +31,14 @@ const password = ref<string>("");
 
 async function login() {
   try {
-    if (email.value === "") return alert("Please enter a valid email!");
-    if (password.value === "") return alert("Please enter a valid password!");
+    if (email.value === "") {
+      errorStore.newUserError("Please enter a valid email!");
+      return;
+    }
+    if (password.value === "") {
+      errorStore.newUserError("Please enter a valid password!");
+      return;
+    }
 
     loader.show();
 
@@ -56,7 +63,7 @@ async function login() {
     console.error(errorCode, errorMessage);
 
     if (errorCode === "auth/user-not-found") {
-      alert("Account does not exists, please signup instead!");
+      errorStore.newUserError("Account does not exists, please signup first!");
 
       router.push({
         name: SignupRoute.name,
@@ -65,7 +72,7 @@ async function login() {
         query: { prefillEmail: email.value },
       });
     } else {
-      alert("Login failed!");
+      errorStore.newError("Login failed!");
     }
   } finally {
     loader.hide();
@@ -73,7 +80,10 @@ async function login() {
 }
 
 async function forgetPassword() {
-  if (email.value === "") return alert("Please enter a valid email!");
+  if (email.value === "") {
+    errorStore.newUserError("Please enter a valid email!");
+    return;
+  }
 
   loader.show();
 

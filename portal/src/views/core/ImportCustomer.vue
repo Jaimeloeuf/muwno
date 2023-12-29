@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
-import { useOrg, useLoader, useNotif } from "../../store";
+import { useOrg, useLoader, useNotif, useError } from "../../store";
 import { convertToNull } from "../../utils/convertToNull";
 import TopNavbar from "../shared/TopNavbar.vue";
 import type {
@@ -16,6 +16,7 @@ const router = useRouter();
 const orgStore = useOrg();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const org = await orgStore.getOrg();
 const localFile = ref<File | null>(null);
@@ -29,19 +30,19 @@ const customerTemplateUrl = new URL(
 async function onFileChanged(event: Event) {
   const target = event.target;
   if (target === null) {
-    console.error("No target in onFileChanged event");
+    errorStore.newError("No target in onFileChanged event");
     return;
   }
 
   const files = (target as HTMLInputElement).files;
   if (files === null) {
-    console.error("No files in onFileChanged");
+    errorStore.newError("No files in onFileChanged");
     return;
   }
 
   const [file] = files;
   if (file === undefined) {
-    console.error("Cannot get file in onFileChanged");
+    errorStore.newError("Cannot get file in onFileChanged");
     return;
   }
 
@@ -51,7 +52,7 @@ async function onFileChanged(event: Event) {
 async function processFile() {
   const file = localFile.value;
   if (file === null) {
-    console.error("Missing file to process");
+    errorStore.newError("Missing file to process");
     return;
   }
 
@@ -68,6 +69,7 @@ async function processFile() {
 
   if (result.errors.length > 0) {
     result.errors.forEach(console.error);
+    errorStore.newError(result.errors.join("\n\n"));
     return;
   }
 
@@ -86,7 +88,7 @@ async function processFile() {
   }
 
   if (customers.length === 0) {
-    alert("CSV cannot be empty!");
+    errorStore.newUserError("CSV cannot be empty!");
     loader.hide();
     return;
   }

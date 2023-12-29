@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useProduct, useLoader, useNotif } from "../../../../../store";
+import {
+  useProduct,
+  useLoader,
+  useNotif,
+  useError,
+} from "../../../../../store";
 import { isLinkValidReactive } from "../../../../../utils/isLinkValid";
 import type { ProductID } from "@domain-model";
 
@@ -10,6 +15,7 @@ const emit = defineEmits<{ (e: "product-updated"): void }>();
 const productStore = useProduct();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const product = ref(await productStore.getProduct(props.productID));
 const name = ref(product.value.name);
@@ -32,9 +38,14 @@ const isChanged = computed(
 );
 
 async function saveChanges() {
-  if (link.value !== "" && !isLinkValid.value)
-    return alert("Please enter a valid link!");
-  if (name.value === "") return alert("Please enter a valid Product Name!");
+  if (link.value !== "" && !isLinkValid.value) {
+    errorStore.newUserError("Please enter a valid link!");
+    return;
+  }
+  if (name.value === "") {
+    errorStore.newUserError("Product Name cannot be empty!");
+    return;
+  }
   if (
     Object.values(productStore.products).some(
       (product) => product.name === name.value && product.id !== props.productID

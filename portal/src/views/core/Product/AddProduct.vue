@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useProduct, useLoader } from "../../../store";
+import { useProduct, useLoader, useError } from "../../../store";
 import { ProductRoute } from "../../../router";
 import { isLinkValidReactive } from "../../../utils/isLinkValid";
 import TopNavbar from "../../shared/TopNavbar.vue";
@@ -9,6 +9,7 @@ import TopNavbar from "../../shared/TopNavbar.vue";
 const router = useRouter();
 const productStore = useProduct();
 const loader = useLoader();
+const errorStore = useError();
 
 const name = ref<string>("");
 const description = ref<string>("");
@@ -17,9 +18,14 @@ const link = ref<string>("");
 const isLinkValid = isLinkValidReactive(link);
 
 async function addProduct() {
-  if (name.value === "") return alert("Product Name cannot be empty!");
-  if (link.value !== "" && !isLinkValid.value)
-    return alert("Please enter a valid link!");
+  if (name.value === "") {
+    errorStore.newUserError("Product Name cannot be empty!");
+    return;
+  }
+  if (link.value !== "" && !isLinkValid.value) {
+    errorStore.newUserError("Please enter a valid link!");
+    return;
+  }
 
   if (
     Object.values(productStore.products).some(

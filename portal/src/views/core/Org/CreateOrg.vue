@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useOrg, useUser, useLoader } from "../../../store";
+import { useOrg, useUser, useLoader, useError } from "../../../store";
 import { AllProductRoute, BuySubscriptionPlanRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import { type OrgSize, orgSizes } from "@domain-model";
@@ -10,6 +10,7 @@ const router = useRouter();
 const orgStore = useOrg();
 const userStore = useUser();
 const loader = useLoader();
+const errorStore = useError();
 
 const user = await userStore.getUser();
 
@@ -28,12 +29,18 @@ if (
   router.push({ name: AllProductRoute.name });
 
 async function createOrg() {
-  // Check inputs
-  if (name.value === "")
-    return alert("Please enter a valid Organisation name!");
-  if (email.value === "")
-    return alert("Please enter a valid Organisation email!");
-  if (phone.value === "") return alert("Please enter a valid Phone Number!");
+  if (name.value === "") {
+    errorStore.newUserError("Please enter a valid Organisation name!");
+    return;
+  }
+  if (email.value === "") {
+    errorStore.newUserError("Please enter a valid Organisation email!");
+    return;
+  }
+  if (phone.value === "") {
+    errorStore.newUserError("Please enter a valid Phone Number!");
+    return;
+  }
 
   loader.show();
 
