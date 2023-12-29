@@ -120,6 +120,7 @@ function clearRouterError() {
       v-if="errorStore.errors[0] !== undefined"
       :key="errorStore.errors[0].id"
       :error="errorStore.errors[0].error"
+      :type="errorStore.errors[0].type"
       @close="errorStore.clearOldestError"
     />
 

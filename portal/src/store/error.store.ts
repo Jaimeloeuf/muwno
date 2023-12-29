@@ -17,6 +17,13 @@ interface State {
     id: number;
 
     /**
+     * The exception type. Different exception UIs will be shown to user
+     * depending on exception type and how they can recover from it. Set `null`
+     * to indicate generic unexpected error type.
+     */
+    type: null | "user";
+
+    /**
      * The actual Error object or error message.
      */
     error: Error | string;
@@ -31,10 +38,10 @@ export const useError = defineStore("error", {
 
   actions: {
     /**
-     * Record a new error to track and display.
+     * Record a new generic unexpected error to track and display.
      */
     newError(error: Error | string) {
-      this.errors.push({ id: Math.random(), error });
+      this.errors.push({ id: Math.random(), type: null, error });
 
       // @todo Should add a sentry or whatever tracker here
     },
