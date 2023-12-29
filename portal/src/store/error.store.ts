@@ -47,6 +47,15 @@ export const useError = defineStore("error", {
     },
 
     /**
+     * Record a new user error to track and display.
+     */
+    newUserError(error: Error | string) {
+      this.errors.push({ id: Math.random(), type: "user", error });
+
+      // @todo Should add a sentry or whatever tracker here
+    },
+
+    /**
      * Remove the oldest error stored so that the next error can be processed.
      */
     clearOldestError() {

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useError } from "../../store";
 import UnexpectedErrorModal from "./UnexpectedErrorModal.vue";
+import UserErrorModal from "./UserErrorModal.vue";
 
 const props = defineProps<{ error: Error | string; type: null | "user" }>();
 const emit = defineEmits<{ (e: "close"): void }>();
@@ -36,6 +37,11 @@ async function ignoreAndCloseModal() {
     <template v-if="show">
       <UnexpectedErrorModal
         v-if="type === null"
+        :error="error"
+        @close="ignoreAndCloseModal"
+      />
+      <UserErrorModal
+        v-else-if="type === 'user'"
         :error="error"
         @close="ignoreAndCloseModal"
       />
