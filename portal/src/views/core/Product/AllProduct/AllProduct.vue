@@ -105,12 +105,11 @@ const { searchInput, results, clearSearchInput } = useSearch(
           <div class="flex flex-col justify-between sm:flex-row">
             <div class="p-3 sm:pr-4">
               <p class="text-2xl">{{ product.name }}</p>
-              <p v-if="product.description !== ''" class="font-extralight">
-                {{
-                  product.description.length > 100
-                    ? product.description.slice(0, 100) + "..."
-                    : product.description
-                }}
+              <p
+                v-if="product.description !== ''"
+                class="line-clamp-1 font-extralight hover:line-clamp-none"
+              >
+                {{ product.description }}
               </p>
             </div>
 
