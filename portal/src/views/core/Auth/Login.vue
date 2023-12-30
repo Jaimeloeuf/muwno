@@ -134,12 +134,14 @@ async function forgetPassword() {
         />
       </label>
 
-      <p
-        class="cursor-pointer pt-1 text-right text-sm font-extralight underline decoration-zinc-400"
-        @click="forgetPassword"
-      >
-        I forgot my password
-      </p>
+      <div class="pt-1 text-right">
+        <button
+          class="cursor-pointer text-sm font-extralight underline decoration-zinc-400"
+          @click="forgetPassword"
+        >
+          I forgot my password
+        </button>
+      </div>
     </div>
 
     <EnterButton
