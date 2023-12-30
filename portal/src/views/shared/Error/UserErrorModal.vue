@@ -11,7 +11,7 @@ defineEmits<{ (e: "close"): void }>();
     class="flex w-full max-w-screen-md flex-col gap-4 rounded-lg bg-zinc-50 p-12"
   >
     <div class="flex flex-col items-center justify-between gap-8 sm:flex-row">
-      <img src="../../assets/sad-lady.png" class="w-32" />
+      <img src="../../../assets/sad-lady.png" class="w-32" />
 
       <div class="w-full">
         <p class="pb-4 text-2xl font-medium sm:pb-8 sm:text-4xl">

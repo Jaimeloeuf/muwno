@@ -11,7 +11,7 @@ defineEmits<{ (e: "close"): void }>();
     class="flex w-full max-w-screen-md flex-col gap-4 rounded-lg bg-zinc-50 p-12"
   >
     <div class="flex flex-col items-center justify-between gap-8 sm:flex-row">
-      <img src="../../assets/sad-girl.png" class="w-48 sm:-ml-4 sm:w-32" />
+      <img src="../../../assets/sad-girl.png" class="w-48 sm:-ml-4 sm:w-32" />
 
       <div class="w-full">
         <p class="text-4xl font-medium">Error</p>
@@ -41,7 +41,7 @@ defineEmits<{ (e: "close"): void }>();
     </div>
 
     <div class="flex flex-row items-center justify-between gap-8">
-      <img src="../../assets/sad-lady.png" class="hidden w-32 sm:block" />
+      <img src="../../../assets/sad-lady.png" class="hidden w-32 sm:block" />
 
       <div class="w-full">
         <p>Details</p>
