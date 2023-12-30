@@ -1,6 +1,7 @@
 <template>
-  <div
-    class="flex w-full cursor-pointer flex-row items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2.5"
+  <!-- Using button to ensure that this element is 'tabbable' unlike using div -->
+  <button
+    class="flex w-full flex-row items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2.5"
   >
     <slot></slot>
 
@@ -19,5 +20,5 @@
         d="M9 5 5 1 1 5"
       />
     </svg>
-  </div>
+  </button>
 </template>
