@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from "vue-router";
+import type { AuthType } from "./AuthType";
 
 /**
  * RouteObject enforces the type of the meta property to be an object
@@ -9,14 +10,14 @@ import type { RouteRecordRaw } from "vue-router";
  * these type of routes are not defined in this `Routes` array as it is
  * only for User defined Route Objects.
  */
-export interface RouteObject extends RouteRecordRaw {
+export type RouteObject = RouteRecordRaw & {
   meta: { AuthRequirements: AuthType };
-}
+};
 
 /**
  * A Private route requires AuthRequirements to be specified as Private only
  */
-export interface PrivateRoute extends RouteObject {
+export type PrivateRoute = RouteObject & {
   meta: {
     AuthRequirements: AuthType.Private;
 
@@ -27,11 +28,11 @@ export interface PrivateRoute extends RouteObject {
      */
     onboarding?: true;
   };
-}
+};
 
 /**
  * A public route requires AuthRequirements to be specified as Public or PublicOnly
  */
-export interface PublicRoute extends RouteObject {
+export type PublicRoute = RouteObject & {
   meta: { AuthRequirements: AuthType.Public | AuthType.PublicOnly };
-}
+};
