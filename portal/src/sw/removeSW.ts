@@ -6,21 +6,16 @@ function removeSW() {
       navigator.serviceWorker
         .getRegistrations()
         .then(async function (registrations) {
-          for (const registration of registrations) {
+          for (const registration of registrations)
             await registration.unregister();
 
-            console.log(`Reloading sites controlled by SW...`);
-            try {
-              const clients = await self.clients.matchAll();
-              clients.forEach((client) => {
-                if (client.url && "navigate" in client) {
-                  client.navigate(client.url);
-                }
-              });
-            } catch (error) {
-              console.error(`Failed to reload sites controlled by SW`);
-              console.error(error);
-            }
+          // Once all SWs are unregistered, reload so this page will be out of
+          // the SWs control instead of waiting for user to manually reload.
+          // Need to ensure that there is at least 1 SW being unregistered,
+          // before reloading if not the user will be stuck in an infinite
+          // reload loop since this script always runs.
+          if (registrations.length > 0) {
+            window.location.reload();
           }
         });
     }
