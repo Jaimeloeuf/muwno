@@ -1,21 +1,16 @@
 import { ref } from "vue";
 
-class SideDrawerController {
-  /**
-   * Boolean flag to control if SideDrawer should be shown
-   */
-  showDrawer = ref(false);
-
-  show() {
-    this.showDrawer.value = true;
-  }
-
-  hide() {
-    this.showDrawer.value = false;
-  }
-}
+/**
+ * Boolean flag to control if SideDrawer should be shown
+ */
+const showDrawer = ref(false);
+const show = () => (showDrawer.value = true);
+const hide = () => (showDrawer.value = false);
 
 /**
- * Use a single shared instance of `SideDrawerController`
+ * Doing this instead of using a singleton class / literal object for
+ * definitions since using the methods in vue template will fail as using it for
+ * `@click` for example messes with the `this` binding which causes it to fail
+ * when trying to access the showDrawer variable.
  */
-export const sideDrawer = new SideDrawerController();
+export const sideDrawer = { showDrawer, show, hide };
