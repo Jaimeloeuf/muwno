@@ -2,7 +2,7 @@ function registerSW() {
   window.addEventListener("load", () => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
-        .register("/sw.js")
+        .register("/sw.js", { scope: "/" })
         .then((reg) => console.log("SW registered!", reg))
         .catch((err) => console.log("Failed to register SW!", err));
     }
