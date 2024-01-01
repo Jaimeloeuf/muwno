@@ -7,6 +7,7 @@ import {
   SurveyMethodsRoute,
   MoreProductFeatureRoute,
 } from "../../../../router";
+import { reloadPage } from "../../../../utils/reloadPage";
 
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import RouteEnterButton from "../../../shared/RouteEnterButton.vue";
@@ -22,9 +23,8 @@ const props = defineProps<{ productID: ProductID }>();
 const productStore = useProduct();
 const product = await productStore.getProduct(props.productID);
 
-// Auto refresh runs once every 24 hours.
-// This is a quick and easy but ugly way to do it by reloading the entire page.
-setInterval(() => window.location.reload(), 8.64e7);
+// Auto refresh every 24 hours to get up to date dashboard metrics
+setTimeout(reloadPage, 8.64e7);
 </script>
 
 <template>
