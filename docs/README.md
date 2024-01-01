@@ -6,3 +6,4 @@ This folder contains all technical documentation like:
 - Architecture design documents
 - Technical decision documents
 - Incident reports / Failure documentation
+- [Root Cause Analysis (RCA)](./RCA/)
