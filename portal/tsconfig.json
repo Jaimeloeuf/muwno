@@ -6,7 +6,7 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
 
   // Need to specify the .vue as it is not a default file type
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "public/sw.js"],
 
   "compilerOptions": {
     "paths": {
