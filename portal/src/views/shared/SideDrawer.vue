@@ -28,7 +28,7 @@ function closeAndLogout() {
   <!-- Overlay across screen to simulate click away from side drawer to close. -->
   <div
     v-if="drawer.showDrawer"
-    class="fixed left-0 top-0 z-40 h-screen w-screen"
+    class="fixed left-0 top-0 z-40 h-screen w-screen bg-black bg-opacity-20"
     @click="drawer.hide"
   ></div>
 
@@ -38,10 +38,12 @@ function closeAndLogout() {
   -->
   <nav
     v-if="onboardingStore.onboarding === false"
-    class="fixed left-0 top-0 z-40 h-screen w-52 -translate-x-full transition-transform"
+    class="fixed left-0 top-0 z-40 h-screen w-48 -translate-x-full transition-transform"
     :class="{ 'translate-x-0 shadow-2xl': drawer.showDrawer }"
   >
-    <div class="flex h-full flex-col items-start justify-between bg-white p-4">
+    <div
+      class="flex h-full w-full flex-col items-start justify-between bg-zinc-50 p-4"
+    >
       <button class="w-full border-b border-zinc-200 py-2" @click="drawer.hide">
         <img src="../../assets/logo.svg" class="h-8" />
         <p class="py-1 text-left font-semibold">Public Beta</p>
@@ -52,7 +54,7 @@ function closeAndLogout() {
           :to="{ name: AllProductRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
-            'border border-zinc-200 bg-zinc-50':
+            'border border-zinc-300 bg-zinc-100':
               route.name === AllProductRoute.name,
           }"
           @click="drawer.hide"
@@ -66,7 +68,7 @@ function closeAndLogout() {
           :to="{ name: CustomerRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
-            'border border-zinc-200 bg-zinc-50':
+            'border border-zinc-300 bg-zinc-100':
               route.name === CustomerRoute.name,
           }"
           @click="drawer.hide"
@@ -81,7 +83,7 @@ function closeAndLogout() {
           :to="{ name: OrgUsageRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
-            'border border-zinc-200 bg-zinc-50':
+            'border border-zinc-300 bg-zinc-100':
               route.name === OrgUsageRoute.name,
           }"
           @click="drawer.hide"
@@ -94,7 +96,7 @@ function closeAndLogout() {
           :to="{ name: TeamRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
-            'border border-zinc-200 bg-zinc-50': route.name === TeamRoute.name,
+            'border border-zinc-300 bg-zinc-100': route.name === TeamRoute.name,
           }"
           @click="drawer.hide"
         >
@@ -107,7 +109,7 @@ function closeAndLogout() {
           :to="{ name: OrgRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
-            'border border-zinc-200 bg-zinc-50': route.name === OrgRoute.name,
+            'border border-zinc-300 bg-zinc-100': route.name === OrgRoute.name,
           }"
           @click="drawer.hide"
         >
@@ -119,7 +121,7 @@ function closeAndLogout() {
           :to="{ name: ApiKeyRoute.name }"
           class="group flex w-full rounded-lg p-2 text-zinc-900"
           :class="{
-            'border border-zinc-200 bg-zinc-50':
+            'border border-zinc-300 bg-zinc-100':
               route.name === ApiKeyRoute.name,
           }"
           @click="drawer.hide"
@@ -136,7 +138,8 @@ function closeAndLogout() {
         :to="{ name: AccountRoute.name }"
         class="flex w-full rounded-lg p-2 text-start text-zinc-800"
         :class="{
-          'border border-zinc-200 bg-zinc-50': route.name === AccountRoute.name,
+          'border border-zinc-300 bg-zinc-100':
+            route.name === AccountRoute.name,
         }"
         @click="drawer.hide"
       >
@@ -148,7 +151,7 @@ function closeAndLogout() {
         :to="{ name: SettingsRoute.name }"
         class="flex w-full rounded-lg p-2 text-start text-zinc-800"
         :class="{
-          'border border-zinc-200 bg-zinc-50':
+          'border border-zinc-300 bg-zinc-100':
             route.name === SettingsRoute.name,
         }"
         @click="drawer.hide"

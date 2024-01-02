@@ -63,7 +63,7 @@ import { loginLink, signupLink } from "../../utils/links";
 
       <!-- @todo Create link -->
       <a
-        class="flex w-full rounded-lg p-2 text-start text-zinc-800"
+        class="flex w-full rounded-lg p-2 py-8 text-start text-zinc-800"
         target="_blank"
         @click="sideDrawer.hide"
       >

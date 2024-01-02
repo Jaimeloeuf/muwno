@@ -5,6 +5,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
 import { useOrg } from "../../../../store";
 import { AllProductRoute } from "../../../../router";
+import RouteEnterButton from "../../../shared/RouteEnterButton.vue";
 
 const router = useRouter();
 const orgStore = useOrg();
@@ -45,21 +46,27 @@ await isSubscribed();
 </script>
 
 <template>
-  <div class="mx-auto max-w-lg">
-    <div class="mb-12">
-      <p class="text-4xl font-light">Payment Success!</p>
-    </div>
+  <!--
+    Negative margin is used to negate App.vue's default p-6 wrapping to ensure
+    that when using h-screen there is no overscroll caused by the extra padding.
+  -->
+  <div class="-my-6 flex h-screen flex-col justify-center px-4">
+    <div class="mx-auto max-w-sm">
+      <div class="pb-2">
+        <p class="text-4xl text-green-600">Success</p>
+      </div>
 
-    <p class="mb-2 text-xl font-light">
-      Redirecting to Products page in 5 seconds...
-    </p>
+      <p class="pb-4">
+        Thank you for verifying your account! You will be redirected in 5
+        seconds...
+      </p>
 
-    <router-link :to="{ name: AllProductRoute.name }">
-      <div
-        class="w-full rounded-lg bg-green-600 px-6 py-1 text-center text-2xl text-white"
+      <RouteEnterButton
+        :to="{ name: AllProductRoute.name }"
+        class="text-green-600"
       >
         Start
-      </div>
-    </router-link>
+      </RouteEnterButton>
+    </div>
   </div>
 </template>

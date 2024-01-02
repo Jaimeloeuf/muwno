@@ -64,10 +64,10 @@ countdown();
         <p class="pr-6">{{ msg }}</p>
         <button
           type="button"
-          class="whitespace-nowrap font-medium text-zinc-700 underline"
+          class="whitespace-nowrap font-medium text-zinc-700 underline underline-offset-2"
           @click="completed"
         >
-          Got it
+          Ok
         </button>
       </div>
 

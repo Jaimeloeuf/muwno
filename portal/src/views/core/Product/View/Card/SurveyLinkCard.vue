@@ -81,7 +81,18 @@ async function generateQrCodeAndShowModal() {
     class="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-1 text-left"
     @click="generateQrCodeAndShowModal"
   >
-    <div class="flex flex-row items-center justify-between">
+    <div class="flex flex-row items-center">
+      <!-- @todo Only show this if user just created the product -->
+      <span v-if="false" class="pr-3">
+        <span class="relative flex h-3 w-3">
+          <span
+            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-zinc-900 opacity-80"
+          ></span>
+          <span
+            class="relative inline-flex h-3 w-3 rounded-full bg-zinc-400"
+          ></span>
+        </span>
+      </span>
       <p>Show Survey Link & QR Code</p>
     </div>
   </button>

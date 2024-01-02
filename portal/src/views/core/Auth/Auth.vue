@@ -24,7 +24,7 @@ import { landingLink } from "../../../utils/links";
     </div>
 
     <div
-      class="flex h-screen w-full flex-col justify-center bg-white bg-cover bg-center px-8 md:bg-zinc-50 md:bg-[url(../assets/auth_bg.avif)]"
+      class="flex h-screen w-full flex-col justify-center bg-white bg-cover bg-center px-8 md:bg-[url(../assets/auth_bg.avif)]"
     >
       <div class="mx-auto w-full max-w-sm">
         <a :href="landingLink" target="_blank" class="w-max md:hidden">
@@ -32,13 +32,13 @@ import { landingLink } from "../../../utils/links";
         </a>
 
         <div
-          class="rounded-2xl bg-white py-12 md:border md:border-zinc-100 md:px-8 md:shadow-2xl md:shadow-zinc-500"
+          class="rounded-2xl bg-white py-4 md:border md:border-zinc-100 md:px-8 md:py-12 md:shadow-2xl md:shadow-zinc-500"
         >
           <slot></slot>
         </div>
 
         <div
-          class="absolute bottom-8 px-2 text-[0.6rem] font-thin md:text-white"
+          class="pt-4 text-[0.6rem] font-thin md:absolute md:bottom-4 md:pt-0 md:text-white"
         >
           By using our product, you agree to our
           <a :href="`${landingLink}/PP.pdf`" target="_blank" class="underline">
