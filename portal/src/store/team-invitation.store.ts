@@ -34,7 +34,6 @@ export const useTeamInvitation = defineStore("team-invitation", {
         .useHeader(getAuthHeader)
         .runJSON<ReadManyTeamMemberInvitationDTO>();
 
-      // @todo Handle these failures instead of just throwing an error
       if (err) throw err;
       if (!res.ok) throw new Error("Failed to load Team Invitations");
 

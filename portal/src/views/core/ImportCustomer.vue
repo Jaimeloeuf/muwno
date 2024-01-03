@@ -126,6 +126,7 @@ async function uploadCustomers(customers: Array<CreateOneCustomerDTO>) {
     .useHeader(getAuthHeader)
     .runVoid();
 
+  // @todo Handle errors
   if (err) throw err;
   if (!res.ok)
     throw new Error(`Failed to import customers: ${JSON.stringify(res)}`);

@@ -25,10 +25,11 @@ async function update() {
 
   if (result instanceof Error) {
     errorStore.newError(result);
-  } else {
-    router.back();
-    notif.setSnackbar("Task updated!");
+    return;
   }
+
+  router.back();
+  notif.setSnackbar("Task updated!");
 }
 </script>
 

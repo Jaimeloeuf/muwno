@@ -60,18 +60,23 @@ async function saveChanges() {
 
   loader.show();
 
-  await productStore.updateProduct(
+  const updateResult = await productStore.updateProduct(
     product.value.id,
     name.value,
     link.value === "" ? null : link.value,
     description.value
   );
-  product.value = await productStore.getProduct(props.productID);
-  emit("product-updated");
 
   loader.hide();
 
+  if (updateResult instanceof Error) {
+    errorStore.newError(updateResult);
+    return;
+  }
+
+  product.value = await productStore.getProduct(props.productID);
   notif.setSnackbar(`Saved changes to ${product.value.name}!`);
+  emit("product-updated");
 }
 </script>
 

@@ -44,7 +44,7 @@ async function updateOrg() {
 
   loader.show();
 
-  await orgStore.updateOrg({
+  const result = await orgStore.updateOrg({
     name: name.value,
     email: email.value,
     phone: phone.value,
@@ -54,8 +54,12 @@ async function updateOrg() {
 
   loader.hide();
 
-  notif.setSnackbar("Organisation details updated.");
+  if (result instanceof Error) {
+    errorStore.newError(result);
+    return;
+  }
 
+  notif.setSnackbar("Organisation details updated.");
   router.back();
 }
 </script>

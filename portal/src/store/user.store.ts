@@ -124,9 +124,9 @@ export const useUser = defineStore("user", {
         .bodyJSON<CreateOneUserDTO>({ name })
         .runJSON<ReadOneUserDTO>();
 
-      if (err) throw err;
+      if (err) return err;
       if (!res.ok)
-        throw new Error(`Failed to create account: ${JSON.stringify(res)}`);
+        return new Error(`Failed to create account: ${JSON.stringify(res)}`);
 
       this.user = res.data.user;
       this.userCacheTime = unixseconds();

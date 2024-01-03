@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useProduct, useLoader, useNotif } from "../../../../../store";
+import {
+  useProduct,
+  useLoader,
+  useNotif,
+  useError,
+} from "../../../../../store";
 import { AllProductRoute } from "../../../../../router";
 import type { Product } from "@domain-model";
 
@@ -11,6 +16,7 @@ const router = useRouter();
 const productStore = useProduct();
 const loader = useLoader();
 const notif = useNotif();
+const errorStore = useError();
 
 const showConfirmationModal = ref(false);
 
@@ -19,12 +25,16 @@ async function deleteProduct() {
 
   loader.show("Deleting Product and all its data ...");
 
-  await productStore.deleteProduct(props.product.id);
+  const result = await productStore.deleteProduct(props.product.id);
 
   loader.hide();
 
-  notif.setSnackbar(`Deleted product '${props.product.name}'`);
+  if (result instanceof Error) {
+    errorStore.newError(result);
+    return;
+  }
 
+  notif.setSnackbar(`Deleted product '${props.product.name}'`);
   router.push({ name: AllProductRoute.name });
 }
 </script>

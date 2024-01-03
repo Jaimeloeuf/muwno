@@ -108,9 +108,9 @@ export const useOrg = defineStore("org", {
         .bodyJSON<CreateOneOrgDTO>(createOneOrgDTO)
         .runJSON<ReadOneOrgDTO>();
 
-      if (err) throw err;
+      if (err) return err;
       if (!res.ok)
-        throw new Error(
+        return new Error(
           `Failed to create Organisation: ${JSON.stringify(res)}`
         );
 
@@ -133,9 +133,9 @@ export const useOrg = defineStore("org", {
         .bodyJSON<CreateOneOrgDTO>(createOneOrgDTO)
         .runJSON<ReadOneOrgDTO>();
 
-      if (err) throw err;
+      if (err) return err;
       if (!res.ok)
-        throw new Error(
+        return new Error(
           `Failed to update Organisation: ${JSON.stringify(res)}`
         );
 

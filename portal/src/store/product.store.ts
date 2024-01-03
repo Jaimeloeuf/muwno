@@ -116,9 +116,9 @@ export const useProduct = defineStore("product", {
         .bodyJSON<CreateOneProductDTO>({ name, link, description })
         .runJSON<ReadOneProductDTO>();
 
-      if (err) throw err;
+      if (err) return err;
       if (!res.ok)
-        throw new Error(`Failed to add Product: ${JSON.stringify(res)}`);
+        return new Error(`Failed to add Product: ${JSON.stringify(res)}`);
 
       const { product } = res.data;
 
@@ -144,9 +144,9 @@ export const useProduct = defineStore("product", {
         .bodyJSON<CreateOneProductDTO>({ name, link, description })
         .runJSON<ReadOneProductDTO>();
 
-      if (err) throw err;
+      if (err) return err;
       if (!res.ok)
-        throw new Error(`Failed to update Product: ${JSON.stringify(res)}`);
+        return new Error(`Failed to update Product: ${JSON.stringify(res)}`);
 
       const { product } = res.data;
 
@@ -166,10 +166,11 @@ export const useProduct = defineStore("product", {
         .useHeader(getAuthHeader)
         .runJSON();
 
-      if (err) throw err;
-      if (!res.ok) throw new Error(`Failed to delete: ${JSON.stringify(res)}`);
+      if (err) return err;
+      if (!res.ok) return new Error(`Failed to delete: ${JSON.stringify(res)}`);
 
       delete this.products[productID];
+      return true;
     },
   },
 });

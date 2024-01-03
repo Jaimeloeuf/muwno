@@ -44,7 +44,7 @@ async function createOrg() {
 
   loader.show();
 
-  await orgStore.createOrg({
+  const result = await orgStore.createOrg({
     name: name.value,
     email: email.value,
     phone: phone.value,
@@ -53,6 +53,11 @@ async function createOrg() {
   });
 
   loader.hide();
+
+  if (result instanceof Error) {
+    errorStore.newError(result);
+    return;
+  }
 
   router.push({ name: BuySubscriptionPlanRoute.name });
 }

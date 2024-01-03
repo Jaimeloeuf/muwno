@@ -39,15 +39,20 @@ async function addProduct() {
 
   loader.show();
 
-  const { id } = await productStore.createNewProduct(
+  const result = await productStore.createNewProduct(
     name.value,
     link.value === "" ? null : link.value,
     description.value
   );
 
-  router.push({ name: ProductRoute.name, params: { productID: id } });
-
   loader.hide();
+
+  if (result instanceof Error) {
+    errorStore.newError(result);
+    return;
+  }
+
+  router.push({ name: ProductRoute.name, params: { productID: result.id } });
 }
 </script>
 

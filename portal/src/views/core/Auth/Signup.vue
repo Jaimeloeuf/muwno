@@ -48,7 +48,13 @@ async function signup() {
     );
 
     // Create a new User Entity with API
-    await userStore.createUser(name.value);
+    const result = await userStore.createUser(name.value);
+
+    if (result instanceof Error) {
+      loader.hide();
+      errorStore.newError(result);
+      return;
+    }
 
     await sendEmailVerification(user.user, {
       url: getAbsoluteUrlFromRoute({ name: OnboardingRoute.name }),
