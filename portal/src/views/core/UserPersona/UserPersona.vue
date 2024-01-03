@@ -4,6 +4,7 @@ import { sf } from "simpler-fetch";
 import { useLoader } from "../../../store";
 import { getAuthHeader } from "../../../firebase";
 import { useSearch } from "../../../composable";
+import { prettyJSON } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import WordCloudModal from "../../shared/WordCloudModal.vue";
 import type { ProductID, ReadOccurrenceMapDTO } from "@domain-model";
@@ -47,7 +48,7 @@ async function getWordOccurrence() {
   if (err) throw err;
   if (!res.ok)
     throw new Error(
-      `Fail to generate word occurrence data: ${JSON.stringify(res)}`
+      `Fail to generate word occurrence data: ${prettyJSON(res)}`
     );
 
   // Sort the word occurrence by most common first

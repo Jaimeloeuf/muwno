@@ -1,5 +1,6 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
+import { prettyJSON } from "../utils";
 import type {
   ProductID,
   ReadOneTaskDTO,
@@ -16,7 +17,7 @@ export class TaskController {
       .runJSON<ReadOneTaskDTO>();
 
     if (err) throw err;
-    if (!res.ok) throw new Error(`Failed to get Task: ${JSON.stringify(res)}`);
+    if (!res.ok) throw new Error(`Failed to get Task: ${prettyJSON(res)}`);
 
     return res.data.task;
   }
@@ -30,8 +31,7 @@ export class TaskController {
       .runVoid();
 
     if (err) return err;
-    if (!res.ok)
-      return new Error(`Failed to update Task: ${JSON.stringify(res)}`);
+    if (!res.ok) return new Error(`Failed to update Task: ${prettyJSON(res)}`);
   }
 
   static async deleteTask(taskID: TaskID): Promise<Error | void> {
@@ -42,8 +42,7 @@ export class TaskController {
       .runVoid();
 
     if (err) return err;
-    if (!res.ok)
-      return new Error(`Failed to delete Task: ${JSON.stringify(res)}`);
+    if (!res.ok) return new Error(`Failed to delete Task: ${prettyJSON(res)}`);
   }
 
   static async getTasks(
@@ -59,7 +58,7 @@ export class TaskController {
       .runJSON<ReadManyTaskDTO>();
 
     if (err) throw err;
-    if (!res.ok) throw new Error(`Failed to get Tasks: ${JSON.stringify(res)}`);
+    if (!res.ok) throw new Error(`Failed to get Tasks: ${prettyJSON(res)}`);
 
     return res.data.tasks;
   }
@@ -73,6 +72,6 @@ export class TaskController {
 
     if (err) return err;
     if (!res.ok)
-      return new Error(`Failed to mark Task as done: ${JSON.stringify(res)}`);
+      return new Error(`Failed to mark Task as done: ${prettyJSON(res)}`);
   }
 }

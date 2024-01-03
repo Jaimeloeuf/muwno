@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { numberFormatter } from "../../../utils";
+import { prettyJSON, numberFormatter } from "../../../utils";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
@@ -22,7 +22,7 @@ async function getStats() {
     .runJSON<{ stats: number }>();
 
   if (err) throw err;
-  if (!res.ok) throw new Error(`Failed to get Stats: ${JSON.stringify(res)}`);
+  if (!res.ok) throw new Error(`Failed to get Stats: ${prettyJSON(res)}`);
 
   return res.data.stats;
 }

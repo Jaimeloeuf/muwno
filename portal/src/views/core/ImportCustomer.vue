@@ -5,7 +5,7 @@ import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useOrg, useLoader, useNotif, useError } from "../../store";
-import { convertToNull } from "../../utils";
+import { convertToNull, prettyJSON } from "../../utils";
 import TopNavbar from "../shared/TopNavbar.vue";
 import type {
   CreateOneCustomerDTO,
@@ -129,7 +129,7 @@ async function uploadCustomers(customers: Array<CreateOneCustomerDTO>) {
   // @todo Handle errors
   if (err) throw err;
   if (!res.ok)
-    throw new Error(`Failed to import customers: ${JSON.stringify(res)}`);
+    throw new Error(`Failed to import customers: ${prettyJSON(res)}`);
 }
 </script>
 

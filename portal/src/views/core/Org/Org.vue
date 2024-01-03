@@ -3,7 +3,11 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useUser, useLoader, useError } from "../../../store";
 import { OrgRoute, EditOrgRoute } from "../../../router";
-import { getAbsoluteUrlFromRoute, getDateString } from "../../../utils";
+import {
+  getAbsoluteUrlFromRoute,
+  prettyJSON,
+  getDateString,
+} from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import CopyOnClick from "../../shared/CopyOnClick.vue";
 import RouteEnterButton from "../../shared/RouteEnterButton.vue";
@@ -38,7 +42,7 @@ async function goToBillingPortal() {
     errorStore.newError(err);
   } else if (!res.ok) {
     errorStore.newError(
-      new Error(`Failed to open Stripe Billing Portal ${JSON.stringify(res)}`)
+      new Error(`Failed to open Stripe Billing Portal ${prettyJSON(res)}`)
     );
   } else {
     // Open link in current tab / redirect there since after that is done, user

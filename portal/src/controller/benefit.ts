@@ -1,5 +1,6 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
+import { prettyJSON } from "../utils";
 import type {
   ProductID,
   FeedbackResponseID,
@@ -20,8 +21,7 @@ export class BenefitController {
       .runJSON<ReadManyA3DTO>();
 
     if (err) throw err;
-    if (!res.ok)
-      throw new Error(`Failed to get Benefits: ${JSON.stringify(res)}`);
+    if (!res.ok) throw new Error(`Failed to get Benefits: ${prettyJSON(res)}`);
 
     return res.data.benefits;
   }

@@ -7,7 +7,7 @@ import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
 import DeletePendingInviteButton from "./DeletePendingInviteButton.vue";
-import { getDateString } from "../../../utils/date-formatting/getDateString";
+import { prettyJSON, getDateString } from "../../../utils";
 import { roleMapper } from "@domain-model";
 import type { ReadManyTeamMemberInvitationDTO } from "@domain-model";
 
@@ -23,7 +23,7 @@ async function getInvites() {
 
   if (err) return err;
   if (!res.ok)
-    return new Error(`Failed to load Pending Invites ${JSON.stringify(res)}`);
+    return new Error(`Failed to load Pending Invites ${prettyJSON(res)}`);
 
   return res.data.invitations;
 }

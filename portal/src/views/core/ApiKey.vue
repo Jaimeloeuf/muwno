@@ -6,7 +6,7 @@ import { useUser, useLoader, useNotif, useError } from "../../store";
 import TopNavbar from "../shared/TopNavbar.vue";
 import CopyOnClick from "../shared/CopyOnClick.vue";
 import Accordion from "../shared/Accordion.vue";
-import { getDateString } from "../../utils";
+import { prettyJSON, getDateString } from "../../utils";
 import { Role } from "@domain-model";
 import type {
   ReadManyApiKeyDTO,
@@ -44,7 +44,7 @@ async function getApiKeyDetails() {
   }
   if (!res.ok) {
     errorStore.newError(
-      new Error(`Failed to get API Key details ${JSON.stringify(res)}`)
+      new Error(`Failed to get API Key details ${prettyJSON(res)}`)
     );
     return;
   }
@@ -72,7 +72,7 @@ async function createApiKey() {
     return;
   }
   if (!res.ok) {
-    errorStore.newError(new Error(`Failed to create ${JSON.stringify(res)}`));
+    errorStore.newError(new Error(`Failed to create ${prettyJSON(res)}`));
     return;
   }
 
@@ -105,7 +105,7 @@ async function deleteApiKey(apiKeyID: ApiKeyDetailID) {
     return;
   }
   if (!res.ok) {
-    errorStore.newError(new Error(`Delete failed ${JSON.stringify(res)}`));
+    errorStore.newError(new Error(`Delete failed ${prettyJSON(res)}`));
     return;
   }
 

@@ -16,6 +16,7 @@ export * from "./isLinkValid";
 export * from "./links";
 export * from "./logout";
 export * from "./numericalFormatter";
+export * from "./prettyJSON";
 export * from "./reloadPage";
 export * from "./resetAllPiniaStores";
 export * from "./validateCustomClaimsOnJWT";

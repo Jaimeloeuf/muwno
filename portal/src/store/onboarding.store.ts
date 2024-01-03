@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
+import { prettyJSON } from "../utils";
 
 /**
  * Type of this pinia store's state.
@@ -59,7 +60,7 @@ export const useOnboarding = defineStore("onboarding", {
       if (err) throw new Error("Failed to check onboarding status.");
       if (!res.ok)
         throw new Error(
-          `Failed to check onboarding status: ${JSON.stringify(res)}`
+          `Failed to check onboarding status: ${prettyJSON(res)}`
         );
 
       this.onboarding = res.data.onboarding;

@@ -6,7 +6,7 @@ import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif, useError } from "../../../store";
 import { SignupRoute, TeamRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { getAbsoluteUrlFromRoute } from "../../../utils";
+import { getAbsoluteUrlFromRoute, prettyJSON } from "../../../utils";
 import {
   Role,
   roleMapper,
@@ -47,7 +47,7 @@ async function invite() {
     return;
   }
   if (!res.ok) {
-    errorStore.newError(new Error(`Failed to invite. ${JSON.stringify(res)}`));
+    errorStore.newError(new Error(`Failed to invite. ${prettyJSON(res)}`));
     return;
   }
 

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
 import { auth, getAuthHeader } from "../firebase";
-import { validateCustomClaimsOnJWT, logout } from "../utils";
+import { validateCustomClaimsOnJWT, logout, prettyJSON } from "../utils";
 import type { User, CreateOneUserDTO, ReadOneUserDTO } from "@domain-model";
 
 /**
@@ -89,7 +89,7 @@ export const useUser = defineStore("user", {
             console.log("[user.store] Unknown account loading failure");
         }
 
-        throw new Error(`Failed to get account: ${JSON.stringify(res)}`);
+        throw new Error(`Failed to get account: ${prettyJSON(res)}`);
       }
 
       this.user = res.data.user;
@@ -125,7 +125,7 @@ export const useUser = defineStore("user", {
 
       if (err) return err;
       if (!res.ok)
-        return new Error(`Failed to create account: ${JSON.stringify(res)}`);
+        return new Error(`Failed to create account: ${prettyJSON(res)}`);
 
       this.user = res.data.user;
       this.userCacheTime = unixseconds();

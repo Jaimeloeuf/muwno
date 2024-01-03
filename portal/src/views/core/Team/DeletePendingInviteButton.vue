@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { sf, jsonParser } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif, useError } from "../../../store";
+import { prettyJSON } from "../../../utils";
 import type { TeamInvitation } from "@domain-model";
 
 const props = defineProps<{ invitation: TeamInvitation }>();
@@ -33,7 +34,7 @@ async function deleteInvitation() {
   }
   if (!res.ok) {
     errorStore.newError(
-      new Error(`Failed to delete invitation: ${JSON.stringify(res)}`)
+      new Error(`Failed to delete invitation: ${prettyJSON(res)}`)
     );
     return;
   }

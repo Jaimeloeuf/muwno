@@ -11,7 +11,7 @@ import {
   useError,
 } from "../../../store";
 import { AllProductRoute } from "../../../router";
-import { getDateString } from "../../../utils";
+import { prettyJSON, getDateString } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import { roleMapper } from "@domain-model";
 
@@ -39,7 +39,7 @@ async function acceptInvitation(invitationID: string) {
   }
   if (!res.ok) {
     loader.hide();
-    errorStore.newError(new Error(`Failed to accept. ${JSON.stringify(res)}`));
+    errorStore.newError(new Error(`Failed to accept. ${prettyJSON(res)}`));
     return;
   }
 
@@ -72,7 +72,7 @@ async function rejectInvitation(invitationID: string) {
     return;
   }
   if (!res.ok) {
-    errorStore.newError(new Error(`Failed to reject. ${JSON.stringify(res)}`));
+    errorStore.newError(new Error(`Failed to reject. ${prettyJSON(res)}`));
     return;
   }
 

@@ -6,7 +6,7 @@ import { useProduct, useLoader, useNotif, useError } from "../../store";
 import { EditTaskRoute } from "../../router";
 import { TaskController } from "../../controller";
 import TopNavbar from "../shared/TopNavbar.vue";
-import { getDateTimeString } from "../../utils";
+import { prettyJSON, getDateTimeString } from "../../utils";
 import type {
   ProductID,
   FeedbackResponseID,
@@ -37,7 +37,7 @@ async function getResponse(responseID: FeedbackResponseID) {
 
   if (err) throw err;
   if (!res.ok)
-    throw new Error(`Failed to get Survey Response: ${JSON.stringify(res)}`);
+    throw new Error(`Failed to get Survey Response: ${prettyJSON(res)}`);
 
   return res.data.response;
 }
@@ -50,7 +50,7 @@ async function getTask(responseID: FeedbackResponseID) {
     .runJSON<ReadManyTaskDTO>();
 
   if (err) throw err;
-  if (!res.ok) throw new Error(`Failed to get Tasks: ${JSON.stringify(res)}`);
+  if (!res.ok) throw new Error(`Failed to get Tasks: ${prettyJSON(res)}`);
 
   return res.data.tasks;
 }

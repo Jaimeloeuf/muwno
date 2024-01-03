@@ -5,6 +5,7 @@ import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
 import { useOrg } from "../../../../store";
 import { AllProductRoute } from "../../../../router";
+import { prettyJSON } from "../../../../utils";
 import RouteEnterButton from "../../../shared/RouteEnterButton.vue";
 
 const router = useRouter();
@@ -21,9 +22,7 @@ async function isSubscribed() {
 
   if (err) throw err;
   if (!res.ok)
-    throw new Error(
-      `Failed to get subscription status: ${JSON.stringify(res)}`
-    );
+    throw new Error(`Failed to get subscription status: ${prettyJSON(res)}`);
 
   if (res.data.subscribed) {
     // Start countdown to redirect to AllProduct page

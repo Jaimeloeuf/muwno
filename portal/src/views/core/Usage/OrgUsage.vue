@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useError } from "../../../store";
-import { flags, getDateString } from "../../../utils";
+import { prettyJSON, flags, getDateString } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ReadUsageDTO } from "@domain-model";
 
@@ -35,7 +35,7 @@ async function getUsage() {
 
   if (err) return err;
   if (!res.ok)
-    return new Error(`Failed to get Usage stats: ${JSON.stringify(res)}`);
+    return new Error(`Failed to get Usage stats: ${prettyJSON(res)}`);
 
   return res.data.usage;
 }

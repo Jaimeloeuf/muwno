@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { sf, jsonParser } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useOrg, useLoader, useNotif, useError } from "../../../store";
+import { prettyJSON } from "../../../utils";
 import type { User } from "@domain-model";
 
 const props = defineProps<{ user: User }>();
@@ -36,7 +37,7 @@ async function removeUserFromOrg() {
   }
   if (!res.ok) {
     errorStore.newError(
-      new Error(`Failed to delete account: ${JSON.stringify(res)}`)
+      new Error(`Failed to delete account: ${prettyJSON(res)}`)
     );
     return;
   }

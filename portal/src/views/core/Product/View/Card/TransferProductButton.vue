@@ -5,6 +5,7 @@ import { sf } from "simpler-fetch";
 import { useLoader, useNotif, useError } from "../../../../../store";
 import { AllProductRoute } from "../../../../../router";
 import { getAuthHeader } from "../../../../../firebase";
+import { prettyJSON } from "../../../../../utils";
 import type { Product } from "@domain-model";
 
 const props = defineProps<{ product: Product }>();
@@ -39,7 +40,7 @@ async function transfer() {
     return;
   }
   if (!res.ok) {
-    errorStore.newError(new Error(`Transfer failed ${JSON.stringify(res)}`));
+    errorStore.newError(new Error(`Transfer failed ${prettyJSON(res)}`));
     return;
   }
 

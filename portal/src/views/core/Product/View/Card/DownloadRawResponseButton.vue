@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { useLoader, useError } from "../../../../../store";
 import { getAuthHeader } from "../../../../../firebase";
-import { downloadFile } from "../../../../../utils";
+import { prettyJSON, downloadFile } from "../../../../../utils";
 import type { Product } from "@domain-model";
 
 const props = defineProps<{ product: Product }>();
@@ -30,7 +30,7 @@ async function downloadRawResponseCSV() {
     return;
   }
   if (!res.ok) {
-    errorStore.newError(new Error(`Download failed ${JSON.stringify(res)}`));
+    errorStore.newError(new Error(`Download failed ${prettyJSON(res)}`));
     return;
   }
 

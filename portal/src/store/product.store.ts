@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
+import { prettyJSON } from "../utils";
 import type {
   Product,
   ProductID,
@@ -46,7 +47,7 @@ export const useProduct = defineStore("product", {
 
       if (err) throw err;
       if (!res.ok)
-        throw new Error(`Failed to load All Products: ${JSON.stringify(res)}`);
+        throw new Error(`Failed to load All Products: ${prettyJSON(res)}`);
 
       // Also caches this fully as a nice side effect
       this.products = res.data.products;
@@ -78,7 +79,7 @@ export const useProduct = defineStore("product", {
 
       if (err) throw err;
       if (!res.ok)
-        throw new Error(`Failed to load Product: ${JSON.stringify(res)}`);
+        throw new Error(`Failed to load Product: ${prettyJSON(res)}`);
 
       this.products[productID] = res.data.product;
       this.productCacheTime[productID] = unixseconds();
@@ -118,7 +119,7 @@ export const useProduct = defineStore("product", {
 
       if (err) return err;
       if (!res.ok)
-        return new Error(`Failed to add Product: ${JSON.stringify(res)}`);
+        return new Error(`Failed to add Product: ${prettyJSON(res)}`);
 
       const { product } = res.data;
 
@@ -146,7 +147,7 @@ export const useProduct = defineStore("product", {
 
       if (err) return err;
       if (!res.ok)
-        return new Error(`Failed to update Product: ${JSON.stringify(res)}`);
+        return new Error(`Failed to update Product: ${prettyJSON(res)}`);
 
       const { product } = res.data;
 
@@ -167,7 +168,7 @@ export const useProduct = defineStore("product", {
         .runJSON();
 
       if (err) return err;
-      if (!res.ok) return new Error(`Failed to delete: ${JSON.stringify(res)}`);
+      if (!res.ok) return new Error(`Failed to delete: ${prettyJSON(res)}`);
 
       delete this.products[productID];
       return true;

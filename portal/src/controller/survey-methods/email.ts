@@ -1,5 +1,6 @@
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
+import { prettyJSON } from "../../utils";
 import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
 
 export async function manualEmailBlast(
@@ -16,5 +17,5 @@ export async function manualEmailBlast(
 
   if (err) return err;
   if (!res.ok || !res.data.success)
-    return new Error(`Failed to email customers: ${JSON.stringify(res)}`);
+    return new Error(`Failed to email customers: ${prettyJSON(res)}`);
 }

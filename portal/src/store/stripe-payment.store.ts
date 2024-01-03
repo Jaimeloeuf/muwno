@@ -3,6 +3,7 @@ import { loadStripe, type Stripe } from "@stripe/stripe-js";
 
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
+import { prettyJSON } from "../utils";
 
 import type {
   StripeSetupNext,
@@ -57,7 +58,7 @@ export const useStripe = defineStore("stripe", {
       if (err) throw err;
       if (!res.ok)
         throw new Error(
-          `Failed to create Stripe Setup Intent ${JSON.stringify(res)}`
+          `Failed to create Stripe Setup Intent ${prettyJSON(res)}`
         );
 
       return res.data;

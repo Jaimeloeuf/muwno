@@ -3,6 +3,7 @@ import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../../firebase";
 import { useError } from "../../../../store";
+import { prettyJSON } from "../../../../utils";
 
 const emits = defineEmits<{ (e: "couponUsed", coupon: null | string): void }>();
 
@@ -30,7 +31,7 @@ async function useCouponCode() {
   }
   if (!res.ok) {
     errorStore.newError(
-      new Error(`Unable to check coupon validity: ${JSON.stringify(res)}`)
+      new Error(`Unable to check coupon validity: ${prettyJSON(res)}`)
     );
     return;
   }

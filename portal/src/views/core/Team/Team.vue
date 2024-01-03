@@ -8,7 +8,7 @@ import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
 import RemoveUserButton from "./RemoveUserButton.vue";
-import { getDateString } from "../../../utils";
+import { prettyJSON, getDateString } from "../../../utils";
 import { Role, roleMapper } from "@domain-model";
 import type { UserID, ReadManyUserDTO } from "@domain-model";
 
@@ -31,7 +31,7 @@ async function getMembers() {
 
   if (err) return err;
   if (!res.ok)
-    return new Error(`Failed to load Team Members ${JSON.stringify(res)}`);
+    return new Error(`Failed to load Team Members ${prettyJSON(res)}`);
 
   return res.data.users;
 }

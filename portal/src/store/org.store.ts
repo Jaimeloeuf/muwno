@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../firebase";
+import { prettyJSON } from "../utils";
 import type { Org, ReadOneOrgDTO, CreateOneOrgDTO } from "@domain-model";
 
 import { useUser } from "./user.store";
@@ -61,7 +62,7 @@ export const useOrg = defineStore("org", {
 
       if (err) throw err;
       if (!res.ok)
-        throw new Error(`Failed to load Organisation: ${JSON.stringify(res)}`);
+        throw new Error(`Failed to load Organisation: ${prettyJSON(res)}`);
 
       this.org = res.data.org;
       this.orgCacheTime = unixseconds();
@@ -93,7 +94,7 @@ export const useOrg = defineStore("org", {
       if (res.status === 404) return false;
       else
         throw new Error(
-          `Failed to check if user have an Org: ${JSON.stringify(res)}`
+          `Failed to check if user have an Org: ${prettyJSON(res)}`
         );
     },
 
@@ -110,9 +111,7 @@ export const useOrg = defineStore("org", {
 
       if (err) return err;
       if (!res.ok)
-        return new Error(
-          `Failed to create Organisation: ${JSON.stringify(res)}`
-        );
+        return new Error(`Failed to create Organisation: ${prettyJSON(res)}`);
 
       await useUser().refreshJWT(true);
 
@@ -135,9 +134,7 @@ export const useOrg = defineStore("org", {
 
       if (err) return err;
       if (!res.ok)
-        return new Error(
-          `Failed to update Organisation: ${JSON.stringify(res)}`
-        );
+        return new Error(`Failed to update Organisation: ${prettyJSON(res)}`);
 
       this.org = res.data.org;
       this.orgCacheTime = unixseconds();
