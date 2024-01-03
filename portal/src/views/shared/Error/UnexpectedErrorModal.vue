@@ -2,8 +2,20 @@
 import { reloadPage } from "../../../utils/reloadPage";
 import CopyOnClick from "../CopyOnClick.vue";
 
-defineProps<{ error: Error | string }>();
 defineEmits<{ (e: "close"): void }>();
+
+const props = defineProps<{ e: Error | string }>();
+
+// Use stack value if available to show user more information.
+// Even though stack is not a standard, most implementations provide it, so we
+// can rely on it if it is available, else use the error value itself.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/stack
+const error =
+  props.e instanceof Error
+    ? props.e.stack !== undefined
+      ? props.e.stack
+      : props.e
+    : props.e;
 </script>
 
 <template>
@@ -50,7 +62,7 @@ defineEmits<{ (e: "close"): void }>();
           <div
             class="break-all rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-red-500"
           >
-            {{ error }}
+            <pre class="whitespace-pre-wrap">{{ error }}</pre>
           </div>
 
           <p class="pt-0.5 text-right font-thin">click to copy</p>
