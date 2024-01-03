@@ -7,9 +7,9 @@ import SetupPaymentMethod from "./Stripe/SetupPaymentMethod.vue";
 import {
   numberFormatter,
   smallMoneyFormatter,
-} from "../../../utils/numericalFormatter";
-import { flags } from "../../../utils/flags";
-import { landingLink } from "../../../utils/links";
+  flags,
+  landingLink,
+} from "../../../utils";
 import { PlanDetails } from "@domain-model";
 </script>
 

@@ -5,7 +5,7 @@ import { parse } from "papaparse";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../firebase";
 import { useOrg, useLoader, useNotif, useError } from "../../store";
-import { convertToNull } from "../../utils/convertToNull";
+import { convertToNull } from "../../utils";
 import TopNavbar from "../shared/TopNavbar.vue";
 import type {
   CreateOneCustomerDTO,

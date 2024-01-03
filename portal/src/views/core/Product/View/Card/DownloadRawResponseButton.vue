@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { useLoader, useError } from "../../../../../store";
 import { getAuthHeader } from "../../../../../firebase";
-import { downloadFile } from "../../../../../utils/downloadFile";
+import { downloadFile } from "../../../../../utils";
 import type { Product } from "@domain-model";
 
 const props = defineProps<{ product: Product }>();

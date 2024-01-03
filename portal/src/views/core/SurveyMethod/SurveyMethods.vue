@@ -7,7 +7,7 @@ import {
 } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import SurveyMethodCard from "./SurveyMethodCard.vue";
-import { flags } from "../../../utils/flags";
+import { flags } from "../../../utils";
 import {
   type ProductID,
   SurveyMethods,

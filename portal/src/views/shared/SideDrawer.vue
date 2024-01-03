@@ -10,9 +10,7 @@ import {
   ApiKeyRoute,
 } from "../../router";
 import { useOnboarding, useSidedrawer } from "../../store";
-import { flags } from "../../utils/flags";
-import { feedbackLink } from "../../utils/links";
-import { logout } from "../../utils/logout";
+import { flags, feedbackLink, logout } from "../../utils";
 
 const route = useRoute();
 const onboardingStore = useOnboarding();

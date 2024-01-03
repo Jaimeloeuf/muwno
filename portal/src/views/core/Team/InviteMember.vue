@@ -6,7 +6,7 @@ import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif, useError } from "../../../store";
 import { SignupRoute, TeamRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
+import { getAbsoluteUrlFromRoute } from "../../../utils";
 import {
   Role,
   roleMapper,

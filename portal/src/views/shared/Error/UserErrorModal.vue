@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reloadPage } from "../../../utils/reloadPage";
+import { reloadPage } from "../../../utils";
 import CopyOnClick from "../CopyOnClick.vue";
 
 defineProps<{ error: string }>();

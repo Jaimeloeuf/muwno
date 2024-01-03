@@ -6,7 +6,7 @@ import { useUser, useLoader, useNotif, useError } from "../../store";
 import TopNavbar from "../shared/TopNavbar.vue";
 import CopyOnClick from "../shared/CopyOnClick.vue";
 import Accordion from "../shared/Accordion.vue";
-import { getDateString } from "../../utils/date-formatting/getDateString";
+import { getDateString } from "../../utils";
 import { Role } from "@domain-model";
 import type {
   ReadManyApiKeyDTO,

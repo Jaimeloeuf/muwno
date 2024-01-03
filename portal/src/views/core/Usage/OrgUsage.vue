@@ -3,8 +3,7 @@ import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useError } from "../../../store";
-import { flags } from "../../../utils/flags";
-import { getDateString } from "../../../utils/date-formatting/getDateString";
+import { flags, getDateString } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ReadUsageDTO } from "@domain-model";
 

@@ -1,6 +1,5 @@
 import { ref, computed } from "vue";
-import { isLinkValidReactive } from "../utils/isLinkValid";
-import { getSurveyLink } from "../utils/getSurveyLink";
+import { isLinkValidReactive, getSurveyLink } from "../utils";
 import type { ProductID } from "@domain-model";
 
 /**

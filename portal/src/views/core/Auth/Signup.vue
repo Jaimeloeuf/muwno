@@ -9,7 +9,7 @@ import {
 import { auth } from "../../../firebase";
 import { useLoader, useUser, useError } from "../../../store";
 import { OnboardingRoute, LoginRoute } from "../../../router";
-import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
+import { getAbsoluteUrlFromRoute } from "../../../utils";
 import AuthComponent from "./Auth.vue";
 import EnterButton from "../../shared/EnterButton.vue";
 

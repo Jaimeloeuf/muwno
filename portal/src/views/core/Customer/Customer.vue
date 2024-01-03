@@ -4,7 +4,7 @@ import { getAuthHeader } from "../../../firebase";
 import { useOrg } from "../../../store";
 import { ImportCustomerRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { numberFormatter } from "../../../utils/numericalFormatter";
+import { numberFormatter } from "../../../utils";
 import type { ReadCustomerCountDTO } from "@domain-model";
 
 const orgStore = useOrg();

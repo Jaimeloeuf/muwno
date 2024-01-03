@@ -6,7 +6,7 @@ import {
   useNotif,
   useError,
 } from "../../../../../store";
-import { isLinkValidReactive } from "../../../../../utils/isLinkValid";
+import { isLinkValidReactive } from "../../../../../utils";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();

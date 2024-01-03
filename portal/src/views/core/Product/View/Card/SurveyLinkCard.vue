@@ -3,7 +3,7 @@ import { ref } from "vue";
 import QRCode, { type QRCodeToDataURLOptions } from "qrcode";
 import type { Product } from "@domain-model";
 import CopyOnClick from "../../../../shared/CopyOnClick.vue";
-import { getSurveyLink } from "../../../../../utils/getSurveyLink";
+import { getSurveyLink } from "../../../../../utils";
 
 const props = defineProps<{ product: Product }>();
 

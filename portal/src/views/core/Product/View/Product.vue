@@ -7,7 +7,7 @@ import {
   SurveyMethodsRoute,
   MoreProductFeatureRoute,
 } from "../../../../router";
-import { reloadPage } from "../../../../utils/reloadPage";
+import { reloadPage } from "../../../../utils";
 
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import RouteEnterButton from "../../../shared/RouteEnterButton.vue";

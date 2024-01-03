@@ -16,10 +16,12 @@ import {
   BuySubscriptionPlanRoute,
   OnboardingRoute,
 } from "../../router";
-import { reloadPage } from "../../utils/reloadPage";
-import { getAbsoluteUrlFromRoute } from "../../utils/getAbsoluteUrlFromRoute";
-import { landingLink } from "../../utils/links";
-import { logout } from "../../utils/logout";
+import {
+  reloadPage,
+  getAbsoluteUrlFromRoute,
+  landingLink,
+  logout,
+} from "../../utils";
 import Accordion from "../shared/Accordion.vue";
 
 const router = useRouter();

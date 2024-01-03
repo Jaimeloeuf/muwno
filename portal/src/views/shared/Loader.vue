@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useLoader } from "../../store";
-import { reloadPage } from "../../utils/reloadPage";
+import { reloadPage } from "../../utils";
 
 const loaderStore = useLoader();
 

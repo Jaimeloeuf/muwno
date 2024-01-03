@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /* Build time variables injected in by vite, configured in vite.config.js */
 
-import { getDateTimeString } from "../../utils/date-formatting/getDateTimeString";
+import { getDateTimeString } from "../../utils";
 
 const buildTime = getDateTimeString(__vite_inject.buildTime);
 const version = __vite_inject.version;

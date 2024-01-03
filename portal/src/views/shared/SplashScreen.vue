@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { reloadPage } from "../../utils/reloadPage";
+import { reloadPage } from "../../utils";
 
 // Simple mechanism to allow user to reload the page if loading state is too
 // long or if loader wasnt properly cleared after use pass an 10s (arbitrary).

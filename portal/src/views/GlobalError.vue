@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { AllProductRoute } from "../router";
-import { reloadPage } from "../utils/reloadPage";
+import { reloadPage } from "../utils";
 import CopyOnClick from "./shared/CopyOnClick.vue";
 
 defineProps<{ globalError: Error }>();

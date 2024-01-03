@@ -11,7 +11,7 @@ import {
   useError,
 } from "../../../store";
 import { AllProductRoute } from "../../../router";
-import { getDateString } from "../../../utils/date-formatting/getDateString";
+import { getDateString } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import { roleMapper } from "@domain-model";
 

@@ -10,7 +10,7 @@ import { useProduct } from "../../../../store";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import CopyOnClick from "../../../shared/CopyOnClick.vue";
 import { useFormLinks } from "../../../../composable";
-import { downloadFile } from "../../../../utils/downloadFile";
+import { downloadFile } from "../../../../utils";
 import type { ProductID } from "@domain-model";
 import { FormRedirectQueryParam } from "@domain-model";
 

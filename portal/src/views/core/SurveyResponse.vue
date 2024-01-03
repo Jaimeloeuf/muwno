@@ -6,7 +6,7 @@ import { useProduct, useLoader, useNotif, useError } from "../../store";
 import { EditTaskRoute } from "../../router";
 import { TaskController } from "../../controller";
 import TopNavbar from "../shared/TopNavbar.vue";
-import { getDateTimeString } from "../../utils/date-formatting/getDateTimeString";
+import { getDateTimeString } from "../../utils";
 import type {
   ProductID,
   FeedbackResponseID,

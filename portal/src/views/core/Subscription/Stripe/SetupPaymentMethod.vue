@@ -4,7 +4,7 @@ import type { StripeElements } from "@stripe/stripe-js";
 import { sf } from "simpler-fetch";
 import { useStripe, useLoader, useError } from "../../../../store";
 import { SetupSuccessPaymentRoute } from "../../../../router";
-import { getAbsoluteUrlFromRoute } from "../../../../utils/getAbsoluteUrlFromRoute";
+import { getAbsoluteUrlFromRoute } from "../../../../utils";
 
 const stripeStore = useStripe();
 const loader = useLoader();

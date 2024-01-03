@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useProduct, useLoader, useError } from "../../../store";
 import { ProductRoute } from "../../../router";
-import { isLinkValidReactive } from "../../../utils/isLinkValid";
+import { isLinkValidReactive } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 
 const router = useRouter();

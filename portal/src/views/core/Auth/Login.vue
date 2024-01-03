@@ -14,7 +14,7 @@ import {
   SignupRoute,
   LoginRoute,
 } from "../../../router";
-import { getAbsoluteUrlFromRoute } from "../../../utils/getAbsoluteUrlFromRoute";
+import { getAbsoluteUrlFromRoute } from "../../../utils";
 import AuthComponent from "./Auth.vue";
 import EnterButton from "../../shared/EnterButton.vue";
 

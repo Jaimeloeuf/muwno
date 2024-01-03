@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { numberFormatter } from "../../../utils/numericalFormatter";
+import { numberFormatter } from "../../../utils";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();

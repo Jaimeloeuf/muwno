@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { landingLink } from "../../../utils/links";
+import { landingLink } from "../../../utils";
 </script>
 
 <template>

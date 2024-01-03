@@ -8,7 +8,7 @@ import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
 import RemoveUserButton from "./RemoveUserButton.vue";
-import { getDateString } from "../../../utils/date-formatting/getDateString";
+import { getDateString } from "../../../utils";
 import { Role, roleMapper } from "@domain-model";
 import type { UserID, ReadManyUserDTO } from "@domain-model";
 

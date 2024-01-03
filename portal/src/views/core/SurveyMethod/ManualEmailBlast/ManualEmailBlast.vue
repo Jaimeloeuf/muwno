@@ -6,7 +6,7 @@ import { MoreProductFeatureRoute } from "../../../../router";
 import { useProduct, useLoader, useNotif, useError } from "../../../../store";
 import { useFormLinks } from "../../../../composable";
 import { manualEmailBlast } from "../../../../controller";
-import { convertToNull } from "../../../../utils/convertToNull";
+import { convertToNull } from "../../../../utils";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import SendTestEmail from "./SendTestEmail.vue";
 import EmailBlastPreview from "./EmailBlastPreview.vue";
