@@ -2,20 +2,8 @@
 import { reloadPage } from "../../../utils/reloadPage";
 import CopyOnClick from "../CopyOnClick.vue";
 
+defineProps<{ error: string }>();
 defineEmits<{ (e: "close"): void }>();
-
-const props = defineProps<{ e: Error | string }>();
-
-// Use stack value if available to show user more information.
-// Even though stack is not a standard, most implementations provide it, so we
-// can rely on it if it is available, else use the error value itself.
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/stack
-const error =
-  props.e instanceof Error
-    ? props.e.stack !== undefined
-      ? props.e.stack
-      : props.e
-    : props.e;
 </script>
 
 <template>
@@ -23,7 +11,7 @@ const error =
     class="flex w-full max-w-screen-md flex-col gap-4 rounded-lg bg-zinc-50 p-12"
   >
     <div class="flex flex-col items-center justify-between gap-8 sm:flex-row">
-      <img src="../../../assets/sad-girl.png" class="w-48 sm:-ml-4 sm:w-32" />
+      <img src="../../../assets/sad-girl.png" class="-ml-4 w-32" />
 
       <div class="w-full">
         <p class="text-4xl font-medium">Error</p>
@@ -56,13 +44,14 @@ const error =
       <img src="../../../assets/sad-lady.png" class="hidden w-32 sm:block" />
 
       <div class="w-full">
-        <p>Details</p>
+        <p>Details <span class="pl-1 text-xs">(scroll for more)</span></p>
 
-        <CopyOnClick :textToCopy="error.toString()">
-          <div
-            class="break-all rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-red-500"
-          >
-            <pre class="whitespace-pre-wrap">{{ error }}</pre>
+        <CopyOnClick :textToCopy="error">
+          <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+            <pre
+              class="max-h-16 overflow-y-scroll whitespace-pre-wrap break-all text-sm text-red-500 sm:max-h-96"
+              >{{ error }}</pre
+            >
           </div>
 
           <p class="pt-0.5 text-right font-thin">click to copy</p>

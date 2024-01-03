@@ -10,6 +10,17 @@ const emit = defineEmits<{ (e: "close"): void }>();
 // Log error out as the error modal is shown for more in depth details.
 console.error(props.error);
 
+// Use stack value if available to show user more information.
+// Even though stack is not a standard, most implementations provide it, so we
+// can rely on it if it is available, else use the error value itself.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/stack
+const errorString =
+  props.error instanceof Error
+    ? props.error.stack !== undefined
+      ? props.error.stack
+      : props.error.toString()
+    : props.error;
+
 const errorStore = useError();
 const show = ref(true);
 
@@ -32,17 +43,17 @@ async function ignoreAndCloseModal() {
 
 <template>
   <div
-    class="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-black bg-opacity-80"
+    class="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center overflow-y-scroll bg-black bg-opacity-80"
   >
     <template v-if="show">
       <UnexpectedErrorModal
         v-if="type === null"
-        :error="error"
+        :error="errorString"
         @close="ignoreAndCloseModal"
       />
       <UserErrorModal
         v-else-if="type === 'user'"
-        :error="error"
+        :error="errorString"
         @close="ignoreAndCloseModal"
       />
     </template>

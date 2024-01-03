@@ -2,7 +2,7 @@
 import { reloadPage } from "../../../utils/reloadPage";
 import CopyOnClick from "../CopyOnClick.vue";
 
-defineProps<{ error: Error | string }>();
+defineProps<{ error: string }>();
 defineEmits<{ (e: "close"): void }>();
 </script>
 
@@ -17,13 +17,14 @@ defineEmits<{ (e: "close"): void }>();
         <p class="pb-4 text-2xl font-medium sm:pb-8 sm:text-4xl">
           Hey! That didn't work...
         </p>
-        <p class="">Details</p>
+        <p>Details <span class="pl-1 text-xs">(scroll for more)</span></p>
 
-        <CopyOnClick :textToCopy="error.toString()">
-          <div
-            class="break-all rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-red-500"
-          >
-            {{ error }}
+        <CopyOnClick :textToCopy="error">
+          <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+            <pre
+              class="max-h-16 overflow-y-scroll whitespace-pre-wrap break-all text-sm text-red-500 sm:max-h-96"
+              >{{ error }}</pre
+            >
           </div>
 
           <p class="pt-0.5 text-right font-thin">click to copy</p>
