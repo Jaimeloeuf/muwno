@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sideDrawer } from "../../controllers";
 import { loginLink, signupLink } from "../../utils/links";
-import { PricingRoute, ContactRoute } from "../../router";
+import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
 </script>
 
 <template>
@@ -19,12 +19,13 @@ import { PricingRoute, ContactRoute } from "../../router";
     }"
   >
     <div class="flex h-full flex-col items-start bg-white p-4">
-      <button
+      <router-link
+        :to="{ name: HomeRoute.name }"
         class="w-full border-b border-zinc-200 py-4"
         @click="sideDrawer.hide"
       >
         <img src="../../assets/logo.svg" />
-      </button>
+      </router-link>
 
       <div class="w-full pt-2">
         <div class="py-2"></div>
