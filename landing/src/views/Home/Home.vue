@@ -12,12 +12,12 @@ import Footer from "../shared/Footer.vue";
 
 <template>
   <Navbar />
-  <Hero class="pb-24 md:pt-8 lg:pb-40" />
+  <Hero class="mb-12 lg:mb-20" />
   <Benefits class="pb-24 lg:pb-40" />
   <Example class="pb-20 md:pb-28" />
   <How class="pb-16 md:pb-28" />
   <Demo class="pb-12 md:pb-28" />
-  <CTA class="pb-12 md:pb-28" />
-  <ContactUsForm class="pb-12 md:pb-28" />
+  <CTA class="pb-16 md:pb-24" />
+  <ContactUsForm class="pb-12 md:pb-24" />
   <Footer></Footer>
 </template>

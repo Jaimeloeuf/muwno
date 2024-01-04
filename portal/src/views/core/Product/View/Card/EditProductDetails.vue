@@ -150,8 +150,8 @@ async function saveChanges() {
     <button
       class="w-full rounded-lg border py-1 text-center"
       :class="{
-        'bg-green-600 text-white': isChanged,
         'bg-zinc-50 font-light text-zinc-500': !isChanged,
+        'border border-green-600 text-green-600': isChanged,
       }"
       :disabled="!isChanged"
       @click="saveChanges"

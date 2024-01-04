@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from "vue-router";
 import {
   HomeRoute,
   PricingRoute,
+  ContactRoute,
   DebugRoute,
   NotFoundRoute,
 } from "./PublicRoutes";
@@ -19,6 +20,7 @@ export const Routes = (<const>[
   /* Public Routes */
   HomeRoute,
   PricingRoute,
+  ContactRoute,
   DebugRoute,
 
   NotFoundRoute,

@@ -1,40 +1,49 @@
 <script setup lang="ts">
 import { loginLink, signupLink } from "../../utils/links";
 import { sideDrawer } from "../../controllers";
-import { HomeRoute, PricingRoute } from "../../router";
+import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
 </script>
 
 <template>
   <header class="fixed top-0 z-30 w-full bg-white shadow-sm">
-    <div class="flex flex-row items-center justify-between px-6 py-3 lg:px-12">
+    <div
+      class="flex flex-row items-center justify-between px-6 py-3 md:px-12 lg:px-16 xl:px-24 xl:py-4"
+    >
       <router-link :to="{ name: HomeRoute.name }">
         <img src="../../assets/logo.svg" class="w-40" />
       </router-link>
 
       <div class="w-max">
-        <div class="hidden flex-row items-center gap-4 pr-4 md:flex">
-          <a
-            :href="signupLink"
-            target="_blank"
-            class="rounded-full bg-primary px-6 py-1.5 font-semibold text-white"
+        <div class="hidden flex-row items-center gap-8 pr-4 md:flex">
+          <router-link
+            :to="{ name: PricingRoute.name }"
+            class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
           >
-            Sign up
-          </a>
+            PRICING
+          </router-link>
+
+          <router-link
+            :to="{ name: ContactRoute.name }"
+            class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
+          >
+            CONTACT US
+          </router-link>
 
           <a
             :href="loginLink"
             target="_blank"
-            class="rounded-full border-2 border-primary px-6 py-1 font-semibold text-primary"
+            class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
           >
-            Login
+            SIGN IN
           </a>
 
-          <router-link
-            :to="{ name: PricingRoute.name }"
-            class="font-semibold text-zinc-600 underline decoration-zinc-400 underline-offset-4"
+          <a
+            :href="signupLink"
+            target="_blank"
+            class="rounded-full bg-primary px-6 py-2 tracking-wide text-white hover:shadow-2xl hover:brightness-90"
           >
-            Pricing
-          </router-link>
+            SIGN UP
+          </a>
         </div>
 
         <button

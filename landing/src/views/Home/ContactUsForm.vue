@@ -47,7 +47,7 @@ async function submitMessage() {
 </script>
 
 <template>
-  <div class="px-6 py-12 md:px-12 md:py-24 lg:px-16 xl:px-24">
+  <div class="px-6 md:px-12 lg:px-16 xl:px-24">
     <p
       class="pb-8 text-3xl font-extrabold text-zinc-600 md:text-4xl lg:text-5xl"
     >
@@ -99,13 +99,13 @@ async function submitMessage() {
 
         <div class="w-full tracking-wide">
           <label>
-            <p class="mb-2 font-bold text-zinc-700">Your Message</p>
+            <p class="mb-2 font-bold text-zinc-700">How can we help you?</p>
 
             <textarea
               v-model.trim="message"
               class="w-full resize-none rounded border bg-zinc-50 px-4 py-3 leading-tight text-zinc-700 focus:outline-none"
               rows="4"
-              placeholder="Help me succeed!"
+              placeholder="I need to improve my business by collecting more customer feedback and analyzing it better."
             ></textarea>
           </label>
         </div>

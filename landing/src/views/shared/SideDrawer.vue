@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { sideDrawer } from "../../controllers";
-import { PricingRoute } from "../../router";
 import { loginLink, signupLink } from "../../utils/links";
+import { PricingRoute, ContactRoute } from "../../router";
 </script>
 
 <template>
@@ -18,7 +18,7 @@ import { loginLink, signupLink } from "../../utils/links";
       'w-5/6 translate-x-0 shadow-2xl': sideDrawer.showDrawer.value,
     }"
   >
-    <div class="flex h-full flex-col items-start justify-between bg-white p-4">
+    <div class="flex h-full flex-col items-start bg-white p-4">
       <button
         class="w-full border-b border-zinc-200 py-4"
         @click="sideDrawer.hide"
@@ -27,48 +27,64 @@ import { loginLink, signupLink } from "../../utils/links";
       </button>
 
       <div class="w-full pt-2">
-        <a
-          :href="loginLink"
-          target="_blank"
-          class="w-full text-xl text-zinc-600"
-          @click="sideDrawer.hide"
-        >
-          <p class="p-2">Login</p>
-        </a>
-
-        <hr class="my-2" />
+        <div class="py-2"></div>
 
         <a
           :href="signupLink"
           target="_blank"
-          class="w-full text-xl text-zinc-600"
+          class="flex w-full flex-row items-center justify-between gap-2 rounded-lg border border-primary px-4 py-2.5"
           @click="sideDrawer.hide"
         >
-          <p class="p-2">Sign up</p>
+          <a class="tracking-wide text-primary">SIGN UP</a>
+
+          <svg
+            class="h-3 w-3 shrink-0 rotate-90 text-primary"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
         </a>
 
-        <hr class="my-2" />
+        <hr class="mb-4 mt-6" />
+
+        <a
+          :href="loginLink"
+          target="_blank"
+          class="tracking-wide text-zinc-600"
+          @click="sideDrawer.hide"
+        >
+          <p class="px-2">SIGN IN</p>
+        </a>
+
+        <hr class="my-4" />
 
         <router-link
           :to="{ name: PricingRoute.name }"
-          class="w-full text-xl text-zinc-600"
+          class="tracking-wide text-zinc-600"
           @click="sideDrawer.hide"
         >
-          <p class="p-2">Pricing</p>
+          <p class="px-2">PRICING</p>
+        </router-link>
+
+        <hr class="my-4" />
+
+        <router-link
+          :to="{ name: ContactRoute.name }"
+          class="tracking-wide text-zinc-600"
+          @click="sideDrawer.hide"
+        >
+          <p class="px-2">CONTACT US</p>
         </router-link>
       </div>
-
-      <!-- Spacer divider that takes up all the space in the middle -->
-      <div class="grow"></div>
-
-      <!-- @todo Create link -->
-      <a
-        class="flex w-full rounded-lg p-2 py-8 text-start text-zinc-800"
-        target="_blank"
-        @click="sideDrawer.hide"
-      >
-        <span class="ml-1">Help me!</span>
-      </a>
     </div>
   </nav>
 </template>

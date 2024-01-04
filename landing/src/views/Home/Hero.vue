@@ -4,36 +4,59 @@ import { signupLink } from "../../utils/links";
 
 <template>
   <div
-    class="flex flex-col-reverse items-center justify-between gap-6 px-10 pt-4 md:flex-row md:px-12 lg:px-16 xl:px-24 xl:pt-8"
+    class="flex h-screen w-full flex-col justify-center bg-zinc-50 px-8 md:px-24 lg:px-44"
   >
-    <div class="w-full">
+    <div class="flex flex-col items-center">
       <p
-        class="mb-4 text-4xl font-extrabold text-zinc-600 sm:text-5xl md:mb-8 lg:text-7xl"
+        class="pb-4 text-5xl font-medium sm:pb-12 sm:text-center sm:text-6xl xl:text-7xl"
       >
-        <span class="rounded-lg bg-yellow-300 px-2 text-zinc-700 shadow">
-          Earn</span
+        We made
+        <span
+          class="underline decoration-zinc-600 decoration-4 underline-offset-8"
+          >Feedback</span
         >
-        with your customers'<br />
-        feedback
+
+        <span class="block py-2"></span>
+
+        <!-- @todo Or just link to a single blog post talking about all 3 points -->
+        <!-- <span class="font-normal">Better, Faster, Cheaper.</span> -->
+
+        <!-- @todo link each keyword to a blog post -->
+        <span class="font-normal">
+          <span
+            class="hover:text-primary hover:underline hover:decoration-primary"
+            >Better</span
+          >,
+          <span
+            class="hover:text-primary hover:underline hover:decoration-primary"
+            >Faster</span
+          >,
+          <span
+            class="hover:text-primary hover:underline hover:decoration-primary"
+            >Cheaper</span
+          >.
+        </span>
       </p>
 
-      <p class="max-w-lg pb-8 font-light md:pb-12 md:text-lg">
-        muwno generates tasks for you to do based on your customers' feedback so
-        that you can sell more, earn more.
+      <p
+        class="max-w-sm pb-8 font-light sm:max-w-md sm:text-center md:pb-12 md:text-lg xl:max-w-2xl xl:text-xl"
+      >
+        muwno collects and analyzes your customers' feedback to give you
+        actionable tasks, so that you can grow your business and earn more.
       </p>
 
       <a
         :href="signupLink"
         target="_blank"
-        class="rounded-full bg-primary px-20 py-3 text-xl font-medium text-white hover:shadow-2xl"
+        class="rounded-full bg-primary px-20 py-3 text-xl font-light text-white hover:shadow-2xl sm:text-2xl"
       >
-        Start FREE
+        START FREE
       </a>
-    </div>
 
-    <img
-      class="h-64 w-full md:h-80 lg:h-96 xl:h-full"
-      src="../../assets/hero.svg"
-    />
+      <p class="pt-4 text-center text-sm font-extralight">
+        Get started within 2 minutes with no <br />
+        technical knowledge required.
+      </p>
+    </div>
   </div>
 </template>

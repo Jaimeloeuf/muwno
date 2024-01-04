@@ -19,6 +19,12 @@ export const PricingRoute = <const>{
   component: PricingComponent,
 };
 
+export const ContactRoute = <const>{
+  name: "contact",
+  path: "/contact",
+  component: () => import("../views/Contact/Contact.vue"),
+};
+
 export const DebugRoute = <const>{
   name: "debug",
   path: "/debug",
