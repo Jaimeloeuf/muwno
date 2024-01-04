@@ -17,6 +17,7 @@ import {
   OnboardingRoute,
 } from "../../router";
 import {
+  unwrapOrThrow,
   reloadPage,
   getAbsoluteUrlFromRoute,
   landingLink,
@@ -40,9 +41,9 @@ const orgStore = useOrg();
 const loader = useLoader();
 const notif = useNotif();
 
-await teamInvitationStore.checkForPendingTeamInvitations();
-
-const hasPendingInvites = teamInvitationStore.invitations.length > 0;
+const hasPendingInvites = unwrapOrThrow(
+  await teamInvitationStore.checkForPendingTeamInvitations()
+);
 
 // If user have an Org but still onboarding, it means that Org does not have a
 // valid subscription right now, therefore show button to buy subscription plan

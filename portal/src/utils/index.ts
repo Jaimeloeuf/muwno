@@ -19,4 +19,5 @@ export * from "./numericalFormatter";
 export * from "./prettyJSON";
 export * from "./reloadPage";
 export * from "./resetAllPiniaStores";
+export * from "./unwrapOrThrow";
 export * from "./validateCustomClaimsOnJWT";

@@ -20,8 +20,8 @@ export class BenefitController {
       .useHeader(getAuthHeader)
       .runJSON<ReadManyA3DTO>();
 
-    if (err) throw err;
-    if (!res.ok) throw new Error(`Failed to get Benefits: ${prettyJSON(res)}`);
+    if (err) return err;
+    if (!res.ok) return new Error(`Failed to get Benefits: ${prettyJSON(res)}`);
 
     return res.data.benefits;
   }

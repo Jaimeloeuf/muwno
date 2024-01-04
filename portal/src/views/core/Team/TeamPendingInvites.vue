@@ -7,7 +7,7 @@ import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
 import DeletePendingInviteButton from "./DeletePendingInviteButton.vue";
-import { prettyJSON, getDateString } from "../../../utils";
+import { prettyJSON, unwrapOrThrow, getDateString } from "../../../utils";
 import { roleMapper } from "@domain-model";
 import type { ReadManyTeamMemberInvitationDTO } from "@domain-model";
 
@@ -28,9 +28,7 @@ async function getInvites() {
   return res.data.invitations;
 }
 
-const inviteResult = await getInvites();
-if (inviteResult instanceof Error) throw inviteResult;
-const invites = ref(inviteResult);
+const invites = ref(unwrapOrThrow(await getInvites()));
 
 /** Ref to the DOM element so that it can be cleared by `clearSearchInputHandler` */
 const searchField = ref<HTMLInputElement | null>(null);

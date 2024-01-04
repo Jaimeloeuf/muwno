@@ -55,9 +55,9 @@ export const useStripe = defineStore("stripe", {
         .useHeader(getAuthHeader)
         .runJSON<{ clientSecret: string; orgEmail: string }>();
 
-      if (err) throw err;
+      if (err) return err;
       if (!res.ok)
-        throw new Error(
+        return new Error(
           `Failed to create Stripe Setup Intent ${prettyJSON(res)}`
         );
 

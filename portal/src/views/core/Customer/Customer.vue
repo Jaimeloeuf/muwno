@@ -4,7 +4,7 @@ import { getAuthHeader } from "../../../firebase";
 import { useOrg } from "../../../store";
 import { ImportCustomerRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { prettyJSON, numberFormatter } from "../../../utils";
+import { prettyJSON, unwrapOrThrow, numberFormatter } from "../../../utils";
 import type { ReadCustomerCountDTO } from "@domain-model";
 
 const orgStore = useOrg();
@@ -17,9 +17,9 @@ async function getCustomerCount() {
     .useHeader(getAuthHeader)
     .runJSON<ReadCustomerCountDTO>();
 
-  if (err) throw err;
+  if (err) return err;
   if (!res.ok)
-    throw new Error(`Failed to get Customer Count: ${prettyJSON(res)}`);
+    return new Error(`Failed to get Customer Count: ${prettyJSON(res)}`);
 
   return res.data.count;
 }
@@ -31,15 +31,15 @@ async function getCustomerGroups() {
     .useHeader(getAuthHeader)
     .runJSON<{ groups: unknown }>();
 
-  if (err) throw err;
+  if (err) return err;
   if (!res.ok)
-    throw new Error(`Failed to get Customer Groups: ${prettyJSON(res)}`);
+    return new Error(`Failed to get Customer Groups: ${prettyJSON(res)}`);
 
   return res.data.groups;
 }
 
-const customerCount = await getCustomerCount();
-const customerGroups = await getCustomerGroups();
+const customerCount = unwrapOrThrow(await getCustomerCount());
+const customerGroups = unwrapOrThrow(await getCustomerGroups());
 
 customerGroups;
 </script>

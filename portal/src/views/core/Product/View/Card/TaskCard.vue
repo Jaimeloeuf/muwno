@@ -3,11 +3,16 @@ import { ref } from "vue";
 import { useNotif, useError } from "../../../../../store";
 import { TaskController } from "../../../../../controller";
 import { AllTaskRoute, SurveyResponseRoute } from "../../../../../router";
+import { unwrapOrThrow } from "../../../../../utils";
 import type { ProductID, TaskID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 const notif = useNotif();
 const errorStore = useError();
+
+const tasks = ref(
+  unwrapOrThrow(await TaskController.getTasks(props.productID, 3))
+);
 
 async function markTaskAsDone(taskID: TaskID) {
   if (!confirm("Confirm?")) return;
@@ -22,10 +27,15 @@ async function markTaskAsDone(taskID: TaskID) {
   notif.setSnackbar("Task completed! Updating task list ...");
 
   // Update list of tasks
-  tasks.value = await TaskController.getTasks(props.productID, 3);
-}
+  const tasksResult = await TaskController.getTasks(props.productID, 3);
 
-const tasks = ref(await TaskController.getTasks(props.productID, 3));
+  if (tasksResult instanceof Error) {
+    errorStore.newError(tasksResult);
+    return;
+  }
+
+  tasks.value = tasksResult;
+}
 </script>
 
 <template>

@@ -45,9 +45,9 @@ export const useProduct = defineStore("product", {
         .useHeader(getAuthHeader)
         .runJSON<ReadManyProductDTO>();
 
-      if (err) throw err;
+      if (err) return err;
       if (!res.ok)
-        throw new Error(`Failed to load All Products: ${prettyJSON(res)}`);
+        return new Error(`Failed to load All Products: ${prettyJSON(res)}`);
 
       // Also caches this fully as a nice side effect
       this.products = res.data.products;

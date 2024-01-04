@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useOrg, useProduct } from "../../../../store";
 import { ProductRoute, AddProductRoute } from "../../../../router";
+import { unwrapOrThrow } from "../../../../utils";
 import TopNavbar from "../../../shared/TopNavbar.vue";
 import SimplePMFLiveScoreCard from "./SimplePMFLiveScoreCard.vue";
 import { useSearch } from "../../../../composable";
@@ -10,7 +11,7 @@ const orgStore = useOrg();
 const productStore = useProduct();
 
 const org = await orgStore.getOrg();
-const products = ref(await productStore.getAllProducts());
+const products = ref(unwrapOrThrow(await productStore.getAllProducts()));
 
 const pmfLiveScoreCacheKey = Date.now().toString();
 

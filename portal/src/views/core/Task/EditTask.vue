@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useNotif, useLoader, useError } from "../../../store";
 import { TaskController } from "../../../controller";
+import { unwrapOrThrow } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { TaskID } from "@domain-model";
 
@@ -13,7 +14,7 @@ const notif = useNotif();
 const loader = useLoader();
 const errorStore = useError();
 
-const task = ref(await TaskController.getTask(props.taskID));
+const task = ref(unwrapOrThrow(await TaskController.getTask(props.taskID)));
 const newTask = ref<string>(task.value.task);
 
 async function update() {

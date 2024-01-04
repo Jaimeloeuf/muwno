@@ -16,8 +16,8 @@ export class TaskController {
       .useHeader(getAuthHeader)
       .runJSON<ReadOneTaskDTO>();
 
-    if (err) throw err;
-    if (!res.ok) throw new Error(`Failed to get Task: ${prettyJSON(res)}`);
+    if (err) return err;
+    if (!res.ok) return new Error(`Failed to get Task: ${prettyJSON(res)}`);
 
     return res.data.task;
   }
@@ -57,8 +57,8 @@ export class TaskController {
       .useHeader(getAuthHeader)
       .runJSON<ReadManyTaskDTO>();
 
-    if (err) throw err;
-    if (!res.ok) throw new Error(`Failed to get Tasks: ${prettyJSON(res)}`);
+    if (err) return err;
+    if (!res.ok) return new Error(`Failed to get Tasks: ${prettyJSON(res)}`);
 
     return res.data.tasks;
   }

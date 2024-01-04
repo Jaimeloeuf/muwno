@@ -8,7 +8,7 @@ import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
 import RemoveUserButton from "./RemoveUserButton.vue";
-import { prettyJSON, getDateString } from "../../../utils";
+import { prettyJSON, unwrapOrThrow, getDateString } from "../../../utils";
 import { Role, roleMapper } from "@domain-model";
 import type { UserID, ReadManyUserDTO } from "@domain-model";
 
@@ -36,9 +36,7 @@ async function getMembers() {
   return res.data.users;
 }
 
-const teamMembersResult = await getMembers();
-if (teamMembersResult instanceof Error) throw teamMembersResult;
-const teamMembers = ref(teamMembersResult);
+const teamMembers = ref(unwrapOrThrow(await getMembers()));
 
 /** Ref to the DOM element so that it can be cleared by `clearSearchInputHandler` */
 const searchField = ref<HTMLInputElement | null>(null);

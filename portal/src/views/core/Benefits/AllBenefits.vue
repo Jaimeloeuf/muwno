@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useNotif, useLoader } from "../../../store";
+import { useNotif, useLoader, useError } from "../../../store";
 import { SurveyResponseRoute } from "../../../router";
 import { BenefitController } from "../../../controller";
+import { unwrapOrThrow } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();
 const notif = useNotif();
 const loader = useLoader();
+const errorStore = useError();
 
 const benefitsPerPage = 15;
 const benefits = ref(
-  await BenefitController.getBenefits(props.productID, benefitsPerPage)
+  unwrapOrThrow(
+    await BenefitController.getBenefits(props.productID, benefitsPerPage)
+  )
 );
 const currentHeadIndex = ref<number>(1);
 
 async function previous() {
   // Automatically assume no more 'previous' responses if index is reset to 1.
-  if (currentHeadIndex.value === 1)
-    return notif.setSnackbar("No more responses!");
+  if (currentHeadIndex.value === 1) {
+    notif.setSnackbar("No more responses!");
+    return;
+  }
 
   loader.show();
 
@@ -29,21 +35,29 @@ async function previous() {
     benefits.value[0]?.id
   );
 
-  if (olderBenefits.length === 0) {
-    notif.setSnackbar("No more responses!");
-  } else {
-    benefits.value = olderBenefits;
-    currentHeadIndex.value = currentHeadIndex.value - olderBenefits.length;
+  loader.hide();
+
+  if (olderBenefits instanceof Error) {
+    errorStore.newError(olderBenefits);
+    return;
   }
 
-  loader.hide();
+  if (olderBenefits.length === 0) {
+    notif.setSnackbar("No more responses!");
+    return;
+  }
+
+  benefits.value = olderBenefits;
+  currentHeadIndex.value = currentHeadIndex.value - olderBenefits.length;
 }
 
 async function next() {
   // Automatically assume no more 'next' responses if number of current
   // responses is less than the standard requested page size.
-  if (benefits.value.length < benefitsPerPage)
-    return notif.setSnackbar("No more responses!");
+  if (benefits.value.length < benefitsPerPage) {
+    notif.setSnackbar("No more responses!");
+    return;
+  }
 
   loader.show();
 
@@ -53,14 +67,20 @@ async function next() {
     benefits.value.at(-1)?.id
   );
 
-  if (newBenefits.length === 0) {
-    notif.setSnackbar("No more responses!");
-  } else {
-    currentHeadIndex.value = currentHeadIndex.value + benefits.value.length;
-    benefits.value = newBenefits;
+  loader.hide();
+
+  if (newBenefits instanceof Error) {
+    errorStore.newError(newBenefits);
+    return;
   }
 
-  loader.hide();
+  if (newBenefits.length === 0) {
+    notif.setSnackbar("No more responses!");
+    return;
+  }
+
+  currentHeadIndex.value = currentHeadIndex.value + benefits.value.length;
+  benefits.value = newBenefits;
 }
 </script>
 

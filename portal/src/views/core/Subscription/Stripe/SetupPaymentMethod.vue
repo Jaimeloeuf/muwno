@@ -59,7 +59,13 @@ async function setupPaymentMethod() {
   }
 
   // Create the SetupIntent and obtain clientSecret
-  const { clientSecret } = await stripeStore.createSetupIntent();
+  const result = await stripeStore.createSetupIntent();
+
+  if (result instanceof Error) {
+    loader.hide();
+    errorStore.newError(result);
+    return;
+  }
 
   /** Redirect to this route on setup success */
   const redirectTo = encodeURIComponent(
@@ -69,7 +75,7 @@ async function setupPaymentMethod() {
   // Confirm the SetupIntent using the details collected by the Payment Element
   const { error } = await stripe.confirmSetup({
     elements: elements.value,
-    clientSecret,
+    clientSecret: result.clientSecret,
     confirmParams: {
       // User's browser will make a GET request here, which will trigger next steps
       return_url: sf

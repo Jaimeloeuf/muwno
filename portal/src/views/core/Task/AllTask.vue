@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useNotif, useLoader, useError } from "../../../store";
 import { SurveyResponseRoute } from "../../../router";
 import { TaskController } from "../../../controller";
+import { unwrapOrThrow } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ProductID, TaskID } from "@domain-model";
 
@@ -12,7 +13,9 @@ const loader = useLoader();
 const errorStore = useError();
 
 const taskPerPage = 10;
-const tasks = ref(await TaskController.getTasks(props.productID, taskPerPage));
+const tasks = ref(
+  unwrapOrThrow(await TaskController.getTasks(props.productID, taskPerPage))
+);
 const currentHeadIndex = ref<number>(1);
 
 async function markTaskAsDone(taskID: TaskID) {
@@ -43,7 +46,10 @@ async function markTaskAsDone(taskID: TaskID) {
 
 async function previous() {
   // Automatically assume no more 'previous' tasks if index is reset to 1.
-  if (currentHeadIndex.value === 1) return notif.setSnackbar("No more tasks!");
+  if (currentHeadIndex.value === 1) {
+    notif.setSnackbar("No more tasks!");
+    return;
+  }
 
   loader.show();
 
@@ -53,21 +59,29 @@ async function previous() {
     tasks.value[0]?.id
   );
 
-  if (olderTasks.length === 0) {
-    notif.setSnackbar("No more tasks!");
-  } else {
-    tasks.value = olderTasks;
-    currentHeadIndex.value = currentHeadIndex.value - olderTasks.length;
+  loader.hide();
+
+  if (olderTasks instanceof Error) {
+    errorStore.newError(olderTasks);
+    return;
   }
 
-  loader.hide();
+  if (olderTasks.length === 0) {
+    notif.setSnackbar("No more tasks!");
+    return;
+  }
+
+  tasks.value = olderTasks;
+  currentHeadIndex.value = currentHeadIndex.value - olderTasks.length;
 }
 
 async function next() {
   // Automatically assume no more 'next' tasks if number of current tasks less
   // than the standard requested page size.
-  if (tasks.value.length < taskPerPage)
-    return notif.setSnackbar("No more tasks!");
+  if (tasks.value.length < taskPerPage) {
+    notif.setSnackbar("No more tasks!");
+    return;
+  }
 
   loader.show();
 
@@ -77,14 +91,20 @@ async function next() {
     tasks.value.at(-1)?.id
   );
 
-  if (newTasks.length === 0) {
-    notif.setSnackbar("No more tasks!");
-  } else {
-    currentHeadIndex.value = currentHeadIndex.value + tasks.value.length;
-    tasks.value = newTasks;
+  loader.hide();
+
+  if (newTasks instanceof Error) {
+    errorStore.newError(newTasks);
+    return;
   }
 
-  loader.hide();
+  if (newTasks.length === 0) {
+    notif.setSnackbar("No more tasks!");
+    return;
+  }
+
+  currentHeadIndex.value = currentHeadIndex.value + tasks.value.length;
+  tasks.value = newTasks;
 }
 </script>
 

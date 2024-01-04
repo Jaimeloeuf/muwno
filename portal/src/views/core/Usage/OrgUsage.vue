@@ -3,7 +3,12 @@ import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
 import { getAuthHeader } from "../../../firebase";
 import { useLoader, useError } from "../../../store";
-import { prettyJSON, flags, getDateString } from "../../../utils";
+import {
+  prettyJSON,
+  unwrapOrThrow,
+  flags,
+  getDateString,
+} from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import type { ReadUsageDTO } from "@domain-model";
 
@@ -40,9 +45,7 @@ async function getUsage() {
   return res.data.usage;
 }
 
-const usageResult = await getUsage();
-if (usageResult instanceof Error) throw usageResult;
-const usage = ref(usageResult);
+const usage = ref(unwrapOrThrow(await getUsage()));
 
 watch(selectedTimeRange, async () => {
   loader.show();

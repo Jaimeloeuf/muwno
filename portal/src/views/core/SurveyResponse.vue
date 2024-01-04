@@ -6,7 +6,7 @@ import { useProduct, useLoader, useNotif, useError } from "../../store";
 import { EditTaskRoute } from "../../router";
 import { TaskController } from "../../controller";
 import TopNavbar from "../shared/TopNavbar.vue";
-import { prettyJSON, getDateTimeString } from "../../utils";
+import { prettyJSON, unwrapOrThrow, getDateTimeString } from "../../utils";
 import type {
   ProductID,
   FeedbackResponseID,
@@ -35,9 +35,9 @@ async function getResponse(responseID: FeedbackResponseID) {
     .useHeader(getAuthHeader)
     .runJSON<{ response: FeedbackResponse }>();
 
-  if (err) throw err;
+  if (err) return err;
   if (!res.ok)
-    throw new Error(`Failed to get Survey Response: ${prettyJSON(res)}`);
+    return new Error(`Failed to get Survey Response: ${prettyJSON(res)}`);
 
   return res.data.response;
 }
@@ -49,14 +49,14 @@ async function getTask(responseID: FeedbackResponseID) {
     .useHeader(getAuthHeader)
     .runJSON<ReadManyTaskDTO>();
 
-  if (err) throw err;
-  if (!res.ok) throw new Error(`Failed to get Tasks: ${prettyJSON(res)}`);
+  if (err) return err;
+  if (!res.ok) return new Error(`Failed to get Tasks: ${prettyJSON(res)}`);
 
   return res.data.tasks;
 }
 
-const response = await getResponse(props.responseID);
-const tasks = ref(await getTask(props.responseID));
+const response = unwrapOrThrow(await getResponse(props.responseID));
+const tasks = ref(unwrapOrThrow(await getTask(props.responseID)));
 
 /** Mapping to convert q1 answers stored as 1, 2, 3 in DB into text */
 const a1WordMapping = { 3: "Very", 2: "Somewhat", 1: "Not" };
@@ -67,14 +67,15 @@ async function deleteTask(taskID: TaskID) {
 
   const result = await TaskController.deleteTask(taskID);
 
+  loader.hide();
+
   if (result instanceof Error) {
     errorStore.newError(result);
-  } else {
-    tasks.value = tasks.value.filter((task) => task.id !== taskID);
-    notif.setSnackbar("Task deleted!");
+    return;
   }
 
-  loader.hide();
+  tasks.value = tasks.value.filter((task) => task.id !== taskID);
+  notif.setSnackbar("Task deleted!");
 }
 </script>
 
