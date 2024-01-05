@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContactRoute } from "../../router";
+import { ContactRoute, PricingRoute } from "../../router";
 
 import { ref } from "vue";
 import { loader } from "../../controllers";
@@ -48,12 +48,22 @@ async function subscribe() {
     <div class="flex flex-col-reverse gap-8 pb-8 md:flex-row md:pb-20">
       <div class="flex flex-col gap-2 md:basis-1/4">
         <p class="tracking-wide">COMPANY</p>
-        <a href="#" target="_blank" class="font-light">About us</a>
-        <a href="#" target="_blank" class="font-light">Security</a>
-        <a href="#" target="_blank" class="font-light">Press kits</a>
-        <router-link :to="{ name: ContactRoute.name }" class="font-light">
+        <router-link :to="{ name: ContactRoute.name }" class="w-max font-light">
           Contact us
         </router-link>
+        <router-link :to="{ name: PricingRoute.name }" class="w-max font-light">
+          Pricing
+        </router-link>
+        <a href="#" target="_blank" class="w-max font-light">About us</a>
+        <a href="#" target="_blank" class="w-max font-light">Security</a>
+        <a href="#" target="_blank" class="w-max font-light">Press kits</a>
+        <a
+          href="https://github.com/Jaimeloeuf/muwno"
+          target="_blank"
+          class="w-max font-light"
+        >
+          Open source
+        </a>
       </div>
 
       <div class="md:basis-1/4">
@@ -69,11 +79,13 @@ async function subscribe() {
           <a href="https://www.instagram.com/muwno.ai/" target="_blank">
             <img src="../../assets/social-icons/ig.svg" />
           </a>
-          <!-- @todo -->
-          <a href="https://www.instagram.com/muwno.ai/" target="_blank">
+          <a href="https://github.com/Jaimeloeuf/muwno" target="_blank">
+            <img src="../../assets/social-icons/gh.svg" />
+          </a>
+          <a href="https://twitter.com/muwno_ai" target="_blank">
             <img src="../../assets/social-icons/tw.svg" />
           </a>
-          <a href="https://www.instagram.com/muwno.ai/" target="_blank">
+          <a href="https://www.reddit.com/user/muwno" target="_blank">
             <img src="../../assets/social-icons/rd.svg" />
           </a>
         </div>
