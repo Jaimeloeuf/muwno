@@ -47,8 +47,15 @@ export const useNotif = defineStore("notif", {
       });
     },
 
-    removeOldestMessage() {
-      this.snackBarMessages.shift();
+    removeMessage(id: number) {
+      const index = this.snackBarMessages.findIndex((msg) => msg.id === id);
+
+      if (index === -1) {
+        console.error(`Cannot find snackbar message with ID ${index}`);
+        return;
+      }
+
+      this.snackBarMessages.splice(index, 1);
     },
   },
 });

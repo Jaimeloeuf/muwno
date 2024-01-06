@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { ref, onErrorCaptured } from "vue";
 
-import { useError, useLoader, useNotif } from "./store";
+import { useError, useLoader } from "./store";
 import { routerError } from "./router";
 import GlobalErrorView from "./views/GlobalError.vue";
 import SideDrawer from "./views/shared/SideDrawer.vue";
 import ErrorModal from "./views/shared/Error/ErrorModal.vue";
 import Loader from "./views/shared/Loader.vue";
-import Snackbar from "./views/shared/Snackbar.vue";
+import Snackbar from "./views/shared/Snackbar/Snackbar.vue";
 import SplashScreen from "./views/shared/SplashScreen.vue";
 
 const errorStore = useError();
 const loader = useLoader();
-const notif = useNotif();
 
 const globalError = ref<Error | null>(null);
 
@@ -81,13 +80,7 @@ function clearRouterError() {
     GlobalError view.
   -->
 
-  <Snackbar
-    v-if="notif.snackBarMessages[0] !== undefined"
-    :key="notif.snackBarMessages[0].id"
-    :msg="notif.snackBarMessages[0].msg"
-    :timeout="notif.snackBarMessages[0].timeout"
-    @close="notif.removeOldestMessage"
-  />
+  <Snackbar />
 
   <!--
     Page view components
