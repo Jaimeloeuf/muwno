@@ -52,7 +52,7 @@ const alternative = useSelfChangingAlternatives();
       >.
     </p>
 
-    <div class="flex flex-col justify-between gap-10 lg:flex-row">
+    <div class="flex flex-col justify-between gap-10 pb-8 lg:flex-row lg:pb-12">
       <div class="w-full font-light">
         <p class="text-xl font-bold text-zinc-700 md:text-2xl">
           Start for
@@ -153,17 +153,7 @@ const alternative = useSelfChangingAlternatives();
               help@muwno.com
             </a>
           </p>
-          <p>
-            Volume and startup discounts available, email
-            <a
-              class="italic underline decoration-zinc-200 underline-offset-4"
-              target="_blank"
-              href="mailto:help@muwno.com"
-            >
-              help@muwno.com
-            </a>
-            for details.
-          </p>
+          <p>Volume, startup and special discounts available.</p>
         </div>
       </div>
 
@@ -174,6 +164,38 @@ const alternative = useSelfChangingAlternatives();
         />
       </div>
     </div>
+
+    <button
+      class="flex w-full flex-row items-center justify-between gap-2 rounded-lg border border-zinc-200 px-8 py-8 text-left shadow-xl outline-none"
+    >
+      <div class="w-full">
+        <p class="pb-2 text-lg font-bold text-zinc-800 lg:text-4xl">
+          <muwno /> costs less than
+          <span
+            class="underline decoration-primary decoration-2 underline-offset-4"
+            >wasting time</span
+          >.
+        </p>
+
+        <p class="lg:text-2xl">So start right now for free.</p>
+      </div>
+
+      <svg
+        class="h-8 w-8 shrink-0 rotate-90 text-primary"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 10 6"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5 5 1 1 5"
+        />
+      </svg>
+    </button>
   </div>
 
   <Footer></Footer>

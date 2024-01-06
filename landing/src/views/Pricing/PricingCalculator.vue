@@ -297,7 +297,7 @@ const anySliderMaxed = computed(
       </p>
 
       <p class="font-extralight">
-        Volume and startup discounts available, email
+        Volume, startup and special discounts available, email
         <a href="mailto:help@muwno.com" class="italic underline">
           help@muwno.com
         </a>
