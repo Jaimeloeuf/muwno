@@ -3,6 +3,7 @@ import { ref } from "vue";
 import PricingCalculator from "./PricingCalculator.vue";
 import Navbar from "../shared/Navbar.vue";
 import muwno from "../shared/muwno.vue";
+import CtaButton from "../shared/CtaButton.vue";
 import Footer from "../shared/Footer.vue";
 import { numberFormatter, smallMoneyFormatter } from "./utils";
 import { flags } from "../../utils/flags";
@@ -40,7 +41,7 @@ const alternative = useSelfChangingAlternatives();
   <Navbar />
 
   <div
-    class="mx-auto max-w-screen-sm p-6 pb-20 pt-8 md:px-12 lg:max-w-max lg:px-16 lg:pt-10 xl:px-20"
+    class="mx-auto max-w-2xl p-6 pb-20 pt-8 md:px-12 lg:max-w-max lg:px-16 lg:pt-10 xl:px-20"
   >
     <p
       class="max-w-screen-xl pb-8 text-3xl font-bold text-zinc-800 md:text-4xl lg:pb-12"
@@ -165,37 +166,7 @@ const alternative = useSelfChangingAlternatives();
       </div>
     </div>
 
-    <button
-      class="flex w-full flex-row items-center justify-between gap-2 rounded-lg border border-zinc-200 px-8 py-8 text-left shadow-xl outline-none"
-    >
-      <div class="w-full">
-        <p class="pb-2 text-lg font-bold text-zinc-800 lg:text-4xl">
-          <muwno /> costs less than
-          <span
-            class="underline decoration-primary decoration-2 underline-offset-4"
-            >wasting time</span
-          >.
-        </p>
-
-        <p class="lg:text-2xl">So start right now for free.</p>
-      </div>
-
-      <svg
-        class="h-8 w-8 shrink-0 rotate-90 text-primary"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 10 6"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5 5 1 1 5"
-        />
-      </svg>
-    </button>
+    <CtaButton />
   </div>
 
   <Footer></Footer>
