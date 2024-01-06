@@ -1,51 +1,36 @@
 <script setup lang="ts">
 import { PricingRoute } from "../../router";
-import { signupLink } from "../../utils/links";
+import CtaButton from "../shared/CtaButton.vue";
 </script>
 
 <template>
   <div class="px-6 md:px-12 lg:px-16 xl:px-24">
-    <p
-      class="pb-4 text-3xl font-extrabold text-zinc-600 md:text-4xl lg:text-5xl"
-    >
-      Start Earning more right now for
-      <span class="rounded-lg bg-yellow-300 px-2 text-zinc-700 shadow">
-        FREE!</span
+    <div class="pb-8 xl:pb-12">
+      <p
+        class="pb-4 text-3xl font-extrabold text-zinc-600 md:text-4xl lg:text-5xl"
       >
-    </p>
-
-    <div>
-      <p class="pb-4 text-lg font-light md:pb-12 md:text-2xl">
-        Simple, Honest pricing with no hidden fees. Only pay what you use over
-        the free tier.
+        Start now for
+        <span class="rounded-lg bg-yellow-300 px-2 text-zinc-700 shadow">
+          FREE</span
+        >
       </p>
-    </div>
 
-    <div class="flex flex-col items-center justify-between gap-12 lg:flex-row">
-      <div class="basis-2/3">
-        <img src="../../assets/free.jpg" class="w-full" />
+      <div>
+        <p class="pb-4 font-light sm:text-lg md:text-2xl">
+          Simple, Honest pricing with no hidden fees.
+          <br />
+          You only pay for what you use over the free tier.
+        </p>
       </div>
 
-      <div class="flex basis-1/3 flex-col gap-12 text-center">
-        <div>
-          <a
-            :href="signupLink"
-            target="_blank"
-            class="rounded-full bg-primary px-20 py-3 text-xl font-medium text-white hover:shadow-2xl"
-          >
-            Start FREE
-          </a>
-        </div>
-
-        <div>
-          <router-link
-            :to="{ name: PricingRoute.name }"
-            class="rounded-full border-2 border-primary px-8 py-3 text-xl font-semibold text-primary"
-          >
-            OR if you wanna pay
-          </router-link>
-        </div>
-      </div>
+      <router-link
+        :to="{ name: PricingRoute.name }"
+        class="font-semibold underline decoration-primary underline-offset-4 sm:text-xl"
+      >
+        Check out our Pricing
+      </router-link>
     </div>
+
+    <CtaButton />
   </div>
 </template>
