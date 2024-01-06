@@ -6,6 +6,6 @@ import Footer from "../shared/Footer.vue";
 
 <template>
   <Navbar />
-  <ContactUsForm class="py-4 md:py-28" />
+  <ContactUsForm class="py-8 md:py-28" />
   <Footer></Footer>
 </template>

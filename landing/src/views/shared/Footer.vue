@@ -44,7 +44,9 @@ async function subscribe() {
 </script>
 
 <template>
-  <div class="bg-zinc-100 px-8 py-8 md:py-12 lg:px-20 xl:px-32 2xl:px-48">
+  <div
+    class="bg-zinc-100 px-8 py-8 md:py-12 lg:px-28 xl:px-32 xl:pb-20 2xl:px-48"
+  >
     <div class="flex flex-col-reverse gap-8 pb-8 md:flex-row md:pb-20">
       <div class="flex flex-col gap-2 md:basis-1/4">
         <p class="tracking-wide">COMPANY</p>
