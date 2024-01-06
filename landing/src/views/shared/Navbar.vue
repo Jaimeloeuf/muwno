@@ -7,14 +7,14 @@ import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
 <template>
   <header class="fixed top-0 z-30 w-full bg-white shadow-sm">
     <div
-      class="flex flex-row items-center justify-between px-6 py-3 md:px-12 lg:px-16 xl:px-24 xl:py-4"
+      class="flex flex-row items-center justify-between px-6 py-2 md:px-12 lg:px-16 xl:px-24"
     >
       <router-link :to="{ name: HomeRoute.name }">
-        <img src="../../assets/logo.svg" class="w-40" />
+        <img src="../../assets/logo.svg" class="w-28" />
       </router-link>
 
       <div class="w-max">
-        <div class="hidden flex-row items-center gap-8 pr-4 md:flex">
+        <div class="hidden flex-row items-center gap-8 pr-4 text-sm md:flex">
           <router-link
             :to="{ name: PricingRoute.name }"
             class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
@@ -68,5 +68,5 @@ import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
     </div>
   </header>
 
-  <div class="py-8"></div>
+  <div class="py-6"></div>
 </template>
