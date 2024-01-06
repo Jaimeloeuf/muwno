@@ -33,7 +33,7 @@ async function copy() {
 </script>
 
 <template>
-  <span class="cursor-pointer hover:cursor-pointer" @click="copy">
+  <span class="cursor-pointer select-none" @click="copy">
     <slot></slot>
   </span>
 </template>
