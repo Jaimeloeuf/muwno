@@ -36,19 +36,26 @@ async function goToBillingPortal() {
     .useHeader(getAuthHeader)
     .runText();
 
-  loader.hide();
-
   if (err) {
+    loader.hide();
     errorStore.newError(err);
-  } else if (!res.ok) {
+    return;
+  }
+
+  if (!res.ok) {
+    loader.hide();
     errorStore.newError(
       new Error(`Failed to open Stripe Billing Portal ${prettyJSON(res)}`)
     );
-  } else {
-    // Open link in current tab / redirect there since after that is done, user
-    // will be redirected back to the portal.
-    window.location.href = res.data;
+    return;
   }
+
+  // Open link in current tab / redirect there since after that is done, user
+  // will be redirected back to the portal.
+  // Not hiding loader first because the stripe portal takes quite some time to
+  // load and we don't want user to see our page with no changes after the
+  // loader is hidden and wait.
+  window.location.href = res.data;
 }
 </script>
 
