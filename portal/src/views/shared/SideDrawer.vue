@@ -10,7 +10,7 @@ import {
   ApiKeyRoute,
 } from "../../router";
 import { useOnboarding, useSidedrawer } from "../../store";
-import { flags, feedbackLink, logout } from "../../utils";
+import { flags, feedbackLink, landingLink, logout } from "../../utils";
 
 const route = useRoute();
 const onboardingStore = useOnboarding();
@@ -158,9 +158,9 @@ function closeAndLogout() {
         <span class="pl-3">Settings</span>
       </router-link> -->
 
-      <!-- @todo Create link -->
       <a
         class="flex w-full rounded-lg p-2 text-start text-zinc-800"
+        :href="`${landingLink}/#/contact`"
         target="_blank"
         @click="drawer.hide"
       >
