@@ -162,9 +162,7 @@ async function deleteApiKey(apiKeyID: ApiKeyDetailID) {
         >
           Create new API key
         </button>
-        <div v-else class="rounded-lg border border-zinc-200 p-1.5 px-4">
-          Only Admins can create new API keys
-        </div>
+        <p v-else>Only Admins can create new API keys</p>
       </div>
 
       <div v-if="apiKeyDetails.length !== 0" class="flex flex-col gap-4 pt-8">
