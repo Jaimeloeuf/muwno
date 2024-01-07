@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const props = defineProps<{ defaultState?: "show" | "hide" }>();
-const hidden = ref(props.defaultState === "show" ? false : true);
+const props = defineProps<{
+  /**
+   * This is optional so as long as it is not 'show' it will be treated as hide.
+   */
+  defaultState?: "show" | "hide";
+}>();
+const hidden = ref(props.defaultState !== "show");
 </script>
 
 <template>

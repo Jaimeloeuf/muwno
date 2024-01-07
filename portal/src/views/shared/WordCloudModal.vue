@@ -41,21 +41,21 @@ const wordCloudOptions: Partial<IWordElementOptions> = {
  * in the word cloud and the width of the current viewport. The more terms to
  * show and the smaller the viewport, the smaller each term should be.
  */
-function getSizeOfLargestTermInPixels(count: number) {
+function getSizeOfLargestTermInPixels(numOfTerms: number) {
   const sizeOfLargestTermInPixels = (function () {
-    if (count < 10) return 60;
-    if (count < 20) return 50;
-    if (count < 50) return 40;
-    if (count < 100) return 30;
-    if (count < 200) return 25;
+    if (numOfTerms < 10) return 60;
+    if (numOfTerms < 20) return 50;
+    if (numOfTerms < 50) return 40;
+    if (numOfTerms < 100) return 30;
+    if (numOfTerms < 200) return 25;
     return 20;
   })();
 
-  // 5% of the viewport i.e. 5vw in pixels
-  const twentyVW = window.innerWidth / 20;
+  // Get `5vw` in pixels
+  const fiveVW = window.innerWidth / 20;
 
   // Ensure largest term is limited to 5vw or 60 pixels, whichever is smaller
-  return Math.min(sizeOfLargestTermInPixels, twentyVW, 60);
+  return Math.min(sizeOfLargestTermInPixels, fiveVW, 60);
 }
 
 /**
