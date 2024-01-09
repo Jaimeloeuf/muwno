@@ -17,4 +17,4 @@ VITE_LANDING_LINK="https://muwno.com"
 VITE_FORM_LINK="https://form.muwno.com"
 
 # Link to a feedback form
-VITE_FEEDBACK_LINK="https://form.muwno.com/#/pmf/FORM_ID"
+VITE_FEEDBACK_LINK="https://form.muwno.com/pmf/FORM_ID"
