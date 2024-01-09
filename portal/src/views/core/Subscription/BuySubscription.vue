@@ -128,7 +128,7 @@ import { PlanDetails } from "@domain-model";
 
             <RouteEnterButton
               :to="{}"
-              :href="`${landingLink}/#/pricing`"
+              :href="`${landingLink}/pricing`"
               target="_blank"
             >
               Estimate Cost

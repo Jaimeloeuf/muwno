@@ -160,7 +160,7 @@ function closeAndLogout() {
 
       <a
         class="flex w-full rounded-lg p-2 text-start text-zinc-800"
-        :href="`${landingLink}/#/contact`"
+        :href="`${landingLink}/contact`"
         target="_blank"
         @click="drawer.hide"
       >
