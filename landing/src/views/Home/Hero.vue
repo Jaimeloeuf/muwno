@@ -14,28 +14,12 @@ import { signupLink } from "../../utils/links";
 
         <span class="block py-2"></span>
 
-        <!-- @todo Or just link to a single blog post talking about all 3 points -->
-        <!-- <span
-          class="font-semibold tracking-wide hover:text-primary hover:underline hover:decoration-primary"
+        <!-- @todo link to a single blog post talking about all 3 points -->
+        <span
+          class="inline-block bg-gradient-to-br from-black from-10% to-primary to-70% bg-clip-text font-semibold text-transparent hover:underline hover:decoration-black hover:decoration-4 hover:underline-offset-8"
           >Better, Faster, Cheaper.</span
         >
-        <span class="block py-2"></span> -->
-
-        <!-- @todo link each keyword to a blog post -->
-        <span class="font-semibold">
-          <span
-            class="hover:text-primary hover:underline hover:decoration-primary"
-            >Better</span
-          >,
-          <span
-            class="hover:text-primary hover:underline hover:decoration-primary"
-            >Faster</span
-          >,
-          <span
-            class="hover:text-primary hover:underline hover:decoration-primary"
-            >Cheaper</span
-          >.
-        </span>
+        <span class="block py-2"></span>
       </p>
 
       <p
@@ -62,3 +46,28 @@ import { signupLink } from "../../utils/links";
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Use this class to animate gradient text */
+/* .animate-gradient {
+  background-size: 1000%;
+  animation: animatedgradient 3s ease infinite alternate;
+  -webkit-animation: animatedgradient 3s ease infinite alternate;
+  -moz-animation: animatedgradient 3s ease infinite alternate;
+}
+
+@keyframes animatedgradient {
+  0% {
+    background-position: 0%;
+  }
+  30% {
+    background-position: 30%;
+  }
+  60% {
+    background-position: 60%;
+  }
+  100% {
+    background-position: 100%;
+  }
+} */
+</style>
