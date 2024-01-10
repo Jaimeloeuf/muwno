@@ -4,7 +4,7 @@ import { signupLink } from "../../utils/links";
 
 <template>
   <div
-    class="flex h-screen w-full flex-col justify-center bg-gradient-to-tr from-zinc-100 from-30% to-sky-50 to-100% px-8 md:px-24 lg:px-44"
+    class="flex h-screen w-full flex-col justify-center bg-gradient-to-tr from-zinc-100 from-30% to-sky-50 to-100% px-8"
   >
     <div class="flex flex-col items-center gap-8 lg:gap-12">
       <p
@@ -19,7 +19,6 @@ import { signupLink } from "../../utils/links";
           class="inline-block bg-gradient-to-br from-black from-10% to-primary to-70% bg-clip-text font-semibold text-transparent hover:underline hover:decoration-black hover:decoration-4 hover:underline-offset-8"
           >Better, Faster, Cheaper.</span
         >
-        <span class="block py-2"></span>
       </p>
 
       <p

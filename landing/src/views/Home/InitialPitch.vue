@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import muwno from "../shared/muwno.vue";
-// import { signupLink } from "../../utils/links";
 </script>
 
 <template>
@@ -15,21 +14,19 @@ import muwno from "../shared/muwno.vue";
 
       <div class="w-full max-w-screen-sm basis-1/2">
         <div
-          class="pb-2 text-2xl font-semibold tracking-wide text-zinc-800 xl:pb-8 xl:text-3xl"
+          class="pb-4 text-2xl font-semibold tracking-wide text-zinc-800 xl:pb-8 xl:text-4xl"
         >
-          <p class="xl:pb-2">
-            You know how important it is to
-            <span class="text-primary">
-              understand your customers' needs and wants
-            </span>
-            with a feedback loop.
+          <p class="pb-2">
+            You know it is important to
+            <span class="text-primary">understand your customers.</span>
           </p>
           <p>Without it, businesses and products fail.</p>
         </div>
 
-        <p class="text-lg xl:text-2xl">
-          Everyone knows that, but it is hard to do customer feedback right, and
-          even harder to do it right consistently.
+        <p class="text-lg font-light xl:text-2xl">
+          Everyone knows that having a feedback loop is extremely important, but
+          it is hard to do customer feedback right, and even harder to do it
+          right consistently.
         </p>
       </div>
     </div>
@@ -38,8 +35,7 @@ import muwno from "../shared/muwno.vue";
       <p
         class="pb-2 text-2xl font-semibold tracking-wide text-zinc-800 xl:pb-8 xl:text-3xl"
       >
-        <muwno /> help businesses like yours understand your customers needs and
-        wants so you can
+        <muwno /> helps you understand your customers so you can
       </p>
       <ol class="list-decimal space-y-3 px-5 text-lg xl:text-xl">
         <li>
