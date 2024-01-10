@@ -1,0 +1,26 @@
+{
+  "name": "landing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "npx nuxt dev --port 8081",
+    "serve:localnetwork": "npx nuxt dev --port 8081 --host",
+    "typecheck": "npx nuxi typecheck",
+    "build": "npx nuxt build",
+    "generate": "npx nuxt generate",
+    "preview": "npx nuxt preview",
+    "postinstall": "npx nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.10.4",
+    "nuxt": "^3.9.0",
+    "typescript": "^5.3.3",
+    "vue": "^3.4.5",
+    "vue-router": "^4.2.5",
+    "vue-tsc": "^1.8.27"
+  },
+  "dependencies": {
+    "simpler-fetch": "^10.4.0"
+  }
+}
