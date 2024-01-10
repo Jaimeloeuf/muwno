@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContactRoute, PricingRoute } from "../../router";
+import { ContactRoute, PricingRoute, HomeRoute } from "../../router";
 
 import { ref } from "vue";
 import { loader } from "../../controllers";
