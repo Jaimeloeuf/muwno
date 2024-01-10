@@ -104,6 +104,7 @@ async function subscribe() {
             type="text"
             class="w-full rounded-full border border-zinc-500 px-4 py-2 focus:outline-none"
             placeholder="Email"
+            @keydown.enter="subscribe"
           />
 
           <button
@@ -117,7 +118,9 @@ async function subscribe() {
     </div>
 
     <div class="flex flex-row items-center justify-between gap-6">
-      <img src="../../assets/logo.svg" class="w-40" />
+      <router-link :to="{ name: HomeRoute.name }">
+        <img src="../../assets/logo.svg" class="w-40" />
+      </router-link>
 
       <div class="flex flex-col text-right md:flex-row md:gap-3 lg:gap-6">
         <a

@@ -8,7 +8,7 @@ const showVideoModal = ref(false);
 <template>
   <div class="px-6 md:px-12 lg:px-16 xl:px-24">
     <div
-      class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-12"
+      class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-12 xl:gap-24"
     >
       <div class="flex w-full flex-col gap-4 self-stretch lg:gap-12">
         <p
