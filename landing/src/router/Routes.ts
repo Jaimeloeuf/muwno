@@ -4,6 +4,7 @@ import {
   HomeRoute,
   PricingRoute,
   ContactRoute,
+  AboutRoute,
   DebugRoute,
   NotFoundRoute,
 } from "./PublicRoutes";
@@ -21,6 +22,7 @@ export const Routes = (<const>[
   HomeRoute,
   PricingRoute,
   ContactRoute,
+  AboutRoute,
   DebugRoute,
 
   NotFoundRoute,

@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { sideDrawer } from "../../controllers";
 import { loginLink, signupLink } from "../../utils/links";
-import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
+import {
+  HomeRoute,
+  PricingRoute,
+  ContactRoute,
+  AboutRoute,
+} from "../../router";
 </script>
 
 <template>
@@ -79,11 +84,21 @@ import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
         <hr class="my-4" />
 
         <router-link
+          :to="{ name: AboutRoute.name }"
+          class="tracking-wide text-zinc-600"
+          @click="sideDrawer.hide"
+        >
+          <p class="px-2">ABOUT</p>
+        </router-link>
+
+        <hr class="my-4" />
+
+        <router-link
           :to="{ name: ContactRoute.name }"
           class="tracking-wide text-zinc-600"
           @click="sideDrawer.hide"
         >
-          <p class="px-2">CONTACT US</p>
+          <p class="px-2">CONTACT</p>
         </router-link>
       </div>
     </div>

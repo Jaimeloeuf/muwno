@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ContactRoute, PricingRoute, HomeRoute } from "../../router";
+import {
+  ContactRoute,
+  PricingRoute,
+  AboutRoute,
+  HomeRoute,
+} from "../../router";
 
 import { ref } from "vue";
 import { loader } from "../../controllers";
@@ -56,7 +61,9 @@ async function subscribe() {
         <router-link :to="{ name: PricingRoute.name }" class="w-max font-light">
           Pricing
         </router-link>
-        <a href="#" target="_blank" class="w-max font-light">About us</a>
+        <router-link :to="{ name: AboutRoute.name }" class="w-max font-light">
+          About us
+        </router-link>
         <a href="#" target="_blank" class="w-max font-light">Security</a>
         <a href="#" target="_blank" class="w-max font-light">Press kits</a>
         <a

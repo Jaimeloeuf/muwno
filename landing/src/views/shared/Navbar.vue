@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { loginLink, signupLink } from "../../utils/links";
 import { sideDrawer } from "../../controllers";
-import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
+import {
+  HomeRoute,
+  PricingRoute,
+  ContactRoute,
+  AboutRoute,
+} from "../../router";
 </script>
 
 <template>
@@ -16,17 +21,24 @@ import { HomeRoute, PricingRoute, ContactRoute } from "../../router";
       <div class="w-max">
         <div class="hidden flex-row items-center gap-8 pr-4 text-sm md:flex">
           <router-link
+            :to="{ name: ContactRoute.name }"
+            class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
+          >
+            CONTACT
+          </router-link>
+
+          <router-link
+            :to="{ name: AboutRoute.name }"
+            class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
+          >
+            ABOUT
+          </router-link>
+
+          <router-link
             :to="{ name: PricingRoute.name }"
             class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
           >
             PRICING
-          </router-link>
-
-          <router-link
-            :to="{ name: ContactRoute.name }"
-            class="tracking-wide text-zinc-700 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-4"
-          >
-            CONTACT US
           </router-link>
 
           <a

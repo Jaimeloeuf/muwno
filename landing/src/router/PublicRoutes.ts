@@ -25,6 +25,12 @@ export const ContactRoute = <const>{
   component: () => import("../views/Contact/Contact.vue"),
 };
 
+export const AboutRoute = <const>{
+  name: "about",
+  path: "/about",
+  component: () => import("../views/About/About.vue"),
+};
+
 export const DebugRoute = <const>{
   name: "debug",
   path: "/debug",
