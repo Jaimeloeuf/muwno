@@ -279,8 +279,8 @@ const anySliderMaxed = computed(
       </div>
     </div>
 
-    <div class="pt-6 text-right">
-      <p class="pb-2 text-xl">
+    <div class="pt-2 text-right">
+      <p class="pb-4 text-xl">
         <span
           v-if="totalPrice === 0"
           class="rounded-lg bg-yellow-300 px-4 font-medium"
@@ -295,6 +295,12 @@ const anySliderMaxed = computed(
           <span class="font-extralight"> / month</span>
         </template>
       </p>
+
+      <div v-if="anySliderMaxed" class="flex flex-row-reverse pb-8">
+        <p class="w-max rounded-lg bg-yellow-300 px-4 text-xl">
+          Talk to us for a custom plan!
+        </p>
+      </div>
 
       <p class="font-extralight">
         Volume, startup and special discounts available, email
