@@ -1,4 +1,4 @@
-import { reloadPage } from "./utils/reloadPage";
+import { reloadPage } from "../utils/reloadPage";
 
 /**
  * Sets a timer to automatically call `reloadPage` after 24 hours, as a simple
