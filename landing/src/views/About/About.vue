@@ -26,7 +26,7 @@ import Footer from "../shared/Footer.vue";
         <p class="pb-4 text-xl font-light xl:text-2xl">
           <img src="../../assets/logo.svg" class="inline-block h-6 px-1 pb-1" />
           helps businesses and products like your succeed by improving the
-          Customer Feedback loop. Here's how,
+          Customer Feedback loop. Here's how:
         </p>
 
         <ol class="list-decimal space-y-2 px-5 font-light xl:text-xl">
@@ -60,8 +60,8 @@ import Footer from "../shared/Footer.vue";
           Our mission
         </p>
         <p class="pb-4 font-light xl:text-xl">
-          We set out on our mission to help businesses and products like yours
-          better understand your customers needs and wants so that you can
+          Our mission is to help businesses and products like yours understand
+          your customers needs and wants better, so that you can
         </p>
         <ol class="list-decimal space-y-3 px-5 text-lg font-light xl:text-xl">
           <li>
@@ -142,9 +142,9 @@ import Footer from "../shared/Footer.vue";
         </p>
 
         <p class="pb-4 font-light xl:text-xl">
-          With the lessons we learnt after spending years working across
-          startups, SMEs, scale ups and government, we are now building the
-          future of Customer Feedback to help you succeed!
+          After spending years working across startups, SMEs, scale ups and
+          government, we are now using the lessons we learned to build the
+          future of Customer Feedback for you!
         </p>
 
         <div
@@ -158,12 +158,14 @@ import Footer from "../shared/Footer.vue";
             </p>
             <p class="text-lg">
               <a href="tel:+65 9725 8640">
-                <span class="pr-4 text-xl font-bold">T.</span>+65 9725 8640
+                <span class="pr-4 text-xl font-bold">T.</span>
+                <span class="hover:underline">+65 9725 8640</span>
               </a>
             </p>
             <p class="pb-1 text-lg">
               <a href="mailto:yanjun@muwno.com">
-                <span class="pr-4 text-xl font-bold">E.</span>yanjun@muwno.com
+                <span class="pr-4 text-xl font-bold">E.</span>
+                <span class="hover:underline">yanjun@muwno.com</span>
               </a>
             </p>
             <p class="text-lg">
@@ -176,7 +178,9 @@ import Footer from "../shared/Footer.vue";
                   src="../../assets/social-icons/li.svg"
                   class="inline-block h-4 pr-5"
                 />
-                linkedin.com/in/quek-yan-jun
+                <span class="hover:underline">
+                  linkedin.com/in/quek-yan-jun
+                </span>
               </a>
             </p>
 
@@ -194,12 +198,14 @@ import Footer from "../shared/Footer.vue";
             </p>
             <p class="text-lg">
               <a href="tel:+65 9426 3687">
-                <span class="pr-4 text-xl font-bold">T.</span>+65 9426 3687
+                <span class="pr-4 text-xl font-bold">T.</span>
+                <span class="hover:underline">+65 9426 3687</span>
               </a>
             </p>
             <p class="pb-1 text-lg">
               <a href="mailto:yanjun@muwno.com">
-                <span class="pr-4 text-xl font-bold">E.</span>JJ@muwno.com
+                <span class="pr-4 text-xl font-bold">E.</span>
+                <span class="hover:underline">JJ@muwno.com</span>
               </a>
             </p>
             <p class="text-lg">
@@ -212,7 +218,9 @@ import Footer from "../shared/Footer.vue";
                   src="../../assets/social-icons/li.svg"
                   class="inline-block h-4 pr-5"
                 />
-                linkedin.com/in/jaimeloeuf
+                <span class="hover:underline">
+                  linkedin.com/in/jaimeloeuf
+                </span>
               </a>
             </p>
 
