@@ -83,9 +83,11 @@ async function signup() {
         // Pass email so they dont have to retype it
         query: { prefillEmail: email.value },
       });
-    } else {
-      errorStore.newError("Signup failed!");
+
+      return;
     }
+
+    errorStore.newError(error);
   } finally {
     loader.hide();
   }

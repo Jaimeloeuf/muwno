@@ -70,9 +70,11 @@ async function login() {
         // Pass email so they dont have to retype it
         query: { prefillEmail: email.value },
       });
-    } else {
-      errorStore.newError("Login failed!");
+
+      return;
     }
+
+    errorStore.newError(error);
   } finally {
     loader.hide();
   }
