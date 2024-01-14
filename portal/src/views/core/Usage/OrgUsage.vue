@@ -24,8 +24,13 @@ const timeRanges = [
   { name: "Last 2 weeks", value: 1.21e6 },
   { name: "Last month", value: 2.592e6 },
   { name: "Current Billing Cycle", value: 0 },
+
+  // ...(isSubscribed ? [{ name: "Current Billing Cycle", value: 0 }] : []),
 ] as const;
 const selectedTimeRange = ref<(typeof timeRanges)[number]["value"]>(2.592e6);
+// const selectedTimeRange = ref<(typeof timeRanges)[number]["value"]>(
+//   isSubscribed ? 0 : 2.592e6
+// );
 
 async function getUsage() {
   const { res, err } = await sf
@@ -65,6 +70,7 @@ watch(selectedTimeRange, async () => {
   <div>
     <TopNavbar sideDrawer>Usage</TopNavbar>
 
+    <!-- @todo Split UI into 2 sections, 1 for Usage and 1 for Storage just like landing/pricing -->
     <div class="mx-auto flex max-w-lg flex-col gap-6">
       <div>
         <div class="flex flex-col justify-between gap-4 sm:flex-row">
