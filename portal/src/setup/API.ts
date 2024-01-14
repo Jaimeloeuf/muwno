@@ -1,5 +1,5 @@
 import { sf } from "simpler-fetch";
-import { API, baseApiUrl } from "../config/API";
+import { API, baseApiUrl } from "../config";
 
 // Configure API library base Urls
 sf.addBase(API.vNeutral, baseApiUrl)
