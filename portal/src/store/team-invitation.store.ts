@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../firebase";
+import { getAuthHeader, prettyJSON } from "../utils";
 import type {
   TeamInvitation,
   ReadManyTeamMemberInvitationDTO,
@@ -35,7 +35,8 @@ export const useTeamInvitation = defineStore("team-invitation", {
         .runJSON<ReadManyTeamMemberInvitationDTO>();
 
       if (err) return err;
-      if (!res.ok) return new Error("Failed to load Team Invitations");
+      if (!res.ok)
+        return new Error(`Failed to load Team Invitations: ${prettyJSON(res)}`);
 
       this.invitations = res.data.invitations;
 

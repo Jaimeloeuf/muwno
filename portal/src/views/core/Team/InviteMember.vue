@@ -2,11 +2,14 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif, useError } from "../../../store";
 import { SignupRoute, TeamRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { getAbsoluteUrlFromRoute, prettyJSON } from "../../../utils";
+import {
+  getAbsoluteUrlFromRoute,
+  getAuthHeader,
+  prettyJSON,
+} from "../../../utils";
 import {
   Role,
   roleMapper,

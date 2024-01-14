@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { auth } from "../../firebase";
+import { auth } from "../../utils";
 import TopNavbar from "../shared/TopNavbar.vue";
 import CopyOnClick from "../shared/CopyOnClick.vue";
 import { type Role, roleMapper } from "@domain-model";

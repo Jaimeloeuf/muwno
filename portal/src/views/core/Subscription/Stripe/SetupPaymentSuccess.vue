@@ -2,10 +2,9 @@
 import { onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../../firebase";
 import { useOrg } from "../../../../store";
 import { AllProductRoute } from "../../../../router";
-import { prettyJSON } from "../../../../utils";
+import { getAuthHeader, prettyJSON } from "../../../../utils";
 import RouteEnterButton from "../../../shared/RouteEnterButton.vue";
 
 const router = useRouter();

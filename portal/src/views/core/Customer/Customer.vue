@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import { useOrg } from "../../../store";
 import { ImportCustomerRoute } from "../../../router";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { prettyJSON, unwrapOrThrow, numberFormatter } from "../../../utils";
+import {
+  getAuthHeader,
+  prettyJSON,
+  unwrapOrThrow,
+  numberFormatter,
+} from "../../../utils";
 import type { ReadCustomerCountDTO } from "@domain-model";
 
 const orgStore = useOrg();

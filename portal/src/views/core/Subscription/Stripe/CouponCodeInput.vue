@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../../firebase";
 import { useError } from "../../../../store";
-import { prettyJSON } from "../../../../utils";
+import { getAuthHeader, prettyJSON } from "../../../../utils";
 
 const emits = defineEmits<{ (e: "couponUsed", coupon: null | string): void }>();
 

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../firebase";
 import { useUser, useLoader, useNotif, useError } from "../../store";
 import TopNavbar from "../shared/TopNavbar.vue";
 import CopyOnClick from "../shared/CopyOnClick.vue";
 import Accordion from "../shared/Accordion.vue";
-import { prettyJSON, getDateString } from "../../utils";
+import { getAuthHeader, prettyJSON, getDateString } from "../../utils";
 import { Role } from "@domain-model";
 import type {
   ReadManyApiKeyDTO,

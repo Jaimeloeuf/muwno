@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import {
   useTeamInvitation,
   useUser,
@@ -11,7 +10,7 @@ import {
   useError,
 } from "../../../store";
 import { AllProductRoute } from "../../../router";
-import { prettyJSON, getDateString } from "../../../utils";
+import { getAuthHeader, prettyJSON, getDateString } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import { roleMapper } from "@domain-model";
 

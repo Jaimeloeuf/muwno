@@ -1,5 +1,5 @@
 import { router, LoginRoute } from "../router";
-import { auth } from "../firebase";
+import { auth } from "../utils";
 
 import { resetAllPiniaStores } from "./resetAllPiniaStores";
 

@@ -1,6 +1,5 @@
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../firebase";
-import { prettyJSON } from "../../utils";
+import { getAuthHeader, prettyJSON } from "../../utils";
 import type { ProductID, CreateManualEmailBlastDTO } from "@domain-model";
 
 export async function manualEmailBlast(

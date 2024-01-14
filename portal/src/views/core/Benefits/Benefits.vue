@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import { useLoader } from "../../../store";
 import { AllBenefitsRoute } from "../../../router";
 import { useSearch } from "../../../composable";
-import { prettyJSON } from "../../../utils";
+import { getAuthHeader, prettyJSON } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import RouteEnterButton from "../../shared/RouteEnterButton.vue";
 import WordCloudModal from "../../shared/WordCloudModal.vue";

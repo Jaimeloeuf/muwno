@@ -6,7 +6,6 @@ import {
   sendPasswordResetEmail,
   type AuthError,
 } from "firebase/auth";
-import { auth } from "../../../firebase";
 import { useLoader, useUser, useOnboarding, useError } from "../../../store";
 import {
   AllProductRoute,
@@ -14,7 +13,7 @@ import {
   SignupRoute,
   LoginRoute,
 } from "../../../router";
-import { getAbsoluteUrlFromRoute } from "../../../utils";
+import { auth, getAbsoluteUrlFromRoute } from "../../../utils";
 import AuthComponent from "./Auth.vue";
 import EnterButton from "../../shared/EnterButton.vue";
 

@@ -7,6 +7,8 @@ export * from "./date-formatting/getDateString";
 export * from "./date-formatting/getDateTimeString";
 export * from "./date-formatting/getDateTimeStringWoSeconds";
 
+export * from "./firebaseAuth";
+export * from "./getAuthHeader";
 export * from "./convertToNull";
 export * from "./downloadFile";
 export * from "./flags";

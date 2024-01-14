@@ -7,7 +7,7 @@ import { AuthType } from "./AuthType";
 import { LoginRoute } from "./PublicRoutes";
 import { AllProductRoute, OnboardingRoute } from "./PrivateRoutes";
 
-import { auth } from "../firebase";
+import { auth } from "../utils";
 import { useOnboarding } from "../store";
 
 export type RouteGuard = NavigationGuardWithThis<undefined>;

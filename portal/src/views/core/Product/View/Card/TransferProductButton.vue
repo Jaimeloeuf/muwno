@@ -4,8 +4,7 @@ import { useRouter } from "vue-router";
 import { sf } from "simpler-fetch";
 import { useLoader, useNotif, useError } from "../../../../../store";
 import { AllProductRoute } from "../../../../../router";
-import { getAuthHeader } from "../../../../../firebase";
-import { prettyJSON } from "../../../../../utils";
+import { getAuthHeader, prettyJSON } from "../../../../../utils";
 import type { Product } from "@domain-model";
 
 const props = defineProps<{ product: Product }>();

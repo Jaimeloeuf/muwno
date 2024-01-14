@@ -1,11 +1,12 @@
 // Setup everything needed before setting up the Vue app.
 import "./setup";
 
-import { auth, onAuthStateChanged } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./utils";
 import { type ComponentPublicInstance, createApp } from "vue";
+import { router } from "./router";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import { router } from "./router";
 import App from "./App.vue";
 import { initStoresOnAppStartIfLoggedIn } from "./store";
 

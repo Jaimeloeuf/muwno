@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../firebase";
-import { prettyJSON } from "../utils";
+import { getAuthHeader, prettyJSON } from "../utils";
 
 /**
  * Type of this pinia store's state.

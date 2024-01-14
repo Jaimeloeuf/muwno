@@ -12,18 +12,7 @@ const firebaseApp = initializeApp({
 
 export const auth = getAuth(firebaseApp);
 
-export { onAuthStateChanged } from "firebase/auth";
-
 export const analytics = getAnalytics(firebaseApp);
-
-/**
- * Get authentication header if user is authenticated.
- * Will not throw if user is unauthenticated,
- * it just returns `{ Authorization: 'Bearer undefined' }`
- */
-export const getAuthHeader = async () => ({
-  Authorization: `Bearer ${await auth.currentUser?.getIdToken()}`,
-});
 
 // Make firebase auth use browser's default language
 auth.useDeviceLanguage();

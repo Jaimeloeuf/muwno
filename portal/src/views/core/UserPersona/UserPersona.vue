@@ -2,9 +2,8 @@
 import { ref, watchEffect } from "vue";
 import { sf } from "simpler-fetch";
 import { useLoader } from "../../../store";
-import { getAuthHeader } from "../../../firebase";
 import { useSearch } from "../../../composable";
-import { prettyJSON } from "../../../utils";
+import { getAuthHeader, prettyJSON } from "../../../utils";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import WordCloudModal from "../../shared/WordCloudModal.vue";
 import type { ProductID, ReadOccurrenceMapDTO } from "@domain-model";

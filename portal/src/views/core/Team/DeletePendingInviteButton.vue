@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf, jsonParser } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import { useLoader, useNotif, useError } from "../../../store";
-import { prettyJSON } from "../../../utils";
+import { getAuthHeader, prettyJSON } from "../../../utils";
 import type { TeamInvitation } from "@domain-model";
 
 const props = defineProps<{ invitation: TeamInvitation }>();

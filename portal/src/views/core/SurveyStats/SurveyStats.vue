@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import TopNavbar from "../../shared/TopNavbar.vue";
-import { prettyJSON, unwrapOrThrow, numberFormatter } from "../../../utils";
+import {
+  getAuthHeader,
+  prettyJSON,
+  unwrapOrThrow,
+  numberFormatter,
+} from "../../../utils";
 import type { ProductID } from "@domain-model";
 
 const props = defineProps<{ productID: ProductID }>();

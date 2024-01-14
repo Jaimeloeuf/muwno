@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import unixseconds from "unixseconds";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../firebase";
-import { prettyJSON } from "../utils";
+import { getAuthHeader, prettyJSON } from "../utils";
 import type { Org, ReadOneOrgDTO, CreateOneOrgDTO } from "@domain-model";
 
 import { useUser } from "./user.store";

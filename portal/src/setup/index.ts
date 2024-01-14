@@ -6,3 +6,6 @@ import "./reloadPageAfter24Hours";
 
 // Import to run the side effect of setting base Urls before it is used elsewhere
 import "./API";
+
+// Import to run the side effect of setting up firebase app.
+import "./firebase";

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import { useOrg, useUser, useLoader, useError } from "../../../store";
 import { OrgRoute, EditOrgRoute } from "../../../router";
 import {
+  getAuthHeader,
   getAbsoluteUrlFromRoute,
   prettyJSON,
   getDateString,

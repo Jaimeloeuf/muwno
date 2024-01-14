@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../firebase";
 import { useProduct, useLoader, useNotif, useError } from "../../store";
 import { EditTaskRoute } from "../../router";
 import { TaskController } from "../../controller";
 import TopNavbar from "../shared/TopNavbar.vue";
-import { prettyJSON, unwrapOrThrow, getDateTimeString } from "../../utils";
+import {
+  getAuthHeader,
+  prettyJSON,
+  unwrapOrThrow,
+  getDateTimeString,
+} from "../../utils";
 import type {
   ProductID,
   FeedbackResponseID,

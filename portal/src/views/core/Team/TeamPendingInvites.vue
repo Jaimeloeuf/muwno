@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import { useLoader, useError } from "../../../store";
 import { useSearch } from "../../../composable";
 import TopNavbar from "../../shared/TopNavbar.vue";
 import Accordion from "../../shared/Accordion.vue";
 import DeletePendingInviteButton from "./DeletePendingInviteButton.vue";
-import { prettyJSON, unwrapOrThrow, getDateString } from "../../../utils";
+import {
+  getAuthHeader,
+  prettyJSON,
+  unwrapOrThrow,
+  getDateString,
+} from "../../../utils";
 import { roleMapper } from "@domain-model";
 import type { ReadManyTeamMemberInvitationDTO } from "@domain-model";
 

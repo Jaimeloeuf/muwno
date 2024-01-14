@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { sendEmailVerification } from "firebase/auth";
-import { auth } from "../../firebase";
 import {
   useTeamInvitation,
   useOrg,
@@ -17,6 +16,7 @@ import {
   OnboardingRoute,
 } from "../../router";
 import {
+  auth,
   unwrapOrThrow,
   reloadPage,
   getAbsoluteUrlFromRoute,

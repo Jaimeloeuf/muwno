@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 import { loadStripe, type Stripe } from "@stripe/stripe-js";
 
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../firebase";
-import { prettyJSON } from "../utils";
+import { getAuthHeader, prettyJSON } from "../utils";
 
 import type {
   StripeSetupNext,

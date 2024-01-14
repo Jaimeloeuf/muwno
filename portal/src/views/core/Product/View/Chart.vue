@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../../firebase";
+import { getAuthHeader } from "../../../../utils";
 import { useChart } from "../../../../store";
 import type { ProductID, ReadManyPMFScoreDTO } from "@domain-model";
 

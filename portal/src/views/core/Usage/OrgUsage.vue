@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { sf } from "simpler-fetch";
-import { getAuthHeader } from "../../../firebase";
 import { useLoader, useError } from "../../../store";
 import {
+  getAuthHeader,
   prettyJSON,
   unwrapOrThrow,
   flags,
