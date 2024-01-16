@@ -7,7 +7,7 @@ import { useUser } from "./user.store";
  * Can be a fire and forget
  */
 export async function initStoresOnAppStartIfLoggedIn(): Promise<void> {
-  console.log(`Running initStoresOnAppStartIfLoggedIn`);
+  console.debug(`Running initStoresOnAppStartIfLoggedIn`);
 
   // Run all of these initializations without any particular order
   await Promise.all([
