@@ -2,7 +2,7 @@
 ***muwno*** help *Product Teams* get Product Market Fit to earn more, by gathering and analysing their *customers' feedback* to automatically generate and prioritise *actionable tasks* based on what their customers would actually pay for.
 
 ## Project structure
-- [portal](./portal/README.md)
+- [app](./app/README.md)
     - Built with TS/Vue3/Tailwind
 - [form](./form/README.md)
     - Built with TS/Vue3/Tailwind

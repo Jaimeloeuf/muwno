@@ -10,8 +10,8 @@ async function bootstrap() {
     RootModule,
 
     {
-      // Since this service will be ran on a different domain than the portal,
-      // CORS needs to be enabled for the portal's API requests to work.
+      // Since this service will be ran on a different domain than the clients,
+      // CORS needs to be enabled for the client API requests to work.
       cors: true,
 
       // Allow controllers to access the raw Request body so that it can perform

@@ -37,7 +37,7 @@ export interface User {
   name: string;
 
   /**
-   * User's email account used to login to the portal
+   * User's email account used to login to the app
    */
   email: string;
 

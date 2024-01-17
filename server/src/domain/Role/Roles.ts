@@ -18,7 +18,7 @@
 export enum Role {
   /**
    * A normal user's account used by most users.
-   * This gives them access to the portal mainly for using the dashboard.
+   * This gives them access to the app mainly for using the dashboard.
    *
    * `o-u` short for `org-user`
    */

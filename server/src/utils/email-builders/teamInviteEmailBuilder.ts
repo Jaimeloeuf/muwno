@@ -12,5 +12,5 @@ export const teamInviteEmailBuilder = {
 <br /><br />
 ${inviterName} has invited you to join ${orgName}, click the link to signup for an account to join the team!
 <br />
-<a target="_blank" href="https://portal.muwno.com/#/signup">https://portal.muwno.com/#/signup</a>`,
+<a target="_blank" href="https://app.muwno.com/signup">https://app.muwno.com/signup</a>`,
 };

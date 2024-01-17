@@ -64,10 +64,10 @@ export class StripeSetupintentController {
   }
 
   /**
-   * API to reflect a redirect back to client portal from Stripe API, since
+   * API to reflect a redirect back to client app from Stripe API, since
    * Stripe's confirmSetupIntent method's return_url does not support URL's
    * using hash based routing, therefore this is needed to redirect to a
-   * specific page on portal using hash based routing.
+   * specific page on app using hash based routing.
    */
   @Get('redirect-on-confirmation')
   // Default redirect if nothing returned to override it.

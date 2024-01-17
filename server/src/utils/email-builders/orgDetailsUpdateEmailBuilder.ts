@@ -7,7 +7,7 @@ export const orgDetailsUpdateEmailBuilder = {
 
   body: (orgName: string) => `Hey admin of ${orgName},
 <br />
-Someone just updated details of your Organisation. View details in the <a target="_blank" href="https://portal.muwno.com">muwno portal</a>.
+Someone just updated details of your Organisation. See details in <a target="_blank" href="https://app.muwno.com">app.muwno.com</a>.
 <br />
 Email us at help@muwno.com if this is not authorised!`,
 };

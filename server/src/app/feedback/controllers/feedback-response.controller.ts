@@ -31,7 +31,7 @@ import type { ReadOccurrenceMapDTO, ReadManyA3DTO } from 'domain-model';
 import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
 
 /**
- * Controller to define API endpoints used by portal/ subrepo, for our customers
+ * Controller to define API endpoints used by app/ subrepo, for our customers
  * to interact with their customers' PMF survey responses. This is unlike
  * `FeedbackController` which defines publicly accessibly API endpoints.
  */

@@ -24,7 +24,7 @@ Combined command to build server, build image and run image locally to test.
 
 
 ## Frontend
-1. All 3 frontends (portal, form, landing) are hosted on [Vercel](https://vercel.com/).
+1. All 3 frontends (app, form, landing) are hosted on [Vercel](https://vercel.com/).
 1. All 3 use Vercel's CICD pipeline triggered by changes on the git repo
 1. Vercel uses `prod` branch for production and every other branch (mainly master) for previews.
 

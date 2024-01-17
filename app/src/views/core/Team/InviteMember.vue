@@ -21,7 +21,7 @@ const loader = useLoader();
 const notif = useNotif();
 const errorStore = useError();
 
-const portalLink = getAbsoluteUrlFromRoute({ name: SignupRoute.name });
+const signupLink = getAbsoluteUrlFromRoute({ name: SignupRoute.name });
 const email = ref<string>("");
 const selectedRole = ref<Role>(Role.OrgUser);
 
@@ -123,10 +123,10 @@ async function invite() {
             can go to
             <a
               target="_blank"
-              :href="`${portalLink}`"
+              :href="`${signupLink}`"
               class="font-bold underline"
             >
-              {{ `${portalLink}` }}
+              {{ `${signupLink}` }}
             </a>
             to sign up directly.
           </li>

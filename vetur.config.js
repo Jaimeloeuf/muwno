@@ -17,7 +17,7 @@ module.exports = {
     {
       // **required**
       // Where is your project relative to `vetur.config.js`?
-      root: "./portal",
+      root: "./app",
     },
     {
       // **required**

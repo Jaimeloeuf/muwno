@@ -7,6 +7,6 @@
 # this does not need to be set for development builds.
 VITE_API_URL=https://api.example.com
 
-VITE_LOGIN_LINK="https://portal.muwno.com"
-VITE_SIGNUP_LINK="https://portal.muwno.com/#/signup"
+VITE_LOGIN_LINK="https://app.muwno.com"
+VITE_SIGNUP_LINK="https://app.muwno.com/signup"
 VITE_DEMO_YT_LINK="https://www.youtube-nocookie.com/embed/0l-qw9yRFOA?si=FAVhCZyx-XWaiHjm"
