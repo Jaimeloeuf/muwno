@@ -73,7 +73,7 @@ class RecaptchaGuard implements CanActivate {
     if (!body.success) throw new UnauthorizedException(body['error-codes']);
 
     // @todo Allow guard user to customise this through the constructor
-    if (body.score < 0.65)
+    if (body.score < 0.5)
       throw new UnauthorizedException(`Recaptcha score too low: ${body.score}`);
 
     return true;
