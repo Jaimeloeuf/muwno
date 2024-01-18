@@ -104,7 +104,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
           class="rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-zinc-900"
         >
           <div class="flex flex-col justify-between sm:flex-row">
-            <div class="p-3 sm:pr-4">
+            <div class="basis-2/3 p-3 sm:pr-4">
               <p class="text-2xl">{{ product.name }}</p>
               <p
                 v-if="product.description !== ''"
@@ -115,6 +115,7 @@ const { searchInput, results, clearSearchInput } = useSearch(
             </div>
 
             <SimplePMFLiveScoreCard
+              class="basis-1/3"
               :productID="product.id"
               :cacheKey="pmfLiveScoreCacheKey"
             />
