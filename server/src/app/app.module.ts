@@ -28,6 +28,7 @@ import { ApiKeyController } from './apikey/controllers/apikey.controller.js';
 import { CustomerController } from './customer/controllers/customer.controller.js';
 import { CustomerApiController } from './customer/controllers/customer.api.controller.js';
 import { FeedbackController } from './feedback/controllers/feedback.controller.js';
+import { FeedbackApiController } from './feedback/controllers/feedback.api.controller.js';
 import { FeedbackResponseController } from './feedback/controllers/feedback-response.controller.js';
 import { LandingController } from './landing/controllers/landing.controller.js';
 import { OrgController } from './org/controllers/org.controller.js';
@@ -78,6 +79,7 @@ import { UserController } from './user/controllers/user.controller.js';
     CustomerController,
     CustomerApiController,
     FeedbackController,
+    FeedbackApiController,
     FeedbackResponseController,
     LandingController,
     OrgController,
