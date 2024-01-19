@@ -144,6 +144,16 @@ async function deleteApiKey(apiKeyID: ApiKeyDetailID) {
     <TopNavbar sideDrawer>API Keys</TopNavbar>
 
     <div class="mx-auto w-full max-w-5xl">
+      <div class="pb-4">
+        <a
+          href="https://github.com/Jaimeloeuf/muwno/blob/master/docs/API%20integration.md"
+          target="_blank"
+          class="font-light underline decoration-zinc-300 underline-offset-2"
+        >
+          API integration docs
+        </a>
+      </div>
+
       <div
         class="flex flex-col justify-between gap-3 border-b border-zinc-200 pb-3 sm:flex-row sm:items-center"
       >
