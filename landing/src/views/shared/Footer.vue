@@ -73,6 +73,13 @@ async function subscribe() {
         >
           Open source
         </a>
+        <a
+          href="https://github.com/Jaimeloeuf/muwno/blob/master/docs/API%20integration.md"
+          target="_blank"
+          class="w-max font-light"
+        >
+          API Integration
+        </a>
       </div>
 
       <div class="md:basis-1/4">
