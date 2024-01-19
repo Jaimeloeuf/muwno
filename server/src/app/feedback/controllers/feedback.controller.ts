@@ -22,9 +22,14 @@ import { UseHttpControllerFilters } from '../../../exception-filters/index.js';
  * feedback form and save the user's response. These endpoints are accessible
  * without any RBAC protection since it is used by public users, therefore these
  * are protected with recaptcha.
+ *
+ * The throttler / rate-limiter is also skipped on this public API to prevent
+ * erroring on users, and it will be fine since Recaptcha will be used to gaurd
+ * this from malicious automatic DDoS.
  */
 @Controller('feedback')
 @GuardWithRecaptcha()
+@SkipThrottle()
 @UseHttpControllerFilters
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
@@ -33,9 +38,6 @@ export class FeedbackController {
    * Get a Feedback Form's data.
    */
   @Get('form/:productID')
-  // Skip throttle on this public API to prevent erroring on users.
-  // Recaptcha will be used to gaurd this from malicious automatic DDoS.
-  @SkipThrottle()
   async getForm(
     @Param('productID') productID: ProductID,
   ): Promise<ReadOneFeedbackFormDTO> {
@@ -46,9 +48,6 @@ export class FeedbackController {
    * Endpoint to submit responses of a feedback form.
    */
   @Post('submit/:productID')
-  // Skip throttle on this public API to prevent erroring on users.
-  // Recaptcha will be used to gaurd this from malicious automatic DDoS.
-  @SkipThrottle()
   async submitForm(
     @Param('productID') productID: ProductID,
     @Body() response: ValidatedCreateOneFeedbackResponseDTO,
